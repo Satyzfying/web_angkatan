@@ -49,15 +49,3 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
-
-@utility text-stroke-blue {
-  -webkit-text-stroke: 2px var(--color-blue-cs-30);
-}
-
-@utility text-stroke-yellow {
-  -webkit-text-stroke: 2px var(--color-yellow-cs-30);
-}
-
-@utility text-stroke-white {
-  -webkit-text-stroke: 2px white;
-}

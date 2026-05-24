@@ -5,6 +5,7 @@ import LogoIcon from '@/components/atoms/icon/LogoIcon'
 import Star from '@/components/atoms/icon/Star'
 
 import FooterImage from '@/assets/images/layout/footer.webp'
+import { getTextStrokeStyle } from '@/lib/textStroke'
 
 const Footer = () => {
   return (
@@ -18,7 +19,10 @@ const Footer = () => {
       />
       <LogoIcon width={100} height={100} />
       <div className="relative flex flex-col items-end gap-4">
-        <h2 className="font-rubikone text-blue-cs-30 text-4xl [-webkit-text-stroke:2px_#fffddd]">
+        <h2
+          className="font-rubikone text-blue-cs-30 text-4xl"
+          style={getTextStrokeStyle({ color: '#fffddd', width: 2 })}
+        >
           A Space to Grow Together
           <Star className="absolute top-0 -right-3" width={20} height={20} />
         </h2>
