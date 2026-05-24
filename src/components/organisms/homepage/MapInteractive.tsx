@@ -40,7 +40,7 @@ const MapInteractive = ({ provinces, svgWidth, svgHeight }: MapInteractiveProps)
                 <path
                   key={province.id}
                   d={province.path}
-                  className={`${province.fillClassName} stroke-neutral-cs-10 hover:fill-blue-cs-10 transition-colors duration-200`}
+                  className={`${province.fillClassName} stroke-neutral-cs-10 transition-colors duration-200 hover:fill-blue-cs-10 focus:outline-none focus-visible:outline-none`}
                   strokeWidth={1}
                   tabIndex={0}
                   aria-label={`${province.province}, total mahasiswa ${province.totalMahasiswa}`}
