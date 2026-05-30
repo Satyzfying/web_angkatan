@@ -17,7 +17,7 @@ const colorData = [
 ]
 
 const ColorPallete = () => {
-  const [activeId, setActiveId] = useState<number | null>(null)
+  const [activeId, setActiveId] = useState<number | null>(colorData[0].id)
 
   const totalItems = colorData.length
   const wActive = 60

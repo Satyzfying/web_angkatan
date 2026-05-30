@@ -47,7 +47,7 @@
   "IDJK": {
     "province": "DKI Jakarta",
     "totalMahasiswa": 8,
-    "fillClassName": "fill-neutral-cs-40"
+    "fillClassName": "fill-yellow-cs-40"
   },
   "IDJT": {
     "province": "Jawa Tengah",
@@ -62,7 +62,7 @@
   "IDKI": {
     "province": "Kalimantan Timur",
     "totalMahasiswa": 1,
-    "fillClassName": "fill-neutral-cs-40"
+    "fillClassName": "fill-blue-cs-30"
   },
   "IDKR": {
     "province": "Kepulauan Riau",
@@ -162,7 +162,7 @@
   "IDSN": {
     "province": "Sulawesi Selatan",
     "totalMahasiswa": 2,
-    "fillClassName": "fill-neutral-cs-40"
+    "fillClassName": "fill-yellow-cs-40"
   },
   "IDSR": {
     "province": "Sulawesi Barat",

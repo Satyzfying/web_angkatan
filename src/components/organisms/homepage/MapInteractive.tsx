@@ -38,21 +38,32 @@ const MapInteractive = ({ provinces, svgWidth, svgHeight }: MapInteractiveProps)
             onMouseLeave={() => setHoveredProvinceId(null)}
           >
             <g fillRule="evenodd" clipRule="evenodd">
-              {provinces.map((province) => (
-                <path
-                  key={province.id}
-                  d={province.path}
-                  className={`${province.fillClassName} stroke-neutral-cs-10 transition-colors duration-200 hover:fill-blue-cs-10 focus:outline-none focus-visible:outline-none`}
-                  strokeWidth={1}
-                  tabIndex={0}
-                  aria-label={`${province.province}, total mahasiswa ${province.totalMahasiswa}`}
-                  onMouseEnter={() => setHoveredProvinceId(province.id)}
-                  onFocus={() => setHoveredProvinceId(province.id)}
-                  onBlur={() => setHoveredProvinceId(null)}
-                >
-                  <title>{province.province}</title>
-                </path>
-              ))}
+              {provinces.map((province) => {
+                const hasMahasiswa = province.totalMahasiswa > 0
+
+                return (
+                  <path
+                    key={province.id}
+                    d={province.path}
+                    className={`${
+                      hasMahasiswa ? province.fillClassName : 'fill-neutral-cs-40'
+                    } stroke-neutral-cs-10 transition-colors duration-200 ${
+                      hasMahasiswa
+                        ? 'cursor-pointer hover:fill-blue-cs-10 focus:outline-none focus-visible:outline-none'
+                        : 'cursor-default'
+                    }`}
+                    strokeWidth={1}
+                    tabIndex={hasMahasiswa ? 0 : undefined}
+                    aria-label={`${province.province}, total mahasiswa ${province.totalMahasiswa}`}
+                    onMouseEnter={hasMahasiswa ? () => setHoveredProvinceId(province.id) : undefined}
+                    onMouseLeave={hasMahasiswa ? () => setHoveredProvinceId(null) : undefined}
+                    onFocus={hasMahasiswa ? () => setHoveredProvinceId(province.id) : undefined}
+                    onBlur={hasMahasiswa ? () => setHoveredProvinceId(null) : undefined}
+                  >
+                    <title>{province.province}</title>
+                  </path>
+                )
+              })}
             </g>
           </svg>
           {hoveredProvince ? (
