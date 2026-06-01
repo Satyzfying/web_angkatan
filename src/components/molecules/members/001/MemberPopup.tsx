@@ -61,7 +61,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </button>
 
         <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
-          <Image src={ProfileImage} alt="Profile Image" className="h-96 w-full object-cover object-top" />
+          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-top" />
         </div>
 
         <div className="pr-10">
