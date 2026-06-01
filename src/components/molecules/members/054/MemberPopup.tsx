@@ -2,9 +2,13 @@
 
 import React, { useEffect } from 'react'
 
+import Image from 'next/image'
+
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
+
+import ProfileImage from './image.png'
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -38,7 +42,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return (
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 py-8">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
       <button
         type="button"
         aria-label="Close member detail"
@@ -46,7 +50,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
 
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[90vh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
+      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[calc(100vh-9rem)] sm:max-h-[calc(100vh-10rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
@@ -55,6 +59,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         >
           x
         </button>
+
+        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
+          <Image src={ProfileImage} alt="Profile Image" className="h-72 w-full object-cover object-center" />
+        </div>
 
         <div className="pr-10">
           {/* UBAH NAMA ANDA */}

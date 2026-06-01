@@ -10,7 +10,7 @@ import Star from '@/components/atoms/icon/Star'
 
 import useWindowBreakpoint from '@/hooks/useWindowBreakpoint'
 
-type SortValue = 'name-asc' | 'name-desc' | 'nrp-asc' | 'nrp-desc'
+type SortValue = 'member-asc' | 'name-asc' | 'name-desc' | 'nrp-asc' | 'nrp-desc'
 
 type MemberFilters = {
   search?: string | string[]
@@ -21,6 +21,7 @@ type MemberFilters = {
 const FILTER_DEBOUNCE_MS = 250
 
 const sortOptions: { label: string; value: SortValue }[] = [
+  { label: 'Member Asc. (001 -> 129)', value: 'member-asc' },
   { label: 'Name Asc. (A -> Z)', value: 'name-asc' },
   { label: 'Name Dsc. (Z -> A)', value: 'name-desc' },
   { label: 'NRP Asc. (1 -> 129)', value: 'nrp-asc' },
@@ -42,7 +43,7 @@ const getInitialSort = (value: string | string[] | undefined): SortValue => {
     return sort as SortValue
   }
 
-  return 'name-asc'
+  return 'member-asc'
 }
 
 type HeroProps = {
@@ -75,7 +76,7 @@ const Hero = ({ filters }: HeroProps) => {
         params.delete('region')
       }
 
-      if (sort !== 'name-asc') {
+      if (sort !== 'member-asc') {
         params.set('sort', sort)
       } else {
         params.delete('sort')

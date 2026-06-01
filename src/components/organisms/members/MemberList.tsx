@@ -5,7 +5,7 @@ import path from 'node:path'
 
 import MemberListShell from './MemberListShell'
 
-type SortValue = 'name-asc' | 'name-desc' | 'nrp-asc' | 'nrp-desc'
+type SortValue = 'member-asc' | 'name-asc' | 'name-desc' | 'nrp-asc' | 'nrp-desc'
 
 type MemberFilters = {
   search?: string | string[]
@@ -54,6 +54,8 @@ const compareMemberDirectoryNames = (first: string, second: string) => {
   return first.localeCompare(second)
 }
 
+const compareMemberCardIds = (first: MemberCard, second: MemberCard) => compareMemberDirectoryNames(first.id, second.id)
+
 const getMemberText = async (directory: string) => {
   const cardPath = path.join(membersDirectory, directory, 'CardMember.tsx')
   const cardSource = await readFile(cardPath, 'utf8')
@@ -84,14 +86,16 @@ const filterMemberCards = (memberCards: MemberCard[], filters: MemberFilters) =>
     .sort((first, second) => {
       switch (sort) {
         case 'name-desc':
-          return second.name.localeCompare(first.name)
+          return second.name.localeCompare(first.name) || compareMemberCardIds(first, second)
         case 'nrp-asc':
-          return Number(first.nrp) - Number(second.nrp)
+          return Number(first.nrp) - Number(second.nrp) || compareMemberCardIds(first, second)
         case 'nrp-desc':
-          return Number(second.nrp) - Number(first.nrp)
+          return Number(second.nrp) - Number(first.nrp) || compareMemberCardIds(first, second)
         case 'name-asc':
+          return first.name.localeCompare(second.name) || compareMemberCardIds(first, second)
+        case 'member-asc':
         default:
-          return first.name.localeCompare(second.name)
+          return compareMemberCardIds(first, second)
       }
     })
 }
