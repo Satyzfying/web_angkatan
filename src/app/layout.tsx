@@ -7,6 +7,8 @@ import { defineMetadata } from '@/lib/metadata'
 import Footer from '@/components/organisms/layout/Footer'
 import Navbar from '@/components/organisms/layout/Navbar'
 
+import { Toaster } from 'sonner'
+
 import './globals.css'
 
 const montserrat = Montserrat({
@@ -41,6 +43,13 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
+
+        <Toaster
+          position="top-center"
+          richColors
+          closeButton
+          duration={5000}
+        />
       </body>
     </html>
   )

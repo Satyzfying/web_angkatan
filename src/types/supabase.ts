@@ -11,6 +11,10 @@ export type Database = {
           from?: string | null
           to?: string | null
           created_at?: string
+          laugh?: number
+          love?: number
+          sad?: number
+          angry?: number
         }
         Update: {
           id?: string
@@ -18,6 +22,10 @@ export type Database = {
           from?: string | null
           to?: string | null
           created_at?: string
+          laugh?: number
+          love?: number
+          sad?: number
+          angry?: number
         }
         Relationships: []
       }
