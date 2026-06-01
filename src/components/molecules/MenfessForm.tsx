@@ -103,7 +103,7 @@ export default function MenfessForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="flex h-[60px] w-full transform cursor-pointer items-center justify-center gap-2 rounded-xl border border-white bg-[#0B1E38]/70 text-white transition hover:scale-[1.02] hover:bg-[#132B66]/70 lg:h-auto lg:w-[120px] lg:self-stretch lg:rounded-l-none lg:rounded-r-xl"
+          className="flex h-[60px] w-full shrink-0 transform cursor-pointer items-center justify-center gap-2 rounded-xl border border-white bg-[#0B1E38]/70 text-white transition hover:scale-[1.02] hover:bg-[#132B66]/70 lg:w-[120px] lg:self-start lg:rounded-l-none lg:rounded-r-xl"
         >
           <span>
             <Send width={20} height={20} />

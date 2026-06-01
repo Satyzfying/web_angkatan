@@ -9,7 +9,7 @@ import LogoPhilosophy from '@/components/organisms/about-us/LogoPhilosophy'
 import Mission from '@/components/organisms/about-us/Mission'
 import Vision from '@/components/organisms/about-us/Vision'
 
-import aboutUsBg from '@/assets/images/about-us/about-us-bg.webp'
+import aboutUsBg from '@/assets/images/about-us/about-us-bg.png'
 
 export const metadata = defineMetadata({
   title: 'Tentang Kami - Evastra',

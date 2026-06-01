@@ -8,6 +8,7 @@ import LogoArusKeBawah from '@/assets/images/about-us/arusBawah.png'
 import LogoBintang from '@/assets/images/about-us/bintang.png'
 import LogoDuaArus from '@/assets/images/about-us/duaArus.png'
 import LogoGradient from '@/assets/images/about-us/full.png'
+import HurufE from '@/assets/images/about-us/hurufE.png'
 import LogoTitik from '@/assets/images/about-us/titik.png'
 
 const philosophyData = [
@@ -73,7 +74,7 @@ const philosophyData = [
   {
     id: 6,
     title: 'Huruf E',
-    image: LogoDuaArus,
+    image: HurufE,
     description: (
       <>
         Bentuk menyerupai huruf <span className="text-yellow-cs-30">‘e’</span> yang menjadi simbol dari nama{' '}
