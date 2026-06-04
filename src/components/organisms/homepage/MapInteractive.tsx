@@ -42,35 +42,33 @@ const MapInteractive = ({ provinces, svgWidth, svgHeight }: MapInteractiveProps)
                 const hasMahasiswa = province.totalMahasiswa > 0
 
                 return (
-                  <path
-                    key={province.id}
-                    d={province.path}
-                    className={`${
-                      hasMahasiswa ? province.fillClassName : 'fill-neutral-cs-40'
-                    } stroke-neutral-cs-10 transition-colors duration-200 ${
-                      hasMahasiswa
-                        ? 'cursor-pointer hover:fill-blue-cs-10 focus:outline-none focus-visible:outline-none'
-                        : 'cursor-default'
-                    }`}
-                    strokeWidth={1}
-                    tabIndex={hasMahasiswa ? 0 : undefined}
-                    aria-label={`${province.province}, total mahasiswa ${province.totalMahasiswa}`}
-                    onMouseEnter={hasMahasiswa ? () => setHoveredProvinceId(province.id) : undefined}
-                    onMouseLeave={hasMahasiswa ? () => setHoveredProvinceId(null) : undefined}
-                    onFocus={hasMahasiswa ? () => setHoveredProvinceId(province.id) : undefined}
-                    onBlur={hasMahasiswa ? () => setHoveredProvinceId(null) : undefined}
-                  >
-                    <title>{province.province}</title>
-                  </path>
+                  <g key={province.id} transform={`translate(${province.x}, ${province.y})`}>
+                    <g
+                      className={`transition-[filter] duration-200 ${hasMahasiswa
+                        ? 'cursor-pointer hover:brightness-110 hover:contrast-125 focus:outline-none focus-visible:outline-none'
+                        : 'cursor-default opacity-40'
+                        }`}
+                      tabIndex={hasMahasiswa ? 0 : undefined}
+                      aria-label={`${province.province}, total mahasiswa ${province.totalMahasiswa}`}
+                      onMouseEnter={hasMahasiswa ? () => setHoveredProvinceId(province.id) : undefined}
+                      onMouseLeave={hasMahasiswa ? () => setHoveredProvinceId(null) : undefined}
+                      onFocus={hasMahasiswa ? () => setHoveredProvinceId(province.id) : undefined}
+                      onBlur={hasMahasiswa ? () => setHoveredProvinceId(null) : undefined}
+                    >
+                      <title>{province.province}</title>
+                      {province.paths.map((p, idx) => (
+                        <path key={idx} d={p.d} fill={p.fill} />
+                      ))}
+                    </g>
+                  </g>
                 )
               })}
             </g>
           </svg>
           {hoveredProvince ? (
             <div
-              className={`pointer-events-none absolute z-10 -translate-x-1/2 ${
-                hoveredProvince.centerY < svgHeight * 0.28 ? 'translate-y-3' : 'translate-y-[-130%]'
-              }`}
+              className={`pointer-events-none absolute z-10 -translate-x-1/2 ${hoveredProvince.centerY < svgHeight * 0.28 ? 'translate-y-3' : 'translate-y-[-130%]'
+                }`}
               style={{
                 left: `clamp(${tooltipHalfWidthPx + tooltipHorizontalGapPx}px, ${(hoveredProvince.centerX / svgWidth) * 100}%, calc(100% - ${tooltipHalfWidthPx + tooltipHorizontalGapPx}px))`,
                 top: `${(hoveredProvince.centerY / svgHeight) * 100}%`

@@ -1,6 +1,6 @@
 import { getTextStrokeStyle } from '@/lib/textStroke'
 
-import mapDataJson from '@/assets/maps/indonesia-map-generated.json'
+import mapDataJson from '@/assets/maps/cartoon-map-data.json'
 import type { GeneratedMapData } from '@/types/maps'
 
 import MapInteractive from './MapInteractive'
