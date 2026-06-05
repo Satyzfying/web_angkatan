@@ -48,7 +48,7 @@ const CardMember = () => {
               <Image
                 src={ProfileImage}
                 alt="Profile Image"
-                className="h-50 w-full rounded-2xl object-cover object-center"
+                className="h-50 w-full rounded-2xl object-cover object-top"
               />
             </div>
           </div>

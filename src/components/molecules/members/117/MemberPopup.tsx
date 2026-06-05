@@ -47,21 +47,21 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         type="button"
         aria-label="Close member detail"
         onClick={onClose}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
       />
 
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border border-[#3d3929] bg-[#1a1915] p-6 text-white shadow-2xl sm:max-h-[calc(100vh-10rem)] sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
+          className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-[#3d3929] bg-[#211f1a] text-xl leading-none hover:bg-[#2e2b23] transition-colors"
         >
           x
         </button>
 
         <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
-          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
+          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-top" />
         </div>
 
         <div className="pr-10">
@@ -79,19 +79,19 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </div>
 
         <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
+          <div className="rounded-xl border border-[#3d3929] bg-[#211f1a] p-4">
             {/* UBAH HOBI KAMU */}
             <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
             <p className="mt-2">Baca novel, main game, dan main badminton</p>
           </div>
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
+          <div className="rounded-xl border border-[#3d3929] bg-[#211f1a] p-4">
             {/* UBAH FUNFACT KAMU */}
             <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
             <p className="mt-2">Saya lahirnya pada hari kemerdekaan amerika</p>
           </div>
         </div>
 
-        <div className="border-neutral-cs-10/40 mt-4 rounded-xl border p-4">
+        <div className="mt-4 rounded-xl border border-[#3d3929] bg-[#211f1a] p-4">
           {/* UBAH LAGU FAVORIT KAMU */}
           <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
           <p className="my-2 text-sm font-semibold">Fuyubiyori</p>
