@@ -44,6 +44,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto  bg-[radial-gradient(circle_at_top,_rgba(243,216,255,0.14),_transparent_36%),linear-gradient(180deg,_rgba(10,6,18,0.55),_rgba(10,6,18,0.82))] px-4">
+      <style>{`
+        @keyframes floatY { 0% { transform: translateY(0) } 50% { transform: translateY(-10px) } 100% { transform: translateY(0) } }
+        @keyframes floatX { 0% { transform: translateX(0) } 50% { transform: translateX(6px) } 100% { transform: translateX(0) } }
+        @keyframes rotateSlight { 0% { transform: rotate(-2deg) } 50% { transform: rotate(2deg) } 100% { transform: rotate(-2deg) } }
+        /* Combined animation helper class (applied inline to control timing) */
+      `}</style>
       <button
         type="button"
         aria-label="Close member detail"
@@ -102,7 +108,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </div>
       </div>
 
-      <div aria-hidden="true" className="pointer-events-none absolute -top-10 right-4 z-[5] h-36 w-36 opacity-25 blur-[0.5px] sm:-top-12 sm:right-8 sm:h-44 sm:w-44">
+      <div aria-hidden="true" className="pointer-events-none absolute -top-10 right-4 z-[5] h-36 w-36 opacity-25 blur-[0.5px] sm:-top-12 sm:right-8 sm:h-44 sm:w-44" style={{animation: 'floatY 5s ease-in-out infinite, rotateSlight 9s ease-in-out infinite'}}>
         <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full drop-shadow-[0_0_18px_rgba(235,207,255,0.35)]">
           <path d="M119.5 122.5C116 97 95 73 67 63c-19-7-37 2-38 21-1 22 17 41 40 49 15 5 32 4 50-11-4 10-4 19 0 30-18-15-35-16-50-11-23 8-41 27-40 49 1 19 19 28 38 21 28-10 49-34 52-59 3 25 24 49 52 59 19 7 37-2 38-21 1-22-17-41-40-49-15-5-32-4-50 11 4-11 4-20 0-30 18 15 35 16 50 11 23-8 41-27 40-49-1-19-19-28-38-21-28 10-49 34-52 59Z" fill="url(#butterflyGradient)" fillOpacity="0.9" />
           <path d="M119.5 122.5c-5 6-10 12-15 17" stroke="rgba(255,255,255,0.55)" strokeWidth="2.5" strokeLinecap="round" />
@@ -116,17 +122,17 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </defs>
         </svg>
       </div>
-      <div aria-hidden="true" className="pointer-events-none absolute top-14 left-3 z-[5] h-24 w-24 -rotate-12 opacity-18 blur-[0.75px] sm:top-16 sm:left-8 sm:h-28 sm:w-28">
+      <div aria-hidden="true" className="pointer-events-none absolute top-14 left-3 z-[5] h-24 w-24 -rotate-12 opacity-18 blur-[0.75px] sm:top-16 sm:left-8 sm:h-28 sm:w-28" style={{animation: 'floatY 7.5s ease-in-out infinite, floatX 9s ease-in-out infinite, rotateSlight 11s ease-in-out infinite', animationDelay: '0.3s'}}>
         <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full drop-shadow-[0_0_14px_rgba(235,207,255,0.28)]">
           <path d="M119.5 122.5C116 97 95 73 67 63c-19-7-37 2-38 21-1 22 17 41 40 49 15 5 32 4 50-11-4 10-4 19 0 30-18-15-35-16-50-11-23 8-41 27-40 49 1 19 19 28 38 21 28-10 49-34 52-59 3 25 24 49 52 59 19 7 37-2 38-21 1-22-17-41-40-49-15-5-32-4-50 11 4-11 4-20 0-30 18 15 35 16 50 11 23-8 41-27 40-49-1-19-19-28-38-21-28 10-49 34-52 59Z" fill="rgba(247,217,255,0.78)" />
         </svg>
       </div>
-      <div aria-hidden="true" className="pointer-events-none absolute bottom-4 left-2 z-[5] h-24 w-24 rotate-12 opacity-12 blur-[1px] sm:bottom-6 sm:left-6 sm:h-28 sm:w-28">
+      <div aria-hidden="true" className="pointer-events-none absolute bottom-4 left-2 z-[5] h-24 w-24 rotate-12 opacity-12 blur-[1px] sm:bottom-6 sm:left-6 sm:h-28 sm:w-28" style={{animation: 'floatY 5.5s ease-in-out infinite, floatX 8s ease-in-out infinite', animationDelay: '0.6s'}}>
         <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
           <path d="M119.5 122.5C116 97 95 73 67 63c-19-7-37 2-38 21-1 22 17 41 40 49 15 5 32 4 50-11-4 10-4 19 0 30-18-15-35-16-50-11-23 8-41 27-40 49 1 19 19 28 38 21 28-10 49-34 52-59 3 25 24 49 52 59 19 7 37-2 38-21 1-22-17-41-40-49-15-5-32-4-50 11 4-11 4-20 0-30 18 15 35 16 50 11 23-8 41-27 40-49-1-19-19-28-38-21-28 10-49 34-52 59Z" fill="rgba(247,217,255,0.8)" />
         </svg>
       </div>
-      <div aria-hidden="true" className="pointer-events-none absolute bottom-10 right-2 z-[5] h-20 w-20 rotate-[18deg] opacity-14 blur-[1px] sm:bottom-12 sm:right-10 sm:h-24 sm:w-24">
+      <div aria-hidden="true" className="pointer-events-none absolute bottom-10 right-2 z-[5] h-20 w-20 rotate-[18deg] opacity-14 blur-[1px] sm:bottom-12 sm:right-10 sm:h-24 sm:w-24" style={{animation: 'floatY 6.8s ease-in-out infinite, rotateSlight 10s ease-in-out infinite', animationDelay: '0.15s'}}>
         <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
           <path d="M119.5 122.5C116 97 95 73 67 63c-19-7-37 2-38 21-1 22 17 41 40 49 15 5 32 4 50-11-4 10-4 19 0 30-18-15-35-16-50-11-23 8-41 27-40 49 1 19 19 28 38 21 28-10 49-34 52-59 3 25 24 49 52 59 19 7 37-2 38-21 1-22-17-41-40-49-15-5-32-4-50 11 4-11 4-20 0-30 18 15 35 16 50 11 23-8 41-27 40-49-1-19-19-28-38-21-28 10-49 34-52 59Z" fill="rgba(247,217,255,0.72)" />
         </svg>
