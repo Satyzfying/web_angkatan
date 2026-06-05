@@ -17,6 +17,21 @@ type MemberPopupProps = {
 }
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
+  const cardWrapperRef = useRef<HTMLDivElement>(null)
+  const splashLayerRef = useRef<HTMLDivElement>(null)
+  const cardRef = useRef<HTMLDivElement>(null)
+  const glowRef = useRef<HTMLDivElement>(null)
+  const imageRef = useRef<HTMLDivElement>(null)
+  const lastSplashTime = useRef(0)
+  const [nrpText, setNrpText] = useState('0000000000')
+  const [isRevealed, setIsRevealed] = useState(false)
+
+  const handleClose = useCallback(() => {
+    setNrpText('0000000000')
+    setIsRevealed(false)
+    onClose()
+  }, [onClose])
+
   useEffect(() => {
     if (!isOpen) {
       return
@@ -24,7 +39,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        onClose()
+        handleClose()
       }
     }
 
@@ -35,15 +50,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen, onClose])
-
-  const cardWrapperRef = useRef<HTMLDivElement>(null)
-  const cardRef = useRef<HTMLDivElement>(null)
-  const glowRef = useRef<HTMLDivElement>(null)
-  const imageRef = useRef<HTMLDivElement>(null)
-  const lastSplashTime = useRef(0)
-  const [nrpText, setNrpText] = useState('0000000000')
-  const [isRevealed, setIsRevealed] = useState(false)
+  }, [isOpen, handleClose])
 
   // Magnetic button handler
   const handleMagneticMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -59,7 +66,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }, [])
 
   const spawnSplash = useCallback((x: number, y: number) => {
-    const container = cardRef.current
+    const container = splashLayerRef.current
     if (!container) return
 
     const now = Date.now()
@@ -79,7 +86,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     splash.style.height = `${size}px`
     splash.style.transform = `translate(-50%, -50%) rotate(${rotation}deg) scale(1)`
 
-    // Random splatter SVG shapes
     const splatPaths = [
       `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 5C55 25 75 20 85 35C95 50 80 55 90 70C80 85 65 75 50 90C35 75 20 85 10 70C20 55 5 50 15 35C25 20 45 25 50 5Z" fill="${color}"/></svg>`,
       `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C60 30 70 15 95 30C75 45 100 55 80 75C65 60 55 80 40 95C45 70 15 75 5 55C25 50 0 30 25 20C35 35 40 10 50 0Z" fill="${color}"/></svg>`,
@@ -90,7 +96,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
     container.appendChild(splash)
 
-    // Double rAF ensures browser paints the initial state before triggering transition
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         splash.style.transform = `translate(-50%, -50%) rotate(${rotation}deg) scale(1.5)`
@@ -114,8 +119,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       const x = e.clientX - rect.left
       const y = e.clientY - rect.top
 
-      // Paint splash (appended to card, but calculated from wrapper coords)
-      spawnSplash(x + card.scrollLeft, y + card.scrollTop)
+      spawnSplash(x, y)
 
       // 3D Card Tilt
       const cardCenterX = rect.width / 2
@@ -160,37 +164,50 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   // NRP counter roll-up animation
   useEffect(() => {
     if (!isOpen) {
-      setNrpText('0000000000')
-      setIsRevealed(false)
       return
     }
 
-    setIsRevealed(true)
     const target = '5027251101'
     let frame = 0
     const totalFrames = 20
+    let interval: ReturnType<typeof setInterval> | undefined
 
-    const interval = setInterval(() => {
-      frame++
-      if (frame >= totalFrames) {
-        setNrpText(target)
-        clearInterval(interval)
-        return
-      }
-      const progress = frame / totalFrames
-      const revealed = Math.floor(progress * target.length)
-      let text = ''
-      for (let i = 0; i < target.length; i++) {
-        if (i < revealed) {
-          text += target[i]
-        } else {
-          text += Math.floor(Math.random() * 10).toString()
+    const startFrame = requestAnimationFrame(() => {
+      setNrpText('0000000000')
+      setIsRevealed(true)
+
+      interval = setInterval(() => {
+        frame++
+        if (frame >= totalFrames) {
+          setNrpText(target)
+
+          if (interval) {
+            clearInterval(interval)
+          }
+
+          return
         }
-      }
-      setNrpText(text)
-    }, 50)
+        const progress = frame / totalFrames
+        const revealed = Math.floor(progress * target.length)
+        let text = ''
+        for (let i = 0; i < target.length; i++) {
+          if (i < revealed) {
+            text += target[i]
+          } else {
+            text += Math.floor(Math.random() * 10).toString()
+          }
+        }
+        setNrpText(text)
+      }, 50)
+    })
 
-    return () => clearInterval(interval)
+    return () => {
+      cancelAnimationFrame(startFrame)
+
+      if (interval) {
+        clearInterval(interval)
+      }
+    }
   }, [isOpen])
 
   if (!isOpen) {
@@ -203,13 +220,18 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       <button
         type="button"
         aria-label="Close member detail"
-        onClick={onClose}
+        onClick={handleClose}
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
 
       <div ref={cardWrapperRef} className="relative z-10 flex w-full max-w-[720px] justify-center animate-[member-popup-show_200ms_ease-out]" style={{ perspective: '2000px' }}>
         {/* Invisible backplate to catch mouse events even when the card rotates away from the cursor */}
         <div className="absolute inset-0 z-0" style={{ background: 'rgba(0,0,0,0.001)' }} />
+        <div
+          ref={splashLayerRef}
+          className="pointer-events-none absolute inset-0 z-[15] overflow-hidden rounded-2xl"
+          aria-hidden="true"
+        />
 
         <div ref={cardRef} className="border-neutral-cs-10 bg-blue-cs-40 member-popup-font card-breathe card-tilt relative z-10 w-full max-h-[100dvh] overflow-y-auto overflow-x-hidden rounded-2xl border-2 p-6 text-white sm:p-8">
           {/* Cursor glow overlay */}
@@ -219,7 +241,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             <button
               type="button"
               aria-label="Close member detail"
-              onClick={onClose}
+              onClick={handleClose}
               className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
             >
               x
@@ -323,11 +345,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             .paint-splash {
               position: absolute;
               pointer-events: none;
-              z-index: 50;
               opacity: 0.4;
+              contain: paint;
               transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.2s ease-out;
               filter: blur(2px);
               mix-blend-mode: screen;
+              will-change: transform, opacity;
             }
             /* Staggered reveal animation */
             .popup-reveal {
@@ -350,8 +373,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             }
             .card-breathe {
               transition: box-shadow 0.5s ease;
-            }
-            .card-breathe:hover {
               animation: breathe 4s infinite ease-in-out;
             }
             /* Magnetic Buttons */
