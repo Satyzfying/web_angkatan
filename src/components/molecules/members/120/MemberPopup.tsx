@@ -87,7 +87,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="border-neutral-cs-10/40 rounded-xl border p-4">
             {/* UBAH FUNFACT KAMU */}
             <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
-            <p className="mt-2">Waktu SMA pernah dipanggil PEDO karena main Blue Archive</p>
+            <p className="mt-2">Sudah main banyak gacha game</p>
           </div>
         </div>
 
