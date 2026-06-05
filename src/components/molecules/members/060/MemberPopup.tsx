@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
+
+import { createPortal } from 'react-dom'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
@@ -45,10 +46,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
       <button type="button" aria-label="Close member detail" onClick={onClose} className="absolute inset-0">
-        <img
+        <Image
           src="https://cdn.terminaltrove.com/m/a03290ca-6b48-4c34-9970-93174008e7c8.gif"
           alt=""
-          className="absolute inset-0 h-full w-full object-cover"
+          fill
+          unoptimized
+          sizes="100vw"
+          className="absolute inset-0 object-cover"
         />
         <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       </button>

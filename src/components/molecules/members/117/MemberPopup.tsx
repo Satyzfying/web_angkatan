@@ -52,12 +52,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/70 backdrop-blur-sm"
       />
 
-      <div className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border border-[#3d3929] bg-[#1a1915] p-6 text-white shadow-2xl sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div className="relative z-10 max-h-screen w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border border-[#3d3929] bg-[#1a1915] p-6 text-white shadow-2xl sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-[#3d3929] bg-[#211f1a] text-xl leading-none hover:bg-[#2e2b23] transition-colors"
+          className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-[#3d3929] bg-[#211f1a] text-xl leading-none transition-colors hover:bg-[#2e2b23]"
         >
           x
         </button>
