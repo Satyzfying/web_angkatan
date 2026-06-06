@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
+
+import { createPortal } from 'react-dom'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
@@ -43,7 +44,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 backdrop-blur-md">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 backdrop-blur-md">
       <button
         type="button"
         aria-label="Close member detail"
@@ -51,7 +52,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-slate-900/30 transition-opacity"
       />
 
-      <div className="relative z-10 w-full max-w-2xl max-h-[90dvh] overflow-y-auto rounded-[2rem] border-[6px] border-white bg-gradient-to-b from-sky-50 to-white p-6 shadow-[0_20px_50px_-12px_rgba(2,132,199,0.2)] sm:p-8 animate-[member-popup-show_200ms_ease-out]">
+      <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-2xl animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-[2rem] border-[6px] border-white bg-gradient-to-b from-sky-50 to-white p-6 shadow-[0_20px_50px_-12px_rgba(2,132,199,0.2)] sm:p-8">
 
         {/* Decorative Glow Backgrounds */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 h-64 w-2/3 rounded-full bg-sky-200/40 blur-[80px] pointer-events-none" />
