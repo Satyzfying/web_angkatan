@@ -43,7 +43,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8 bg-[#05050e]/90 backdrop-blur-md">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden bg-[#05050e]/90 px-4 backdrop-blur-md">
       
       {/* --- INJEKSI CUSTOM CSS UNTUK ANIMASI ABSTRAK --- */}
       <style
@@ -74,7 +74,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       <button type="button" aria-label="Close modal" onClick={onClose} className="absolute inset-0 z-0 w-full h-full cursor-default" />
  
       {/* WRAPPER KARTU UTAMA */}
-      <div className="relative w-full max-w-[720px] max-h-[90vh] flex flex-col z-10 group animate-in fade-in zoom-in duration-300">
+      <div className="group animate-in fade-in zoom-in relative z-10 flex h-[100dvh] max-h-[100dvh] w-full max-w-[720px] flex-col duration-300">
         
         {/* Spinning Gradient Border */}
         <div className="absolute inset-0 rounded-[28px] overflow-hidden z-0 pointer-events-none shadow-[0_0_40px_rgba(168,85,247,0.15)]">
