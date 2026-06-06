@@ -11,6 +11,7 @@ import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
 import ProfileImage from './image.jpeg'
+import ProfileImageBack from './image3.jpeg'
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -28,6 +29,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const battleFinishedRef = useRef(false)
   const [musicStarted, setMusicStarted] = useState(false)
   const profileMusicRef = useRef<HTMLAudioElement | null>(null)
+  const [flipped, setFlipped] = useState(false)
   const [bgmMuted, setBgmMuted] = useState(false)
 
   useEffect(() => {
@@ -72,6 +74,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
     if (profileMusicRef.current) {
       profileMusicRef.current.currentTime = 0
+      profileMusicRef.current.volume = 0.5
     }
 
     setBattleWon(false)
@@ -79,6 +82,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     setMarkerPos(0)
     setMusicStarted(false)
     setBgmMuted(false)
+    setFlipped(false)
     setMessage('Press FIGHT to attack!')
 
     onClose()
@@ -282,15 +286,52 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             type="button"
             aria-label="Close member detail"
             onClick={closePopup}
-            className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full border border-white/50 bg-black/30 text-xl backdrop-blur-sm hover:bg-white/20"
+            className="absolute top-4 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-white/50 bg-black/30 text-xl backdrop-blur-sm hover:bg-white/20"
           >
             ×
           </button>
 
           {/* FOTO */}
-          <div className="mb-6 overflow-hidden rounded-2xl border border-white/20">
-            <Image src={ProfileImage} alt="Profile Image" className="h-[500px] w-full object-cover object-center" />
-          </div>
+            <div className="group mb-6 cursor-pointer [perspective:1000px]">
+              <div
+                className="
+                  relative h-[500px] w-full duration-700
+                  [transform-style:preserve-3d]
+                  group-hover:[transform:rotateY(180deg)]
+                "
+              >
+                {/* Foto depan */}
+                <div
+                  className="
+                    absolute inset-0 overflow-hidden rounded-2xl
+                    border border-white/20
+                    [backface-visibility:hidden]
+                  "
+                >
+                  <Image
+                    src={ProfileImage}
+                    alt="Front"
+                    className="h-full w-full object-cover object-center"
+                  />
+                </div>
+
+                {/* Foto belakang */}
+                <div
+                  className="
+                    absolute inset-0 overflow-hidden rounded-2xl
+                    border border-white/20
+                    [transform:rotateY(180deg)]
+                    [backface-visibility:hidden]
+                  "
+                >
+                  <Image
+                    src={ProfileImageBack}
+                    alt="Back"
+                    className="h-full w-full object-cover object-center"
+                  />
+                </div>
+              </div>
+            </div>
 
           <div className="mt-4 flex gap-2">
             <button
@@ -340,7 +381,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 <br />
                 4. Suka crossdress
                 <br />
-                5. Iya, aku yang gambar bgnya. Jangan lupa diputar lagunya juga
+                5. Yang kalian lihat sekarang nih semua gambaran ku btw
               </p>
             </div>
           </div>
@@ -349,9 +390,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="mt-4 rounded-xl border border-white/20 bg-black/20 p-5 backdrop-blur-md">
             <p className="text-xs font-bold tracking-wider text-white/60 uppercase">Lagu Favorit</p>
 
-            <p className="my-2 font-semibold">私は雨</p>
+            <p className="my-2 font-semibold">お気に召すまま</p>
 
-            <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/3s5sFHV8VTzg0CSXy3gz5y?si=4ef91bbc2083493f" />
+            <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/4ly9rdCe3PvcYZdAN72T3b?si=d97704d1f4934bba"/>
           </div>
         </div>
       </div>
