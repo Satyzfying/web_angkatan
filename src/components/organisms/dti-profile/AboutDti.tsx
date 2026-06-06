@@ -28,7 +28,7 @@ const AboutDti = () => {
   return (
     <section
       id="about-us"
-      className="relative flex w-full flex-col overflow-hidden px-6 py-20 sm:px-10 md:min-h-[700px] md:flex-row md:items-center md:py-24 lg:px-24"
+      className="relative flex w-full flex-col overflow-hidden bg-[linear-gradient(180deg,#0B1E38_0%,#0F274F_100%)] px-6 py-20 sm:px-10 md:min-h-[700px] md:flex-row md:items-center md:py-24 lg:px-24"
     >
       <div className="pointer-events-none absolute top-0 -left-36 z-0 w-[360px] -scale-x-100 transform sm:w-[480px] lg:-left-[20%] lg:w-[600px]">
         <div className="relative">

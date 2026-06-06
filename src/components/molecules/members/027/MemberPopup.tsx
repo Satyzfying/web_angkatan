@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
+
+import { createPortal } from 'react-dom'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
@@ -98,7 +99,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <p className="my-2 text-sm font-semibold">Message In A Bottle</p>
 
           {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/intl-id/track/3z6XUommYDWPHeFhmhhT6j?si=abad557666e6450b" />
+          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/3z6XUommYDWPHeFhmhhT6j?si=abad557666e6450b" />
         </div>
       </div>
     </div>,

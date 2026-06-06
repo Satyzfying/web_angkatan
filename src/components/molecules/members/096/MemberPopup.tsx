@@ -57,13 +57,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="border-zinc-700 hover:bg-zinc-800 absolute top-4 right-4 z-20 flex h-9 w-9 items-center justify-center rounded-none border-2 text-xl font-bold leading-none"
+          className="absolute top-4 right-4 z-20 flex h-9 w-9 items-center justify-center rounded-none border-2 border-zinc-700 text-xl leading-none font-bold hover:bg-zinc-800"
         >
           ✕
         </button>
 
-        <div className="border-zinc-700 relative z-10 mb-6 overflow-hidden rounded-none border-2 grayscale hover:grayscale-0 transition-all duration-500">
-          <Image src={ProfileImage} alt="Profile Image" className="h-[480px] w-full object-cover object-center" />
+        <div className="relative z-10 mb-6 overflow-hidden rounded-none border-2 border-zinc-700 grayscale transition-all duration-500 hover:grayscale-0">
+          <Image src={ProfileImage} alt="Profile Image" className="h-[480px] w-full object-cover object-top" />
         </div>
 
         <div className="pr-10">
@@ -105,7 +105,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             &quot;Wish You Were Here&quot; by Pink Floyd
           </p>
 
-          {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */} 
+          {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
           <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/6mFkJmJqdDVQ1REhVfGgd1?si=3c35d8c069c94247" />
         </div>
       </div>

@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
+
+import { createPortal } from 'react-dom'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
@@ -51,12 +52,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
 
-      <div className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 border-lime-400 bg-black bg-[linear-gradient(rgba(163,230,53,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(163,230,53,0.08)_1px,transparent_1px)] bg-[size:20px_20px] p-6 text-white shadow-[0_0_25px_rgba(163,230,53,0.4)] sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div className="relative z-10 max-h-[100vh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 border-lime-400 bg-black bg-[linear-gradient(rgba(163,230,53,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(163,230,53,0.08)_1px,transparent_1px)] bg-[size:20px_20px] p-6 text-white shadow-[0_0_25px_rgba(163,230,53,0.4)] sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-lime-400 text-lime-400 text-xl leading-none transition hover:bg-lime-400/10"
+          className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-lime-400 text-xl leading-none text-lime-400 transition hover:bg-lime-400/10"
         >
           x
         </button>
@@ -68,9 +69,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         <div className="pr-10">
           {/* UBAH NAMA ANDA */}
           <h2 className="text-2xl font-black">
-  <span className="text-lime-400">Dian</span>{" "}
-  Hanna Simanjuntak
-</h2>
+            <span className="text-lime-400">Dian</span> Hanna Simanjuntak
+          </h2>
           {/* UBAH NRP DAN ASAL */}
           <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">502725116 - Jakarta</p>
         </div>
@@ -85,19 +85,19 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
           <div className="rounded-xl border border-lime-400 bg-zinc-950 p-4">
             {/* UBAH HOBI KAMU */}
-            <p className="text-lime-400 text-xs tracking-wide uppercase">Hobi</p>
+            <p className="text-xs tracking-wide text-lime-400 uppercase">Hobi</p>
             <p className="mt-2">Baca manhwa</p>
           </div>
           <div className="rounded-xl border border-lime-400 bg-zinc-950 p-4">
             {/* UBAH FUNFACT KAMU */}
-            <p className="text-lime-400 text-xs tracking-wide uppercase">Fun Fact</p>
+            <p className="text-xs tracking-wide text-lime-400 uppercase">Fun Fact</p>
             <p className="mt-2">Ga suka susu</p>
           </div>
         </div>
 
         <div className="mt-4 rounded-xl border border-lime-400 bg-zinc-950 p-4">
           {/* UBAH LAGU FAVORIT KAMU */}
-          <p className="text-lime-400 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
+          <p className="text-xs font-bold tracking-wide text-lime-400 uppercase">Lagu Favorit</p>
           <p className="my-2 text-sm font-semibold">annie.</p>
 
           {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
