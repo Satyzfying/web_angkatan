@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -41,7 +42,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-  return (
+  return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 pt-28 pb-8 sm:pt-32">
       <button
@@ -51,7 +52,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
 
-      <div className="relative z-10 max-h-[88vh] w-full max-w-[760px] overflow-y-auto overflow-x-hidden rounded-[32px] border-4 border-black/80 shadow-[0_0_20px_rgba(255,255,255,0.4),0_0_40px_rgba(255,255,255,0.15),inset_0_0_15px_rgba(255,255,255,0.05)] bg-[#071226]/70 p-5 text-white shadow-[0_0_60px_rgba(124,58,237,0.18)] backdrop-blur-xl sm:p-8"
+      <div className="relative z-10 max-h-[100dvh] w-full max-w-[760px] overflow-y-auto overflow-x-hidden rounded-[32px] border-4 border-black/80 shadow-[0_0_20px_rgba(255,255,255,0.4),0_0_40px_rgba(255,255,255,0.15),inset_0_0_15px_rgba(255,255,255,0.05)] bg-[#071226]/70 p-5 text-white shadow-[0_0_60px_rgba(124,58,237,0.18)] backdrop-blur-xl sm:p-8"
         style={{
           backgroundImage: `linear-gradient(rgba(0,8,20,0.65), rgba(0,8,20,0.65)), url(${VoidBackground.src})`,
           backgroundSize: 'cover',
@@ -110,7 +111,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/7GRfiALpnehkSNn34LDeci?si=7bca50f780124d5b" />
           </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
