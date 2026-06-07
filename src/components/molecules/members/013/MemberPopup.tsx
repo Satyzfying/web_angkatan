@@ -1,14 +1,17 @@
 'use client'
 
-import React, { useEffect } from 'react'
+/* eslint-disable react-hooks/set-state-in-effect, react/no-unescaped-entities */
+import React, { useEffect, useState } from 'react'
 
 import Image from 'next/image'
+
+import { createPortal } from 'react-dom'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
-import ProfileImage from './image.png'
+import ProfileImage from './image.jpg'
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -16,6 +19,9 @@ type MemberPopupProps = {
 }
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
+  const [answer, setAnswer] = useState('')
+  const [step, setStep] = useState<'quiz' | 'quote' | 'card'>('quiz')
+
   useEffect(() => {
     if (!isOpen) {
       return
@@ -36,71 +42,156 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     }
   }, [isOpen, onClose])
 
+  useEffect(() => {
+    if (!isOpen) {
+      setAnswer('')
+      setStep('quiz')
+    }
+  }, [isOpen])
+
   if (!isOpen) {
     return null
   }
 
-  return (
-    // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+  const checkAnswer = () => {
+    if (answer.trim().toLowerCase() === 'princess nadya') {
+      setStep('quote')
+    }
+  }
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
+      onClick={(event) => event.stopPropagation()}
+      onKeyDown={(event) => event.stopPropagation()}
+    >
       <button
         type="button"
         aria-label="Close member detail"
         onClick={onClose}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="fixed inset-0 bg-pink-950/50 backdrop-blur-md"
       />
 
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain rounded-[2rem] border-4 border-pink-100 bg-gradient-to-br from-pink-50 via-white to-pink-100 p-6 text-pink-950 shadow-[0_8px_40px_rgba(255,182,193,0.35)] sm:p-8">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[2rem]">
+          <div className="absolute top-6 left-8 text-3xl opacity-40">🌙</div>
+          <div className="absolute top-16 right-12 text-2xl opacity-30">⭐</div>
+          <div className="absolute top-32 left-16 text-xl opacity-40">🌸</div>
+          <div className="absolute right-10 bottom-24 text-3xl opacity-30">✨</div>
+          <div className="absolute bottom-10 left-12 text-2xl opacity-30">☁️</div>
+          <div className="absolute right-24 bottom-12 text-xl opacity-40">🌸</div>
+          <div className="absolute top-1/2 left-6 text-lg opacity-20">⭐</div>
+          <div className="absolute top-1/3 right-6 text-lg opacity-20">✨</div>
+        </div>
+
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
+          className="absolute top-4 right-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border-2 border-pink-300 bg-white text-xl font-black shadow-md hover:bg-pink-100"
         >
-          x
+          ×
         </button>
 
-        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
-          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
-        </div>
+        {step === 'quiz' && (
+          <div className="relative z-10 rounded-3xl border-4 border-white bg-white/80 p-6 text-center shadow-xl">
+            <p className="text-5xl">👑🎀✨</p>
 
-        <div className="pr-10">
-          {/* UBAH NAMA ANDA */}
-          <h2 className="text-2xl font-black">Catherina Vallencia K</h2>
-          {/* UBAH NRP DAN ASAL */}
-          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251082 - Surakarta</p>
-        </div>
+            <p className="mt-4 text-lg font-bold">
+              Aku lagi ngumpet nih 🫣
+              <br />
+              Kalau mau lihat, coba panggil aku dulu 💌
+            </p>
 
-        <div className="mt-5 flex gap-2">
-          {/* UBAH USERNAME INSTAGRAM */}
-          <Instagram username="jkt48.erine" />
-          {/* UBAH USERNAME LINKEDIN */}
-          <LinkedInButtonLink username="jkt48.erine" />
-        </div>
+            <div className="mt-5 rounded-2xl border-2 border-dashed border-pink-300 bg-pink-50 p-4 text-sm font-semibold">
+              💌 Clue:
+              <br />
+              coba panggil dulu princess nadya 👑
+            </div>
 
-        <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
-            {/* UBAH HOBI KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
-            <p className="mt-2">Nyanyi</p>
+            <div className="mt-5 flex gap-2">
+              <input
+                value={answer}
+                onChange={(e) => setAnswer(e.target.value)}
+                placeholder="ketik jawaban..."
+                type="text"
+                className="w-full rounded-full border-2 border-pink-300 bg-white px-4 py-2 text-sm font-semibold outline-none placeholder:text-pink-300 focus:border-pink-500"
+              />
+
+              <button
+                type="button"
+                onClick={checkAnswer}
+                className="rounded-full bg-pink-500 px-5 py-2 text-sm font-black text-white shadow-md transition-all hover:scale-105 hover:bg-pink-600"
+              >
+                jawab
+              </button>
+            </div>
           </div>
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
-            {/* UBAH FUNFACT KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
-            <p className="mt-2">Gwe Member JKT</p>
+        )}
+
+        {step === 'quote' && (
+          <div className="relative z-10 rounded-3xl border-4 border-pink-200 bg-pink-50 p-6 text-center shadow-xl">
+            <p className="text-5xl">🎀👑✨</p>
+
+            <p className="mt-4 text-base leading-relaxed font-bold">
+              "You can always begin again!
+              <br />
+              Romanticize your life cause you're the main character."
+            </p>
+
+            <p className="mt-4 text-2xl">🌷💗🫧</p>
+
+            <button
+              type="button"
+              onClick={() => setStep('card')}
+              className="mt-5 rounded-full bg-pink-500 px-6 py-2 text-sm font-black text-white shadow-md transition-all hover:scale-105 hover:bg-pink-600"
+            >
+              You Found Me 👀
+            </button>
           </div>
-        </div>
+        )}
 
-        <div className="border-neutral-cs-10/40 mt-4 rounded-xl border p-4">
-          {/* UBAH LAGU FAVORIT KAMU */}
-          <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
-          <p className="my-2 text-sm font-semibold">There Is a Light That Never Goes Out</p>
+        {step === 'card' && (
+          <>
+            <div className="relative z-10 mb-5 overflow-hidden rounded-[1.5rem] border-4 border-white shadow-lg">
+              <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
+            </div>
 
-          {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2X62SjtuwVQiGiZvZZ9Ztr?si=f6718391848a4469" />
-        </div>
+            <div className="relative z-10 rounded-2xl bg-white/70 p-4 shadow-md">
+              <h2 className="text-3xl font-black">Nadya Putri Agustin 👑</h2>
+
+              <p className="mt-1 text-sm font-bold text-pink-700">5027251013 - Surabaya</p>
+            </div>
+
+            <div className="relative z-10 mt-5 flex gap-2">
+              <Instagram username="nadyaputria._" />
+              <LinkedInButtonLink username="nadyaputria" />
+            </div>
+
+            <div className="relative z-10 mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
+              <div className="rounded-2xl border-2 border-white bg-white/60 p-4 shadow-md">
+                <p className="text-xs font-black text-pink-600 uppercase">Hobi</p>
+                <p className="mt-2">Ketiduran sambil dengerin musik 🎧💤</p>
+              </div>
+
+              <div className="rounded-2xl border-2 border-white bg-white/60 p-4 shadow-md">
+                <p className="text-xs font-black text-pink-600 uppercase">Fun Fact</p>
+                <p className="mt-2">Kalau aku gak bales chat berarti aku ketiduran 😴</p>
+              </div>
+            </div>
+
+            <div className="relative z-10 mt-4 rounded-2xl border-2 border-white bg-white/60 p-4 shadow-md">
+              <p className="text-xs font-black text-pink-600 uppercase">Lagu Favorit</p>
+
+              <p className="my-2 text-sm font-bold">Begin Again 🎶</p>
+
+              <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/05GsNucq8Bngd9fnd4fRa0?si=87e953ecc5f4492c" />
+            </div>
+          </>
+        )}
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
