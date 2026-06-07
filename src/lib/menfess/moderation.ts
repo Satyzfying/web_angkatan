@@ -5,6 +5,25 @@ import type { MenfessPayload } from './schema'
 const DEFAULT_MODERATION_MODEL = 'omni-moderation-latest'
 const DEFAULT_LLM_MODERATION_MODEL = 'gpt-4.1-nano'
 const MODERATION_TIMEOUT_MS = 6000
+const LLM_MODERATION_INSTRUCTIONS = `
+Anda memoderasi menfess publik kampus untuk audiens umum. Nilai gabungan kolom from, to, dan message dalam Bahasa Indonesia atau Inggris.
+
+Gunakan flag=true secara konservatif jika ada pembacaan yang wajar mengarah ke:
+- konten seksual atau 18+, termasuk insinuasi seksual, kalimat menggoda yang ambigu, pembicaraan aktivitas semalam, organ tubuh seksual, fetish, atau ajakan seksual;
+- slang, eufemisme, singkatan, typo, perubahan ejaan, atau emoji yang menyamarkan makna seksual, misalnya "bool", "susu", atau istilah tubuh lain ketika konteksnya tidak jelas-jelas netral;
+- hate, harassment, pelecehan, self-harm, violence, atau aktivitas ilegal.
+
+Untuk kemungkinan seksual/18+, utamakan keamanan: flag=true bila konteks interpersonal membuat makna seksual masuk akal, meskipun kalimat juga punya arti nonseksual. Gunakan flag=false hanya jika konteksnya jelas netral. Jangan abaikan konten karena dibungkus candaan, pujian, emoji, atau ditujukan kepada seseorang.
+
+Contoh:
+- "Wowo gay suka bool" => flag=true, karena slang dan konteksnya mengarah ke seksual/pelecehan.
+- "duh mas enak banget semalam 😚😅" => flag=true, karena insinuasi aktivitas seksual semalam.
+- "makanannya enak banget semalam" => flag=false, karena konteks makanan jelas.
+- "aku suka susu cokelat" => flag=false, karena konteks minuman jelas.
+- "susunya gede banget" => flag=true, karena insinuasi organ tubuh seksual.
+
+Keluarkan JSON sesuai schema. Isi reason dengan alasan singkat dalam Bahasa Indonesia.
+`.trim()
 
 export type OpenAIModerationCategory =
   | 'sexual'
@@ -84,7 +103,7 @@ const getLlmModerationModel = () => process.env.OPENAI_LLM_MODERATION_MODEL?.tri
 
 const isModerationDisabled = () => process.env.OPENAI_MODERATION_ENABLED?.toLowerCase() === 'false'
 
-const isLlmModerationEnabled = () => process.env.OPENAI_LLM_MODERATION_ENABLED?.toLowerCase() === 'true'
+const isLlmModerationEnabled = () => process.env.OPENAI_LLM_MODERATION_ENABLED?.toLowerCase() !== 'false'
 
 const getModerationInput = (payload: MenfessPayload) =>
   [`From: ${payload.from ?? 'Anonymous'}`, `To: ${payload.to ?? 'Anonymous'}`, `Message: ${payload.message}`].join('\n')
@@ -207,8 +226,7 @@ const moderateMenfessWithLlm = async (openai: OpenAI, payload: MenfessPayload): 
     const response = await openai.responses.create(
       {
         model: getLlmModerationModel(),
-        instructions:
-          'Moderasi menfess ID/EN. JSON saja. flag=true hanya untuk hate, harassment, sexual, self-harm, violence, pelecehan, atau illegal, pahami juga kata seperti susu yang bisa saja merujuk ke payudara. reason singkat Bahasa Indonesia.',
+        instructions: LLM_MODERATION_INSTRUCTIONS,
         input: getLlmModerationInput(payload),
         max_output_tokens: 40,
         store: false,
