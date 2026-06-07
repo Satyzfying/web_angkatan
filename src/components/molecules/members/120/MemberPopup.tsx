@@ -158,8 +158,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       {currentStep === 'login' && (
         <div className="w-full max-w-md border-2 border-slate-700 bg-zinc-950 p-6 rounded-2xl shadow-2xl mt-20 text-slate-200 relative z-10">
           <div className="text-center mb-6">
-            <h2 className="text-xl font-black tracking-widest text-cyan-400 font-mono">AGENT LOGIN SYSTEM</h2>
-            <p className="text-xs text-slate-500 font-mono mt-1">VVT-ZE-AGENCY // SECURE ACCESS</p>
+            <h2 className="text-xl font-black tracking-widest text-cyan-400 font-mono">ADMIN LOGIN SYSTEM</h2>
+            <p className="text-xs text-slate-500 font-mono mt-1">BLK-KZR-CORP // SECURE ACCESS</p>
           </div>
          
           <form onSubmit={handleLoginSubmit} className="space-y-4">
@@ -227,7 +227,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             onClick={handleWelcomeNext}
             className="w-full mt-4 bg-red-950/40 hover:bg-red-900/60 border border-red-700 text-red-400 font-mono text-xs py-2 rounded-xl font-bold tracking-widest transition-all uppercase animate-pulse"
           >
-            MULAI MISI
+            MULAI QUEST
           </button>
         </div>
       )}
@@ -295,7 +295,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
             {/* TRACK BACKSOUND CONTROLLER SYSTEM */}
             <div className="border-neutral-cs-10/40 bg-black/40 backdrop-blur-md mt-6 rounded-xl border p-4 relative z-10 transition-all duration-300">
-              <p className="text-slate-400 text-xs font-bold tracking-wide uppercase font-mono mb-3">🔊 AGENT SYSTEM BACKSOUND CONTROLLER:</p>
+              <p className="text-slate-400 text-xs font-bold tracking-wide uppercase font-mono mb-3">🔊 ADMIN SYSTEM BACKSOUND CONTROLLER:</p>
               <div className="grid grid-cols-2 gap-3 text-xs font-mono">
                 <button
                   type="button"
