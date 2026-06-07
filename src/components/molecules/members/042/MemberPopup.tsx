@@ -1,17 +1,16 @@
 'use client'
 
-import React, { useEffect } from 'react'
-import { createPortal } from 'react-dom'
-
-import { useState } from "react";
-import TetrisGate from "./TetrisGate";
+import { useCallback, useEffect, useState } from 'react'
 
 import Image from 'next/image'
+
+import { createPortal } from 'react-dom'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
+import TetrisGate from './TetrisGate'
 import ProfileImage from './image.jpg'
 
 type MemberPopupProps = {
@@ -20,7 +19,13 @@ type MemberPopupProps = {
 }
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
-  const [passed, setPassed] = useState(false);
+  const [passed, setPassed] = useState(false)
+
+  const handleClose = useCallback(() => {
+    setPassed(false)
+    onClose()
+  }, [onClose])
+
   useEffect(() => {
     if (!isOpen) {
       return
@@ -28,7 +33,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        onClose()
+        handleClose()
       }
     }
 
@@ -39,28 +44,24 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen, onClose])
+  }, [isOpen, handleClose])
 
   if (!isOpen) {
     return null
   }
 
   if (!passed) {
-    return createPortal(
-      <TetrisGate onSuccess={() => setPassed(true)} onClose={onClose} />,
-      document.body
-    );
+    return createPortal(<TetrisGate onSuccess={() => setPassed(true)} onClose={handleClose} />, document.body)
   }
 
   return createPortal(
-
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
 
       <button
         type="button"
         aria-label="Close member detail"
-        onClick={onClose}
+        onClick={handleClose}
         className="absolute inset-0 z-0 bg-[#080B1A]/80 backdrop-blur-sm"
       />
 
@@ -113,7 +114,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         <button
           type="button"
           aria-label="Close member detail"
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-xl leading-none text-white/50 hover:bg-white/10"
         >
           x

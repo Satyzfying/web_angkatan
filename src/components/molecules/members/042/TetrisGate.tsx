@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable react-hooks/exhaustive-deps -- The game loop intentionally reads from a stable mutable state ref. */
+
 import { useEffect, useRef, useCallback, useState } from "react";
 
 const COLS = 10;
@@ -292,7 +294,7 @@ export default function TetrisGate({ onSuccess, onClose }: TetrisGateProps) {
   }, [clearLines, validPos, playSound]);
 
   const loop = useCallback(
-    (ts: number = 0) => {
+    function gameLoop(ts: number = 0) {
       if (!s.running || s.paused) return;
       const speed = Math.max(100, 500 - s.linesCleared * 30);
       if (ts - s.lastDrop > speed) {
@@ -301,7 +303,7 @@ export default function TetrisGate({ onSuccess, onClose }: TetrisGateProps) {
         s.lastDrop = ts;
       }
       draw();
-      s.animId = requestAnimationFrame(loop);
+      s.animId = requestAnimationFrame(gameLoop);
     },
     [draw, lockPiece, validPos]
   );
