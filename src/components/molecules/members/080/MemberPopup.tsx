@@ -48,57 +48,151 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         type="button"
         aria-label="Close member detail"
         onClick={onClose}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/80 backdrop-blur-md"
       />
 
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
+      <div className="
+relative z-10
+max-h-screen
+w-full max-w-[720px]
+overflow-y-auto
+rounded-3xl
+border
+border-red-900/40
+bg-gradient-to-br
+from-black/90
+via-[#120000]/80
+to-black/90
+backdrop-blur-xl
+p-6
+text-white
+animate-[member-popup-show_200ms_ease-out]
+shadow-[0_0_30px_rgba(255,0,0,0.15),0_0_80px_rgba(120,0,0,0.08)]
+sm:p-8
+">
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
+          className="
+absolute top-4 right-4
+flex h-10 w-10 items-center justify-center
+rounded-full
+border border-red-900/50
+bg-black/30
+text-red-200
+backdrop-blur-md
+hover:bg-red-950/40
+hover:border-red-700
+transition-all
+"
         >
           x
         </button>
 
-        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
-          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
+        <div
+          className="
+  mb-5
+  overflow-hidden
+  rounded-2xl
+  border
+  border-red-900/40
+"
+        >
+          <Image src={ProfileImage} alt="Profile Image" className="
+h-120
+w-full
+object-cover
+object-center
+brightness-90
+contrast-110
+saturate-125
+sepia-[0.15]
+" />
         </div>
 
         <div className="pr-10">
           {/* UBAH NAMA ANDA */}
-          <h2 className="text-2xl font-black">Catherina Vallencia K</h2>
+          <h2 className="text-3xl font-black tracking-tight text-white">Reyhan Adi Satrio</h2>
           {/* UBAH NRP DAN ASAL */}
-          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251082 - Surakarta</p>
+          <p className="mt-1 text-sm font-semibold text-red-300">5027251080 - Sidoarjo</p>
         </div>
 
         <div className="mt-5 flex gap-2">
           {/* UBAH USERNAME INSTAGRAM */}
-          <Instagram username="jkt48.erine" />
+          <Instagram username="reyhanadss" />
           {/* UBAH USERNAME LINKEDIN */}
-          <LinkedInButtonLink username="jkt48.erine" />
+          <LinkedInButtonLink username="reyhan-adi-6ba653379" />
         </div>
 
         <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
+          <div className="
+rounded-2xl
+border
+border-red-900/30
+bg-white/5
+backdrop-blur-md
+p-4
+transition-all
+hover:border-red-700/50
+">
             {/* UBAH HOBI KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
-            <p className="mt-2">Nyanyi</p>
+            <p className="
+text-red-400
+text-xs
+font-bold
+tracking-[0.2em]
+uppercase
+">Hobi</p>
+            <p className="mt-2">Books, Bikes, & Music</p>
           </div>
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
+          <div
+            className="
+  rounded-2xl
+  border
+  border-red-900/30
+  bg-white/5
+  backdrop-blur-md
+  p-4
+  transition-all
+  hover:border-red-700/50
+"
+          >
             {/* UBAH FUNFACT KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
-            <p className="mt-2">Gwe Member JKT</p>
+            <p className="
+text-red-400
+text-xs
+font-bold
+tracking-[0.2em]
+uppercase
+">Fun Fact</p>
+            <p className="mt-2">My motorcycle is my biggest opp.</p>
           </div>
         </div>
 
-        <div className="border-neutral-cs-10/40 mt-4 rounded-xl border p-4">
+        <div className="
+mt-4
+rounded-2xl
+border
+border-red-900/30
+bg-white/5
+backdrop-blur-md
+p-4
+">
           {/* UBAH LAGU FAVORIT KAMU */}
-          <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
-          <p className="my-2 text-sm font-semibold">There Is a Light That Never Goes Out</p>
+          <p
+            className="
+  text-red-400
+  text-xs
+  font-bold
+  tracking-[0.2em]
+  uppercase
+"
+          >Lagu Favorit</p>
+          <p className="my-2 text-sm font-semibold">Alexandra - Reality Club</p>
 
           {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2X62SjtuwVQiGiZvZZ9Ztr?si=f6718391848a4469" />
+          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/6ZGgaShxOimGDfRz1T1zje?si=55d5cabe9faa49c0" />
         </div>
       </div>
     </div>,
