@@ -1,10 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-<<<<<<< HEAD
-=======
-import React, { useCallback, useEffect, useState } from 'react'
->>>>>>> 1bcce9b292c7b4284d0191e85d8cdd63d13f5d83
 
 import Image from 'next/image'
 import { Cormorant_Garamond, Great_Vibes, Nunito, Silkscreen } from 'next/font/google'
@@ -83,16 +79,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-  return createPortal(
+  return (
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <div
       className={`fixed inset-0 z-[100] flex items-center justify-center overflow-hidden px-3 py-3 sm:px-4 sm:py-8 ${bodyFont.className}`}
-<<<<<<< HEAD
-=======
-
-      className={`fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 ${bodyFont.className}`}
-
->>>>>>> 1bcce9b292c7b4284d0191e85d8cdd63d13f5d83
     >
       <style jsx global>{`
         @keyframes intro-gif-zoom {
@@ -226,11 +216,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             style={{
               backgroundImage: `linear-gradient(135deg, rgba(3, 7, 18, 0.76), rgba(15, 39, 72, 0.72), rgba(3, 7, 18, 0.86)), url(${BackgroundImage.src})`,
               backgroundSize: 'cover',
-<<<<<<< HEAD
               backgroundPosition: 'center',
-=======
-              backgroundPosition: 'center'
->>>>>>> 1bcce9b292c7b4284d0191e85d8cdd63d13f5d83
             }}
           />
 
@@ -253,15 +239,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="pointer-events-none absolute h-[280px] w-[280px] rounded-full bg-[#ffefb3]/20 blur-3xl animate-[intro-glow-pulse_2800ms_ease-in-out_infinite] sm:h-[420px] sm:w-[420px]" />
 
           <div
-<<<<<<< HEAD
             className={`relative z-20 flex w-full max-w-[92vw] items-center justify-center overflow-visible rounded-[24px] bg-transparent sm:max-w-[720px] sm:rounded-[32px] ${
               introPhase === 'zooming'
-=======
-            className={`relative z-20 flex w-full max-w-[92vw] items-center justify-center sm:max-w-[720px] ${introPhase === 'zooming'
->>>>>>> 1bcce9b292c7b4284d0191e85d8cdd63d13f5d83
                 ? 'animate-[intro-gif-zoom_1000ms_cubic-bezier(0.16,1,0.3,1)_forwards]'
                 : ''
-              }`}
+            }`}
           >
             <Image
               src={IntroGif}
@@ -336,7 +318,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
 
           <div
-            className="member-popup-scroll relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[popup-reveal_700ms_cubic-bezier(0.16,1,0.3,1)_forwards] overflow-y-auto rounded-[24px] border border-[#ffefb3]/45 p-4 text-white shadow-[0_0_48px_rgba(255,239,179,0.28)] sm:rounded-[30px] sm:p-8 sm:shadow-[0_0_65px_rgba(255,239,179,0.34)]"
+            className="member-popup-scroll relative z-10 max-h-[calc(100dvh-1.5rem)] w-full max-w-[720px] animate-[popup-reveal_700ms_cubic-bezier(0.16,1,0.3,1)_forwards] overflow-y-auto rounded-[24px] border border-[#ffefb3]/45 p-4 text-white shadow-[0_0_48px_rgba(255,239,179,0.28)] sm:max-h-[calc(100vh-4rem)] sm:rounded-[30px] sm:p-8 sm:shadow-[0_0_65px_rgba(255,239,179,0.34)]"
             style={{
               backgroundImage: `linear-gradient(135deg, rgba(13, 35, 64, 0.68), rgba(45, 79, 115, 0.52), rgba(4, 18, 37, 0.78)), url(${BackgroundImage.src})`,
               backgroundSize: 'cover',
@@ -365,7 +347,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 />
               </div>
 
-              <div className="relative rounded-[20px] border border-[#ffefb3]/40 bg-[rgba(91,133,182,0.16)] px-4 py-4 pr-8 shadow-[0_0_28px_rgba(255,239,179,0.22)] backdrop-blur-md sm:rounded-[24px] sm:px-5 sm:pr-10 sm:shadow-[0_0_32px_rgba(255,239,179,0.26)]">
+              <div className="relative overflow-visible rounded-[20px] border border-[#ffefb3]/40 bg-[rgba(91,133,182,0.16)] px-4 py-5 pr-8 shadow-[0_0_28px_rgba(255,239,179,0.22)] backdrop-blur-md sm:rounded-[24px] sm:px-5 sm:py-5 sm:pr-10 sm:shadow-[0_0_32px_rgba(255,239,179,0.26)]">
                 <div className="pointer-events-none absolute -top-3 right-5 text-3xl text-[#ffefb3] drop-shadow-[0_0_14px_rgba(255,239,179,0.95)]">
                   ☆
                 </div>
@@ -375,48 +357,48 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 </div>
 
                 {/* UBAH NAMA ANDA */}
-                <h2 className="flex w-full flex-nowrap items-end gap-x-1 overflow-hidden whitespace-nowrap leading-none text-[#fff5d0]">
-                  <span className="flex min-w-0 shrink items-end">
+                <h2 className="flex w-full flex-nowrap items-end gap-x-1 overflow-visible whitespace-nowrap leading-none text-[#fff5d0]">
+                  <span className="flex min-w-0 shrink items-end overflow-visible">
                     <span
-                      className={`${initialFont.className} shrink-0 text-[clamp(2.25rem,6.2vw,4.7rem)] leading-[0.78] text-[#fff5d0] drop-shadow-[0_0_22px_rgba(255,239,179,1)]`}
+                      className={`${initialFont.className} shrink-0 text-[clamp(2rem,5.4vw,3.85rem)] leading-[0.78] text-[#fff5d0] drop-shadow-[0_0_26px_rgba(255,239,179,1)]`}
                     >
                       S
                     </span>
 
                     <span
-                      className={`${pixelFont.className} ml-[-0.24rem] inline-block shrink text-[clamp(0.62rem,1.75vw,1.12rem)] tracking-[-0.04em] text-[#fff5d0] drop-shadow-[0_0_7px_rgba(255,239,179,0.55)] sm:ml-[-0.36rem]`}
+                      className={`${pixelFont.className} ml-[-0.16rem] inline-block shrink text-[clamp(0.72rem,1.85vw,1.2rem)] tracking-[-0.04em] text-[#fff5d0] drop-shadow-[0_0_6px_rgba(255,239,179,0.45)] sm:ml-[-0.26rem]`}
                     >
                       A
                       <span className="relative inline-block text-[#fff5d0]">
                         HIRA
-                        <span className="absolute -bottom-1 left-0 h-[2px] w-full rounded-full bg-[#ffefb3] shadow-[0_0_12px_rgba(255,239,179,0.95)]" />
+                        <span className="absolute -bottom-[5px] left-0 z-20 h-[2px] w-full rounded-full bg-[#ffefb3] shadow-[0_0_12px_rgba(255,239,179,1)]" />
                       </span>
                     </span>
                   </span>
 
-                  <span className="flex min-w-0 shrink items-end">
+                  <span className="flex min-w-0 shrink items-end overflow-visible">
                     <span
-                      className={`${initialFont.className} shrink-0 text-[clamp(2.25rem,6.2vw,4.7rem)] leading-[0.78] text-[#fff5d0] drop-shadow-[0_0_22px_rgba(255,239,179,1)]`}
+                      className={`${initialFont.className} shrink-0 text-[clamp(2rem,5.4vw,3.85rem)] leading-[0.78] text-[#fff5d0] drop-shadow-[0_0_26px_rgba(255,239,179,1)]`}
                     >
                       B
                     </span>
 
                     <span
-                      className={`${pixelFont.className} ml-[-0.22rem] inline-block shrink text-[clamp(0.62rem,1.75vw,1.12rem)] tracking-[-0.04em] text-[#fff5d0] drop-shadow-[0_0_7px_rgba(255,239,179,0.55)] sm:ml-[-0.34rem]`}
+                      className={`${pixelFont.className} ml-[-0.15rem] inline-block shrink text-[clamp(0.72rem,1.85vw,1.2rem)] tracking-[-0.04em] text-[#fff5d0] drop-shadow-[0_0_6px_rgba(255,239,179,0.45)] sm:ml-[-0.24rem]`}
                     >
                       ILQIS
                     </span>
                   </span>
 
-                  <span className="flex min-w-0 shrink items-end">
+                  <span className="flex min-w-0 shrink items-end overflow-visible">
                     <span
-                      className={`${initialFont.className} shrink-0 text-[clamp(2.25rem,6.2vw,4.7rem)] leading-[0.78] text-[#fff5d0] drop-shadow-[0_0_22px_rgba(255,239,179,1)]`}
+                      className={`${initialFont.className} shrink-0 text-[clamp(2rem,5.4vw,3.85rem)] leading-[0.78] text-[#fff5d0] drop-shadow-[0_0_26px_rgba(255,239,179,1)]`}
                     >
                       R
                     </span>
 
                     <span
-                      className={`${pixelFont.className} ml-[-0.22rem] inline-block shrink text-[clamp(0.62rem,1.75vw,1.12rem)] tracking-[-0.04em] text-[#fff5d0] drop-shadow-[0_0_7px_rgba(255,239,179,0.55)] sm:ml-[-0.34rem]`}
+                      className={`${pixelFont.className} ml-[-0.15rem] inline-block shrink text-[clamp(0.72rem,1.85vw,1.2rem)] tracking-[-0.04em] text-[#fff5d0] drop-shadow-[0_0_6px_rgba(255,239,179,0.45)] sm:ml-[-0.24rem]`}
                     >
                       IVADITO
                     </span>
@@ -447,8 +429,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
               <div className="mt-5 grid gap-3 text-sm font-semibold sm:mt-6 sm:grid-cols-2 sm:gap-4">
                 <div className="relative flex min-h-[148px] flex-col items-center justify-center overflow-visible rounded-[20px] border border-[#ffefb3]/35 bg-[rgba(91,133,182,0.16)] p-4 shadow-[0_0_26px_rgba(255,239,179,0.18)] backdrop-blur-md transition hover:scale-[1.01] hover:bg-[rgba(91,133,182,0.22)] hover:shadow-[0_0_36px_rgba(255,239,179,0.28)] sm:min-h-[168px] sm:rounded-[22px] sm:p-5">
-                  <div className="pointer-events-none absolute inset-0 rounded-[20px] bg-[radial-gradient(circle_at_center,rgba(255,239,179,0.14),transparent_42%)] sm:rounded-[22px]" />
-
                   <div className="pointer-events-none absolute -top-4 left-5 z-20 text-2xl text-[#ffefb3] drop-shadow-[0_0_12px_rgba(255,239,179,0.95)]">
                     ☆
                   </div>
@@ -462,12 +442,16 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                     Hobi
                   </p>
 
-                  <Image
-                    src={SleepingCatGif}
-                    alt="Sleeping cat"
-                    unoptimized
-                    className="relative z-10 mt-5 h-20 w-20 object-contain drop-shadow-[0_0_18px_rgba(255,239,179,0.88)] sm:h-24 sm:w-24 sm:drop-shadow-[0_0_22px_rgba(255,239,179,0.92)]"
-                  />
+                  <div className="relative z-10 mt-5 flex h-24 w-24 items-center justify-center sm:h-28 sm:w-28">
+                    <div className="pointer-events-none absolute inset-0 rounded-full bg-[#ffefb3]/20 blur-2xl" />
+
+                    <Image
+                      src={SleepingCatGif}
+                      alt="Sleeping cat"
+                      unoptimized
+                      className="relative z-10 h-20 w-20 object-contain drop-shadow-[0_0_22px_rgba(255,239,179,0.95)] sm:h-24 sm:w-24 sm:drop-shadow-[0_0_28px_rgba(255,239,179,1)]"
+                    />
+                  </div>
                 </div>
 
                 <div className="relative rounded-[20px] border border-[#ffefb3]/35 bg-[rgba(91,133,182,0.16)] p-4 shadow-[0_0_24px_rgba(255,239,179,0.18)] backdrop-blur-md transition hover:scale-[1.01] hover:bg-[rgba(91,133,182,0.22)] hover:shadow-[0_0_34px_rgba(255,239,179,0.28)] sm:rounded-[22px] sm:p-5">
@@ -523,8 +507,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         </>
       )}
-    </div>,
-    document.body
+    </div>
   )
 }
 
