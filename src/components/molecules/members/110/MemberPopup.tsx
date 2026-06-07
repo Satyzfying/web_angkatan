@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
+
+import { createPortal } from 'react-dom'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
@@ -28,19 +29,49 @@ const doodleShapes: Record<string, React.ReactNode> = {
     </g>
   ),
   bolt: (
-    <path d="M24 4 10 24h9l-5 14 18-22h-9l6-12Z" fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinejoin="round" />
+    <path
+      d="M24 4 10 24h9l-5 14 18-22h-9l6-12Z"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.6}
+      strokeLinejoin="round"
+    />
   ),
   crown: (
-    <path d="M8 30 6 12l8 8 8-12 8 12 8-8-2 18Z" fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinejoin="round" />
+    <path
+      d="M8 30 6 12l8 8 8-12 8 12 8-8-2 18Z"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.6}
+      strokeLinejoin="round"
+    />
   ),
   star: (
-    <path d="M22 5 27 18 41 18 30 26 34 39 22 31 10 39 14 26 3 18 17 18Z" fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinejoin="round" />
+    <path
+      d="M22 5 27 18 41 18 30 26 34 39 22 31 10 39 14 26 3 18 17 18Z"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.6}
+      strokeLinejoin="round"
+    />
   ),
   heart: (
-    <path d="M22 36C8 26 6 16 13 12c4-2 7 0 9 4 2-4 5-6 9-4 7 4 5 14-9 24Z" fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinejoin="round" />
+    <path
+      d="M22 36C8 26 6 16 13 12c4-2 7 0 9 4 2-4 5-6 9-4 7 4 5 14-9 24Z"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.6}
+      strokeLinejoin="round"
+    />
   ),
   spiral: (
-    <path d="M30 22a8 8 0 1 1-8-8 12 12 0 0 1 12 12 16 16 0 0 1-16 16" fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinecap="round" />
+    <path
+      d="M30 22a8 8 0 1 1-8-8 12 12 0 0 1 12 12 16 16 0 0 1-16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.6}
+      strokeLinecap="round"
+    />
   ),
   bomb: (
     <g fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinecap="round">
@@ -49,11 +80,15 @@ const doodleShapes: Record<string, React.ReactNode> = {
     </g>
   ),
   fish: (
-    <path d="M5 22 26 11v8h9l5-7 2 8-2 8-5-7h-9v8Z" fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinejoin="round" />
+    <path
+      d="M5 22 26 11v8h9l5-7 2 8-2 8-5-7h-9v8Z"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.6}
+      strokeLinejoin="round"
+    />
   ),
-  cross: (
-    <path d="M10 10 34 34M34 10 10 34" fill="none" stroke="currentColor" strokeWidth={4} strokeLinecap="round" />
-  ),
+  cross: <path d="M10 10 34 34M34 10 10 34" fill="none" stroke="currentColor" strokeWidth={4} strokeLinecap="round" />
 }
 
 type Sticker = {
@@ -85,7 +120,7 @@ const STICKERS: Sticker[] = [
   { type: 'text:BOOM', top: '82%', left: '68%', rot: 6, size: 0, color: '#ff4fa3', delay: 0.8 },
   { type: 'text:JINX', top: '46%', left: '46%', rot: -10, size: 0, color: '#ff2e88', delay: 0.15 },
   { type: 'text:POW!', top: '70%', left: '32%', rot: 12, size: 0, color: '#ffd23f', delay: 0.65 },
-  { type: 'text:BIA BIA', top: '24%', left: '84%', rot: 14, size: 0, color: '#b06bff', delay: 0.95 },
+  { type: 'text:BIA BIA', top: '24%', left: '84%', rot: 14, size: 0, color: '#b06bff', delay: 0.95 }
 ]
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
@@ -114,15 +149,20 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   // burst stiker: nyala saat dibuka, mati otomatis setelah 5 detik
   useEffect(() => {
+    const showTimer = setTimeout(() => {
+      setShowStickers(isOpen)
+    }, 0)
+
     if (!isOpen) {
-      setShowStickers(false)
-      return
+      return () => clearTimeout(showTimer)
     }
 
-    setShowStickers(true)
-    const timer = setTimeout(() => setShowStickers(false), 5000)
+    const hideTimer = setTimeout(() => setShowStickers(false), 5000)
 
-    return () => clearTimeout(timer)
+    return () => {
+      clearTimeout(showTimer)
+      clearTimeout(hideTimer)
+    }
   }, [isOpen])
 
   if (!isOpen) {
@@ -131,7 +171,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
       {/* === Tema Jinx: keyframes + font marker ditaruh lokal di sini supaya self-contained (tidak perlu ngubah global CSS) === */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Gloria+Hallelujah&display=swap');
@@ -182,11 +222,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       />
 
       <div
-        className="jinx-hand relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] overflow-y-auto rounded-[20px] border-[3px] border-[#ff2e88] bg-[#150d36] p-6 text-white shadow-[0_0_45px_rgba(255,46,136,.4)] sm:max-h-[calc(100vh-10rem)] sm:p-8"
+        className="jinx-hand relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto rounded-[20px] border-[3px] border-[#ff2e88] bg-[#150d36] p-6 text-white shadow-[0_0_45px_rgba(255,46,136,.4)] sm:p-8"
         style={{
           animation: 'jinx-pop-in 400ms cubic-bezier(.2,1.35,.45,1) both',
           backgroundImage:
-            'radial-gradient(circle at 16% 10%, rgba(255,46,136,.22), transparent 42%), radial-gradient(circle at 88% 82%, rgba(74,215,255,.18), transparent 46%)',
+            'radial-gradient(circle at 16% 10%, rgba(255,46,136,.22), transparent 42%), radial-gradient(circle at 88% 82%, rgba(74,215,255,.18), transparent 46%)'
         }}
       >
         {/* === Layer corat-coret: muncul ke-gambar saat dibuka. pointer-events-none supaya tidak menghalangi klik === */}
@@ -199,41 +239,52 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           {/* loop scribble pojok kiri atas */}
           <path
             d="M36 64 C 26 34, 96 26, 126 48 S 184 92, 142 112 S 56 122, 48 88"
-            stroke="#4ad7ff" strokeWidth="4" strokeLinecap="round"
+            stroke="#4ad7ff"
+            strokeWidth="4"
+            strokeLinecap="round"
             style={cssVars({ '--dash': 620, '--delay': '120ms' })}
           />
           {/* petir zigzag ala Jinx kanan atas */}
           <polyline
             points="600,52 636,30 618,86 662,64 638,128"
-            stroke="#ffd23f" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"
+            stroke="#ffd23f"
+            strokeWidth="5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             style={cssVars({ '--dash': 420, '--delay': '260ms' })}
           />
           {/* silang corat-coret kiri bawah */}
           <path
             d="M70 800 L 130 858 M 130 800 L 70 858"
-            stroke="#ff2e88" strokeWidth="6" strokeLinecap="round"
+            stroke="#ff2e88"
+            strokeWidth="6"
+            strokeLinecap="round"
             style={cssVars({ '--dash': 320, '--delay': '440ms' })}
           />
           {/* hati doodle kanan bawah */}
           <path
             d="M600 800 c -22 -26, -58 4, -30 32 l 30 30 l 30 -30 c 28 -28, -8 -58, -30 -32 z"
-            stroke="#ff4fa3" strokeWidth="4" strokeLinecap="round"
+            stroke="#ff4fa3"
+            strokeWidth="4"
+            strokeLinecap="round"
             style={cssVars({ '--dash': 360, '--delay': '520ms' })}
           />
           {/* garis bawah gelombang panjang */}
           <path
             d="M50 892 q 80 -28 160 0 t 160 0 t 160 0 t 130 0"
-            stroke="#4ad7ff" strokeWidth="4" strokeLinecap="round"
+            stroke="#4ad7ff"
+            strokeWidth="4"
+            strokeLinecap="round"
             style={cssVars({ '--dash': 1100, '--delay': '300ms' })}
           />
         </svg>
 
         {/* === Stiker "JINX!" yang nge-splat saat dibuka === */}
         <div
-          className="jinx-marker pointer-events-none absolute -top-4 left-8 z-30 select-none text-4xl text-[#ff2e88]"
+          className="jinx-marker pointer-events-none absolute -top-4 left-8 z-30 text-4xl text-[#ff2e88] select-none"
           style={{
             animation: 'jinx-splat 520ms 240ms cubic-bezier(.2,1.7,.4,1) both',
-            textShadow: '3px 3px 0 #4ad7ff',
+            textShadow: '3px 3px 0 #4ad7ff'
           }}
         >
           JINX!
@@ -327,7 +378,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           })}
         </div>
       )}
-    </div>
+    </div>,
     document.body
   )
 }

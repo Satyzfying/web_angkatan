@@ -10,7 +10,7 @@ import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import DiscordEffect from '@/assets/images/members/discord-effect.svg'
 
 import MemberPopup from './MemberPopup'
-import ProfileImage from './image.png'
+import ProfileImage from './image.jpg'
 
 const CardMember = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
@@ -40,7 +40,7 @@ const CardMember = () => {
           <div className="flex flex-col gap-3">
             <div className="flex gap-2 px-1" onClick={(event) => event.stopPropagation()}>
               {/* UBAH USERNAME INSTAGRAM KAMU */}
-              <Instagram username="rifqidwm" />
+              <Instagram username="rifqidwm_" />
               {/* UBAH USERNAME LINKEDIN KAMU */}
               <LinkedInButtonLink username="rifqidwm" />
             </div>

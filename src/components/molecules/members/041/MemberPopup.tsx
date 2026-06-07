@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
+
+import { createPortal } from 'react-dom'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
@@ -52,14 +53,14 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       />
 
       <div className="relative z-10 max-h-[100dvh] w-full max-w-[760px] animate-[member-popup-show_250ms_ease-out] overflow-y-auto rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#1e293b] p-6 text-white shadow-[0_0_40px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:p-8">
-      <div className="absolute -top-24 -left-20 h-60 w-60 rounded-full bg-cyan-400/20 blur-3xl" />
-      <div className="absolute bottom-0 right-0 h-52 w-52 rounded-full bg-purple-500/20 blur-3xl" />
+        <div className="absolute -top-24 -left-20 h-60 w-60 rounded-full bg-cyan-400/20 blur-3xl" />
+        <div className="absolute right-0 bottom-0 h-52 w-52 rounded-full bg-purple-500/20 blur-3xl" />
 
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="absolute top-5 right-5 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-black/40 text-2xl font-light text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-red-500 hover:rotate-90"
+          className="absolute top-5 right-5 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-black/40 text-2xl font-light text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-110 hover:rotate-90 hover:bg-red-500"
         >
           x
         </button>
@@ -70,14 +71,16 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
         <div className="pr-10">
           {/* UBAH NAMA ANDA */}
-          <h2 className="w-full object-cover object-center transition duration-500 hover:scale-105 bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-3xl font-extrabold text-transparent">
+          <h2 className="w-full bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text object-cover object-center text-3xl font-extrabold text-transparent transition duration-500 hover:scale-105">
             Muhamad Sabilil Haq
           </h2>
           {/* UBAH NRP DAN ASAL */}
-          <p className="w-full object-cover object-center transition duration-500 hover:scale-95 text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251041 - Ciamis</p>
+          <p className="text-neutral-cs-10/70 mt-1 w-full object-cover object-center text-sm font-semibold transition duration-500 hover:scale-95">
+            5027251041 - Ciamis
+          </p>
         </div>
 
-        <div className="rounded-2xl transition duration-300 hover:-translate-y-1 mt-5 flex gap-2">
+        <div className="mt-5 flex gap-2 rounded-2xl transition duration-300 hover:-translate-y-1">
           {/* UBAH USERNAME INSTAGRAM */}
           <Instagram username="sbillhq_" />
           {/* UBAH USERNAME LINKEDIN */}
@@ -97,10 +100,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         </div>
 
-        <div className="border-neutral-cs-10/40 mt-4 rounded-xl border p-4 rounded-2xl border border-white/10 bg-white/5 p-4 transition duration-300 hover:-translate-y-1 hover:bg-white/10">
+        <div className="border-neutral-cs-10/40 mt-4 rounded-2xl rounded-xl border border-white/10 bg-white/5 p-4 transition duration-300 hover:-translate-y-1 hover:bg-white/10">
           {/* UBAH LAGU FAVORIT KAMU */}
           <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
-          <p className="my-2 text-sm font-semibold">"We Are!"</p>
+          <p className="my-2 text-sm font-semibold">&quot;We Are!&quot;</p>
 
           {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
           <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/1PdWDLJNk040dkuXoLLE2F?si=634305d2ac014320" />
