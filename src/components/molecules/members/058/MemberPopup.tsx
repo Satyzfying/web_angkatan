@@ -95,7 +95,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <video autoPlay loop muted playsInline className="w-full h-full object-cover">
             <source src="/assets/videos/bgVid.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0" style={{ backgroundColor: 'rgba(33, 6, 3, 0.6)' }} />
+          <div className="absolute inset-0" style={{ backgroundColor: 'rgba(33, 6, 3, 0.5)' }} />
         </div>
 
         <div className="bg-red-950/50 relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl p-6 text-white shadow-2xl shadow-black sm:max-h-[calc(100vh-10rem)] sm:p-8">
