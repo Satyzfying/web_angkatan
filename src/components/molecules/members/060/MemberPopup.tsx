@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -40,67 +41,97 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-  return (
+  return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
-      <button
-        type="button"
-        aria-label="Close member detail"
-        onClick={onClose}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-      />
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+      <button type="button" aria-label="Close member detail" onClick={onClose} className="absolute inset-0">
+        <img
+          src="https://cdn.terminaltrove.com/m/a03290ca-6b48-4c34-9970-93174008e7c8.gif"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+      </button>
 
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div
+        className="relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 shadow-xl sm:p-8"
+        style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          backgroundColor: '#24273a',
+          borderColor: '#494d64',
+          color: '#cad3f5'
+        }}
+      >
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
+          className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
+          style={{ borderColor: '#494d64', color: '#cad3f5' }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#363a4f')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
         >
           x
         </button>
 
-        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
+        <div className="mb-5 overflow-hidden rounded-2xl border" style={{ borderColor: '#494d64' }}>
           <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
         </div>
 
         <div className="pr-10">
           {/* UBAH NAMA ANDA */}
-          <h2 className="text-2xl font-black">Catherina Vallencia K</h2>
+          <h2 className="text-2xl font-black">Husam Danish</h2>
           {/* UBAH NRP DAN ASAL */}
-          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251082 - Surakarta</p>
+          <p className="mt-1 text-sm font-semibold" style={{ color: '#a5adcb' }}>
+            5027251060 - Buleleng
+          </p>
         </div>
 
         <div className="mt-5 flex gap-2">
           {/* UBAH USERNAME INSTAGRAM */}
-          <Instagram username="jkt48.erine" />
+          <Instagram username="husam.danish" />
           {/* UBAH USERNAME LINKEDIN */}
-          <LinkedInButtonLink username="jkt48.erine" />
+          <LinkedInButtonLink username="husam-danish" />
         </div>
 
         <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
+          <div className="rounded-xl border p-4" style={{ borderColor: '#494d64' }}>
             {/* UBAH HOBI KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
-            <p className="mt-2">Nyanyi</p>
+            <p className="text-xs tracking-wide uppercase" style={{ color: '#8087a2' }}>
+              Hobi
+            </p>
+            <p className="mt-2">
+              Ricing, Baca (mostly novel & komik), olahraga (jogging, cycling, basket), main game (mostly MLBB, but
+              sometimes random indie game)
+            </p>
           </div>
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
+          <div className="rounded-xl border p-4" style={{ borderColor: '#494d64' }}>
             {/* UBAH FUNFACT KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
-            <p className="mt-2">Gwe Member JKT</p>
+            <p className="text-xs tracking-wide uppercase" style={{ color: '#8087a2' }}>
+              Fun Fact
+            </p>
+            <p className="mt-2">
+              Sejauh ini bolak-balik surabaya-bali (mudik) selalu motoran
+              <br></br>
+              <br></br>I use Arch BTW!
+            </p>
           </div>
         </div>
 
-        <div className="border-neutral-cs-10/40 mt-4 rounded-xl border p-4">
+        <div className="mt-4 rounded-xl border p-4" style={{ borderColor: '#494d64' }}>
           {/* UBAH LAGU FAVORIT KAMU */}
-          <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
-          <p className="my-2 text-sm font-semibold">There Is a Light That Never Goes Out</p>
+          <p className="text-xs font-bold tracking-wide uppercase" style={{ color: '#8087a2' }}>
+            Lagu Favorit
+          </p>
+          <p className="my-2 text-sm font-semibold">Laskar Pelangi</p>
 
           {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2X62SjtuwVQiGiZvZZ9Ztr?si=f6718391848a4469" />
+          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/0ejpHFKbEqTcNQ4OMBawrP?si=1a84201e2f18426f" />
         </div>
       </div>
-    </div>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800');`}</style>
+    </div>,
+    document.body
   )
 }
 
