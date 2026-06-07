@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -569,7 +570,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-  return (
+  if (typeof document === 'undefined') {
+    return null
+  }
+
+  return createPortal(
     <>
       {/* Intro screen — audio dikelola MemberPopup, IntroScreen hanya play */}
       {showIntro && <IntroScreen audio={bgAudioRef.current} onEnd={handleIntroEnd} />}
@@ -842,7 +847,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
     </div>
       </div>
-    </>
+    </>,
+    document.body
   )
 }
 
