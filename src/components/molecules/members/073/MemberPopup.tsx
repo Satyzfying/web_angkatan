@@ -417,7 +417,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 <FloatingEmoji emoji="𝄞" count={3} style={{ opacity: 1 }} />
                 <div className="relative z-10">
                   <p className="text-[#c478a0] text-xs tracking-widest uppercase">Hobi</p>
-                  <p className="mt-2 text-[#7c3a5a]">Bikin puisi, nggambar, dengerin lagu Yowis Ben</p>
+                  <p className="mt-2 text-[#7c3a5a]">Bikin puisi, ndengerin lagu, nggambar, ndengerin orang nggitar</p>
                 </div>
               </div>
 
