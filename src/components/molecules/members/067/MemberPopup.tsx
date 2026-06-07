@@ -31,7 +31,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       }
     }
 
-    // Trigger popup entry shake
+    // Popup entry shake
     if (cardRef.current) {
       cardRef.current.classList.remove('yusuf-popup-enter')
       void cardRef.current.offsetWidth
@@ -79,29 +79,74 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
         .yusuf-card {
           background: linear-gradient(160deg, #0e2a45 0%, #0b1e35 60%, #071525 100%);
-          border: 1.5px solid rgba(56,182,255,0.75);
+          border: 1.5px solid rgba(56,182,255,0.75) !important;
           box-shadow:
-            0 0 12px rgba(56,182,255,0.35),
-            0 0 30px rgba(56,182,255,0.15),
-            inset 0 1px 0 rgba(255,255,255,0.09);
+            0 0 14px rgba(56,182,255,0.35),
+            0 0 32px rgba(56,182,255,0.14),
+            inset 0 1px 0 rgba(255,255,255,0.08);
         }
 
-        .yusuf-label {
+        .yusuf-close {
+          border: 1.5px solid rgba(56,182,255,0.65) !important;
+          background: rgba(56,182,255,0.08) !important;
+          box-shadow: 0 0 8px rgba(56,182,255,0.22);
+          color: rgba(200,230,255,0.9) !important;
           font-family: 'Space Mono', monospace;
-          font-size: 10px; font-weight: 700;
-          letter-spacing: 1.2px; text-transform: uppercase;
-          color: rgba(100,180,255,0.6);
-          margin-bottom: 8px;
+          transition: background 0.2s;
+        }
+        .yusuf-close:hover { background: rgba(56,182,255,0.2) !important; }
+
+        .yusuf-photo {
+          border: 1.5px solid rgba(56,182,255,0.7) !important;
+          box-shadow: 0 0 12px rgba(56,182,255,0.32), 0 0 24px rgba(56,182,255,0.12);
+        }
+
+        .yusuf-name {
+          font-family: 'DM Sans', sans-serif;
+          font-weight: 900;
+          color: #d4edff !important;
+          letter-spacing: -0.3px;
         }
 
         .yusuf-nim {
-          font-family: 'Space Mono', monospace;
-          font-size: 12px; font-weight: 500;
-          color: rgba(150,200,255,0.55);
-          margin-top: 3px;
+          font-family: 'Space Mono', monospace !important;
+          color: rgba(150,200,255,0.55) !important;
         }
 
-        /* Hover shake */
+        .yusuf-infobox {
+          border: 1.5px solid rgba(56,182,255,0.55) !important;
+          box-shadow: 0 0 8px rgba(56,182,255,0.18), 0 0 18px rgba(56,182,255,0.07);
+          background: rgba(10,30,55,0.45) !important;
+        }
+
+        .yusuf-infobox p:first-child {
+          font-family: 'Space Mono', monospace;
+          font-size: 10px; font-weight: 700;
+          letter-spacing: 1.2px; text-transform: uppercase;
+          color: rgba(100,180,255,0.6) !important;
+        }
+
+        .yusuf-infobox p:last-child {
+          color: #c8e6ff !important;
+        }
+
+        .yusuf-songbox {
+          border: 1.5px solid rgba(56,182,255,0.55) !important;
+          box-shadow: 0 0 8px rgba(56,182,255,0.18), 0 0 18px rgba(56,182,255,0.07);
+          background: rgba(10,30,55,0.45) !important;
+        }
+
+        .yusuf-songbox p:first-child {
+          font-family: 'Space Mono', monospace;
+          font-size: 10px; font-weight: 700;
+          letter-spacing: 1.2px; text-transform: uppercase;
+          color: rgba(100,180,255,0.6) !important;
+        }
+
+        .yusuf-songbox p.yusuf-songtitle {
+          color: #c8e6ff !important;
+        }
+
         @keyframes yusufSixSeven {
           0%   { transform: rotate(0deg) translateX(0px); }
           10%  { transform: rotate(-10deg) translateX(-6px); }
@@ -112,72 +157,53 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           60%  { transform: rotate(7deg) translateX(4px); }
           70%  { transform: rotate(-4deg) translateX(-2px); }
           80%  { transform: rotate(4deg) translateX(2px); }
-          90%  { transform: rotate(-1deg) translateX(-1px); }
+          90%  { transform: rotate(-1deg) translateX(0px); }
           100% { transform: rotate(0deg) translateX(0px); }
         }
-        .yusuf-shake {
-          animation: yusufSixSeven 0.45s ease forwards;
-        }
+        .yusuf-shake { animation: yusufSixSeven 0.45s ease forwards; }
 
-        /* Popup entry shake */
         @keyframes yusufPopupEntry {
-          0%   { opacity: 0; transform: scale(0.92) rotate(0deg) translateX(0px); }
-          10%  { opacity: 1; transform: scale(1.01) rotate(-9deg) translateX(-5px); }
-          22%  { transform: scale(1.01) rotate(9deg) translateX(5px); }
-          34%  { transform: scale(1.0) rotate(-8deg) translateX(-4px); }
-          46%  { transform: scale(1.0) rotate(8deg) translateX(4px); }
-          58%  { transform: scale(1.0) rotate(-5deg) translateX(-2px); }
-          70%  { transform: scale(1.0) rotate(5deg) translateX(2px); }
-          82%  { transform: scale(1.0) rotate(-2deg) translateX(-1px); }
-          91%  { transform: scale(1.0) rotate(1deg) translateX(0px); }
+          0%   { opacity: 0; transform: scale(0.92) rotate(0deg); }
+          12%  { opacity: 1; transform: scale(1.01) rotate(-9deg) translateX(-5px); }
+          24%  { transform: scale(1.0) rotate(9deg) translateX(5px); }
+          36%  { transform: scale(1.0) rotate(-8deg) translateX(-4px); }
+          48%  { transform: scale(1.0) rotate(8deg) translateX(4px); }
+          60%  { transform: scale(1.0) rotate(-5deg) translateX(-2px); }
+          72%  { transform: scale(1.0) rotate(5deg) translateX(2px); }
+          84%  { transform: scale(1.0) rotate(-2deg) translateX(-1px); }
+          92%  { transform: scale(1.0) rotate(1deg); }
           100% { opacity: 1; transform: scale(1) rotate(0deg) translateX(0px); }
         }
-        .yusuf-popup-enter {
-          animation: yusufPopupEntry 0.6s ease forwards;
-        }
+        .yusuf-popup-enter { animation: yusufPopupEntry 0.6s ease forwards; }
       `}</style>
 
       <div className="yusuf-popup fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
         {/* Cursor glow */}
         <div ref={glowRef} className="yusuf-glow" />
 
-        {/* Backdrop */}
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="absolute inset-0 bg-[#020c18]/80 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         />
 
-        {/* Card */}
         <div
           ref={cardRef}
-          className="yusuf-card relative z-10 max-h-[100dvh] w-full max-w-[720px] overflow-y-auto rounded-2xl p-6 text-white sm:p-8"
+          className="yusuf-card border-neutral-cs-10 relative z-10 max-h-screen w-full max-w-[720px] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8"
         >
-          {/* Close button */}
           <button
             type="button"
             aria-label="Close member detail"
             onClick={onClose}
-            className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full text-base leading-none transition-colors hover:bg-[rgba(56,182,255,0.2)]"
-            style={{
-              border: '1.5px solid rgba(56,182,255,0.65)',
-              background: 'rgba(56,182,255,0.08)',
-              boxShadow: '0 0 8px rgba(56,182,255,0.25)',
-              color: 'rgba(200,230,255,0.9)',
-              fontFamily: "'Space Mono', monospace"
-            }}
+            className="yusuf-close border-neutral-cs-10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
           >
-            ✕
+            x
           </button>
 
-          {/* Photo */}
+          {/* FOTO — ukuran h-120 tetap persis */}
           <div
-            className="mb-5 overflow-hidden rounded-2xl cursor-default"
-            style={{
-              border: '1.5px solid rgba(56,182,255,0.7)',
-              boxShadow: '0 0 10px rgba(56,182,255,0.3), 0 0 22px rgba(56,182,255,0.12)'
-            }}
+            className="yusuf-photo border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border cursor-default"
             onMouseEnter={handleShake}
           >
             <Image
@@ -187,17 +213,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             />
           </div>
 
-          {/* Name & NIM */}
           <div className="pr-10">
             {/* UBAH NAMA ANDA */}
-            <h2 className="text-2xl font-black tracking-tight" style={{ color: '#d4edff' }}>
-              Muhammad Yusuf
-            </h2>
+            <h2 className="yusuf-name text-2xl font-black">Muhammad Yusuf</h2>
             {/* UBAH NRP DAN ASAL */}
-            <p className="yusuf-nim">5027251067 — Klaten</p>
+            <p className="yusuf-nim mt-1 text-sm font-semibold">5027251067 - Klaten</p>
           </div>
 
-          {/* Social links */}
           <div className="mt-5 flex gap-2">
             {/* UBAH USERNAME INSTAGRAM */}
             <span onMouseEnter={handleShake} className="inline-block">
@@ -209,46 +231,32 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             </span>
           </div>
 
-          {/* Info grid */}
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
             <div
-              className="rounded-xl p-4 bg-[rgba(10,30,55,0.5)] cursor-default"
-              style={{
-                border: '1.5px solid rgba(56,182,255,0.55)',
-                boxShadow: '0 0 8px rgba(56,182,255,0.2), 0 0 18px rgba(56,182,255,0.08)'
-              }}
+              className="yusuf-infobox border-neutral-cs-10/40 rounded-xl border p-4 cursor-default"
               onMouseEnter={handleShake}
             >
               {/* UBAH HOBI KAMU */}
-              <p className="yusuf-label">Hobi</p>
-              <p className="text-sm font-semibold" style={{ color: '#c8e6ff' }}>Badminton, Main game, Nonton YouTube</p>
+              <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
+              <p className="mt-2">Badminton, Main game, Nonton YouTube, Nonton Film</p>
             </div>
             <div
-              className="rounded-xl p-4 bg-[rgba(10,30,55,0.5)] cursor-default"
-              style={{
-                border: '1.5px solid rgba(56,182,255,0.55)',
-                boxShadow: '0 0 8px rgba(56,182,255,0.2), 0 0 18px rgba(56,182,255,0.08)'
-              }}
+              className="yusuf-infobox border-neutral-cs-10/40 rounded-xl border p-4 cursor-default"
               onMouseEnter={handleShake}
             >
               {/* UBAH FUNFACT KAMU */}
-              <p className="yusuf-label">Fun Fact</p>
-              <p className="text-sm font-semibold" style={{ color: '#c8e6ff' }}>Suka pedes tapi gak kuat makan pedes</p>
+              <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
+              <p className="mt-2">Suka pedes tapi gak kuat makan pedes</p>
             </div>
           </div>
 
-          {/* Lagu favorit */}
           <div
-            className="mt-3 rounded-xl p-4 bg-[rgba(10,30,55,0.5)] cursor-default"
-            style={{
-              border: '1.5px solid rgba(56,182,255,0.55)',
-              boxShadow: '0 0 8px rgba(56,182,255,0.2), 0 0 18px rgba(56,182,255,0.08)'
-            }}
+            className="yusuf-songbox border-neutral-cs-10/40 mt-4 rounded-xl border p-4 cursor-default"
             onMouseEnter={handleShake}
           >
             {/* UBAH LAGU FAVORIT KAMU */}
-            <p className="yusuf-label">Lagu Favorit</p>
-            <p className="my-2 text-sm font-semibold" style={{ color: '#c8e6ff' }}>December</p>
+            <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
+            <p className="yusuf-songtitle my-2 text-sm font-semibold">December</p>
 
             {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
             <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/4oVdhvxZrKQTM9ZsUIZa3S?si=edb272e809014c25" />
