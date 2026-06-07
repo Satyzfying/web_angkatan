@@ -140,7 +140,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-hidden rounded-3xl border border-white/10 shadow-2xl transition-all duration-500">
         {!isUnlocked ? (
           // Bomb Interface
-          <div className="relative flex h-full flex-col items-center justify-center overflow-y-auto p-8">
+          <div className="relative flex h-full flex-col items-center justify-center overflow-y-auto p-8 overflow-hidden">
             <img
               src="https://files.catbox.moe/pi8xqr.gif"
               alt="Bomb Background"
@@ -149,7 +149,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             <div className="absolute inset-0 bg-neutral-950/50 backdrop-blur-xs" />
 
             {/* BOMB IMAGE */}
-            <div className="relative z-20 aspect-[470/700] w-[380px] drop-shadow-2xl sm:w-[450px]">
+            <div className="relative z-20 aspect-[470/700] w-[350px] drop-shadow-2xl sm:w-[430px]">
               <img
                 src={BombImage.src}
                 alt="CS:GO Bomb"
@@ -159,7 +159,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               {/* OVERLAY: Inputs */}
               <div className="absolute top-[26.5%] left-[34.5%] flex h-[7.5%] w-[45%] items-center justify-center overflow-hidden">
                 <span
-                  className={`font-mono text-3xl font-black tracking-[0.2em] opacity-80 sm:text-4xl ${isError ? 'animate-pulse text-red-700' : 'text-neutral-900'}`}
+                  className={`font-mono text-2xl font-black tracking-[0.2em] opacity-80 sm:text-3xl ${isError ? 'animate-pulse text-red-700' : 'text-neutral-900'}`}
                 >
                   {inputCode}
                 </span>
@@ -179,11 +179,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               </div>
             </div>
 
-            <p className="relative z-20 mt-8 font-mono text-xs tracking-[0.3em] text-white/50 uppercase">
-              HINT: same bomb, same code, valve never changed it.
-            </p>
-            <p className="relative z-20 mt-2 font-mono text-xs tracking-[0.3em] text-white/50 uppercase">
-              -- (7355608) --
+            <p className="relative z-20 font-mono text-xs tracking-[0.3em] text-white/50 uppercase text-center mt-1">
+              same bomb, same code, valve never changed it. (7355608)
             </p>
           </div>
         ) : (
@@ -228,16 +225,20 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:border-white/30 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]">
                   <p className="text-xs font-bold tracking-widest text-white/50 uppercase mb-3">Hobi</p>
                   <ul className="space-y-2 text-white/80 font-medium">
-                    <li>• games (Battlefield, Counter-Strike)</li>
-                    <li>• olahraga (running, cycling, hiking)</li>
-                    <li>• music enthusiast</li>
+                    <li>• suka main game random (but mostly 
+                      <a href="https://www.ea.com/games/battlefield" target="_blank" className="transition-all duration-300 hover:text-blue-300 hover:[text-shadow:0_0_10px_rgba(147,197,253,0.8)]"> Battlefield</a>, 
+                      <a href="https://www.counter-strike.net" target="_blank" className="transition-all duration-300 hover:text-blue-300 hover:[text-shadow:0_0_10px_rgba(147,197,253,0.8)]"> Counter-Strike</a>)</li>
+                    <li>• olahraga biar sehat (running, cycling, hiking)</li>
+                    <li>• suka denger musik juga</li>
                   </ul>
                 </div>
 
                 <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:border-white/30 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]">
                   <p className="text-xs font-bold tracking-widest text-white/50 uppercase mb-3">Fun Fact</p>
                   <p className="text-white/80 font-medium leading-relaxed">
-                    idk but i share the same birthday with elon musk (lol) (#BlessPeopleBornInJune)
+                    idk though but i share the same birthday with 
+                    <a href="https://en.wikipedia.org/wiki/Elon_Musk" target="_blank" className="transition-all duration-300 hover:text-blue-300 hover:[text-shadow:0_0_10px_rgba(147,197,253,0.8)]"> elon musk </a> 
+                    (lol) (#BlessPeopleBornInJune)
                   </p>
                 </div>
               </div>
