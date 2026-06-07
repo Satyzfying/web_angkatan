@@ -156,7 +156,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
             <div className="grid gap-2">
               <div className="rounded-xl border border-violet-200/20 bg-violet-300/10 px-3 py-2 text-sm font-black text-white">
-                🤖 Beli ChatGPT Plus 350k per bulan
+                🤖 Pelanggan tetap ChatGPT Plus 350k per bulan
               </div>
               <div className="rounded-xl border border-violet-200/20 bg-violet-300/10 px-3 py-2 text-sm font-black text-white">
                 🍚 Pagi makan nasi
