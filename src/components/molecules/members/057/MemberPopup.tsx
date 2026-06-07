@@ -24,6 +24,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const [error, setError] = useState('')
   const [isAuthorizing, setIsAuthorizing] = useState(false)
   const [terminalText, setTerminalText] = useState('')
+  const [isMuted, setIsMuted] = useState(false)
 
   useEffect(() => {
     if (!isOpen) {
@@ -142,11 +143,25 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           }}
         />
 
+        {/* BGM */}
+        <audio autoPlay loop muted={isMuted}>
+          <source src="https://res.cloudinary.com/doyj3ztus/video/upload/q_auto/f_auto/v1780834303/Evangelion_sounds_redesign2_cnxdxs.mp4" type="video/mp4" />
+        </audio>
+
         {/* CLASSIFIED */}
         <div className="absolute top-6 left-6 z-10 text-red-600">
           <p className="text-xs tracking-[0.5em]">NERV DATABASE</p>
           <p className="text-3xl font-black">CLASSIFIED</p>
         </div>
+
+        {/* Ambience Toggle */}
+        <button
+          type="button"
+          onClick={() => setIsMuted((prev) => !prev)}
+          className="absolute top-6 right-6 z-10 border border-red-600 px-3 py-1 text-xs font-bold tracking-widest text-red-500 hover:bg-red-600 hover:text-white transition"
+        >
+          AMBIENCE {isMuted ? 'OFF' : 'ON'}
+        </button>
 
         <div className="relative z-20 w-full max-w-xl rounded-2xl border-2 border-red-600 bg-black p-8 text-white shadow-2xl">
           <div className="mb-6">
@@ -167,7 +182,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 value={accessCode}
                 onChange={(e) => setAccessCode(e.target.value)}
                 placeholder="- - -"
-                className="w-full rounded-lg border border-red-600 bg-black p-3 text-center text-lg tracking-[0.3em] outline-none"
+                className="w-full rounded-full border border-red-600 bg-black p-3 text-center text-lg tracking-[0.3em] outline-none"
               />
 
               {error && (
@@ -211,6 +226,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           100% { top: 100%; }
         }
       `}</style>
+
+      {/* BGM */}
+      <audio autoPlay loop muted={isMuted}>
+        <source src="https://res.cloudinary.com/doyj3ztus/video/upload/q_auto/f_auto/v1780834624/%E6%AE%8B%E9%85%B7%E3%81%AA%E5%A4%A9%E4%BD%BF%E3%81%AE%E3%83%86%E3%83%BC%E3%82%BC_MUSIC_VIDEO_HDver.__Zankoku_na_Tenshi_no_Te-ze_The_Cruel_Angel_s_Thesis_clr3uq.mp4" type="video/mp4" />
+      </audio>
 
       {/* Full Screen EVA Overlay */}
       <div className="fixed inset-0 z-[9999] bg-black" />
@@ -329,6 +349,15 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="mb-3 text-xs font-bold tracking-[0.3em] text-red-500">
             NERV PERSONNEL FILE
           </div>
+
+          {/* Ambience Toggle */}
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setIsMuted((prev) => !prev) }}
+            className="mb-4 rounded-full border border-red-600 px-4 py-1 text-xs font-bold tracking-widest text-red-500 hover:bg-red-600 hover:text-white transition"
+          >
+            AMBIENCE {isMuted ? 'OFF' : 'ON'}
+          </button>
 
           <div className="pr-10">
             {/* UBAH NAMA ANDA */}
