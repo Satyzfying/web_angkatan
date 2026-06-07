@@ -97,7 +97,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <p className="my-2 text-sm font-semibold">There Is a Light That Never Goes Out</p>
 
           {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2X62SjtuwVQiGiZvZZ9Ztr?si=f6718391848a4469" />
+          <SpotifyEmbed spotifyUrl="https://open.spotify.com/intl-id/track/3PExB0N7a56JkDdFGZ6PV8?si=cdd30bb5b62944d9" />
         </div>
       </div>
     </div>
