@@ -1,10 +1,9 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-<<<<<<< HEAD
-=======
 import React, { useCallback, useEffect, useState } from 'react'
->>>>>>> b1bfce937d4e458b144b5eebc54a7b23432ab790
+import React, { useCallback, useEffect, useState, useRef } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 import { Cormorant_Garamond, Great_Vibes, Nunito, Silkscreen } from 'next/font/google'
@@ -87,12 +86,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <div
       className={`fixed inset-0 z-[100] flex items-center justify-center overflow-hidden px-3 py-3 sm:px-4 sm:py-8 ${bodyFont.className}`}
-<<<<<<< HEAD
-=======
 
       className={`fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 ${bodyFont.className}`}
 
->>>>>>> b1bfce937d4e458b144b5eebc54a7b23432ab790
     >
       <style jsx global>{`
         @keyframes intro-gif-zoom {
@@ -249,8 +245,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="pointer-events-none absolute h-[280px] w-[280px] rounded-full bg-[#ffefb3]/20 blur-3xl animate-[intro-glow-pulse_2800ms_ease-in-out_infinite] sm:h-[420px] sm:w-[420px]" />
 
           <div
-            className={`relative z-20 flex w-full max-w-[92vw] items-center justify-center overflow-visible rounded-[24px] bg-transparent sm:max-w-[720px] sm:rounded-[32px] ${
-              introPhase === 'zooming'
+            className={`relative z-20 flex w-full max-w-[92vw] items-center justify-center overflow-visible rounded-[24px] bg-transparent sm:max-w-[720px] sm:rounded-[32px] ${introPhase === 'zooming'
                 ? 'animate-[intro-gif-zoom_1000ms_cubic-bezier(0.16,1,0.3,1)_forwards]'
                 : ''
             }`}

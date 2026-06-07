@@ -20,7 +20,7 @@ import MyStickerPhoto from './sticker-bg.png'
 // 2. IMPORT GAMBAR UNTUK BACKGROUND DI SEBELAH/LUAR POPUP
 import OutsideBgImage from './outside-bg.png' 
 
-// 3. IMPORT LOGO ANDA (Ganti './logo.png' dengan file logo kerajaan/pribadi kamu)
+// 3. IMPORT LOGO ANDA
 import LogoImage from './logo.png' 
 
 type MemberPopupProps = {
@@ -40,6 +40,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   
   const PEEL_THRESHOLD_PX = 180
   const stickerRef = useRef<HTMLDivElement>(null)
+
+  // --- REFS UNTUK AUDIO SYSTEM ---
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const calculateDragPercentage = useCallback((currentY: number) => {
     const deltaY = dragStartY.current - currentY
@@ -73,6 +76,18 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     if (finalPercentage > 0.9) {
       setIsSealed(false)
       setShowWelcome(true)
+
+      // --- AKSI: PLAY MUSIK SAAT STIKER DILEPAS ---
+      // Pastikan file lagu kamu ditaruh di public/audio/kingdom-theme.mp3
+      if (!audioRef.current) {
+        audioRef.current = new Audio('/assets/sounds/096.mp3')
+        audioRef.current.volume = 0.08 // Mengatur tingkatan volume (0.0 s/d 1.0)
+        audioRef.current.loop = true   // Mengaktifkan loop otomatis
+      }
+      
+      audioRef.current.play().catch((err) => {
+        console.log("Autoplay ditahan oleh kebijakan privasi browser:", err)
+      })
     } else {
       setDragYPercentage(0) 
     }
@@ -108,6 +123,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   useEffect(() => {
     if (!isOpen) {
+      // --- AKSI: STOP MUSIK SAAT POPUP UTAMA DITUTUP ---
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current.currentTime = 0
+      }
+
       setIsSealed(true)
       setShowWelcome(false)
       setIsDragging(false)
@@ -210,7 +231,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               />
             </div>
             <p className="text-[10px] text-amber-500/80 font-bold tracking-[0.2em] text-center uppercase animate-pulse">
-              ◄ DRAG FROM THE CORNER TO OPEN ►
+              ◄ DRAG FROM THE CORNER TO OPEN ↑
             </p>
           </div>
         </div>
@@ -218,7 +239,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         {/* 2. LAYAR TEKS WELCOME */}
         {!isSealed && (
           <div className={`absolute inset-0 z-20 bg-transparent flex flex-col items-center justify-center transition-all duration-700 ease-in-out pointer-events-none ${showWelcome ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-            <h1 className="text-2xl sm:text-3xl font-black tracking-[0.2em] text-amber-400 animate-pulse uppercase text-center max-w-md leading-relaxed drop-shadow-[0_0_10px_rgba(251,191,36,0.4)]">              WELCOME TO KINGDOM OF LIBERL
+            <h1 className="text-2xl sm:text-3xl font-black tracking-[0.2em] text-amber-400 animate-pulse uppercase text-center max-w-md leading-relaxed drop-shadow-[0_0_10px_rgba(251,191,36,0.4)]">
+              WELCOME TO KINGDOM OF LIBERL
             </h1>
             <p className="text-[10px] text-amber-600/80 tracking-widest mt-2 uppercase font-bold">
               [ Now here's the profile ]
