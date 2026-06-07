@@ -44,7 +44,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // OVERLAY: Soft grain/noise aesthetic with deep dark blue tint
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-24 pb-8 transition-all duration-300 sm:pt-28">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 transition-all duration-300">
       <button
         type="button"
         aria-label="Close member detail"
@@ -58,7 +58,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         - Brutalist thick borders and solid Navy Blue drop shadow
         - Playful floating elements inside
       */}
-      <div className="relative z-10 w-full max-w-[640px] animate-[member-popup-show_300ms_cubic-bezier(0.34,1.56,0.64,1)] overflow-hidden rounded-2xl border-[3px] border-neutral-900 bg-[#FAF8F5] p-6 text-neutral-900 shadow-[12px_12px_0px_#000080] transition-all sm:p-8">
+      <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[640px] animate-[member-popup-show_300ms_cubic-bezier(0.34,1.56,0.64,1)] overflow-y-auto overscroll-contain rounded-2xl border-[3px] border-neutral-900 bg-[#FAF8F5] p-6 text-neutral-900 shadow-[12px_12px_0px_#000080] transition-all sm:p-8">
 
         {/* DECORATIVE: Floating hand-drawn stars/sparkles (CSS simulation) */}
         <div className="absolute top-4 left-4 text-2xl animate-pulse">✨</div>

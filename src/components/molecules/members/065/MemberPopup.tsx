@@ -1,7 +1,11 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+
 import Image from 'next/image'
+
+import { createPortal } from 'react-dom'
+
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
@@ -16,13 +20,16 @@ type MemberPopupProps = {
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const [showVideo, setShowVideo] = useState(true)
 
+  const closePopup = useCallback(() => {
+    setShowVideo(true)
+    onClose()
+  }, [onClose])
+
   useEffect(() => {
     if (!isOpen) return
 
-    setShowVideo(true)
-
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
+      if (event.key === 'Escape') closePopup()
     }
 
     document.body.style.overflow = 'hidden'
@@ -32,20 +39,20 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen, onClose])
+  }, [isOpen, closePopup])
 
   if (!isOpen) return null
 
   // INTRO VIDEO - aspect ratio 16:9, mulai dari menit ke-1 (detik 60)
   if (showVideo) {
-    return (
+    return createPortal(
       <div className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-black/90 p-4">
         {/* Container video */}
         <div className="relative w-full max-w-[720px]">
           {/* Tombol X */}
           <button
             type="button"
-            onClick={onClose}
+            onClick={closePopup}
             className="absolute -top-3 -right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-xl font-bold text-black shadow-lg hover:bg-white transition-colors"
             aria-label="Tutup"
           >
@@ -76,22 +83,23 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </button>
           <button
             type="button"
-            onClick={onClose}
+            onClick={closePopup}
             className="w-40 rounded-full border border-white bg-transparent px-6 py-2 font-medium text-white transition-colors hover:bg-white/10"
           >
             Tutup
           </button>
         </div>
         <p className="pointer-events-none mt-3 text-xs text-white/50">Tekan ESC untuk menutup</p>
-      </div>
+      </div>,
+      document.body
     )
   }
 
   // ==============================================
   // KODE POPUP ASLI - TIDAK ADA PERUBAHAN
   // ==============================================
-  return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
       <div className="absolute inset-0 overflow-hidden">
         <iframe
           className="absolute top-0 left-0 h-full w-full object-cover"
@@ -105,16 +113,16 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       <div
         className="absolute inset-0 bg-[#285b75]/60 backdrop-blur-sm"
-        onClick={onClose}
+        onClick={closePopup}
       />
 
-      <div className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-3xl bg-white p-6 text-slate-800 shadow-2xl border-t-[12px] border-[#285b75] sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-3xl bg-white p-6 text-slate-800 shadow-2xl border-t-[12px] border-[#285b75] sm:p-8">
         <div className="absolute top-2 left-1/2 h-2 w-16 -translate-x-1/2 rounded-full bg-gray-200"></div>
 
         <button
           type="button"
           aria-label="Close member detail"
-          onClick={onClose}
+          onClick={closePopup}
           className="bg-gray-100 hover:bg-gray-200 absolute top-5 right-5 flex h-10 w-10 items-center justify-center rounded-full text-xl text-gray-500 transition-all"
         >
           ✕
@@ -169,7 +177,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2XIxIDXxuE9d97TqjQPwQy" />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
