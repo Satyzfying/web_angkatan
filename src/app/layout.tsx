@@ -27,6 +27,24 @@ const rubikone = localFont({
   display: 'swap'
 })
 
+const simplicity = localFont({
+  src: '../assets/fonts/simplicity/Simplicity.otf',
+  variable: '--font-simplicity',
+  display: 'swap'
+})
+
+const blackGoth = localFont({
+  src: '../assets/fonts/blackGoth/Blackgoth.otf',
+  variable: '--font-blackgoth',
+  display: 'swap'
+})
+
+const cloisterBlack = localFont({
+  src: '../assets/fonts/cloister-black/CloisterBlack.ttf',
+  variable: '--font-cloisterblack',
+  display: 'swap'
+})
+
 export const metadata: Metadata = defineMetadata()
 
 export default function RootLayout({
