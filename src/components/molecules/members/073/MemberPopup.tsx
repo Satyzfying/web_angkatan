@@ -1,6 +1,8 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+/* eslint-disable react-hooks/set-state-in-effect */
+
+import React, { useCallback, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
@@ -130,15 +132,16 @@ const HiddenSpotifyPlayer = ({ play }: { play: boolean }) => {
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const [stage, setStage] = useState<Stage>('envelope-front')
-  const [isFlipping, setIsFlipping] = useState(false)
-  const [isOpening, setIsOpening] = useState(false)
   const [musicPlaying, setMusicPlaying] = useState(false)
+
+  const handleClose = useCallback(() => {
+    setMusicPlaying(false)
+    onClose()
+  }, [onClose])
 
   useEffect(() => {
     if (isOpen) {
       setStage('envelope-front')
-      setIsFlipping(false)
-      setIsOpening(false)
       setMusicPlaying(false)
     }
   }, [isOpen])
@@ -154,19 +157,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen])
-
-  const handleClose = () => {
-    setMusicPlaying(false)
-    onClose()
-  }
+  }, [handleClose, isOpen])
 
   const handleOk = () => {
-    setIsFlipping(true)
     setStage('envelope-flip')
     setTimeout(() => {
       setStage('envelope-open')
-      setIsOpening(true)
       setTimeout(() => {
         setMusicPlaying(true)
         setStage('poem')
@@ -263,13 +259,17 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }
       `}</style>
 
-      <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-8">
+      <div
+        className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
+        onClick={(event) => event.stopPropagation()}
+        onKeyDown={(event) => event.stopPropagation()}
+      >
         {/* Backdrop */}
         <button
           type="button"
           aria-label="Close"
           onClick={handleClose}
-          className="absolute inset-0 bg-pink-200/40 backdrop-blur-sm"
+          className="fixed inset-0 bg-pink-200/40 backdrop-blur-sm"
         />
 
         {/* ────── ENVELOPE STAGE ────── */}
@@ -333,7 +333,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         {/* ────── POEM STAGE ────── */}
         {stage === 'poem' && (
           <div
-            className="relative z-10 w-full max-w-[680px] rounded-2xl shadow-2xl overflow-hidden"
+            className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[680px] overflow-y-auto overscroll-contain rounded-2xl shadow-2xl"
             style={{ animation: 'fadeSlideUp 0.5s ease-out both' }}
           >
             <div className="poem-box relative p-6 sm:p-8 min-h-screen">
@@ -383,7 +383,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         {/* ────── PROFILE STAGE ────── */}
         {stage === 'profile' && (
           <div
-            className="relative z-10 max-h-[calc(100vh-4rem)] w-full max-w-[720px] overflow-y-auto rounded-2xl border-2 border-pink-200 bg-[#fde8f0] p-6 text-[#7c3a5a] shadow-2xl ring-1 ring-pink-100 sm:p-8 profile-animate"
+            className="profile-animate relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain rounded-2xl border-2 border-pink-200 bg-[#fde8f0] p-6 text-[#7c3a5a] shadow-2xl ring-1 ring-pink-100 sm:p-8"
           >
             <HiddenSpotifyPlayer play={musicPlaying} />
 
