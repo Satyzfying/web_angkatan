@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
@@ -16,23 +16,18 @@ type MemberPopupProps = {
 
 const triviaQuestions = [
   {
-    question: "Siapa vokalis dari band legendaris The Doors?",
-    options: ["Mick Jagger", "Jim Morrison", "Roger Daltrey", "Janis Joplin"],
+    question: "Album debut Led Zeppelin dirilis tahun berapa?",
+    options: ["1967", "1969", "1971", "1973"],
     answer: 1,
   },
   {
-    question: "Kapan Queen membawakan penampilan Live Aid yang legendaris itu?",
-    options: ["13 Juli 1983", "13 Juli 1985", "7 Juni 1981", "21 November 1986"],
-    answer: 1,
+    question: "Siapa vokalis utama Queen?",
+    options: ["Robert Plant", "Mick Jagger", "Freddie Mercury", "David Bowie"],
+    answer: 2,
   },
   {
-    question: "Lagu 'The Long and Winding Road' dibawakan oleh band mana?",
-    options: ["The Rolling Stones", "Led Zeppelin", "The Who", "The Beatles"],
-    answer: 3,
-  },
-  {
-    question: "Siapa yang mempopulerkan genre grunge di tahun 90-an?",
-    options: ["Pearl Jam", "Soundgarden", "Nirvana", "Alice in Chains"],
+    question: "Lagu 'Come Together' milik band mana?",
+    options: ["The Rolling Stones", "The Who", "The Beatles", "The Kinks"],
     answer: 2,
   },
 ]
@@ -42,7 +37,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const [triviaIndex, setTriviaIndex] = useState(0)
   const [answered, setAnswered] = useState<number | null>(null)
   const [failed, setFailed] = useState(false)
-
+  const [muted, setMuted] = useState(false)
+  const iframeRef = useRef<HTMLIFrameElement>(null)
 
   // Reset trivia setiap kali popup dibuka
   useEffect(() => {
@@ -54,10 +50,19 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     }
   }, [isOpen])
 
-
+  // Stop music saat trivia cleared atau popup ditutup
+  useEffect(() => {
+    if (triviaCleared || !isOpen) {
+      if (iframeRef.current) {
+        iframeRef.current.src = ''
+      }
+    }
+  }, [triviaCleared, isOpen])
 
   useEffect(() => {
-    if (!isOpen) return
+    if (!isOpen) {
+      return
+    }
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -98,7 +103,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     }, 900)
   }
 
-  if (!isOpen) return null
+  if (!isOpen) {
+    return null
+  }
 
   // ── TRIVIA GATE ──────────────────────────────────────────────
   if (!triviaCleared) {
@@ -107,6 +114,15 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="fixed inset-0 z-[100] flex items-center justify-center px-4"
         style={{ background: 'rgba(10, 5, 0, 0.96)' }}
       >
+        {/* YouTube background music - hidden iframe */}
+        <iframe
+          ref={iframeRef}
+          src={`https://www.youtube.com/embed/D2lSwosw9xY?autoplay=1&loop=1&playlist=D2lSwosw9xY&controls=0&mute=${muted ? 1 : 0}`}
+          allow="autoplay"
+          style={{ position: 'absolute', width: 0, height: 0, border: 'none', opacity: 0, pointerEvents: 'none' }}
+          aria-hidden="true"
+        />
+
         {/* Background SVG decorations */}
         <svg
           className="pointer-events-none absolute inset-0 h-full w-full"
@@ -183,7 +199,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </button>
 
           {/* Header */}
-          <div className="mb-5 pr-24">
+          <div className="mb-5 pr-10">
             <h2
               style={{
                 fontFamily: "'Oswald', sans-serif",
@@ -304,8 +320,34 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             })}
           </div>
 
+          {/* Mute/Unmute button */}
+          <div className="mt-4 flex justify-end">
+            <button
+              type="button"
+              onClick={() => {
+                setMuted(v => !v)
+                if (iframeRef.current) {
+                  iframeRef.current.src = `https://www.youtube.com/embed/D2lSwosw9xY?autoplay=1&loop=1&playlist=D2lSwosw9xY&controls=0&mute=${muted ? 0 : 1}`
+                }
+              }}
+              className="flex items-center gap-2 px-3 py-1 text-[10px] tracking-[2px] uppercase transition-colors"
+              style={{
+                border: '1px solid rgba(200,151,42,0.3)',
+                color: 'rgba(200,151,42,0.7)',
+                background: 'transparent',
+                fontFamily: "'Oswald', sans-serif",
+                cursor: 'pointer',
+                borderRadius: '2px',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(200,151,42,0.08)')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+            >
+              {muted ? '🔇 Unmute' : '🔊 Mute'}
+            </button>
+          </div>
+
           {/* Footer */}
-          <div className="mt-5 pt-3" style={{ borderTop: '1px solid rgba(200,151,42,0.18)' }}>
+          <div className="mt-3 pt-3" style={{ borderTop: '1px solid rgba(200,151,42,0.18)' }}>
             <svg
               viewBox="0 0 600 26"
               xmlns="http://www.w3.org/2000/svg"
@@ -496,7 +538,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
         <div className="-mt-1 flex items-center justify-start gap-2" style={{ transform: 'scale(0.78)', transformOrigin: 'left center' }}>
           <Instagram username="seanarthur17" />
-          <LinkedInButtonLink username="sean-arthur-tamajaya-1846b3379" />
+          <LinkedInButtonLink username="jkt48.erine" />
         </div>
 
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
@@ -513,7 +555,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               style={{ color: 'rgba(200,151,42,0.5)', fontFamily: "'Oswald', sans-serif" }}>⟡ Fun Fact</p>
             <p className="text-sm leading-relaxed"
               style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400, color: '#e8dfc0' }}>
-              I Am Vengeance! I Am The Night! I Am Batman!
+              Temennya Brad Pitt
             </p>
           </div>
         </div>
@@ -521,33 +563,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         <div className="mt-4 p-4" style={{ border: '1px solid rgba(200,151,42,0.25)', borderRadius: '2px', background: 'rgba(200,151,42,0.03)' }}>
           <p className="text-[10px] tracking-[3px] uppercase"
             style={{ color: 'rgba(200,151,42,0.5)', fontFamily: "'Oswald', sans-serif" }}>♪ Lagu Favorit</p>
-
-          {/* Lagu 1 */}
-          <p className="mt-3 mb-2 tracking-widest uppercase"
-            style={{ fontFamily: "'Oswald', sans-serif", fontSize: '13px', fontWeight: 700, color: '#f2d878', letterSpacing: '2px' }}>
+          <p className="my-2 tracking-widest uppercase"
+            style={{ fontFamily: "'Oswald', sans-serif", fontSize: '15px', fontWeight: 700, color: '#f2d878', letterSpacing: '2px' }}>
             Oh! Darling
           </p>
           <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2mxByJWOajjiVsLWjNXvDJ?si=f21ada6a0280484f" />
-
-          {/* Divider */}
-          <div className="my-3" style={{ borderTop: '1px solid rgba(200,151,42,0.15)' }} />
-
-          {/* Lagu 2 */}
-          <p className="mt-3 mb-2 tracking-widest uppercase"
-            style={{ fontFamily: "'Oswald', sans-serif", fontSize: '13px', fontWeight: 700, color: '#f2d878', letterSpacing: '2px' }}>
-            Rock and Roll
-          </p>
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/4PRGxHpCpF2yoOHYKQIEwD?si=3bc87257be594c38" />
-
-          {/* Divider */}
-          <div className="my-3" style={{ borderTop: '1px solid rgba(200,151,42,0.15)' }} />
-
-          {/* Lagu 3 */}
-          <p className="mt-3 mb-2 tracking-widest uppercase"
-            style={{ fontFamily: "'Oswald', sans-serif", fontSize: '13px', fontWeight: 700, color: '#f2d878', letterSpacing: '2px' }}>
-            Don't Look Back in Anger
-          </p>
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/0UvCh63URrLFcPkKt99hHd?si=75b7a85f2d4c4ff8" />
         </div>
 
         <div className="mt-4 pt-3" style={{ borderTop: '1px solid rgba(200,151,42,0.18)' }}>
