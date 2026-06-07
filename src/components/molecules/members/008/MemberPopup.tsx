@@ -91,7 +91,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }}
       >
       <div className="min-h-full bg-[#FFFDF0]/25 backdrop-blur-[2px] p-6 text-[#3F4E63] sm:p-8">
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
