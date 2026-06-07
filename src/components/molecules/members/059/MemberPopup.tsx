@@ -42,7 +42,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-6">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden p-4 sm:p-6">
       <button
         type="button"
         aria-label="Close member detail"
@@ -50,7 +50,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-slate-950/80 backdrop-blur-md"
       />
 
-      <div className="relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_300ms_ease-out] overflow-y-auto rounded-3xl border border-cyan-300/30 bg-gradient-to-br from-sky-900 via-blue-800 to-indigo-950 p-6 text-white shadow-[0_0_40px_rgba(59,130,246,0.35)] sm:p-8">
+      <div className="relative z-10 max-h-[calc(100dvh-2rem)] w-full max-w-[720px] animate-[member-popup-show_300ms_ease-out] overflow-y-auto overscroll-contain rounded-3xl border border-cyan-300/30 bg-gradient-to-br from-sky-900 via-blue-800 to-indigo-950 p-6 text-white shadow-[0_0_40px_rgba(59,130,246,0.35)] sm:max-h-[calc(100dvh-3rem)] sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"

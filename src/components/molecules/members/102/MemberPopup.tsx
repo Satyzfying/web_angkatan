@@ -112,7 +112,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <p className="my-2 text-sm font-semibold">Hari Bersamanya</p>
 
           {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/0HiNUFD2ovdPC2p5tbnzCG?si=606610fbd6b140d3" />
+          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/1nfOP7xNHeFSPOlziXswJc?si=n18ufMq5QbmOCE8ds-9nVQ" />
         </div>
       </div>
     </div>,

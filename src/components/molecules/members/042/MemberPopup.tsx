@@ -67,13 +67,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       <div className="fixed inset-0 z-[1] overflow-hidden pointer-events-none">
         <div className="absolute rounded-full w-[500px] h-[500px] -top-20 -left-24"
-          style={{ background: 'rgba(83,74,183,0.35)', filter: 'blur(72px)' }} />
+          style={{ background: 'rgba(0, 40, 220, 0.25)', filter: 'blur(72px)' }} />
         <div className="absolute rounded-full w-[400px] h-[400px] top-32 -right-20"
-          style={{ background: 'rgba(29,158,117,0.2)', filter: 'blur(64px)' }} />
+          style={{ background: 'rgba(0, 180, 210, 0.15)', filter: 'blur(64px)' }} />
         <div className="absolute rounded-full w-[360px] h-[360px] -bottom-16 left-1/3"
-          style={{ background: 'rgba(55,138,221,0.22)', filter: 'blur(60px)' }} />
+          style={{ background: 'rgba(0, 110, 255, 0.2)', filter: 'blur(60px)' }} />
         <div className="absolute rounded-full w-[240px] h-[240px] bottom-24 right-1/4"
-          style={{ background: 'rgba(212,83,126,0.15)', filter: 'blur(50px)' }} />
+          style={{ background: 'rgba(20, 15, 80, 0.35)', filter: 'blur(50px)' }} />
       </div>
 
       <style dangerouslySetInnerHTML={{ __html: `
@@ -121,7 +121,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </button>
 
         <div className="mb-5 overflow-hidden rounded-2xl border border-white/10">
-          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
+          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-top" />
         </div>
 
         <div className="pr-10">
@@ -140,10 +140,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
         <div className="my-5 h-px w-full" style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent)' }} />
 
-        {/* --- GRID UTAMA PEMBUNGKUS (SUDAH DIKEMBALIKAN) --- */}
         <div className="grid gap-4 text-sm sm:grid-cols-2">
           
-          {/* KOTAK HOBI */}
+          {/* UBAH HOBI KAMU */}
           <div className="relative overflow-hidden rounded-xl border border-white/[0.07] p-4" style={{ background: 'rgba(255,255,255,0.04)' }}>
             <p className="popup-font-sans text-xs font-medium tracking-widest uppercase text-[#9690DC]/70">Hobi</p>
               
@@ -158,12 +157,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             <p className="popup-font-sans mt-2 text-sm font-light neon-glow-turu text-[#DCD7FF]/85 leading-relaxed">Turu 24/7</p>
           </div>
             
-          {/* KOTAK FUN FACT */}
+          {/* UBAH FUNFACT KAMU */}
           <div className="rounded-xl border border-white/[0.07] p-4" style={{ background: 'rgba(255,255,255,0.04)' }}>
             <p className="popup-font-sans text-xs font-medium tracking-widest uppercase text-[#9690DC]/70">Fun Fact</p>
             <p className="popup-font-sans mt-2 text-sm font-light neon-glow-turu text-[#DCD7FF]/85 leading-relaxed">
-              BHAAP APA YH, currently &quot;bhap-bhap&quot; hehe
-              <br />
+              BHAAP APA YH, ini dah top 4:<br />
               - cinta kopsus tetangga tuku<br />
               - cinta kopsus kluarga famima<br />
               - cinta caramel macchiato point<br />
@@ -173,10 +171,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
         </div>
 
-        {/* KOTAK LAGU FAVORIT */}
+        {/* UBAH LAGU FAVORIT KAMU */}
         <div className="mt-4 rounded-xl border border-[#534AB7]/25 p-4" style={{ background: 'rgba(83,74,183,0.12)' }}>
           <p className="popup-font-sans text-xs font-medium tracking-widest uppercase text-[#9690DC]/70">Lagu Favorit</p>
-          <p className="popup-font-sans mt-2 text-sm font-light neon-glow-turu text-[#DCD7FF]/85 leading-relaxed">Disillusioned [P.S. pokonya smua bang daniel]</p>
+          <p className="popup-font-sans mt-2 text-sm font-light neon-glow-turu text-[#DCD7FF]/85 leading-relaxed">Disillusioned [P.S. pokonya abang daniel]</p>
           <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/1gUyF1kls2Q5MkuAi9djjx?si=ba0c1b7a9498419c" />
         </div>
 
