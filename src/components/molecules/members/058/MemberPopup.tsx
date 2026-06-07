@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState, useRef } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -46,7 +47,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       audioRef.current.pause()
       audioRef.current.currentTime = 0
     }
-    const audio = new Audio('/assets/audio/audio.mp3')
+    const audio = new Audio('/assets/audio/Audio.mp3')
     audio.loop = true
     audio.play()
     audioRef.current = audio
@@ -67,7 +68,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   if (!isOpen) return null
 
   if (showWarning) {
-    return (
+    return createPortal(
       <div className="fixed inset-0 z-[100] flex items-center justify-center"
         style={{ backgroundColor: '#210705' }}>
         <div className="text-center">
@@ -84,11 +85,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             </button>
           </div>
         </div>
-      </div>
+      </div>,
+      document.body
     )
   }
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[100] overflow-y-auto">
       <div className="flex min-h-full items-start justify-center px-10 pt-28 pb-8 sm:pt-32">
         <div onClick={onClose} className="absolute inset-0">
@@ -178,7 +180,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
