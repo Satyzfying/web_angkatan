@@ -10,6 +10,7 @@ import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
+import ProfileImage from './imag3.jpg'
 import TetrisGate from './TetrisGate'
 import ProfileImage from './image.jpg'
 
