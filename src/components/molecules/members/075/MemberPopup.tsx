@@ -2,8 +2,7 @@
  
 import React, { useEffect, useRef, useState, useCallback } from 'react'
 import Image from 'next/image'
-import Instagram from '@/components/atoms/button/InstagramButtonLink'
-import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
+ 
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 import ProfileImage from './image.png'
  
@@ -604,8 +603,38 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                   </p>
  
                   <div className="flex gap-2 justify-center mb-4">
-                    <Instagram username="nllalaashnfa" />
-                    <LinkedInButtonLink username="nayla-aisha-hanifa-40472b377" />
+                    {/* Instagram */}
+                    <a
+                      href="https://instagram.com/nllalaashnfa"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm italic transition-all hover:opacity-75"
+                      style={{ background: '#fff0f5', border: '1.5px solid #f0c0d0', color: '#e06090', fontFamily: "'Georgia', serif", textDecoration: 'none' }}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="2" width="20" height="20" rx="6" stroke="#e06090" strokeWidth="2"/>
+                        <circle cx="12" cy="12" r="4.5" stroke="#e06090" strokeWidth="2"/>
+                        <circle cx="17.5" cy="6.5" r="1" fill="#e06090"/>
+                      </svg>
+                      Instagram
+                    </a>
+                    {/* LinkedIn */}
+                    <a
+                      href="https://linkedin.com/in/nayla-aisha-hanifa-40472b377"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm italic transition-all hover:opacity-75"
+                      style={{ background: '#fff0f5', border: '1.5px solid #f0c0d0', color: '#e06090', fontFamily: "'Georgia', serif", textDecoration: 'none' }}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="2" width="20" height="20" rx="4" stroke="#e06090" strokeWidth="2"/>
+                        <circle cx="7" cy="7.5" r="1" fill="#e06090"/>
+                        <path d="M7 10.5v6" stroke="#e06090" strokeWidth="2" strokeLinecap="round"/>
+                        <path d="M11 16.5v-3.5c0-1.2.8-2 2-2s2 .8 2 2v3.5" stroke="#e06090" strokeWidth="2" strokeLinecap="round"/>
+                        <path d="M11 10.5v6" stroke="#e06090" strokeWidth="2" strokeLinecap="round"/>
+                      </svg>
+                      LinkedIn
+                    </a>
                   </div>
  
                   <div className="grid grid-cols-2 gap-3 mb-3">
@@ -669,4 +698,3 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 }
  
 export default MemberPopup
- 
