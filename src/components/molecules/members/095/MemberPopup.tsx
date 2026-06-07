@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -8,7 +9,7 @@ import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
-import ProfileImage from './image.png'
+import ProfileImage from './image.jpeg'
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -40,9 +41,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-  return (
+  return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
       <button
         type="button"
         aria-label="Close member detail"
@@ -50,57 +51,58 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
 
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div className="relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease_out] overflow-y-auto rounded-3xl border-2 border-cyan-300 bg-gradient-to-br from-blue-900 to-cyan-700 p-6 text-white shadow-2xl sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
+          className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border-2 border-cyan-300 text-xl leading-none hover:bg-white/10"
         >
           x
         </button>
 
-        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
+        <div className="mb-5 overflow-hidden rounded-3xl border-2 border-cyan-300">
           <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
         </div>
 
         <div className="pr-10">
           {/* UBAH NAMA ANDA */}
-          <h2 className="text-2xl font-black">Catherina Vallencia K</h2>
+          <h2 className="text-2xl font-black">Nur Rizki Syahbana</h2>
           {/* UBAH NRP DAN ASAL */}
-          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251082 - Surakarta</p>
+          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251095 - Pamekasan</p>
         </div>
 
         <div className="mt-5 flex gap-2">
           {/* UBAH USERNAME INSTAGRAM */}
-          <Instagram username="jkt48.erine" />
+          <Instagram username="rizkisyhbn" />
           {/* UBAH USERNAME LINKEDIN */}
-          <LinkedInButtonLink username="jkt48.erine" />
+          <LinkedInButtonLink username="nur-rizki-syahbana-33495421a" />
         </div>
 
         <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
           <div className="border-neutral-cs-10/40 rounded-xl border p-4">
             {/* UBAH HOBI KAMU */}
             <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
-            <p className="mt-2">Nyanyi</p>
+            <p className="mt-2">Travelling</p>
           </div>
           <div className="border-neutral-cs-10/40 rounded-xl border p-4">
             {/* UBAH FUNFACT KAMU */}
             <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
-            <p className="mt-2">Gwe Member JKT</p>
+            <p className="mt-2">ga kuat suhu dingin tapi kalo panas tahan </p>
           </div>
         </div>
 
         <div className="border-neutral-cs-10/40 mt-4 rounded-xl border p-4">
           {/* UBAH LAGU FAVORIT KAMU */}
           <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
-          <p className="my-2 text-sm font-semibold">There Is a Light That Never Goes Out</p>
+          <p className="my-2 text-sm font-semibold">drunk text</p>
 
           {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2X62SjtuwVQiGiZvZZ9Ztr?si=f6718391848a4469" />
+          <SpotifyEmbed spotifyUrl="https://open.spotify.com/intl-id/track/0KpWiHVmIFDTvai20likX4?si=3ca077736a2d4200" />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
