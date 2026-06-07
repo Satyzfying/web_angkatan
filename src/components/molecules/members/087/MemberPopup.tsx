@@ -111,7 +111,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-20 pb-8 sm:pt-24">
       {/* Background landscape kanan kiri */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -130,9 +130,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         <div className="absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-black/55 via-black/15 to-transparent" />
       </div>
 
-  return createPortal(
-    // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
       <button
         type="button"
         aria-label="Close member detail"
@@ -170,7 +167,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         {/* Dark Gold Glow */}
         <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_top,rgba(90,65,24,0.2),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.025),transparent_35%,rgba(70,8,8,0.12))]" />
 
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
