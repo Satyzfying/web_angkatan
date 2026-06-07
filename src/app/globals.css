@@ -1,5 +1,13 @@
 @import 'tailwindcss';
 
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  src: url('../components/molecules/members/012/ZenMaruGothic-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -35,12 +43,73 @@
   --color-yellow-cs-40: #db901c;
 
   --font-sans: var(--font-montserrat);
+  --font-cinzel: var(--font-cinzel-local);
   --font-rubikone: var(--font-rubikone-local);
+  --font-maimai: 'Zen Maru Gothic', var(--font-montserrat), sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.scroll-reveal {
+  --scroll-reveal-duration: 700ms;
+  --scroll-reveal-delay: 0ms;
+  --scroll-reveal-distance: 28px;
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.scroll-reveal-ready {
+  opacity: 0;
+  transition:
+    opacity var(--scroll-reveal-duration) cubic-bezier(0.22, 1, 0.36, 1) var(--scroll-reveal-delay),
+    transform var(--scroll-reveal-duration) cubic-bezier(0.22, 1, 0.36, 1) var(--scroll-reveal-delay);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal-up.scroll-reveal-ready {
+  transform: translate3d(0, var(--scroll-reveal-distance), 0) scale(0.98);
+}
+
+.scroll-reveal-down.scroll-reveal-ready {
+  transform: translate3d(0, calc(var(--scroll-reveal-distance) * -1), 0) scale(0.98);
+}
+
+.scroll-reveal-left.scroll-reveal-ready {
+  transform: translate3d(calc(var(--scroll-reveal-distance) * -1), 0, 0) scale(0.98);
+}
+
+.scroll-reveal-right.scroll-reveal-ready {
+  transform: translate3d(var(--scroll-reveal-distance), 0, 0) scale(0.98);
+}
+
+.scroll-reveal-none.scroll-reveal-ready {
+  transform: scale(0.98);
+}
+
+.scroll-reveal-visible.scroll-reveal-ready {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  .scroll-reveal-ready,
+  .scroll-reveal-visible.scroll-reveal-ready {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
 }
 
 @keyframes member-popup-show {
@@ -52,5 +121,16 @@ body {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes quote-glow-breathe {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 12px rgba(173, 216, 230, 0.45));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 24px rgba(173, 216, 230, 0.9));
   }
 }
