@@ -1,7 +1,8 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+/* eslint-disable react-hooks/set-state-in-effect */
 
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 
 import { createPortal } from 'react-dom'
@@ -47,6 +48,21 @@ const StarField = () => (
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const [revealed, setRevealed] = useState(false)
+  const [bgmMuted, setBgmMuted] = useState(false)
+  const ambienceRef = useRef<HTMLAudioElement | null>(null)
+
+  useEffect(() => {
+    ambienceRef.current = new Audio('/assets/sounds/camp.mp3')
+    ambienceRef.current.loop = true
+    ambienceRef.current.volume = 0.5
+
+    return () => {
+      ambienceRef.current?.pause()
+      if (ambienceRef.current) {
+        ambienceRef.current.currentTime = 0
+      }
+    }
+  }, [])
 
   const closePopup = useCallback(() => {
     setRevealed(false)
@@ -55,6 +71,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   useEffect(() => {
     if (!isOpen) {
+      setRevealed(false)
+      setBgmMuted(false)
+      ambienceRef.current?.pause()
+      if (ambienceRef.current) {
+        ambienceRef.current.currentTime = 0
+        ambienceRef.current.volume = 0.5
+      }
       return
     }
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -67,6 +90,21 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [isOpen, closePopup])
+
+  const handleReveal = () => {
+    setRevealed(true)
+    ambienceRef.current?.play().catch(err => console.error(err))
+  }
+
+  const toggleBgm = () => {
+    if (!ambienceRef.current) return
+    if (bgmMuted) {
+      ambienceRef.current.volume = 0.5
+    } else {
+      ambienceRef.current.volume = 0
+    }
+    setBgmMuted(!bgmMuted)
+  }
 
   if (!isOpen) return null
 
@@ -100,7 +138,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             &quot;The night is cold and the stars are out. Come, sit by the fire before we get acquainted.&quot;
           </p>
           <button
-            onClick={() => setRevealed(true)}
+            onClick={handleReveal}
             className="mt-3 px-10 py-3 text-sm font-bold tracking-[0.3em] uppercase transition-all duration-300"
             style={{ color: '#f4c07a', border: '1px solid #f4c07a44', background: 'transparent' }}
             onMouseEnter={(e) => {
@@ -180,7 +218,24 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           />
         </div>
 
-        <p className="mb-1 text-xs tracking-[0.4em] uppercase" style={{ color: '#f4c07a44' }}>
+        {/* Ambience toggle */}
+        <div className="mb-4 flex gap-2">
+          <button
+            onClick={toggleBgm}
+            className="rounded-lg px-4 py-2 text-sm font-semibold transition-all duration-300"
+            style={{
+              border: '1px solid #f4c07a33',
+              background: '#0a1520',
+              color: '#f4c07a99',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = '#f4c07a11')}
+            onMouseLeave={e => (e.currentTarget.style.background = '#0a1520')}
+          >
+            {bgmMuted ? '🔇 Ambience OFF' : '🔊 Ambience ON'}
+          </button>
+        </div>
+
+        <p className="text-xs tracking-[0.4em] uppercase mb-1" style={{ color: '#f4c07a44' }}>
           — Camper Profile —
         </p>
         <div className="pr-10">

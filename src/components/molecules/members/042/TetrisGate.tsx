@@ -47,6 +47,8 @@ interface TetrisGateProps {
   onClose: () => void;
 }
 
+const SG: React.CSSProperties = { fontFamily: 'Space Grotesk, sans-serif' };
+
 export default function TetrisGate({ onSuccess, onClose }: TetrisGateProps) {
   const boardRef = useRef<HTMLCanvasElement>(null);
   const nextRef = useRef<HTMLCanvasElement>(null);
@@ -63,6 +65,7 @@ export default function TetrisGate({ onSuccess, onClose }: TetrisGateProps) {
     animId: 0,
   });
 
+  const [isTouch, setIsTouch] = useState(false);
   const [started, setStarted] = useState(false);
   const [paused, setPaused] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -77,7 +80,7 @@ export default function TetrisGate({ onSuccess, onClose }: TetrisGateProps) {
       audioCtx.current = new AudioContext();
     }
     if (audioCtx.current.state === 'suspended') {
-    audioCtx.current.resume();
+      audioCtx.current.resume();
     }
     return audioCtx.current;
   }, []);
@@ -348,6 +351,10 @@ export default function TetrisGate({ onSuccess, onClose }: TetrisGateProps) {
   }, [loop]);
 
   useEffect(() => {
+    setIsTouch(window.matchMedia('(pointer: coarse)').matches);
+  }, []);
+  
+  useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (!s.running || s.paused) return;
       if (["ArrowLeft","ArrowRight","ArrowDown","ArrowUp","Space"].includes(e.code))
@@ -374,126 +381,162 @@ export default function TetrisGate({ onSuccess, onClose }: TetrisGateProps) {
     draw();
   }, [draw]);
 
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+      // cleanup audio context
+      if (audioCtx.current) {
+        audioCtx.current.close();
+        audioCtx.current = null;
+      }
+    };
+  }, []);
+
   const progress = Math.min((lines / TARGET_LINES) * 100, 100);
 
+  const divider = (color: string) => (
+    <div style={{ width: '100%', height: '1px', background: color }} />
+  );
+
+  const tag = (text: string, color: string) => (
+    <p style={{ ...SG, fontSize: '9px', color, letterSpacing: '0.15em', textTransform: 'uppercase' as const }}>{text}</p>
+  );
+
+  const title = (children: React.ReactNode) => (
+    <p style={{ ...SG, fontSize: '13px', fontWeight: 600, color: '#E8F4FF', letterSpacing: '0.08em', textTransform: 'uppercase' as const, lineHeight: 1.7 }}>{children}</p>
+  );
+
+  const sub = (children: React.ReactNode) => (
+    <p style={{ ...SG, fontSize: '10px', color: 'rgba(150,140,220,0.65)', letterSpacing: '0.05em', lineHeight: 1.8 }}>{children}</p>
+  );
+
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center overflow-hidden px-4">
-      <button
-        type="button"
-        onClick={onClose}
-        className="absolute inset-0 bg-[#050E1C]/80 backdrop-blur-sm"
-      />
-      <div className="relative z-10 flex h-[100dvh] max-h-[100dvh] w-full max-w-[720px] flex-col items-center gap-5 overflow-y-auto border-x border-white/10 bg-[#0d1117] p-6 text-white shadow-xl">
-
-        {/* Tombol exit */}
+    <>
+      <style dangerouslySetInnerHTML={{ __html: `
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap');
+      `}} />
+      <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4">
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/60 hover:bg-white/10 transition-colors"
-          aria-label="Tutup popup"
-        >
-          ✕
-        </button>
+          className="fixed inset-0 bg-[#050E1C]/80 backdrop-blur-sm"
+        />
+        <div className="relative z-10 max-h-[100dvh] w-full max-w-[720px] my-8 bg-[#0d1117] rounded-2xl border border-white/10 p-6 text-white shadow-xl flex flex-col items-center gap-5 overflow-y-auto">
 
-        <div className="flex gap-5 items-start w-full justify-center">
-          <div className="relative flex-1" style={{ maxWidth: `${COLS * SZ}px` }}>
-            <canvas
-              ref={boardRef}
-              width={COLS * SZ}
-              height={ROWS * SZ}
-              className="rounded-xl border border-white/10 w-full"
-            />
+          {/* Tombol exit */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/60 hover:bg-white/10 transition-colors"
+            aria-label="Tutup popup"
+            style={SG}
+          >
+            ✕
+          </button>
 
-            {!started && (
-              <div className="absolute inset-0 rounded-xl bg-black/85 flex flex-col items-center justify-center gap-4 text-center p-6">
-                <p className="text-2xl font-semibold">Selesai-in {TARGET_LINES} baris<br />klo mau liat yh</p>
-                <p className="text-sm text-white/60">← → move · ↑ rotate · ↓ soft drop<br /><kbd className="px-2 py-0.5 rounded border border-white/30 bg-white/10 text-xs font-mono">space</kbd> hard drop</p>
-                <button
-                  onClick={startGame}
-                  className="mt-2 px-6 py-2.5 rounded-full bg-[#534AB7] text-white text-sm font-medium hover:bg-[#3C3489] transition-colors"
-                >
-                  Start
-                </button>
+          <div className="flex gap-5 items-start w-full justify-center">
+            <div className="relative flex-1" style={{ maxWidth: `${COLS * SZ}px` }}>
+              <canvas
+                ref={boardRef}
+                width={COLS * SZ}
+                height={ROWS * SZ}
+                className="rounded-xl border border-white/10 w-full"
+              />
+
+              {!started && (
+                <div className="absolute inset-0 rounded-xl bg-black/85 flex flex-col items-center justify-center gap-3 text-center p-6">
+                  {tag('access required', 'rgba(83,74,183,0.8)')}
+                  {divider('rgba(83,74,183,0.3)')}
+                  {title(<>clear {TARGET_LINES} lines<br />to unlock</>)}
+                  {sub(<>← → move · ↑ rotate<br />↓ soft drop · ⎵ hard drop</>)}
+                  {divider('rgba(83,74,183,0.3)')}
+                  <button onClick={startGame} style={{ ...SG, fontSize: '11px', letterSpacing: '0.1em' }} className="mt-1 px-6 py-2 rounded-full bg-[#534AB7] text-white hover:bg-[#3C3489] transition-colors">
+                    start_
+                  </button>
+                </div>
+              )}
+
+              {won && (
+                <div className="absolute inset-0 rounded-xl bg-black/85 flex flex-col items-center justify-center gap-3 text-center p-6">
+                  {tag('access granted', 'rgba(29,158,117,0.8)')}
+                  {divider('rgba(29,158,117,0.3)')}
+                  {title(<>ggwp!<br />welcome welcome</>)}
+                  {sub('4 lines cleared')}
+                  {divider('rgba(29,158,117,0.3)')}
+                  <button onClick={onSuccess} style={{ ...SG, fontSize: '11px', letterSpacing: '0.1em' }} className="mt-1 px-6 py-2 rounded-full bg-[#534AB7] text-white hover:bg-[#3C3489] transition-colors">
+                    open_
+                  </button>
+                </div>
+              )}
+
+              {gameOver && (
+                <div className="absolute inset-0 rounded-xl bg-black/85 flex flex-col items-center justify-center gap-3 text-center p-6">
+                  {tag('game over', 'rgba(226,75,74,0.8)')}
+                  {divider('rgba(226,75,74,0.3)')}
+                  {title(<>lines cleared: {lines}<br />nt nt, keep goin!</>)}
+                  {sub('4 lines needed to proceed')}
+                  {divider('rgba(226,75,74,0.3)')}
+                  <button onClick={startGame} style={{ ...SG, fontSize: '11px', letterSpacing: '0.1em' }} className="mt-1 px-6 py-2 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors">
+                    retry_
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col gap-3 w-28">
+              <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+                <p style={{ ...SG, fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: '4px' }}>Score</p>
+                <p style={{ ...SG, fontSize: '18px', fontWeight: 500 }}>{score}</p>
               </div>
-            )}
-
-            {won && (
-              <div className="absolute inset-0 rounded-xl bg-black/85 flex flex-col items-center justify-center gap-4 text-center p-6">
-                <p className="text-2xl font-semibold">YEY GGWP TMAN!</p>
-                <p className="text-sm text-white/60">WELKAM WELKAM!</p>
-                <button
-                  onClick={onSuccess}
-                  className="mt-2 px-6 py-2.5 rounded-full bg-[#534AB7] text-white text-sm font-medium hover:bg-[#3C3489] transition-colors"
-                >
-                  Open
-                </button>
+              <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+                <p style={{ ...SG, fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: '8px' }}>Next</p>
+                <canvas ref={nextRef} width={80} height={80} className="mx-auto" />
               </div>
-            )}
-
-            {gameOver && (
-              <div className="absolute inset-0 rounded-xl bg-black/85 flex flex-col items-center justify-center gap-4 text-center p-6">
-                <p className="text-2xl font-semibold text-red-400">Game over</p>
-                <p className="text-sm text-white/60">NT NT, coba lagi yh (kalo mau)</p>
-                <button
-                  onClick={startGame}
-                  className="mt-2 px-6 py-2.5 rounded-full bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition-colors"
-                >
-                  Try Again
-                </button>
+              <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+                <p style={{ ...SG, fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: '8px' }}>Lines</p>
+                <div className="bg-white/10 rounded h-2 overflow-hidden">
+                  <div
+                    className="h-2 rounded bg-[#534AB7] transition-all duration-300"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+                <p style={{ ...SG, fontSize: '10px', color: 'rgba(255,255,255,0.5)', marginTop: '8px', textAlign: 'center' }}>{Math.min(lines, TARGET_LINES)} / {TARGET_LINES}</p>
               </div>
-            )}
+
+              {started && !won && !gameOver && (
+                <div className="flex flex-col gap-2">
+                  <button
+                    onClick={togglePause}
+                    style={{ ...SG, fontSize: '11px', letterSpacing: '0.05em' }}
+                    className="w-full py-2 rounded-xl border border-white/20 text-white/70 hover:bg-white/10 transition-colors"
+                  >
+                    {paused ? "resume_" : "pause_"}
+                  </button>
+                  <button
+                    onClick={startGame}
+                    style={{ ...SG, fontSize: '11px', letterSpacing: '0.05em' }}
+                    className="w-full py-2 rounded-xl border border-white/20 text-white/70 hover:bg-white/10 transition-colors"
+                  >
+                    restart_
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
-          <div className="flex flex-col gap-3 w-28">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
-              <p className="text-[10px] uppercase tracking-widest text-white/40 mb-1">Score</p>
-              <p className="text-xl font-medium">{score}</p>
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
-              <p className="text-[10px] uppercase tracking-widest text-white/40 mb-2">Next</p>
-              <canvas ref={nextRef} width={80} height={80} className="mx-auto" />
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
-              <p className="text-[10px] uppercase tracking-widest text-white/40 mb-2">Lines</p>
-              <div className="bg-white/10 rounded h-2 overflow-hidden">
-                <div
-                  className="h-2 rounded bg-[#534AB7] transition-all duration-300"
-                  style={{ width: `${progress}%` }}
-                />
+          {started && isTouch && (
+            <div className="flex flex-col items-center gap-2">
+              <button onClick={rotatePiece} style={SG} className="w-12 h-12 rounded-xl bg-white/10 border border-white/10 text-base">↻</button>
+              <div className="flex gap-2">
+                <button onClick={() => { if (validPos(s.piece,-1,0)) { s.piece.x--; playSound('move'); } }} style={SG} className="w-12 h-12 rounded-xl bg-white/10 border border-white/10 text-base">←</button>
+                <button onClick={() => { if (validPos(s.piece,0,1)) { s.piece.y++; s.lastDrop=performance.now(); playSound('move'); } }} style={SG} className="w-12 h-12 rounded-xl bg-white/10 border border-white/10 text-base">↓</button>
+                <button onClick={() => { if (validPos(s.piece,1,0)) { s.piece.x++; playSound('move'); } }} style={SG} className="w-12 h-12 rounded-xl bg-white/10 border border-white/10 text-base">→</button>
               </div>
-              <p className="text-xs text-white/50 mt-2 text-center">{Math.min(lines, TARGET_LINES)} / {TARGET_LINES}</p>
+              <button onClick={hardDrop} style={{ ...SG, fontSize: '11px', letterSpacing: '0.05em' }} className="w-32 h-10 rounded-xl bg-white/10 border border-white/10">hard drop_</button>
             </div>
-
-            {started && !won && !gameOver && (
-              <div className="flex flex-col gap-2">
-                <button
-                  onClick={togglePause}
-                  className="w-full py-2 rounded-xl border border-white/20 text-sm text-white/70 hover:bg-white/10 transition-colors"
-                >
-                  {paused ? "Resume" : "Pause"}
-                </button>
-                <button
-                  onClick={startGame}
-                  className="w-full py-2 rounded-xl border border-white/20 text-sm text-white/70 hover:bg-white/10 transition-colors"
-                >
-                  Restart
-                </button>
-              </div>
-            )}
-          </div>
+          )}
         </div>
-
-        {started && (
-          <div className="flex flex-col items-center gap-2 sm:hidden">
-            <button onClick={rotatePiece} className="w-12 h-12 rounded-xl bg-white/10 border border-white/10 text-lg">↻</button>
-            <div className="flex gap-2">
-              <button onClick={() => { if (validPos(s.piece,-1,0)) { s.piece.x--; playSound('move'); } }} className="w-12 h-12 rounded-xl bg-white/10 border border-white/10 text-lg">←</button>
-              <button onClick={() => { if (validPos(s.piece,0,1)) { s.piece.y++; s.lastDrop=performance.now(); playSound('move'); } }} className="w-12 h-12 rounded-xl bg-white/10 border border-white/10 text-lg">↓</button>
-              <button onClick={() => { if (validPos(s.piece,1,0)) { s.piece.x++; playSound('move'); } }} className="w-12 h-12 rounded-xl bg-white/10 border border-white/10 text-lg">→</button>
-            </div>
-            <button onClick={hardDrop} className="w-32 h-10 rounded-xl bg-white/10 border border-white/10 text-sm">Hard drop</button>
-          </div>
-        )}
       </div>
-    </div>
+    </>
   );
 }

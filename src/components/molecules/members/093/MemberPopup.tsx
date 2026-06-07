@@ -51,7 +51,19 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
 
-      <div className="relative z-10 w-full max-w-[720px] max-h-[100dvh] overflow-y-auto rounded-2xl p-6 text-white shadow-2xl border border-neutral-cs-10 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 animate-[member-popup-show_200ms_ease-out] sm:p-8">
+      <div className="relative z-10 w-full max-w-[720px] max-h-[100dvh] overflow-hidden overflow-y-auto rounded-2xl p-6 text-white shadow-2xl border border-sky-300/50 bg-gradient-to-br from-sky-400 via-blue-400 to-blue-500 animate-[member-popup-show_200ms_ease-out] sm:p-8">
+        {/* Decorative mountain silhouette to match blue-mountain theme (style-only) */}
+        <div className="pointer-events-none absolute left-0 right-0 top-6 -z-0 opacity-30">
+          <svg viewBox="0 0 1200 200" className="w-full h-24" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1">
+                <stop offset="0%" stopColor="#0ea5e9" />
+                <stop offset="100%" stopColor="#0369a1" />
+              </linearGradient>
+            </defs>
+            <path d="M0,160 L120,120 L240,140 L360,80 L480,130 L600,100 L720,140 L840,90 L960,130 L1080,110 L1200,150 L1200,200 L0,200 Z" fill="url(#g1)" />
+          </svg>
+        </div>
         <button
           type="button"
           aria-label="Close member detail"
@@ -61,8 +73,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           ×
         </button>
 
-        <div className="mb-5 overflow-hidden rounded-2xl border border-neutral-cs-10/20">
+        <div className="mb-5 relative overflow-hidden rounded-2xl border border-neutral-cs-10/20">
           <Image src={ProfileImage} alt="Profile Image" className="h-48 w-full object-cover object-center sm:h-60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-sky-300/30 via-blue-300/20 to-blue-400/40 mix-blend-screen pointer-events-none" />
         </div>
 
         <div className="pr-10 flex flex-col">

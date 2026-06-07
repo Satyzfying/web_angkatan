@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react/no-unescaped-entities */
+
 import React, { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
@@ -10,6 +12,10 @@ import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
 import ProfileImage from './image.png'
+
+import { VT323 } from 'next/font/google'
+
+const vt323 = VT323({ weight: '400', subsets: ['latin'] })
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -51,7 +57,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
 
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
+      <div className="border-neutral-cs-10 bg-[#2c2420] relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
@@ -61,44 +67,44 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           x
         </button>
 
-        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
+        <div className="border-neutral-cs-10/60 mb-5 overflow-hidden rounded-2xl border">
           <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
         </div>
 
         <div className="pr-10">
           {/* UBAH NAMA ANDA */}
-          <h2 className="text-2xl font-black">Catherina Vallencia K</h2>
+          <h2 className={`${vt323.className} text-2xl font-black`}>Keisya Dira A</h2>
           {/* UBAH NRP DAN ASAL */}
-          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251082 - Surakarta</p>
+          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251055 - Surabaya</p>
         </div>
 
         <div className="mt-5 flex gap-2">
           {/* UBAH USERNAME INSTAGRAM */}
-          <Instagram username="jkt48.erine" />
+          <Instagram username="keishies" />
           {/* UBAH USERNAME LINKEDIN */}
-          <LinkedInButtonLink username="jkt48.erine" />
+          <LinkedInButtonLink username="keishies" />
         </div>
 
         <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
           <div className="border-neutral-cs-10/40 rounded-xl border p-4">
             {/* UBAH HOBI KAMU */}
             <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
-            <p className="mt-2">Nyanyi</p>
+            <p className="mt-2">Nonton</p>
           </div>
           <div className="border-neutral-cs-10/40 rounded-xl border p-4">
             {/* UBAH FUNFACT KAMU */}
             <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
-            <p className="mt-2">Gwe Member JKT</p>
+            <p className="mt-2">Bisa rewatch film yang sama berkali-kali.</p>
           </div>
         </div>
 
         <div className="border-neutral-cs-10/40 mt-4 rounded-xl border p-4">
           {/* UBAH LAGU FAVORIT KAMU */}
           <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
-          <p className="my-2 text-sm font-semibold">There Is a Light That Never Goes Out</p>
+          <p className="my-2 text-sm font-semibold">Birds Don't Sing</p>
 
           {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2X62SjtuwVQiGiZvZZ9Ztr?si=f6718391848a4469" />
+          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/21LkHnuxPxVrOZ5gCaG7aM?si=74c8377c0d00463c9" />
         </div>
       </div>
     </div>,

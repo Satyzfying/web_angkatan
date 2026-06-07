@@ -1,12 +1,9 @@
 'use client'
 
-<<<<<<< HEAD
 import React, { useEffect, useState, useCallback } from 'react'
-=======
 import React, { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
->>>>>>> 169739082a16e9afddc6b3cd417d941e91a3212e
 import Image from 'next/image'
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
@@ -161,13 +158,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   const currentQ = quizPool[Math.min(step, 2)]
 
-<<<<<<< HEAD
   return (
-=======
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
->>>>>>> 169739082a16e9afddc6b3cd417d941e91a3212e
     <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
 
       <style>{`
         @keyframes member-popup-show {
@@ -250,6 +245,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       {/* Card utama */}
       <div className="section-glow-blue relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_300ms_ease-out] overflow-hidden rounded-3xl text-white sm:max-h-[calc(100vh-10rem)] flex flex-col">
+      {/* pop up card */}
+      <div className="relative z-10 flex h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_300ms_ease-out] flex-col overflow-hidden rounded-3xl p-6 text-white sm:p-8 border-timbul-glow">
+
 
         {/* Background*/}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -298,6 +296,17 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             boxShadow: '0 0 10px rgba(99,102,241,0.35)',
           }}
         >x</button>
+        {/* isi pop up card */}
+        <div className="relative z-10 h-full min-h-0 w-full overflow-y-auto overscroll-contain pr-2 scrollbar-thin scrollbar-thumb-indigo-500/80 scrollbar-track-transparent">
+
+          <button
+            type="button"
+            aria-label="Close member detail"
+            onClick={onClose}
+            className="absolute top-0 right-0 z-50 flex h-10 w-10 items-center justify-center rounded-full border-2 border-indigo-300 bg-[#0f172a]/90 text-xl leading-none text-indigo-100 hover:border-white hover:bg-indigo-500 hover:text-white hover:shadow-[0_0_20px_rgba(255,255,255,0.6)] transition-all"
+          >
+            x
+          </button>
 
         {/* Kuis */}
         {step < 3 && currentQ && (
@@ -455,6 +464,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 <p className="text-blue-50 leading-relaxed font-medium">Aku fans King Emyu dan King Barca</p>
               </div>
             </div>
+          <div className="inner-box-glow mt-5 mb-2 rounded-xl p-5 border-2 border-[#38bdf8]">
+            <p className="text-blue-300 text-xs font-black tracking-widest uppercase mb-2 drop-shadow-[0_0_8px_rgba(147,197,253,0.9)]">Lagu Favorit</p>
+            <p className="my-3 text-sm font-medium text-indigo-50">
+              Banyak sih, sayangnya disini cuman bisa satu lagu :&apos;( Yaudah deh, ini dia &quot;Daylight -
+              Maroon 5&quot;
+            </p>
 
             {/* Lagu Favorit */}
             <div className="inner-glow-cyan mt-5 mb-2 rounded-xl p-5">
