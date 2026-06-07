@@ -41,14 +41,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-<<<<<<< HEAD
-  return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
-=======
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
->>>>>>> cf0de525fe45ec5293e932c8552995b7ebd54e96
       <button
         type="button"
         aria-label="Close member detail"
@@ -56,11 +51,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-slate-900/80 backdrop-blur-md transition-opacity"
       />
 
-<<<<<<< HEAD
       <div className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-3xl border border-white/10 bg-gradient-to-br from-slate-800 to-slate-950 p-6 text-slate-100 shadow-2xl shadow-indigo-500/10 sm:max-h-[calc(100vh-10rem)] sm:p-8">
-=======
       <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
->>>>>>> cf0de525fe45ec5293e932c8552995b7ebd54e96
         <button
           type="button"
           aria-label="Close member detail"
@@ -109,6 +101,38 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <p className="text-xs font-bold tracking-wider text-purple-400 uppercase">Lagu Favorit</p>
           <p className="mt-2 mb-4 text-base font-medium text-slate-200">Dewi - Threesixty</p>
 
+          {/* UBAH NAMA ANDA */}
+          <h2 className="text-2xl font-black">Nayarfa Syamahira Dyananta</h2>
+          {/* UBAH NRP DAN ASAL */}
+          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251046 - Yogyakarta</p>
+        </div>
+
+        <div className="mt-5 flex gap-2">
+          {/* UBAH USERNAME INSTAGRAM */}
+          <Instagram username="nayarfa_" />
+          {/* UBAH USERNAME LINKEDIN */}
+          <LinkedInButtonLink username="Nayarfa S. Dyananta" />
+        </div>
+
+        <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
+          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
+            {/* UBAH HOBI KAMU */}
+            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
+            <p className="mt-2">Main Billiard</p>
+          </div>
+          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
+            {/* UBAH FUNFACT KAMU */}
+            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
+            <p className="mt-2">Belum pernah naik pesawat seumur hidup</p>
+          </div>
+        </div>
+
+        <div className="border-neutral-cs-10/40 mt-4 rounded-xl border p-4">
+          {/* UBAH LAGU FAVORIT KAMU */}
+          <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
+          <p className="my-2 text-sm font-semibold">Dewi - Threesixty</p>
+
+          {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
           <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/1GK0IE5FNd8M66A109z6jm?si=vMBTJItxQUekZJnNzUIrfQ" />
         </div>
       </div>
