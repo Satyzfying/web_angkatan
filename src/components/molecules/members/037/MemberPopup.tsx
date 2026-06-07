@@ -1,6 +1,5 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
 import React, { useCallback, useEffect, useState } from 'react'
 
 import Image from 'next/image'
@@ -76,10 +75,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-  return (
+  return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <div
-      className={`fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 ${bodyFont.className}`}
+      className={`fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 ${bodyFont.className}`}
     >
       <style jsx global>{`
         @keyframes intro-gif-zoom {
@@ -209,8 +208,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             style={{
               backgroundImage: `linear-gradient(135deg, rgba(3, 7, 18, 0.76), rgba(15, 39, 72, 0.72), rgba(3, 7, 18, 0.86)), url(${BackgroundImage.src})`,
               backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundSize: 'cover'
+              backgroundPosition: 'center'
             }}
           />
 
@@ -254,11 +252,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             ×
           </button>
           <div
-            className={`relative z-20 flex w-full max-w-[92vw] items-center justify-center sm:max-w-[720px] ${
-              introPhase === 'zooming'
+            className={`relative z-20 flex w-full max-w-[92vw] items-center justify-center sm:max-w-[720px] ${introPhase === 'zooming'
                 ? 'animate-[intro-gif-zoom_1000ms_cubic-bezier(0.16,1,0.3,1)_forwards]'
                 : ''
-            }`}
+              }`}
           >
             <Image
               src={IntroGif}
@@ -333,7 +330,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
 
           <div
-            className="member-popup-scroll relative z-10 max-h-[calc(100dvh-1.5rem)] w-full max-w-[720px] animate-[popup-reveal_700ms_cubic-bezier(0.16,1,0.3,1)_forwards] overflow-y-auto rounded-[24px] border border-[#ffefb3]/45 p-4 text-white shadow-[0_0_48px_rgba(255,239,179,0.28)] sm:max-h-[calc(100vh-4rem)] sm:rounded-[30px] sm:p-8 sm:shadow-[0_0_65px_rgba(255,239,179,0.34)]"
+            className="member-popup-scroll relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[popup-reveal_700ms_cubic-bezier(0.16,1,0.3,1)_forwards] overflow-y-auto rounded-[24px] border border-[#ffefb3]/45 p-4 text-white shadow-[0_0_48px_rgba(255,239,179,0.28)] sm:rounded-[30px] sm:p-8 sm:shadow-[0_0_65px_rgba(255,239,179,0.34)]"
             style={{
               backgroundImage: `linear-gradient(135deg, rgba(13, 35, 64, 0.68), rgba(45, 79, 115, 0.52), rgba(4, 18, 37, 0.78)), url(${BackgroundImage.src})`,
               backgroundSize: 'cover',
@@ -506,7 +503,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         </>
       )}
-    </div>
+    </div>,
+    document.body
   )
 }
 

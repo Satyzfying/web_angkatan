@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState, useRef, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
@@ -584,7 +585,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     }, 2000)
   }
 
-  return (
+  return createPortal(
     <>
       <style>{`
         @keyframes p3-container-summon {
@@ -726,11 +727,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       {/* STAGE 3: DATA ANGGOTA */}
       {popupStage === 'data' && (
-        <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+        <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
           <button type="button" aria-label="Close" onClick={handleClose} className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-default" />
 
           {/* Kotak Utama */}
-          <div className="bg-[#0044cc] relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-p3-container overflow-y-auto rounded-none border-4 border-white p-6 text-white shadow-[12px_12px_0_0_rgba(255,255,255,1)] sm:max-h-[calc(100vh-10rem)] sm:p-8 custom-scrollbar">
+          <div className="bg-[#0044cc] relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-p3-container overflow-y-auto rounded-none border-4 border-white p-6 text-white shadow-[12px_12px_0_0_rgba(255,255,255,1)] sm:p-8 custom-scrollbar">
 
             {/* Tombol X */}
             <button
@@ -932,7 +933,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         </div>
       )}
-    </>
+    </>,
+    document.body
   )
 }
 
