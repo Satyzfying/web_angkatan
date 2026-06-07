@@ -1,8 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
-
+import React, { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
@@ -16,10 +14,23 @@ type MemberPopupProps = {
   onClose: () => void
 }
 
+type StyleVars = React.CSSProperties & Record<`--${string}`, string | number>
+
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const [answer, setAnswer] = useState('')
   const [isWrong, setIsWrong] = useState(false)
-  const [unlocked, setUnlocked] = useState(false)
+  const [step, setStep] = useState<'quiz' | 'quote' | 'card'>('quiz')
+
+  const magicalFloaters = [
+    { e: '⭐', sz: 28 }, { e: '✨', sz: 24 }, { e: '🌟', sz: 32 },
+    { e: '🌸', sz: 26 }, { e: '🌷', sz: 24 }, { e: '💫', sz: 30 },
+    { e: '✦', sz: 22 }, { e: '💗', sz: 26 }, { e: '🎀', sz: 28 },
+    { e: '🫧', sz: 22 }, { e: '👑', sz: 32 }, { e: '💌', sz: 24 },
+    { e: '🌺', sz: 26 }, { e: '💕', sz: 22 }, { e: '✨', sz: 28 },
+  ]
+
+  const stars = useMemo(() => Array.from({ length: 85 }), [])
+  const sakura = useMemo(() => Array.from({ length: 28 }), [])
 
   useEffect(() => {
     if (!isOpen) return
@@ -41,15 +52,17 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     if (!isOpen) {
       setAnswer('')
       setIsWrong(false)
-      setUnlocked(false)
+      setStep('quiz')
     }
   }, [isOpen])
 
   if (!isOpen) return null
 
   const checkAnswer = () => {
-    if (answer.trim().toLowerCase() === 'princess nadya') {
-      setUnlocked(true)
+    const normalizedAnswer = answer.trim().toLowerCase().replace(/\s+/g, ' ')
+
+    if (normalizedAnswer === 'princess nadya') {
+      setStep('quote')
       setIsWrong(false)
       return
     }
@@ -57,651 +70,1167 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     setIsWrong(true)
   }
 
+  const closeWrong = () => {
+    setIsWrong(false)
+    setAnswer('')
+  }
+
   return (
-<<<<<<< HEAD
-    <div className="fixed inset-0 z-[100] overflow-y-auto bg-pink-300 px-4 py-8 text-pink-900">
-=======
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-20 pb-8 sm:pt-24">
-  return createPortal(
-    // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
->>>>>>> 0b5782897e73de7c6d6cc5b53dc4f58a0892dd24
-      <button
-        type="button"
-        aria-label="Close member detail"
-        onClick={onClose}
-        className="absolute inset-0 bg-pink-950/20 backdrop-blur-[2px]"
-      />
-
-      {/* BACKGROUND */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden bg-gradient-to-br from-purple-400 via-pink-300 to-pink-200">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_8%,rgba(255,255,255,.9),transparent_13%),radial-gradient(circle_at_80%_12%,rgba(255,255,255,.75),transparent_12%),radial-gradient(circle_at_50%_90%,rgba(255,255,255,.8),transparent_28%)]" />
-
-        <div className="animate-float-cute absolute -left-8 top-2 text-[150px] opacity-90 drop-shadow-[0_0_20px_rgba(255,255,255,.9)]">
-          ☾
+    <div className="member-popup-shell">
+      <div className="bg-kingdom">
+        <div className="castle-wrap">
+          <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" fill="rgba(180,80,255,.7)">
+            <rect x="60" y="180" width="90" height="320" rx="4" />
+            <rect x="45" y="160" width="120" height="40" rx="2" />
+            <rect x="50" y="130" width="20" height="50" />
+            <rect x="80" y="120" width="20" height="60" />
+            <rect x="110" y="130" width="20" height="50" />
+            <polygon points="100,60 60,160 140,160" />
+            <rect x="170" y="260" width="60" height="240" rx="2" />
+            <polygon points="200,210 170,265 230,265" />
+            <rect x="260" y="200" width="380" height="300" rx="4" />
+            <ellipse cx="450" cy="380" rx="55" ry="75" fill="rgba(100,20,160,.5)" />
+            <rect x="395" y="380" width="110" height="120" fill="rgba(100,20,160,.5)" />
+            <rect x="370" y="80" width="160" height="200" rx="4" />
+            <rect x="355" y="60" width="190" height="35" rx="2" />
+            <polygon points="450,0 355,65 545,65" />
+            <ellipse cx="450" cy="140" rx="22" ry="28" fill="rgba(100,20,160,.45)" />
+            <ellipse cx="410" cy="230" rx="14" ry="18" fill="rgba(100,20,160,.45)" />
+            <ellipse cx="490" cy="230" rx="14" ry="18" fill="rgba(100,20,160,.45)" />
+            <rect x="670" y="260" width="60" height="240" rx="2" />
+            <polygon points="700,210 670,265 730,265" />
+            <rect x="750" y="180" width="90" height="320" rx="4" />
+            <rect x="735" y="160" width="120" height="40" rx="2" />
+            <polygon points="800,60 750,160 850,160" />
+          </svg>
         </div>
 
-<<<<<<< HEAD
-        <div className="animate-cloud absolute -bottom-12 left-0 text-[180px] opacity-80">
-          ☁️
-        </div>
-        <div className="animate-cloud-slow absolute -bottom-10 right-0 text-[190px] opacity-80">
-          ☁️
-        </div>
-        <div className="animate-cloud absolute bottom-8 left-1/4 text-[130px] opacity-60">
-          ☁️
-        </div>
-        <div className="animate-cloud-slow absolute bottom-6 right-1/4 text-[130px] opacity-60">
-          ☁️
+        <div className="moon">🌙</div>
+
+        <div className="star-field">
+          {stars.map((_, i) => (
+            <div
+              key={i}
+              className="star-dot"
+              style={{
+                width: `${1.5 + (i % 4)}px`,
+                height: `${1.5 + (i % 4)}px`,
+                top: `${(i * 13.7) % 96}%`,
+                left: `${(i * 19.3) % 99}%`,
+                '--d': `${1.2 + (i % 4) * 0.6}s`,
+                '--dl': `${(i * 0.15) % 4}s`,
+              } as StyleVars}
+            />
+          ))}
         </div>
 
-        {[
-          '⭐',
-          '✦',
-          '✨',
-          '🌟',
-          '🌸',
-          '🌷',
-          '💫',
-          '✧',
-          '⭐',
-          '🌸',
-          '✨',
-          '✦',
-          '💗',
-          '🌙',
-          '🌺',
-          '⭐',
-          '✨',
-          '🌸',
-        ].map((item, index) => (
-          <span
-            key={index}
-            className="animate-sparkle absolute text-3xl opacity-80 drop-shadow-[0_0_10px_rgba(255,255,255,.9)]"
-            style={{
-              top: `${7 + ((index * 13) % 82)}%`,
-              left: `${4 + ((index * 19) % 90)}%`,
-              animationDelay: `${index * 0.18}s`,
-            }}
-          >
-            {item}
-          </span>
-        ))}
+        <div className="floaters">
+          {magicalFloaters.map((item, i) => (
+            <div
+              key={i}
+              className="floater"
+              style={{
+                top: `${2 + (i * 14.5) % 92}%`,
+                left: `${1 + (i * 21.4) % 97}%`,
+                '--sz': `${item.sz}px`,
+                '--ty': `${-(12 + (i % 6) * 4)}px`,
+                '--r0': `${(i % 4) * 8 - 16}deg`,
+                '--r1': `${(i % 5) * 8 - 12}deg`,
+                '--op': 0.65 + (i % 4) * 0.08,
+                '--d': `${2.5 + (i % 3) * 0.8}s`,
+                '--dl': `${i * 0.14}s`,
+              } as StyleVars}
+            >
+              {item.e}
+            </div>
+          ))}
+        </div>
 
-        {Array.from({ length: 14 }).map((_, index) => (
-          <span
-            key={`petal-${index}`}
-            className="animate-petal absolute text-3xl opacity-80"
-            style={{
-              left: `${4 + index * 7}%`,
-              animationDelay: `${index * 0.45}s`,
-              animationDuration: `${6 + (index % 5)}s`,
-            }}
-          >
-            🌸
-          </span>
-        ))}
+        <div className="sakura-layer">
+          {sakura.map((_, i) => (
+            <span
+              key={i}
+              className="sakura"
+              style={{
+                left: `${1 + i * 3.5}%`,
+                '--sz': `${14 + (i % 6) * 3}px`,
+                '--d': `${5 + (i % 4) * 1.5}s`,
+                '--dl': `${i * 0.25}s`,
+              } as StyleVars}
+            >
+              {i % 4 === 0 ? '🌸' : i % 4 === 1 ? '🌺' : i % 4 === 2 ? '🌷' : '💗'}
+            </span>
+          ))}
+        </div>
+
+        <div className="cloud-base cloud-1"><span>☁️</span></div>
+        <div className="cloud-base cloud-2"><span>☁️</span></div>
+        <div className="cloud-base cloud-3"><span>☁️</span></div>
+        <div className="cloud-base cloud-4"><span>☁️</span></div>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[1450px]">
-=======
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
->>>>>>> 0b5782897e73de7c6d6cc5b53dc4f58a0892dd24
-        <button
-          type="button"
-          aria-label="Close member detail"
-          onClick={onClose}
-          className="animate-pop-cute absolute right-2 top-2 z-50 flex h-14 w-14 items-center justify-center rounded-full border-4 border-pink-200 bg-white/90 text-4xl font-black text-pink-500 shadow-xl transition hover:scale-110"
-        >
-          ×
-        </button>
+      <div className="page">
+        <div className="card">
+          <button className="close-btn" onClick={onClose} title="Tutup">×</button>
 
-        <div className="grid items-start gap-7 pt-16 lg:grid-cols-[360px_70px_480px_70px_380px]">
-          {/* QUIZ CARD */}
-          <section className="animate-pop-cute">
-            <div className="mb-5 text-center">
-              <h3 className="mx-auto w-fit rounded-full bg-pink-100 px-8 py-2 text-lg font-black text-pink-800 shadow-md">
-                1. TEBAK-TEBAKAN
-              </h3>
+          <div className="cd moon-tl">🌙</div>
+          <div className="cd star-tr">⭐</div>
+          <div className="cd star2">✨</div>
+          <div className="cd flower-tr">🌸</div>
+          <div className="cd tulip-r">🌷</div>
+          <div className="cd flower-bl">🌸</div>
+          <div className="cd flower-br">🌸</div>
+          <div className="cd heart-bl">💗</div>
+          <div className="cd heart-br">💕</div>
 
-              <p className="mt-3 text-sm font-bold text-white">
-                Sebelum masuk, tebak dulu!
-              </p>
+          {step === 'quiz' && (
+            <div className="slide">
+              <div className="quiz-icon-row">
+                <span className="quiz-crown">👑</span>
+                <span className="quiz-bow">🎀</span>
+              </div>
+
+              <div className="quiz-title">Aku lagi ngumpet nih 🫣</div>
+              <div className="quiz-body">
+                Kalau mau ketemu,<br />coba panggil aku dulu 💌
+              </div>
+
+              <div className="clue-box">
+                <p>💌 Clue:<br />coba panggil dulu<br />princess nadya 👑</p>
+              </div>
+
+              <div className="input-row">
+                <input
+                  className="q-input"
+                  value={answer}
+                  placeholder="ketik jawaban..."
+                  onChange={(e) => setAnswer(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') checkAnswer()
+                  }}
+                />
+                <button className="btn-kirim" onClick={checkAnswer}>Kirim</button>
+              </div>
+
+              <div className={`wrong-overlay ${isWrong ? 'show' : ''}`}>
+                <div className="sad-cloud-wrap">
+                  <div className="sad-cloud-img">
+                    <div className="cloud-body">
+                      <div className="cloud-eye-l" />
+                      <div className="cloud-eye-r" />
+                      <div className="tear-l" />
+                      <div className="tear-r" />
+                    </div>
+                    <span className="cloud-star-l">✦</span>
+                    <span className="cloud-star-r">✨</span>
+                  </div>
+                </div>
+                <div className="wrong-msg-only">
+                  Belum bener, coba panggil<br />&quot;Princess Nadya&quot; dulu yaa 💗
+                </div>
+                <button className="btn-wrong-close" onClick={closeWrong}>✕</button>
+              </div>
             </div>
+          )}
 
-            <div className="relative min-h-[560px] overflow-hidden rounded-[2rem] border-[3px] border-pink-200 bg-gradient-to-b from-white/80 via-pink-50/75 to-pink-100/80 p-7 text-center shadow-[0_20px_60px_rgba(190,24,93,.28)] backdrop-blur-md">
-              <button className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white text-3xl font-black text-pink-500 shadow-md transition hover:scale-110">
-                ×
+          {step === 'quote' && (
+            <div className="slide">
+              <div className="quote-header">Secret quote unlocked 💌</div>
+
+              <div className="env-scene">
+                <div className="q-paper">
+                  <div className="paper-crown-icon">👑</div>
+                  <div className="paper-quote">
+                    &quot;You can always<br />
+                    <em>begin again!</em><br />
+                    Romanticize your life<br />
+                    cause you&apos;re the<br />
+                    main character.&quot;
+                  </div>
+                </div>
+
+                <div className="env-body">
+                  <div className="env-main">
+                    <div className="env-fold-l" />
+                    <div className="env-fold-r" />
+                    <div className="env-gold-l" />
+                    <div className="env-gold-r" />
+                    <div className="env-seal">💗</div>
+                  </div>
+                </div>
+
+                <div className="env-wing l">🪽</div>
+                <div className="env-wing r">🪽</div>
+                <div className="env-flower-l">🌸</div>
+                <div className="env-flower-r">🎀</div>
+                <div className="env-cloud-l">☁️</div>
+                <div className="env-cloud-r">☁️</div>
+              </div>
+
+              <button className="btn-found" onClick={() => setStep('card')}>
+                You Found Me 👀
               </button>
+            </div>
+          )}
 
-              <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[2rem]">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,.8),transparent_18%),radial-gradient(circle_at_80%_75%,rgba(255,192,203,.45),transparent_22%)]" />
+          {step === 'card' && (
+            <div className="slide">
+              <div className="prof-crown">👑</div>
 
-                <div className="animate-float-cute absolute left-6 top-6 text-5xl drop-shadow-lg">
-                  🌙
-                </div>
-                <div className="animate-heart absolute left-1/2 top-10 -translate-x-1/2 text-4xl">
-                  👑
-                </div>
-                <div className="animate-float-cute absolute left-1/2 top-20 -translate-x-1/2 text-5xl">
-                  🎀
-                </div>
+              <div className="photo-frame">
+                <Image src={ProfileImage} alt="Profile" className="profile-img" />
+                <span className="photo-spark spark-1">✦</span>
+                <span className="photo-spark spark-2">✨</span>
+                <span className="photo-spark spark-3">💫</span>
+                <span className="photo-spark spark-4">⭐</span>
+              </div>
 
-                <div className="animate-sparkle absolute left-5 top-24 text-2xl">
-                  ✨
-                </div>
-                <div className="animate-sparkle absolute right-8 top-16 text-2xl">
-                  ⭐
-                </div>
-                <div className="animate-sparkle absolute right-5 top-32 text-xl">
-                  ✦
-                </div>
-                <div className="animate-float-cute absolute left-12 top-40 text-xl">
-                  🌸
-                </div>
-                <div className="animate-sparkle absolute right-10 top-48 text-2xl">
-                  💫
-                </div>
-                <div className="animate-float-cute absolute left-8 top-60 text-xl">
-                  🌷
-                </div>
-                <div className="animate-sparkle absolute right-12 top-72 text-xl">
-                  ✨
+              <div className="prof-name">Nadya Putri Agustin 👑</div>
+              <div className="prof-id">5027251013 - Surabaya</div>
+
+              <div className="social-row">
+                <Instagram username="nadyaputria._" />
+                <LinkedInButtonLink username="nadyaputria" />
+              </div>
+
+              <div className="info-grid">
+                <div className="info-card">
+                  <div className="ic-label">Hobi</div>
+                  <div className="ic-val">Ketiduran sambil dengerin musik 🎧🎶</div>
                 </div>
 
-                <div className="animate-cloud absolute -left-8 bottom-0 text-8xl opacity-90">
-                  ☁️
-                </div>
-                <div className="animate-cloud-slow absolute bottom-0 left-16 text-7xl opacity-80">
-                  ☁️
-                </div>
-                <div className="animate-cloud absolute -right-8 bottom-0 text-8xl opacity-90">
-                  ☁️
-                </div>
-
-                <div className="animate-float-cute absolute -left-4 bottom-16 text-6xl">
-                  🌸
-                </div>
-                <div className="animate-float-cute absolute bottom-4 left-8 text-5xl">
-                  🌷
-                </div>
-                <div className="animate-float-cute absolute -right-3 bottom-4 text-7xl">
-                  🌸
-                </div>
-                <div className="animate-float-cute absolute right-14 bottom-20 text-4xl">
-                  🌺
-                </div>
-
-                <div className="animate-heart absolute left-6 bottom-32 text-2xl">
-                  💗
-                </div>
-                <div className="animate-sparkle absolute right-8 bottom-36 text-2xl">
-                  ✨
-                </div>
-                <div className="animate-sparkle absolute left-1/2 bottom-24 text-xl">
-                  ⭐
+                <div className="info-card">
+                  <div className="ic-label">Fun Fact</div>
+                  <div className="ic-val">Kalau aku gak bales chat berarti aku ketiduran 🥱</div>
                 </div>
               </div>
 
-              <div className="relative z-10 pt-32">
-                <p className="text-2xl font-black leading-relaxed text-pink-700">
-                  Aku lagi ngumpet nih 🫣
-                  <br />
-                  Kalau mau ketemu,
-                  <br />
-                  coba panggil aku dulu 💌
-                </p>
-
-                <div className="mt-8 rounded-3xl border-2 border-dashed border-pink-300 bg-pink-50/70 p-5 text-lg font-black text-pink-700">
-                  💌 Clue:
-                  <br />
-                  coba panggil dulu
-                  <br />
-                  princess nadya 👑
-                </div>
-
-                <div className="mt-7 flex gap-3">
-                  <input
-                    value={answer}
-                    onChange={(e) => {
-                      setAnswer(e.target.value)
-                      setIsWrong(false)
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') checkAnswer()
-                    }}
-                    placeholder="ketik jawaban..."
-                    className="w-full rounded-2xl border-2 border-pink-200 bg-white px-5 py-3 text-sm font-bold text-pink-700 outline-none placeholder:text-pink-300 focus:border-pink-500"
-                  />
-
-                  <button
-                    type="button"
-                    onClick={checkAnswer}
-                    className="rounded-2xl bg-gradient-to-r from-pink-400 to-pink-500 px-6 py-3 text-sm font-black text-white shadow-lg transition hover:scale-105"
-                  >
-                    jawab
-                  </button>
-                </div>
-
-                {isWrong && (
-                  <p className="mt-4 text-xs font-bold text-pink-500">
-                    Belum bener, coba panggil sesuai clue dulu yaa 💗
-                  </p>
-                )}
-
-                <p className="mt-6 text-xs font-black text-pink-500">
-                  💗 Hint: semua huruf kecil yaa 💗
-                </p>
+              <div className="spotify-box">
+                <div className="sp-label-title">Lagu Favorit</div>
+                <div className="sp-song-name">Begin Again 🎶</div>
+                <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/05GsNucq8Bngd9fnd4fRa0?si=87e953ecc5f4492c" />
               </div>
             </div>
-          </section>
-
-          <div className="animate-arrow hidden pt-[330px] text-center text-7xl font-black text-pink-300 drop-shadow-[0_0_6px_white] lg:block">
-            →
-          </div>
-
-          {/* QUOTE ENVELOPE */}
-          <section className="animate-pop-cute animation-delay-200">
-            <div className="mb-5 text-center">
-              <h3 className="mx-auto w-fit rounded-full bg-pink-100 px-10 py-2 text-lg font-black text-pink-800 shadow-md">
-                2. QUOTE
-              </h3>
-
-              <p className="mt-3 text-sm font-bold text-white">
-                Setelah benar, quote rahasia untukmu!
-              </p>
-            </div>
-
-            <div className="relative flex min-h-[620px] items-center justify-center">
-              <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,.65),transparent_55%)]" />
-
-              <div className="animate-float-cute relative h-[560px] w-full max-w-[500px]">
-                <div className="absolute bottom-20 left-1/2 z-20 h-[310px] w-[94%] -translate-x-1/2 rounded-b-[2rem] rounded-t-xl bg-gradient-to-br from-pink-300 via-pink-200 to-pink-400 shadow-[0_25px_70px_rgba(236,72,153,.4)]" />
-
-                <div
-                  className={`absolute bottom-[180px] left-1/2 z-30 min-h-[360px] w-[78%] -translate-x-1/2 rounded-3xl border-2 border-pink-100 bg-white/95 px-8 py-10 text-center shadow-[0_0_60px_rgba(255,255,255,.9)] transition-all duration-700 ${
-                    unlocked
-                      ? 'animate-letter-wiggle -translate-y-14 rotate-[-4deg] opacity-100'
-                      : 'translate-y-28 rotate-0 opacity-70'
-                  }`}
-                >
-                  <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl">
-                    <div className="animate-float-cute absolute left-5 top-5 text-3xl">
-                      🌸
-                    </div>
-                    <div className="animate-float-cute absolute right-5 top-16 text-3xl">
-                      🌸
-                    </div>
-                    <div className="animate-sparkle absolute left-8 bottom-10 text-xl">
-                      ✨
-                    </div>
-                    <div className="animate-sparkle absolute right-8 bottom-8 text-xl">
-                      ⭐
-                    </div>
-                  </div>
-
-                  <p className="animate-heart relative z-10 text-5xl">🎀</p>
-
-                  <p className="relative z-10 mt-7 text-2xl font-black leading-relaxed text-pink-700">
-                    “You can always
-                    <br />
-                    begin again!
-                    <br />
-                    Romanticize your life
-                    <br />
-                    cause you’re the
-                    <br />
-                    main character.”
-                  </p>
-
-                  <p className="relative z-10 mt-6 text-3xl">🌷 💗 🫧 🫧</p>
-                </div>
-
-                <div className="absolute bottom-20 left-1/2 z-40 h-[310px] w-[94%] -translate-x-1/2 overflow-hidden rounded-b-[2rem]">
-                  <div className="absolute bottom-0 left-0 h-full w-1/2 origin-bottom-right rotate-[33deg] bg-gradient-to-br from-pink-300 to-pink-400" />
-                  <div className="absolute bottom-0 right-0 h-full w-1/2 origin-bottom-left rotate-[-33deg] bg-gradient-to-bl from-pink-300 to-pink-400" />
-                </div>
-
-                <div className="animate-heart absolute bottom-[190px] left-1/2 z-50 flex h-20 w-20 -translate-x-1/2 items-center justify-center rounded-full border-4 border-pink-200 bg-gradient-to-br from-pink-400 to-pink-600 text-4xl shadow-lg">
-                  💗
-                </div>
-
-                <div className="animate-cloud absolute bottom-8 left-0 z-50 text-7xl">
-                  ☁️
-                </div>
-                <div className="animate-cloud-slow absolute bottom-8 right-0 z-50 text-7xl">
-                  ☁️
-                </div>
-                <div className="animate-float-cute absolute bottom-12 right-16 z-50 text-6xl">
-                  🎀
-                </div>
-                <div className="animate-float-cute absolute bottom-16 left-10 z-50 text-5xl">
-                  🌸
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setUnlocked(true)}
-                  className="animate-heart absolute bottom-0 left-1/2 z-[60] -translate-x-1/2 rounded-2xl bg-gradient-to-r from-pink-400 to-pink-500 px-10 py-3 text-xl font-black text-white shadow-lg transition hover:scale-105"
-                >
-                  You Found Me 👀
-                </button>
-              </div>
-            </div>
-          </section>
-
-          <div className="animate-arrow hidden pt-[330px] text-center text-7xl font-black text-pink-300 drop-shadow-[0_0_6px_white] lg:block">
-            →
-          </div>
-
-          {/* MEMBER CARD */}
-          <section className="animate-pop-cute animation-delay-400">
-            <div className="mb-5 text-center">
-              <h3 className="mx-auto w-fit rounded-full bg-pink-100 px-8 py-2 text-lg font-black text-pink-800 shadow-md">
-                3. MEMBER CARD
-              </h3>
-
-              <p className="mt-3 text-sm font-bold text-white">
-                Terakhir, member card Nadya muncul!
-              </p>
-            </div>
-
-            <div className="relative min-h-[560px] overflow-hidden rounded-[2rem] border-[3px] border-pink-200 bg-gradient-to-b from-white/80 via-pink-50/75 to-pink-100/80 p-6 text-center shadow-[0_20px_60px_rgba(190,24,93,.28)] backdrop-blur-md">
-              <button className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white text-3xl font-black text-pink-500 shadow-md transition hover:scale-110">
-                ×
-              </button>
-
-              <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[2rem]">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,rgba(255,255,255,.85),transparent_18%),radial-gradient(circle_at_80%_70%,rgba(255,182,193,.45),transparent_25%)]" />
-
-                <div className="animate-heart absolute left-4 top-4 text-4xl drop-shadow-lg">
-                  👑
-                </div>
-                <div className="animate-float-cute absolute right-8 top-4 text-4xl">
-                  🌸
-                </div>
-                <div className="animate-float-cute absolute right-3 top-24 text-5xl">
-                  🌸
-                </div>
-                <div className="animate-sparkle absolute left-3 top-28 text-2xl">
-                  ✨
-                </div>
-
-                <div className="animate-sparkle absolute left-8 top-56 text-2xl">
-                  ⭐
-                </div>
-                <div className="animate-sparkle absolute right-8 top-56 text-2xl">
-                  💫
-                </div>
-                <div className="animate-float-cute absolute left-5 top-72 text-xl">
-                  🌷
-                </div>
-                <div className="animate-sparkle absolute right-6 top-72 text-xl">
-                  ✨
-                </div>
-
-                <div className="animate-cloud absolute -left-8 bottom-0 text-8xl opacity-90">
-                  ☁️
-                </div>
-                <div className="animate-cloud-slow absolute bottom-0 left-20 text-7xl opacity-80">
-                  ☁️
-                </div>
-                <div className="animate-cloud absolute -right-8 bottom-0 text-8xl opacity-90">
-                  ☁️
-                </div>
-
-                <div className="animate-float-cute absolute -right-3 bottom-0 text-7xl">
-                  🌸
-                </div>
-                <div className="animate-float-cute absolute left-5 bottom-4 text-5xl">
-                  🌷
-                </div>
-                <div className="animate-float-cute absolute right-16 bottom-20 text-4xl">
-                  🎀
-                </div>
-                <div className="animate-heart absolute left-8 bottom-24 text-3xl">
-                  💗
-                </div>
-
-                <div className="animate-sparkle absolute left-1/2 top-40 text-xl">
-                  ✦
-                </div>
-                <div className="animate-sparkle absolute left-1/3 bottom-36 text-xl">
-                  ⭐
-                </div>
-                <div className="animate-sparkle absolute right-1/3 bottom-32 text-xl">
-                  ✨
-                </div>
-              </div>
-
-              <div className="relative z-10 pt-8">
-                <div className="relative mx-auto overflow-hidden rounded-2xl border-4 border-white shadow-lg transition duration-300 hover:scale-[1.03]">
-                  <Image
-                    src={ProfileImage}
-                    alt="Profile Image"
-                    className="h-44 w-full object-cover object-center"
-                  />
-                </div>
-
-                <h2 className="mt-4 text-2xl font-black text-pink-600">
-                  Nadya Putri Agustin 👑
-                </h2>
-
-                <p className="mt-1 text-sm font-black text-pink-400">
-                  5027251013 - Surabaya
-                </p>
-
-                <div className="mt-5 flex justify-center gap-3">
-                  <Instagram username="nadyaputria._" />
-                  <LinkedInButtonLink username="nadyaputria" />
-                </div>
-
-                <div className="mt-5 grid grid-cols-2 gap-3 text-xs font-bold">
-                  <div className="rounded-2xl border-2 border-pink-100 bg-pink-50/80 p-4 shadow-md transition hover:scale-105">
-                    <p className="font-black text-pink-500 uppercase">Hobi</p>
-
-                    <p className="mt-2 text-pink-800">
-                      Ketiduran sambil dengerin musik 🎧🎶
-                    </p>
-                  </div>
-
-                  <div className="rounded-2xl border-2 border-pink-100 bg-pink-50/80 p-4 shadow-md transition hover:scale-105">
-                    <p className="font-black text-pink-500 uppercase">
-                      Fun Fact
-                    </p>
-
-                    <p className="mt-2 text-pink-800">
-                      Kalau aku gak bales chat berarti aku ketiduran 😴
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-4 rounded-2xl border-2 border-pink-100 bg-pink-50/80 p-4 shadow-md transition hover:scale-[1.02]">
-                  <p className="text-xs font-black uppercase text-pink-500">
-                    Lagu Favorit
-                  </p>
-
-                  <p className="my-2 text-sm font-black text-pink-800">
-                    Begin Again 🎶
-                  </p>
-
-                  <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/05GsNucq8Bngd9fnd4fRa0?si=87e953ecc5f4492c" />
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-
-        {/* FOOTER */}
-        <div className="animate-pop-cute mx-auto mt-8 flex max-w-[720px] items-center justify-center gap-6 rounded-[2rem] border-2 border-pink-200 bg-white/65 px-8 py-5 text-pink-700 shadow-xl backdrop-blur-md">
-          <p className="text-lg font-black">🎮 Cara bermain:</p>
-
-          <ol className="text-sm font-black leading-relaxed">
-            <li>1. Tebak dulu: panggil "princess nadya"</li>
-            <li>2. Baca quote penyemangat 💗</li>
-            <li>3. Lihat member card Nadya! 👑</li>
-          </ol>
-
-          <p className="animate-heart text-5xl">💗</p>
+          )}
         </div>
       </div>
-<<<<<<< HEAD
 
-      <style jsx>{`
-        @keyframes floatCute {
-          0%,
-          100% {
-            transform: translateY(0) rotate(0deg);
-          }
-          50% {
-            transform: translateY(-14px) rotate(4deg);
-          }
+      <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Nunito:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,600;1,500;1,600&display=swap');
+
+        .member-popup-shell * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
         }
 
-        @keyframes sparkleBlink {
-          0%,
-          100% {
-            opacity: 0.35;
-            transform: scale(0.8);
+        .member-popup-shell {
+          position: fixed;
+          inset: 0;
+          z-index: 100;
+          overflow-y: auto;
+          font-family: 'Nunito', sans-serif;
+          user-select: none;
+        }
+
+        .bg-kingdom {
+          position: fixed;
+          inset: 0;
+          z-index: 0;
+          overflow: hidden;
+          background: linear-gradient(
+            160deg,
+            #2c0a5e 0%,
+            #5a18a0 18%,
+            #8e3bcc 34%,
+            #c26ed4 50%,
+            #e89ccc 64%,
+            #f7c4e0 78%,
+            #fde0f0 90%,
+            #fff4fa 100%
+          );
+        }
+
+        .bg-kingdom::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(ellipse 80% 45% at 50% 0%, rgba(255,200,240,.5) 0%, transparent 65%),
+            radial-gradient(ellipse 45% 55% at 8% 28%, rgba(140,60,210,.4) 0%, transparent 55%),
+            radial-gradient(ellipse 55% 65% at 92% 22%, rgba(190,80,230,.35) 0%, transparent 58%),
+            radial-gradient(ellipse 90% 35% at 50% 100%, rgba(255,210,235,.7) 0%, transparent 65%);
+        }
+
+        .castle-wrap {
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 100%;
+          max-width: 900px;
+          pointer-events: none;
+          opacity: .35;
+          filter: drop-shadow(0 0 50px rgba(200,120,255,.7)) drop-shadow(0 0 25px rgba(255,180,240,.5));
+        }
+
+        .castle-wrap svg {
+          width: 100%;
+          height: auto;
+        }
+
+        .moon {
+          position: absolute;
+          left: 3%;
+          top: 4%;
+          font-size: clamp(60px, 8vw, 100px);
+          filter: drop-shadow(0 0 24px rgba(255,240,120,.95)) drop-shadow(0 0 60px rgba(255,200,80,.4));
+          animation: moonFloat 7s ease-in-out infinite;
+          z-index: 1;
+        }
+
+        @keyframes moonFloat {
+          0%, 100% { transform: translateY(0) rotate(-5deg); }
+          50% { transform: translateY(-16px) rotate(5deg); }
+        }
+
+        .star-field {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          pointer-events: none;
+        }
+
+        .star-dot {
+          position: absolute;
+          border-radius: 50%;
+          background: #fff;
+          animation: starBlink var(--d, 2s) ease-in-out infinite var(--dl, 0s);
+        }
+
+        @keyframes starBlink {
+          0%, 100% { opacity: .15; transform: scale(.6); }
+          50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        .floaters {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          pointer-events: none;
+        }
+
+        .floater {
+          position: absolute;
+          font-size: var(--sz, 26px);
+          animation: floaterAnim var(--d, 4s) ease-in-out infinite var(--dl, 0s);
+          filter: drop-shadow(0 0 8px rgba(255,255,255,.7));
+        }
+
+        @keyframes floaterAnim {
+          0%, 100% {
+            transform: translateY(0) rotate(var(--r0, 0deg)) scale(1);
+            opacity: var(--op, .85);
           }
           50% {
+            transform: translateY(var(--ty, -14px)) rotate(var(--r1, 5deg)) scale(1.1);
             opacity: 1;
-            transform: scale(1.22);
           }
         }
 
-        @keyframes popInCute {
-          0% {
-            opacity: 0;
-            transform: scale(0.85) translateY(30px);
-          }
-          70% {
-            opacity: 1;
-            transform: scale(1.04) translateY(-6px);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-          }
+        .sakura-layer {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          pointer-events: none;
+          overflow: hidden;
         }
 
-        @keyframes cloudMove {
-          0%,
-          100% {
-            transform: translateX(0);
-          }
-          50% {
-            transform: translateX(25px);
-          }
+        .sakura {
+          position: absolute;
+          top: -40px;
+          font-size: var(--sz, 20px);
+          animation: sakuraFall var(--d, 9s) linear infinite var(--dl, 0s);
         }
 
-        @keyframes cloudMoveSlow {
-          0%,
-          100% {
-            transform: translateX(0);
-          }
-          50% {
-            transform: translateX(-25px);
-          }
+        @keyframes sakuraFall {
+          0% { transform: translateY(-50px) translateX(0) rotate(0deg); opacity: 0; }
+          8% { opacity: .9; }
+          90% { opacity: .7; }
+          100% { transform: translateY(105vh) translateX(50px) rotate(420deg); opacity: 0; }
         }
 
-        @keyframes petalFall {
-          0% {
-            transform: translateY(-80px) rotate(0deg);
-            opacity: 0;
-          }
-          15% {
-            opacity: 1;
-          }
-          100% {
-            transform: translateY(850px) rotate(300deg);
-            opacity: 0;
-          }
+        .cloud-base {
+          position: absolute;
+          z-index: 2;
+          pointer-events: none;
         }
 
-        @keyframes heartBeat {
-          0%,
-          100% {
-            transform: scale(1);
-          }
-          50% {
-            transform: scale(1.15);
-          }
+        .cloud-base span {
+          display: block;
+          font-size: var(--sz, 180px);
+          animation: cloudSway var(--d, 6s) ease-in-out infinite var(--dl, 0s);
+          opacity: .93;
         }
 
-        @keyframes letterWiggle {
-          0%,
-          100% {
-            transform: translateX(-50%) translateY(-56px) rotate(-4deg);
-          }
-          50% {
-            transform: translateX(-50%) translateY(-66px) rotate(2deg);
-          }
+        .cloud-1 {
+          left: -50px;
+          bottom: -10px;
+          --sz: 200px;
+          --d: 5s;
+          --dl: 0s;
+          --sh: 28px;
         }
 
-        @keyframes arrowMove {
-          0%,
-          100% {
-            transform: translateX(0);
-            opacity: 0.75;
-          }
-          50% {
-            transform: translateX(12px);
-            opacity: 1;
-          }
+        .cloud-2 {
+          right: -50px;
+          bottom: -10px;
+          --sz: 220px;
+          --d: 6s;
+          --dl: .6s;
+          --sh: -28px;
         }
 
-        .animate-pop-cute {
-          animation: popInCute 0.75s ease-out both;
+        .cloud-3 {
+          left: 18%;
+          bottom: -5px;
+          --sz: 155px;
+          --d: 4.5s;
+          --dl: .3s;
+          --sh: 20px;
         }
 
-        .animate-float-cute {
-          animation: floatCute 3s ease-in-out infinite;
+        .cloud-4 {
+          right: 16%;
+          bottom: -5px;
+          --sz: 145px;
+          --d: 5.5s;
+          --dl: 1s;
+          --sh: -20px;
         }
 
-        .animate-sparkle {
-          animation: sparkleBlink 1.8s ease-in-out infinite;
+        @keyframes cloudSway {
+          0%, 100% { transform: translateX(0); }
+          50% { transform: translateX(var(--sh, 20px)); }
         }
 
-        .animate-cloud {
-          animation: cloudMove 5s ease-in-out infinite;
+        .page {
+          position: relative;
+          z-index: 10;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 24px 16px;
         }
 
-        .animate-cloud-slow {
-          animation: cloudMoveSlow 6s ease-in-out infinite;
+        .card {
+          width: 100%;
+          max-width: 430px;
+          background: linear-gradient(
+            160deg,
+            rgba(255,255,255,.93) 0%,
+            rgba(255,243,252,.9) 45%,
+            rgba(255,218,240,.88) 100%
+          );
+          border: 3.5px solid rgba(255,170,210,.75);
+          border-radius: 36px;
+          padding: 32px 28px 28px;
+          position: relative;
+          overflow: hidden;
+          box-shadow:
+            0 0 0 7px rgba(255,255,255,.22),
+            0 28px 70px rgba(200,0,110,.38),
+            0 6px 20px rgba(255,100,180,.25),
+            inset 0 1px 0 rgba(255,255,255,.95);
+          backdrop-filter: blur(12px);
+          animation: cardPop .75s cubic-bezier(.34,1.56,.64,1) both;
         }
 
-        .animate-heart {
-          animation: heartBeat 1.2s ease-in-out infinite;
+        @keyframes cardPop {
+          from { opacity: 0; transform: scale(.8) translateY(36px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        .animate-letter-wiggle {
-          animation: letterWiggle 2.6s ease-in-out infinite;
+        .card::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 32px;
+          pointer-events: none;
+          background:
+            radial-gradient(circle at 18% 14%, rgba(255,255,255,.88) 0%, transparent 28%),
+            radial-gradient(circle at 82% 78%, rgba(255,175,215,.35) 0%, transparent 32%);
         }
 
-        .animate-petal {
-          animation-name: petalFall;
-          animation-timing-function: linear;
-          animation-iteration-count: infinite;
+        .cd {
+          position: absolute;
+          pointer-events: none;
+          z-index: 0;
         }
 
-        .animate-arrow {
-          animation: arrowMove 1.4s ease-in-out infinite;
+        .cd.moon-tl { top: 14px; left: 14px; font-size: 28px; animation: floaterAnim 5s ease-in-out infinite; }
+        .cd.star-tr { top: 14px; right: 50px; font-size: 22px; animation: twinkleAnim 2.2s ease-in-out infinite .4s; }
+        .cd.star2 { top: 14px; right: 22px; font-size: 18px; animation: twinkleAnim 1.8s ease-in-out infinite .9s; }
+        .cd.flower-tr { top: 60px; right: 18px; font-size: 26px; animation: floaterAnim 4.5s ease-in-out infinite .5s; }
+        .cd.tulip-r { top: 120px; right: 14px; font-size: 22px; animation: floaterAnim 4s ease-in-out infinite 1s; }
+        .cd.flower-bl { bottom: 80px; left: -6px; font-size: 46px; animation: floaterAnim 5s ease-in-out infinite .3s; }
+        .cd.flower-br { bottom: 70px; right: -6px; font-size: 46px; animation: floaterAnim 5s ease-in-out infinite .6s; }
+        .cd.heart-bl { bottom: 130px; left: 18px; font-size: 22px; animation: heartPop 1.8s ease-in-out infinite; }
+        .cd.heart-br { bottom: 115px; right: 16px; font-size: 18px; animation: heartPop 2s ease-in-out infinite .4s; }
+
+        @keyframes heartPop {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.25); }
         }
 
-        .animation-delay-200 {
-          animation-delay: 0.2s;
+        .close-btn {
+          position: absolute;
+          top: -12px;
+          right: -12px;
+          z-index: 30;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: #fff;
+          border: 3px solid #ffb3d1;
+          font-size: 20px;
+          font-weight: 900;
+          color: #e91e8c;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 5px 16px rgba(233,30,140,.28);
+          transition: transform .15s, box-shadow .15s;
+          line-height: 1;
         }
 
-        .animation-delay-400 {
-          animation-delay: 0.4s;
+        .close-btn:hover {
+          transform: scale(1.12);
+          box-shadow: 0 8px 22px rgba(233,30,140,.4);
+        }
+
+        .slide {
+          position: relative;
+          z-index: 5;
+        }
+
+        .quiz-icon-row {
+          text-align: center;
+          margin-bottom: 4px;
+        }
+
+        .quiz-crown {
+          font-size: 50px;
+          animation: floaterAnim 3s ease-in-out infinite;
+          display: inline-block;
+        }
+
+        .quiz-bow {
+          font-size: 42px;
+          animation: floaterAnim 3.5s ease-in-out infinite .4s;
+          display: inline-block;
+          margin-left: 6px;
+        }
+
+        .quiz-title {
+          font-family: 'Dancing Script', cursive;
+          font-size: 30px;
+          font-weight: 900;
+          color: #c0185a;
+          text-align: center;
+          margin: 8px 0 4px;
+          text-shadow: 0 1px 8px rgba(200,0,100,.15);
+        }
+
+        .quiz-body {
+          font-size: 18px;
+          font-weight: 800;
+          color: #d4366e;
+          text-align: center;
+          line-height: 1.55;
+          margin-bottom: 18px;
+          font-style: italic;
+        }
+
+        .clue-box {
+          background: rgba(255,255,255,.82);
+          border: 2.5px dashed #ffb3d1;
+          border-radius: 22px;
+          padding: 14px 18px;
+          text-align: center;
+          margin-bottom: 18px;
+          box-shadow: inset 0 2px 8px rgba(255,100,160,.08);
+        }
+
+        .clue-box p {
+          font-size: 15px;
+          font-weight: 800;
+          color: #c0185a;
+          line-height: 1.65;
+        }
+
+        .input-row {
+          display: flex;
+          gap: 8px;
+          margin-bottom: 6px;
+        }
+
+        .q-input {
+          flex: 1;
+          border: 2.5px solid #ffb3d1;
+          border-radius: 16px;
+          padding: 11px 16px;
+          font-size: 14px;
+          font-weight: 700;
+          color: #c0185a;
+          background: rgba(255,255,255,.92);
+          outline: none;
+          transition: border-color .2s, box-shadow .2s;
+        }
+
+        .q-input:focus {
+          border-color: #ff3d8b;
+          box-shadow: 0 0 0 3px rgba(255,60,140,.18);
+        }
+
+        .q-input::placeholder {
+          color: #ffaacc;
+          font-weight: 600;
+        }
+
+        .btn-kirim {
+          background: linear-gradient(135deg, #ff6eb0, #e91e8c);
+          color: #fff;
+          border: none;
+          border-radius: 16px;
+          padding: 11px 22px;
+          font-size: 14px;
+          font-weight: 900;
+          cursor: pointer;
+          box-shadow: 0 5px 16px rgba(233,30,140,.4);
+          transition: transform .15s, box-shadow .15s;
+          white-space: nowrap;
+        }
+
+        .btn-kirim:hover {
+          transform: scale(1.06);
+        }
+
+        .btn-kirim:active {
+          transform: scale(.96);
+        }
+
+        .wrong-overlay {
+          display: none;
+          position: absolute;
+          inset: 0;
+          border-radius: 32px;
+          z-index: 40;
+          background: linear-gradient(160deg, rgba(255,240,250,.97), rgba(255,210,235,.96));
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          text-align: center;
+          padding: 32px;
+          animation: cardPop .35s ease-out both;
+        }
+
+        .wrong-overlay.show {
+          display: flex;
+        }
+
+        .sad-cloud-wrap {
+          position: relative;
+          margin-bottom: 10px;
+        }
+
+        .sad-cloud-img {
+          width: 130px;
+          height: 100px;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .cloud-body {
+          position: absolute;
+          width: 120px;
+          height: 70px;
+          background: linear-gradient(160deg, #fde0ee, #f9b8d8);
+          border-radius: 40px;
+          border: 3px solid rgba(255,150,190,.4);
+          box-shadow: 0 6px 20px rgba(255,100,160,.25), inset 0 2px 0 rgba(255,255,255,.7);
+          bottom: 10px;
+          left: 0;
+        }
+
+        .cloud-body::before {
+          content: '';
+          position: absolute;
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #fde8f3, #f9c0dc);
+          border: 3px solid rgba(255,150,190,.35);
+          top: -26px;
+          left: 18px;
+        }
+
+        .cloud-body::after {
+          content: '';
+          position: absolute;
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #fdeaf5, #f9c8e0);
+          border: 3px solid rgba(255,150,190,.3);
+          top: -16px;
+          left: 52px;
+        }
+
+        .cloud-eye-l,
+        .cloud-eye-r {
+          position: absolute;
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: #a0405c;
+          z-index: 2;
+          top: 22px;
+        }
+
+        .cloud-eye-l { left: 36px; }
+        .cloud-eye-r { left: 66px; }
+
+        .tear-l,
+        .tear-r {
+          position: absolute;
+          width: 7px;
+          height: 12px;
+          border-radius: 50%;
+          background: linear-gradient(180deg, #88c4f0, #4a9fd4);
+          z-index: 2;
+          animation: tearDrop 1.4s ease-in infinite var(--dl, 0s);
+        }
+
+        .tear-l { top: 38px; left: 38px; --dl: 0s; }
+        .tear-r { top: 38px; left: 68px; --dl: .3s; }
+
+        @keyframes tearDrop {
+          0% { opacity: 1; transform: translateY(0) scaleY(1); }
+          80% { opacity: .4; transform: translateY(22px) scaleY(.4); }
+          100% { opacity: 0; transform: translateY(28px); }
+        }
+
+        .cloud-star-l,
+        .cloud-star-r {
+          position: absolute;
+          font-size: 16px;
+          z-index: 2;
+          animation: twinkleAnim 1.5s ease-in-out infinite;
+        }
+
+        .cloud-star-l { top: -4px; left: -4px; }
+        .cloud-star-r { top: 0; right: -8px; animation-delay: .4s; }
+
+        @keyframes twinkleAnim {
+          0%, 100% { opacity: .2; transform: scale(.6) rotate(0deg); }
+          50% { opacity: 1; transform: scale(1.4) rotate(20deg); }
+        }
+
+        .wrong-msg-only {
+          font-size: 16px;
+          font-weight: 800;
+          color: #d4366e;
+          margin-top: 14px;
+          line-height: 1.65;
+          text-align: center;
+        }
+
+        .btn-wrong-close {
+          margin-top: 20px;
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #ff5b5b, #e53535);
+          border: 3px solid rgba(255,255,255,.5);
+          color: #fff;
+          font-size: 22px;
+          font-weight: 900;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 6px 18px rgba(229,53,53,.45);
+          transition: transform .15s;
+        }
+
+        .btn-wrong-close:hover {
+          transform: scale(1.1);
+        }
+
+        .quote-header {
+          font-family: 'Dancing Script', cursive;
+          font-size: 22px;
+          font-weight: 900;
+          color: #c0185a;
+          text-align: center;
+          margin-bottom: 10px;
+          text-shadow: 0 1px 8px rgba(200,0,100,.15);
+        }
+
+        .env-scene {
+          position: relative;
+          height: 360px;
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          margin-bottom: 14px;
+        }
+
+        .q-paper {
+          position: absolute;
+          top: 0;
+          left: 50%;
+          width: 240px;
+          background: linear-gradient(155deg, #fff9fc, #fff0f6);
+          border: 2px solid #ffdaec;
+          border-radius: 20px;
+          padding: 26px 20px 18px;
+          text-align: center;
+          z-index: 10;
+          box-shadow: 0 -8px 35px rgba(255,100,180,.28), 0 0 0 1px rgba(255,255,255,.85);
+          transform: translateX(-50%) translateY(200px);
+          opacity: 0;
+          animation: paperOut 1.1s cubic-bezier(.34,1.28,.64,1) .25s both;
+        }
+
+        @keyframes paperOut {
+          0% { transform: translateX(-50%) translateY(200px) scale(.9); opacity: 0; }
+          55% { transform: translateX(-50%) translateY(-8px) scale(1.04) rotate(-1.5deg); opacity: 1; }
+          100% { transform: translateX(-50%) translateY(4px) scale(1) rotate(-1.5deg); opacity: 1; }
+        }
+
+        .paper-crown-icon {
+          position: absolute;
+          top: -20px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 36px;
+          animation: heartPop 2s ease-in-out infinite;
+        }
+
+        .paper-quote {
+          font-family: 'Dancing Script', cursive;
+          font-size: 18px;
+          font-weight: 700;
+          color: #9b1461;
+          line-height: 1.6;
+          margin-top: 8px;
+        }
+
+        .paper-quote em {
+          color: #e91e8c;
+          font-style: italic;
+        }
+
+        .env-body {
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 280px;
+          height: 185px;
+          z-index: 2;
+        }
+
+        .env-main {
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(145deg, #ff9ed4, #e91e8c, #ff5ba7);
+          border-radius: 18px 18px 26px 26px;
+          border: 3px solid rgba(255,255,255,.45);
+          box-shadow: 0 18px 55px rgba(233,30,140,.55), inset 0 2px 0 rgba(255,255,255,.4);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .env-fold-l {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 50%;
+          height: 100%;
+          background: linear-gradient(to bottom right, rgba(255,190,220,.8), rgba(220,30,130,.7));
+          clip-path: polygon(0 100%, 100% 100%, 0 0);
+        }
+
+        .env-fold-r {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 50%;
+          height: 100%;
+          background: linear-gradient(to bottom left, rgba(255,190,220,.8), rgba(220,30,130,.7));
+          clip-path: polygon(0 100%, 100% 100%, 100% 0);
+        }
+
+        .env-gold-l,
+        .env-gold-r {
+          position: absolute;
+          bottom: 0;
+          height: 100%;
+          width: 3px;
+          background: linear-gradient(to top, rgba(255,210,80,.9), transparent);
+          z-index: 3;
+        }
+
+        .env-gold-l {
+          left: 50%;
+          transform-origin: bottom left;
+          transform: rotate(-34deg);
+        }
+
+        .env-gold-r {
+          right: 50%;
+          transform-origin: bottom right;
+          transform: rotate(34deg);
+        }
+
+        .env-seal {
+          position: absolute;
+          bottom: 14px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 5;
+          width: 58px;
+          height: 58px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #ff4d8c, #bf1862);
+          border: 4px solid rgba(255,255,255,.55);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 26px;
+          box-shadow: 0 5px 18px rgba(192,24,98,.55);
+          animation: heartPop 1.6s ease-in-out infinite;
+        }
+
+        .env-wing {
+          position: absolute;
+          bottom: 36px;
+          font-size: 54px;
+          z-index: 1;
+          filter: drop-shadow(0 4px 8px rgba(255,120,180,.35));
+        }
+
+        .env-wing.l {
+          left: -14px;
+          transform: rotate(-18deg) scaleX(-1);
+          animation: wingL 2s ease-in-out infinite;
+        }
+
+        .env-wing.r {
+          right: -14px;
+          transform: rotate(18deg);
+          animation: wingR 2s ease-in-out infinite;
+        }
+
+        @keyframes wingL {
+          0%, 100% { transform: rotate(-18deg) scaleX(-1) translateY(0); }
+          50% { transform: rotate(-25deg) scaleX(-1) translateY(-9px); }
+        }
+
+        @keyframes wingR {
+          0%, 100% { transform: rotate(18deg) translateY(0); }
+          50% { transform: rotate(25deg) translateY(-9px); }
+        }
+
+        .env-cloud-l,
+        .env-cloud-r {
+          position: absolute;
+          bottom: 0;
+          font-size: 60px;
+          z-index: 3;
+          animation: cloudSway 5s ease-in-out infinite;
+        }
+
+        .env-cloud-l { left: -12px; }
+        .env-cloud-r { right: -12px; animation-duration: 6s; animation-delay: .5s; }
+
+        .env-flower-l,
+        .env-flower-r {
+          position: absolute;
+          bottom: 55px;
+          font-size: 32px;
+          z-index: 4;
+          animation: floaterAnim 3.5s ease-in-out infinite;
+        }
+
+        .env-flower-l { left: 4px; }
+        .env-flower-r { right: 2px; animation-delay: .6s; }
+
+        .btn-found {
+          display: block;
+          width: 100%;
+          background: linear-gradient(135deg, #ff5ba7, #e91e8c);
+          color: #fff;
+          border: none;
+          border-radius: 50px;
+          padding: 14px 28px;
+          font-family: 'Dancing Script', cursive;
+          font-size: 21px;
+          font-weight: 900;
+          cursor: pointer;
+          box-shadow: 0 8px 26px rgba(233,30,140,.5);
+          transition: transform .15s, box-shadow .15s;
+          animation: btnPulse 2s ease-in-out infinite;
+          letter-spacing: .3px;
+        }
+
+        .btn-found:hover {
+          transform: scale(1.05);
+          box-shadow: 0 12px 32px rgba(233,30,140,.62);
+        }
+
+        @keyframes btnPulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.04); }
+        }
+
+        .prof-crown {
+          text-align: center;
+          font-size: 44px;
+          animation: heartPop 2s ease-in-out infinite;
+          margin-bottom: 6px;
+        }
+
+        .photo-frame {
+          position: relative;
+          margin: 0 auto 18px;
+          border-radius: 24px;
+          overflow: hidden;
+          border: 4px solid #ff6eb0;
+          box-shadow: 0 0 0 6px rgba(255,110,176,.22), 0 15px 40px rgba(233,30,140,.4);
+          height: 260px;
+          background: linear-gradient(135deg, #ffd6f0, #ffaad4);
+        }
+
+        .profile-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center 30%;
+          display: block;
+        }
+
+        .photo-spark {
+          position: absolute;
+          animation: twinkleAnim 2s ease-in-out infinite;
+          pointer-events: none;
+        }
+
+        .spark-1 { top: 8px; left: 10px; font-size: 16px; }
+        .spark-2 { top: 8px; right: 12px; font-size: 14px; animation-duration: 2.5s; }
+        .spark-3 { bottom: 10px; left: 14px; font-size: 18px; animation-duration: 2.2s; }
+        .spark-4 { bottom: 10px; right: 10px; font-size: 14px; animation-duration: 1.8s; }
+
+        .prof-name {
+          font-family: 'Dancing Script', cursive;
+          font-size: 28px;
+          font-weight: 900;
+          color: #c0185a;
+          text-align: center;
+          margin-bottom: 3px;
+        }
+
+        .prof-id {
+          font-size: 12px;
+          font-weight: 800;
+          color: #e86fa0;
+          text-align: center;
+          letter-spacing: .3px;
+          margin-bottom: 12px;
+        }
+
+        .social-row {
+          display: flex;
+          gap: 14px;
+          justify-content: center;
+          margin-bottom: 14px;
+        }
+
+        .info-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+          margin-bottom: 10px;
+        }
+
+        .info-card {
+          background: rgba(255,255,255,.78);
+          border: 2px solid #ffd4e8;
+          border-radius: 16px;
+          padding: 11px 12px;
+          text-align: center;
+          box-shadow: 0 3px 10px rgba(255,100,160,.12);
+          transition: transform .2s;
+        }
+
+        .info-card:hover {
+          transform: scale(1.04);
+        }
+
+        .ic-label {
+          font-size: 10px;
+          font-weight: 900;
+          color: #e91e8c;
+          letter-spacing: .6px;
+          text-transform: uppercase;
+          margin-bottom: 5px;
+        }
+
+        .ic-val {
+          font-size: 14px;
+          font-weight: 600;
+          color: #8a1457;
+          line-height: 1.45;
+          font-family: 'Cormorant Garamond', serif;
+          font-style: italic;
+        }
+
+        .spotify-box {
+          background: rgba(255,255,255,.78);
+          border: 2px solid #ffd4e8;
+          border-radius: 16px;
+          padding: 12px 14px;
+          box-shadow: 0 3px 10px rgba(255,100,160,.12);
+        }
+
+        .sp-label-title {
+          font-size: 10px;
+          font-weight: 900;
+          color: #e91e8c;
+          letter-spacing: .6px;
+          text-transform: uppercase;
+          margin-bottom: 3px;
+          text-align: center;
+        }
+
+        .sp-song-name {
+          font-family: 'Playfair Display', serif;
+          font-size: 13px;
+          font-style: italic;
+          font-weight: 700;
+          color: #8a1457;
+          text-align: center;
+          margin-bottom: 8px;
         }
       `}</style>
     </div>
-=======
-    </div>,
-    document.body
->>>>>>> 0b5782897e73de7c6d6cc5b53dc4f58a0892dd24
   )
 }
 
