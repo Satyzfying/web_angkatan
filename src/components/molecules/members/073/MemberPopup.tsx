@@ -117,17 +117,29 @@ const SPOTIFY_EMBED_URL =
   'https://open.spotify.com/track/3AAAGS7iM1ekDywqdYMJG2?si=pDg9SaHgTNqdlLN-AmweuQ'
 
 const HiddenSpotifyPlayer = ({ play }: { play: boolean }) => {
-  if (!play) return null
-  return (
-    <iframe
-      src={`https://open.spotify.com/embed/track/3AAAGS7iM1ekDywqdYMJG2?utm_source=generator&autoplay=1`}
-      width="0"
-      height="0"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }}
-      title="bg-music"
-    />
-  )
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  useEffect(() => {
+    if (play) {
+      audioRef.current = new Audio('/assets/sounds/akad.mp3')
+      audioRef.current.loop = true
+      audioRef.current.volume = 0.7
+      audioRef.current.play().catch(() => {})
+    } else {
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
+      }
+    }
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
+      }
+    }
+  }, [play])
+
+  return null
 }
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
@@ -190,14 +202,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           55%  { transform: translateY(55vh) rotate(-10deg) translateX(-10px); }
           80%  { transform: translateY(80vh) rotate(25deg) translateX(8px); opacity: 0.3; }
           100% { transform: translateY(110vh) rotate(-5deg) translateX(-5px); opacity: 0; }
-        }
-        @keyframes envelopeFlipIn {
-          0%   { transform: rotateY(0deg); }
-          100% { transform: rotateY(180deg); }
-        }
-        @keyframes flapOpen {
-          0%   { transform: rotateX(0deg); transform-origin: top center; }
-          100% { transform: rotateX(-160deg); transform-origin: top center; }
         }
         @keyframes fadeSlideUp {
           0%   { opacity: 0; transform: translateY(18px); }
@@ -337,10 +341,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             style={{ animation: 'fadeSlideUp 0.5s ease-out both' }}
           >
             <div className="poem-box relative p-6 sm:p-8 min-h-screen">
-              {/* Falling leaves — full height, behind everything */}
               <FallingLeaves />
-
-              {/* Content — z-10 so leaves go behind */}
               <div className="relative z-10">
                 <h2
                   className="text-xl sm:text-2xl font-black leading-snug mb-5"
@@ -352,7 +353,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 >
                   {poemTitle}
                 </h2>
-
                 <div
                   className="text-sm sm:text-base leading-relaxed whitespace-pre-line"
                   style={{
@@ -363,7 +363,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 >
                   {poemBody}
                 </div>
-
                 <div className="mt-8 flex items-center justify-between gap-4 flex-wrap">
                   <p className="text-xs text-orange-100 italic opacity-80">
                     🎵 Akad - Payung Teduh sedang mengalun~
@@ -385,8 +384,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div
             className="profile-animate relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain rounded-2xl border-2 border-pink-200 bg-[#fde8f0] p-6 text-[#7c3a5a] shadow-2xl ring-1 ring-pink-100 sm:p-8"
           >
-            <HiddenSpotifyPlayer play={musicPlaying} />
-
             <button
               type="button"
               aria-label="Close member detail"
@@ -415,17 +412,15 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             </div>
 
             <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
-              {/* Hobi card */}
               <div className="relative rounded-xl border border-pink-200 bg-[#fad4e5] p-4 overflow-hidden">
                 <FloatingEmoji emoji="📜" count={3} style={{ opacity: 1 }} />
                 <FloatingEmoji emoji="𝄞" count={3} style={{ opacity: 1 }} />
                 <div className="relative z-10">
                   <p className="text-[#c478a0] text-xs tracking-widest uppercase">Hobi</p>
-                  <p className="mt-2 text-[#7c3a5a]">Bikin puisi, nggambar, dengerin lagu, dengerin orang nggitar</p>
+                  <p className="mt-2 text-[#7c3a5a]">Bikin puisi, ndengerin lagu, nggambar, ndengerin orang nggitar, baca novel</p>
                 </div>
               </div>
 
-              {/* Fun Fact card */}
               <div className="relative rounded-xl border border-pink-200 bg-[#f9cfe2] p-4 hover:border-pink-300 hover:bg-[#f7c4db] transition-colors overflow-hidden">
                 <FloatingEmoji emoji="ᶻ" count={2} />
                 <FloatingEmoji emoji="𝘇" count={2} />
@@ -437,7 +432,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               </div>
             </div>
 
-            {/* Lagu Favorit */}
             <div className="mt-4 rounded-xl border border-pink-200 bg-[#fad4e5] p-4 hover:border-pink-300 hover:bg-[#f7c4db] transition-colors">
               <p className="text-[#c478a0] text-xs font-bold tracking-widest uppercase">Lagu Favorit</p>
               <p className="my-2 text-sm font-semibold text-[#7c3a5a]">
