@@ -1,48 +1,83 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
+import ProfileImage from './foto.jpg'
 
-import ProfileImage from './image.png'
+import Slide1 from './1.png'
+import Slide2 from './2.png'
+import Slide3 from './3.png'
+import Slide4 from './4.png'
+import Slide5 from './5.png'
 
 type MemberPopupProps = {
   isOpen: boolean
   onClose: () => void
 }
 
-const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
-  useEffect(() => {
-    if (!isOpen) {
-      return
-    }
+const TOTAL_SLIDES = 5
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose()
+const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
+  const [slideIndex, setSlideIndex] = useState(0)
+  const [showCard, setShowCard] = useState(false)
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
+
+  const killAll = () => {
+    timersRef.current.forEach(clearTimeout)
+    timersRef.current = []
+  }
+
+  const runIntro = () => {
+    setSlideIndex(0)
+    setShowCard(false)
+    let cur = 0
+    const advance = () => {
+      cur++
+      if (cur < TOTAL_SLIDES) {
+        setSlideIndex(cur)
+        const t = setTimeout(advance, 250)
+        timersRef.current.push(t)
+      } else {
+        setShowCard(true)
       }
     }
+    const t = setTimeout(advance, 1000)
+    timersRef.current.push(t)
+  }
 
+  useEffect(() => {
+    if (!isOpen) { killAll(); setSlideIndex(0); setShowCard(false); return }
+    const handleKeyDown = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
     document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', handleKeyDown)
-
+    runIntro()
     return () => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
+      killAll()
     }
-  }, [isOpen, onClose])
+  }, [isOpen])
 
-  if (!isOpen) {
-    return null
-  }
+  if (!isOpen) return null
+
+  const mono = "'IBM Plex Mono', 'Courier New', monospace" as const
+  const slideImages = [Slide1, Slide2, Slide3, Slide4, Slide5]
 
   return (
+    <>
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+      {/* PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK */}
+      <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+  return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
       <button
         type="button"
         aria-label="Close member detail"
@@ -50,57 +85,189 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
 
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
+          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        />
+
+        {/* container utama — height eksplisit biar absolute children punya ruang */}
+        <div
+          className="relative z-10 w-full max-w-[560px]"
+          style={{
+            height: 'calc(100vh - 9rem)',
+            maxHeight: 'calc(100vh - 9rem)',
+            border: '2px solid #fff',
+            borderRadius: 0,
+            overflow: 'hidden',
+            position: 'relative',
+          }}
         >
-          x
-        </button>
-
-        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
-          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
-        </div>
-
-        <div className="pr-10">
-          {/* UBAH NAMA ANDA */}
-          <h2 className="text-2xl font-black">Catherina Vallencia K</h2>
-          {/* UBAH NRP DAN ASAL */}
-          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251082 - Surakarta</p>
-        </div>
-
-        <div className="mt-5 flex gap-2">
-          {/* UBAH USERNAME INSTAGRAM */}
-          <Instagram username="jkt48.erine" />
-          {/* UBAH USERNAME LINKEDIN */}
-          <LinkedInButtonLink username="jkt48.erine" />
-        </div>
-
-        <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
-            {/* UBAH HOBI KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
-            <p className="mt-2">Nyanyi</p>
+          {/* INTRO SLIDES — posisi absolute, jadi tetap keliatan saat card naik */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: '#fff',
+              zIndex: 1,
+              pointerEvents: showCard ? 'none' : 'auto',
+            }}
+          >
+            {slideImages.map((src, i) => (
+  <div
+    key={i}
+    style={{
+      position: 'absolute', inset: 0,
+      opacity: slideIndex === i ? 1 : 0,
+      transition: 'opacity 0.15s ease',
+      pointerEvents: slideIndex === i ? 'auto' : 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: '#fff',
+      overflow: 'hidden',
+    }}
+  >
+    <Image
+      src={src}
+      alt={`slide ${i + 1}`}
+      style={{
+        width: '100%',
+        height: '100%',
+        objectFit: 'contain',
+        display: 'block',
+        // zoom in halus saat slide aktif
+        transform: slideIndex === i ? 'scale(1.06)' : 'scale(1)',
+        transition: 'transform 0.8s cubic-bezier(0.22,1,0.36,1), opacity 0.15s ease',
+        transformOrigin: 'center center',
+      }}
+    />
+  </div>
+))}
           </div>
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
-            {/* UBAH FUNFACT KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
-            <p className="mt-2">Gwe Member JKT</p>
+
+          {/* CARD — absolute, swipe up dari bawah di atas intro */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: '#111111',
+              transform: showCard ? 'translateY(0)' : 'translateY(100%)',
+              transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)',
+              overflowY: 'auto',
+              zIndex: 2,
+            }}
+          >
+            <button
+              type="button"
+              aria-label="Close member detail"
+              onClick={onClose}
+              style={{
+                position: 'absolute', top: 16, right: 16,
+                width: 34, height: 34,
+                border: '1px solid #333',
+                borderRadius: 0,
+                background: 'transparent',
+                color: '#666',
+                fontFamily: mono,
+                fontSize: 18,
+                cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                zIndex: 10,
+              }}
+            >×</button>
+
+            {/* foto */}
+            <div style={{ width: '100%', overflow: 'hidden', borderBottom: '1px solid #222' }}>
+              <Image
+                src={ProfileImage}
+                alt="Profile Image"
+                className="w-full object-cover object-center"
+                style={{ height: 280, display: 'block' }}
+              />
+            </div>
+
+            {/* nama */}
+            <div style={{ padding: '22px 28px', borderBottom: '1px solid #222' }}>
+              <h2 style={{
+                fontFamily: "'Montserrat', sans-serif",
+                fontWeight: 900,
+                fontSize: 'clamp(20px, 4vw, 28px)',
+                color: '#F5F5F5',
+                letterSpacing: '-0.03em',
+                lineHeight: 0.95,
+                marginBottom: 8,
+              }}>Putri Permata Sabila</h2>
+              <p style={{
+                fontFamily: mono,
+                fontSize: 11,
+                color: '#555',
+                letterSpacing: '0.08em',
+              }}>5027251047 — Malang</p>
+            </div>
+
+            {/* sosmed */}
+            <div style={{
+              padding: '16px 28px',
+              borderBottom: '1px solid #222',
+              display: 'flex', gap: 12,
+            }}>
+              <Instagram username="sabilapuputt" />
+              <LinkedInButtonLink username="putri-permata-sabila-239932320" />
+            </div>
+
+            {/* hobi + fun fact — 2 kolom */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              borderBottom: '1px solid #222',
+            }}>
+              <div style={{ padding: '18px 24px', borderRight: '1px solid #222' }}>
+                <p style={{
+                  fontFamily: mono, fontSize: 9,
+                  letterSpacing: '0.2em', textTransform: 'uppercase',
+                  color: '#444', marginBottom: 8,
+                }}>Hobi</p>
+                <p style={{
+                  fontFamily: "'Inter', sans-serif", fontWeight: 500,
+                  fontSize: 13, color: '#D0D0D0', lineHeight: 1.55,
+                }}>mendengarkan lagu, bernyanyi (meskipun suara awikwok), main musik</p>
+              </div>
+              <div style={{ padding: '18px 24px' }}>
+                <p style={{
+                  fontFamily: mono, fontSize: 9,
+                  letterSpacing: '0.2em', textTransform: 'uppercase',
+                  color: '#444', marginBottom: 8,
+                }}>Fun Fact</p>
+                <p style={{
+                  fontFamily: "'Inter', sans-serif", fontWeight: 500,
+                  fontSize: 13, color: '#D0D0D0', lineHeight: 1.55,
+                }}>gabisa pedas dan ga suka pedas (mie gacoan level 0 enjoyer)</p>
+              </div>
+            </div>
+
+            {/* lagu favorit */}
+            <div style={{ padding: '18px 28px 28px' }}>
+              <p style={{
+                fontFamily: mono, fontSize: 9,
+                letterSpacing: '0.2em', textTransform: 'uppercase',
+                color: '#444', marginBottom: 8,
+              }}>Lagu Favorit</p>
+              <p style={{
+                fontFamily: "'Inter', sans-serif", fontWeight: 500,
+                fontSize: 13, color: '#D0D0D0', lineHeight: 1.55,
+                marginBottom: 12,
+              }}>Pasti Ada Jalan — lagi suka ini karena lagunya bikin optimis!!</p>
+              <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/6KUO3GzqmTnF0aCNlALa62?si=d5038e19ddda42aa" />
+            </div>
           </div>
-        </div>
-
-        <div className="border-neutral-cs-10/40 mt-4 rounded-xl border p-4">
-          {/* UBAH LAGU FAVORIT KAMU */}
-          <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
-          <p className="my-2 text-sm font-semibold">There Is a Light That Never Goes Out</p>
-
-          {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2X62SjtuwVQiGiZvZZ9Ztr?si=f6718391848a4469" />
         </div>
       </div>
-    </div>
+    </>
+    </div>,
+    document.body
   )
 }
 

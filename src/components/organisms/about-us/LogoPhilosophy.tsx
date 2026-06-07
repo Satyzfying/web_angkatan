@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Image from 'next/image'
 
@@ -11,6 +11,8 @@ import LogoGradient from '@/assets/images/about-us/full.png'
 import HurufE from '@/assets/images/about-us/hurufE.png'
 import LogoTitik from '@/assets/images/about-us/titik.png'
 
+const AUTO_SLIDE_INTERVAL_MS = 7_000
+
 const philosophyData = [
   {
     id: 1,
@@ -19,7 +21,7 @@ const philosophyData = [
     description: (
       <>
         Perlambangan dari <span className="text-yellow-cs-30">Astra</span>, sebagai bentuk dari{' '}
-        <span className="text-yellow-cs-30">harapan</span> dan <span className="text-yellow-cs-30">tujuan</span>, serta
+        harapan dan <span className="text-yellow-cs-30">tujuan</span>, serta
         cita-cita bersama yang ingin kami capai.
       </>
     )
@@ -54,7 +56,7 @@ const philosophyData = [
     image: LogoArusKeBawah,
     description: (
       <>
-        menyimbolkan <span className="text-yellow-cs-30">kepedulian</span> dan{' '}
+        Bentuk menyerupai tangan yang merangkul menyimbolkan <span className="text-yellow-cs-30">kepedulian</span> dan{' '}
         <span className="text-yellow-cs-30">saling merangkul</span> untuk menciptakan lingkungan yang{' '}
         <span className="text-yellow-cs-30">inklusif</span>
       </>
@@ -89,25 +91,55 @@ const philosophyData = [
     description: (
       <>
         Melambangkan <span className="text-yellow-cs-30">keberagaman individu</span> yang{' '}
-        <span className="text-yellow-cs-30">saling melengkapi</span> dalam satu{' '}
-        <span className="text-yellow-cs-30">tujuan</span> bersama melalui proses perkembangan yang berjalan secara{' '}
-        <span className="text-yellow-cs-30">bertahap</span>, dari mengenal diri, belajar bersama, hingga mencapai{' '}
-        <span className="text-yellow-cs-30">potensi terbaik</span>
+        <span className="text-yellow-cs-30">saling melengkapi</span> dalam satu tujuan bersama melalui proses
+        perkembangan yang berjalan secara <span className="text-yellow-cs-30">bertahap</span>, dari mengenal diri,
+        belajar bersama, hingga mencapai <span className="text-yellow-cs-30">potensi terbaik</span>
       </>
     )
   }
 ]
+
+const carouselSlides = [philosophyData[philosophyData.length - 1], ...philosophyData, philosophyData[0]]
+
 const LogoPhilosophy = () => {
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const [slideIndex, setSlideIndex] = useState(1)
+  const [isTransitioning, setIsTransitioning] = useState(true)
+  const currentIndex = (slideIndex - 1 + philosophyData.length) % philosophyData.length
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setIsTransitioning(true)
+      setSlideIndex((prev) => prev + 1)
+    }, AUTO_SLIDE_INTERVAL_MS)
+
+    return () => window.clearInterval(intervalId)
+  }, [])
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? philosophyData.length - 1 : prev - 1))
+    setIsTransitioning(true)
+    setSlideIndex((prev) => prev - 1)
   }
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === philosophyData.length - 1 ? 0 : prev + 1))
+    setIsTransitioning(true)
+    setSlideIndex((prev) => prev + 1)
   }
-  const current = philosophyData[currentIndex]
+
+  const handleTransitionEnd = () => {
+    if (slideIndex === 0) {
+      setIsTransitioning(false)
+      setSlideIndex(philosophyData.length)
+    } else if (slideIndex === philosophyData.length + 1) {
+      setIsTransitioning(false)
+      setSlideIndex(1)
+    }
+  }
+
+  const handleIndicatorClick = (index: number) => {
+    setIsTransitioning(true)
+    setSlideIndex(index + 1)
+  }
+
   return (
     <section
       id="logo-philosophy"
@@ -130,37 +162,48 @@ const LogoPhilosophy = () => {
           {/* Inner card */}
           <div className="relative flex min-h-[420px] w-full items-center overflow-hidden rounded-[75px] bg-[#FFFCF2] px-2 py-12 sm:min-h-[400px] sm:min-h-[470px] md:min-h-[420px] md:rounded-[75px] md:px-20 md:py-14 lg:min-h-[360px]">
             {/* ISI KONTEN */}
-            <div className="flex w-full flex-col items-center gap-6 px-2 text-center md:flex-row md:items-center md:gap-12 md:px-6 md:text-left">
-              {/* LOGO CONTAINER */}
-              <div className="flex h-[140px] w-[140px] flex-shrink-0 items-center justify-center overflow-hidden md:h-[231px] md:w-[203px]">
-                {current.image ? (
-                  <div className="relative h-full max-h-[110px] w-full max-w-[110px] md:max-h-[231px] md:max-w-[203px]">
-                    <Image
-                      src={current.image}
-                      alt={current.title}
-                      fill
-                      priority
-                      className="object-contain transition-all duration-300 ease-in-out"
-                    />
+            <div className="w-full overflow-hidden">
+              <div
+                className={`flex w-full motion-reduce:transition-none ${
+                  isTransitioning ? 'transition-transform duration-700 ease-in-out' : ''
+                }`}
+                style={{ transform: `translateX(-${slideIndex * 100}%)` }}
+                onTransitionEnd={handleTransitionEnd}
+              >
+                {carouselSlides.map((philosophy, index) => (
+                  <div
+                    key={`${philosophy.id}-${index}`}
+                    className="flex w-full min-w-full flex-col items-center gap-6 px-2 text-center md:flex-row md:items-center md:gap-12 md:px-6 md:text-left"
+                    aria-hidden={index !== slideIndex}
+                  >
+                    {/* LOGO CONTAINER */}
+                    <div className="flex h-[140px] w-[140px] flex-shrink-0 items-center justify-center overflow-hidden md:h-[231px] md:w-[203px]">
+                      <div className="relative h-full max-h-[110px] w-full max-w-[110px] md:max-h-[231px] md:max-w-[203px]">
+                        <Image
+                          src={philosophy.image}
+                          alt={philosophy.title}
+                          fill
+                          priority={philosophy.id === philosophyData[0].id}
+                          className="object-contain"
+                        />
+                      </div>
+                    </div>
+
+                    {/* TEKS FILOSOFI */}
+                    <div className="flex flex-1 flex-col items-center gap-3 md:items-start">
+                      <h3
+                        className="font-rubikone text-xl tracking-wide sm:text-2xl md:text-3xl"
+                        style={{ color: '#173679' }}
+                      >
+                        {philosophy.title}
+                      </h3>
+
+                      <div className="flex w-full max-w-[821px] flex-col gap-4 text-center font-sans text-xs leading-relaxed font-semibold text-[#173679] sm:text-base md:text-left md:text-base lg:text-xl">
+                        <p>{philosophy.description}</p>
+                      </div>
+                    </div>
                   </div>
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center text-5xl text-yellow-500">✦</div>
-                )}
-              </div>
-
-              {/* TEKS FILOSOFI */}
-              <div className="flex flex-1 flex-col items-center gap-3 md:items-start">
-                <h3
-                  className="font-rubikone text-xl tracking-wide sm:text-2xl md:text-3xl"
-                  style={{ color: '#173679' }}
-                >
-                  {current.title}
-                </h3>
-                {/* {DESKRRIPSI} */}
-
-                <div className="flex w-full max-w-[821px] flex-col gap-4 text-center font-sans text-xs leading-relaxed font-semibold text-[#173679] sm:text-base md:text-left md:text-base lg:text-xl">
-                  <p>{current.description}</p>
-                </div>
+                ))}
               </div>
             </div>
 
@@ -190,7 +233,7 @@ const LogoPhilosophy = () => {
         {philosophyData.map((_, i) => (
           <button
             key={i}
-            onClick={() => setCurrentIndex(i)}
+            onClick={() => handleIndicatorClick(i)}
             aria-label={`Slide ${i + 1}`}
             className="rounded-full transition-all duration-300"
             style={{
