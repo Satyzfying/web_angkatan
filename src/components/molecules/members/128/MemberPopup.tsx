@@ -74,7 +74,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
 
           <p className="mt-14 text-xl font-extrabold text-amber-400 drop-shadow-md bg-white/30 backdrop-blur-md px-8 py-3 rounded-full border-2 border-amber-300 animate-bounce">
-            tekan dulu yaaw ✨
+            Pencet love-nya dulu! ✨
           </p>
         </div>
       ) : (
@@ -101,7 +101,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
 
           <div className="pr-10 bg-white/70 p-3 rounded-xl border border-white inline-block shadow-sm mb-4">
-            <h2 className="text-3xl font-black text-pink-500">A Putri Matulina 🌷🍓</h2>
+            <h2 className="text-3xl font-black text-pink-500">✨ A Putri Matulina ✨</h2>
             <p className="mt-1 text-sm font-bold text-amber-500">5027251128 - Bekasi</p>
           </div>
 
@@ -112,12 +112,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
           <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
             <div className="border-amber-300 bg-yellow-50/95 rounded-xl border-2 p-4 shadow-sm">
-              <p className="text-xs tracking-wide uppercase text-amber-500 font-bold">Hobi 💫</p>
+              <p className="text-xs tracking-wide uppercase text-amber-500 font-bold">Hobi 🌟</p>
               <p className="mt-2 text-pink-600">dengerin musik, nonton konser</p>
             </div>
             <div className="border-amber-300 bg-yellow-50/95 rounded-xl border-2 p-4 shadow-sm">
-              <p className="text-xs tracking-wide uppercase text-amber-500 font-bold">Fun Fact 💐</p>
-              <p className="mt-2 text-pink-600">aku suka bgt soursally dan strawberry, apapun olahan strawberry aku suka</p>
+              <p className="text-xs tracking-wide uppercase text-amber-500 font-bold">Fun Fact 🌟</p>
+              <p className="mt-2 text-pink-600">ga suka makanan yang ada bawangnya</p>
             </div>
           </div>
 
@@ -133,7 +133,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="mt-8 text-center mb-2 flex items-center justify-center gap-2">
             <span className="text-2xl animate-pulse">✨</span>
             <p className="text-4xl font-extrabold text-amber-400 drop-shadow-sm" style={{ fontFamily: 'cursive, font-serif', fontStyle: 'italic' }}>
-              Have a nice day! 🩷💃🏻❗️
+              Have a nice day! 💛
             </p>
             <span className="text-2xl animate-pulse" style={{ animationDelay: '0.5s' }}>✨</span>
           </div>
