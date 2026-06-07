@@ -171,7 +171,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
       {/* === Tema Jinx: keyframes + font marker ditaruh lokal di sini supaya self-contained (tidak perlu ngubah global CSS) === */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Gloria+Hallelujah&display=swap');
@@ -222,7 +222,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       />
 
       <div
-        className="jinx-hand relative z-10 max-h-screen w-full max-w-[720px] overflow-y-auto rounded-[20px] border-[3px] border-[#ff2e88] bg-[#150d36] p-6 text-white shadow-[0_0_45px_rgba(255,46,136,.4)] sm:p-8"
+        className="jinx-hand relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto rounded-[20px] border-[3px] border-[#ff2e88] bg-[#150d36] p-6 text-white shadow-[0_0_45px_rgba(255,46,136,.4)] sm:p-8"
         style={{
           animation: 'jinx-pop-in 400ms cubic-bezier(.2,1.35,.45,1) both',
           backgroundImage:

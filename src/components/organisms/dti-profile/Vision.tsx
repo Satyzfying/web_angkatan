@@ -25,7 +25,7 @@ const Vision = () => {
     }
   }
   return (
-    <section className="relative w-full overflow-hidden px-4 py-16 sm:px-8 md:min-h-[600px] md:py-20 lg:px-16">
+    <section className="relative w-full overflow-hidden bg-[linear-gradient(180deg,#0F274F_0%,#173679_100%)] px-4 py-16 sm:px-8 md:min-h-[600px] md:py-20 lg:px-16">
       <div className="pointer-events-none absolute top-0 -left-32 z-0 w-[360px] scale-x-100 transform sm:w-[480px] lg:-left-[10%] lg:w-[600px]">
         <div className="relative">
           <Image

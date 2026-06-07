@@ -1369,6 +1369,7 @@ const IntroPhase = memo(({ onNext }: { onNext: () => void }) => {
             placeholder="Praise the Fool"
             autoComplete="off"
             spellCheck={false}
+            onKeyDown={(e) => e.stopPropagation()}
             className={`font-ritual-chant w-full rounded-full border bg-[#070A0F]/72 px-5 py-3 text-center text-base tracking-[0.08em] text-[#E5E7EB] outline-none backdrop-blur-md transition duration-300 placeholder:text-[#9CA3AF]/55 ${
               hasError
                 ? 'border-[#6F1D1B]/80 shadow-[0_0_18px_rgba(111,29,27,0.34)]'

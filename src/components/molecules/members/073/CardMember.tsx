@@ -23,6 +23,10 @@ const CardMember = () => {
         tabIndex={0}
         onClick={() => setIsPopupOpen(true)}
         onKeyDown={(event) => {
+          if (event.target !== event.currentTarget) {
+            return
+          }
+
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault()
             setIsPopupOpen(true)
@@ -42,7 +46,7 @@ const CardMember = () => {
               {/* UBAH USERNAME INSTAGRAM KAMU */}
               <Instagram username="nabilanafisa__" />
               {/* UBAH USERNAME LINKEDIN KAMU */}
-              <LinkedInButtonLink username="Nabila Nafisatus Zuhro" />
+              <LinkedInButtonLink username="nabila-nafisatus-zuhro-6466aa388" />
             </div>
             <div className="w-full rounded-2xl">
               <Image

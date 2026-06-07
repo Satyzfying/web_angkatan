@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import Image from 'next/image'
 
@@ -10,7 +10,7 @@ import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
-import ProfileImage from './image.png'
+import ProfileImage from './image.jpeg'
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -18,6 +18,8 @@ type MemberPopupProps = {
 }
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
+  const popupRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     if (!isOpen) {
       return
@@ -38,6 +40,32 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     }
   }, [isOpen, onClose])
 
+  useEffect(() => {
+    if (!isOpen || !popupRef.current) {
+      return
+    }
+
+    const itemAnimations = Array.from(popupRef.current.querySelectorAll<HTMLElement>('[data-popup-item]')).map(
+      (item, index) =>
+        item.animate(
+          [
+            { opacity: 0, transform: 'translateY(-32px)' },
+            { opacity: 1, transform: 'translateY(0)' },
+          ],
+          {
+            duration: 450,
+            delay: 100 + index * 90,
+            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            fill: 'both',
+          }
+        )
+    )
+
+    return () => {
+      itemAnimations.forEach((animation) => animation.cancel())
+    }
+  }, [isOpen])
+
   if (!isOpen) {
     return null
   }
@@ -52,7 +80,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-[#101010]/70"
       />
 
-      <div className="relative z-10 max-h-[100dvh] w-full max-w-[760px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-none border-4 border-black bg-[#fff200] p-4 text-black shadow-[12px_12px_0_#000] sm:p-7">
+      <div
+        ref={popupRef}
+        className="relative z-10 max-h-[100dvh] w-full max-w-[760px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-none border-4 border-black bg-[#fff200] p-4 text-black shadow-[12px_12px_0_#000] sm:p-7"
+      >
         <button
           type="button"
           aria-label="Close member detail"
@@ -62,11 +93,14 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           x
         </button>
 
-        <div className="mb-5 overflow-hidden rounded-none border-4 border-black bg-white shadow-[8px_8px_0_#000]">
+        <div
+          data-popup-item
+          className="mb-5 overflow-hidden rounded-none border-4 border-black bg-white shadow-[8px_8px_0_#000]"
+        >
           <Image src={ProfileImage} alt="Profile Image" className="h-96 w-full object-cover object-top sm:h-120" />
         </div>
 
-        <div className="border-4 border-black bg-white p-4 pr-14 shadow-[7px_7px_0_#000]">
+        <div data-popup-item className="border-4 border-black bg-white p-4 pr-14 shadow-[7px_7px_0_#000]">
           {/* UBAH NAMA ANDA */}
           <h2 className="text-3xl leading-tight font-black tracking-normal sm:text-5xl">Evandra Raditya Fauzan</h2>
           {/* UBAH NRP DAN ASAL */}
@@ -75,7 +109,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </p>
         </div>
 
-        <div className="mt-6 flex gap-3">
+        <div data-popup-item className="mt-6 flex gap-3">
           {/* UBAH USERNAME INSTAGRAM */}
           <div className="border-4 border-black bg-black p-3 shadow-[5px_5px_0_#00e5ff] transition-transform hover:-translate-y-1">
             <Instagram username="evandrarf" />
@@ -86,7 +120,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         </div>
 
-        <div className="mt-7 grid gap-5 text-sm font-black sm:grid-cols-2">
+        <div data-popup-item className="mt-7 grid gap-5 text-sm font-black sm:grid-cols-2">
           <div className="rounded-none border-4 border-black bg-[#39ff14] p-4 shadow-[7px_7px_0_#000]">
             {/* UBAH HOBI KAMU */}
             <p className="inline-block border-4 border-black bg-white px-2 py-1 text-xs font-black tracking-normal uppercase">
@@ -103,7 +137,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         </div>
 
-        <div className="mt-6 rounded-none border-4 border-black bg-white p-4 shadow-[7px_7px_0_#000]">
+        <div
+          data-popup-item
+          className="mt-6 rounded-none border-4 border-black bg-white p-4 shadow-[7px_7px_0_#000]"
+        >
           {/* UBAH LAGU FAVORIT KAMU */}
           <p className="inline-block border-4 border-black bg-[#ff6b00] px-2 py-1 text-xs font-black tracking-normal uppercase">
             Lagu Favorit
