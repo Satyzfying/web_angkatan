@@ -89,7 +89,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="group rounded-2xl border border-white/5 bg-white/5 p-5 backdrop-blur-sm transition-all hover:border-cyan-500/30 hover:bg-white/10">
             <p className="text-xs font-bold tracking-wider text-cyan-400 uppercase">Fun Fact</p>
             <p className="mt-2 text-base font-medium text-slate-200 group-hover:text-white">
-              Belum pernah naik pesawat seumur hidup
+              Belum pernah naik pesawat seumur hidup saya
             </p>
           </div>
         </div>
