@@ -194,7 +194,7 @@ export default function Game16({ onWin }: Game16Props) {
         onClick={() => setBoard(initializeBoard())}
         className="mt-5 px-4 py-2 text-xs bg-white/10 hover:bg-white/20 text-white/70 rounded-full transition-colors border border-white/10"
       >
-        gabisa=bot
+        gabisa=bott
       </button>
     </div>
   )
