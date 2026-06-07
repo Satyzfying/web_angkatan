@@ -144,10 +144,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
 
           <div className="mt-5 flex gap-2">
-            <div className="hover:-translate-y-1 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all duration-300">
+            <div className="hover:-translate-y-1 transition-all duration-300 [&_svg]:hover:text-red-800 [&_*]:hover:!text-red-800 [&_*]:hover:!border-red-800 [&_*]:hover:!stroke-red-800">
               <Instagram username="hank.ways" />
             </div>
-            <div className="hover:-translate-y-1 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all duration-300">
+            <div className="hover:-translate-y-1 transition-all duration-300 [&_svg]:hover:text-red-800 [&_*]:hover:!text-red-800 [&_*]:hover:!border-red-800 [&_*]:hover:!stroke-red-800">
               <LinkedInButtonLink username="zahwaasmoro" />
             </div>
           </div>
@@ -156,11 +156,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             <div className="border-neutral-cs-10/40 rounded-xl border p-4">
               <p className="text-neutral-cs-10/60 text-xs tracking-widest uppercase" style={{ fontFamily: 'var(--font-blackgoth)' }}>Hobi</p>
               <ul className="mt-2 list-disc list-inside space-y-1">
-                <li>Loving ma <a href="https://www.instagram.com/_doolsetnet" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-400">Husband</a> ♡</li>
+                <li>Loving ma <a href="https://www.instagram.com/_doolsetnet" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-800 hover:drop-shadow-[0_0_8px_rgba(255,100,100,0.8)] hover:-translate-y-1 transition-all duration-300 inline-block">Husband</a> ♡</li>
                 <li>CATS</li>
                 <li>Reading n Painting</li>
                 <li>Blasting songs 24/7</li>
-                <li>Learn new languages</li>
+                <li>Watching anime n donghua</li>
                 <li>Scrapbooking</li>
               </ul>
             </div>
