@@ -4,11 +4,13 @@ import React, { useEffect } from 'react'
 
 import Image from 'next/image'
 
+import { createPortal } from 'react-dom'
+
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
-import ProfileImage from './image.png'
+import ProfileImage from './image.jpg'
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -40,68 +42,81 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-  return (
-    // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
       <button
         type="button"
         aria-label="Close member detail"
         onClick={onClose}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/75 backdrop-blur-[6px] transition-opacity duration-300"
       />
 
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div className="border-neutral-cs-10/40 bg-blue-cs-40/90 relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[640px] animate-[member-popup-show_280ms_cubic-bezier(0.16,1,0.3,1)] overflow-y-auto rounded-2xl border p-6 text-white shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-all sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
+          className="border-neutral-cs-10/30 absolute top-5 right-5 z-20 flex h-8 w-8 items-center justify-center rounded-full border text-sm font-medium tracking-normal text-neutral-400 transition-all duration-200 hover:border-white/50 hover:bg-white/10 hover:text-white focus:ring-2 focus:ring-white/20 focus:outline-none active:scale-95"
         >
-          x
+          ✕
         </button>
 
-        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
-          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
+        <div className="border-neutral-cs-10/30 group mb-6 overflow-hidden rounded-xl border bg-black/20">
+          <Image
+            src={ProfileImage}
+            alt="Profile Image"
+            className="h-96 w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          />
         </div>
 
         <div className="pr-10">
-          {/* UBAH NAMA ANDA */}
-          <h2 className="text-2xl font-black">Catherina Vallencia K</h2>
-          {/* UBAH NRP DAN ASAL */}
-          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251082 - Surakarta</p>
+          <h2 className="bg-gradient-to-r from-white via-white to-white/70 bg-clip-text text-2xl font-bold tracking-tight text-transparent">
+            Jude Athala Yazid Sari
+          </h2>
+          <p className="text-neutral-cs-10/80 mt-1.5 text-xs font-medium tracking-widest uppercase">
+            5027251098 &bull; Tangerang
+          </p>
         </div>
 
-        <div className="mt-5 flex gap-2">
-          {/* UBAH USERNAME INSTAGRAM */}
-          <Instagram username="jkt48.erine" />
-          {/* UBAH USERNAME LINKEDIN */}
-          <LinkedInButtonLink username="jkt48.erine" />
-        </div>
-
-        <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
-            {/* UBAH HOBI KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
-            <p className="mt-2">Nyanyi</p>
+        <div className="mt-5 flex gap-2.5 transition-all duration-200">
+          <div className="rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_15px_rgba(225,48,108,0.3)]">
+            <Instagram username="Judeatha" />
           </div>
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
-            {/* UBAH FUNFACT KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
-            <p className="mt-2">Gwe Member JKT</p>
+          <div className="rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_15px_rgba(0,119,181,0.2)]">
+            <LinkedInButtonLink username="jude-athala" />
           </div>
         </div>
 
-        <div className="border-neutral-cs-10/40 mt-4 rounded-xl border p-4">
-          {/* UBAH LAGU FAVORIT KAMU */}
-          <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
-          <p className="my-2 text-sm font-semibold">There Is a Light That Never Goes Out</p>
-
-          {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2X62SjtuwVQiGiZvZZ9Ztr?si=f6718391848a4469" />
+        <div className="mt-6 grid gap-4 text-sm font-normal sm:grid-cols-2">
+          <InfoCard title="Hobi">
+            <p className="mt-2 font-medium tracking-wide text-white/90">Bermain Sepak Bola</p>
+          </InfoCard>
+          <InfoCard title="Fun Fact">
+            <p className="mt-2 leading-relaxed font-medium text-white/90">
+              Gw orangnya susah tidur cepet dan susah untuk bangun
+            </p>
+          </InfoCard>
         </div>
+
+        <InfoCard title="Lagu Favorit" className="mt-4">
+          <p className="mt-1.5 mb-3 text-base font-semibold tracking-wide text-white">Soulmate</p>
+          <div className="overflow-hidden rounded-lg bg-black/10 shadow-inner">
+            <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/1rwGbGLDE0AkaH1UgUbufL?si=02a2150c40ed49e3" />
+          </div>
+        </InfoCard>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
+
+const InfoCard = ({ title, children, className = '' }: React.PropsWithChildren<{ title: string; className?: string }>) => (
+  <div
+    className={`rounded-xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-transparent p-5 transition-all duration-300 hover:border-white/[0.15] ${className}`}
+  >
+    <p className="text-[11px] font-bold tracking-wider text-white/40 uppercase">{title}</p>
+    {children}
+  </div>
+)
 
 export default MemberPopup

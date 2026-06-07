@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Montserrat } from 'next/font/google'
+import { Cinzel, Montserrat } from 'next/font/google'
 import localFont from 'next/font/local'
 
 import { defineMetadata } from '@/lib/metadata'
@@ -13,6 +13,11 @@ import './globals.css'
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
+  subsets: ['latin']
+})
+
+const cinzel = Cinzel({
+  variable: '--font-cinzel-local',
   subsets: ['latin']
 })
 
@@ -30,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${rubikone.variable} h-full antialiased`}>
+    <html lang="en" className={`${montserrat.variable} ${cinzel.variable} ${rubikone.variable} h-full antialiased`}>
       <head>
         <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-96x96.png" sizes="96x96" />
         <link rel="icon" type="image/svg+xml" href="/assets/images/favicon/favicon.svg" />
