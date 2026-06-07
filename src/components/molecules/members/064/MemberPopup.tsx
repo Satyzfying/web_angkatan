@@ -140,7 +140,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-hidden rounded-3xl border border-white/10 shadow-2xl transition-all duration-500">
         {!isUnlocked ? (
           // Bomb Interface
-          <div className="relative flex h-full flex-col items-center justify-center overflow-y-auto p-8">
+          <div className="relative flex h-full flex-col items-center justify-center overflow-y-auto p-8 overflow-hidden">
             <img
               src="https://files.catbox.moe/pi8xqr.gif"
               alt="Bomb Background"
@@ -149,7 +149,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             <div className="absolute inset-0 bg-neutral-950/50 backdrop-blur-xs" />
 
             {/* BOMB IMAGE */}
-            <div className="relative z-20 aspect-[470/700] w-[380px] drop-shadow-2xl sm:w-[450px]">
+            <div className="relative z-20 aspect-[470/700] w-[350px] drop-shadow-2xl sm:w-[430px]">
               <img
                 src={BombImage.src}
                 alt="CS:GO Bomb"
@@ -159,7 +159,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               {/* OVERLAY: Inputs */}
               <div className="absolute top-[26.5%] left-[34.5%] flex h-[7.5%] w-[45%] items-center justify-center overflow-hidden">
                 <span
-                  className={`font-mono text-3xl font-black tracking-[0.2em] opacity-80 sm:text-4xl ${isError ? 'animate-pulse text-red-700' : 'text-neutral-900'}`}
+                  className={`font-mono text-2xl font-black tracking-[0.2em] opacity-80 sm:text-3xl ${isError ? 'animate-pulse text-red-700' : 'text-neutral-900'}`}
                 >
                   {inputCode}
                 </span>
@@ -179,11 +179,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               </div>
             </div>
 
-            <p className="relative z-20 mt-8 font-mono text-xs tracking-[0.3em] text-white/50 uppercase">
-              HINT: same bomb, same code, valve never changed it.
-            </p>
-            <p className="relative z-20 mt-2 font-mono text-xs tracking-[0.3em] text-white/50 uppercase">
-              -- (7355608) --
+            <p className="relative z-20 font-mono text-xs tracking-[0.3em] text-white/50 uppercase text-center mt-1">
+              same bomb, same code, valve never changed it. (7355608)
             </p>
           </div>
         ) : (
@@ -206,7 +203,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 ✕
               </button>
 
-              <div className="mb-6 overflow-hidden rounded-2xl border border-white/20 shadow-lg">
+              <div className="mb-6 overflow-hidden rounded-2xl border border-white/20 shadow-lg transition-all duration-300 hover:border-white/50 hover:shadow-[0_0_30px_10px_rgba(255,255,255,0.15)]">
                 <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
               </div>
 
@@ -216,36 +213,44 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               </div>
 
               <div className="mt-5 flex gap-3">
-                <div className="flex items-center gap-2 rounded-2xl bg-white/10 px-2 py-2 text-sm font-medium text-white/80 backdrop-blur-sm transition-colors transition-transform hover:scale-105 hover:bg-white/15">
+                <div className="flex items-center gap-2 rounded-2xl bg-white/10 px-2 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-white/15 transition-transform hover:scale-105 backdrop-blur-sm hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]">
                   <Instagram username="tobbyadiwijaya" />
                 </div>
-                <div className="flex items-center gap-2 rounded-2xl bg-white/10 px-2 py-2 text-sm font-medium text-white/80 backdrop-blur-sm transition-colors transition-transform hover:scale-105 hover:bg-white/15">
+                <div className="flex items-center gap-2 rounded-2xl bg-white/10 px-2 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-white/15 transition-transform hover:scale-105 backdrop-blur-sm hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]">
                   <LinkedInButtonLink username="tobby-adiwijaya" />
                 </div>
               </div>
 
               <div className="mt-8 grid gap-4 text-sm sm:grid-cols-2">
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm transition-colors hover:bg-white/10">
-                  <p className="mb-3 text-xs font-bold tracking-widest text-white/50 uppercase">Hobi</p>
-                  <ul className="space-y-2 font-medium text-white/80">
-                    <li>• games (Battlefield, Counter-Strike)</li>
-                    <li>• olahraga (running, cycling, hiking)</li>
-                    <li>• music enthusiast</li>
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:border-white/30 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]">
+                  <p className="text-xs font-bold tracking-widest text-white/50 uppercase mb-3">Hobi</p>
+                  <ul className="space-y-2 text-white/80 font-medium">
+                    <li>• suka main game random (but mostly 
+                      <a href="https://www.ea.com/games/battlefield" target="_blank" className="transition-all duration-300 hover:text-blue-300 hover:[text-shadow:0_0_10px_rgba(147,197,253,0.8)]"> Battlefield</a>, 
+                      <a href="https://www.counter-strike.net" target="_blank" className="transition-all duration-300 hover:text-blue-300 hover:[text-shadow:0_0_10px_rgba(147,197,253,0.8)]"> Counter-Strike</a>)</li>
+                    <li>• olahraga biar sehat (running, cycling, hiking)</li>
+                    <li>• suka denger musik juga</li>
                   </ul>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm transition-colors hover:bg-white/10">
-                  <p className="mb-3 text-xs font-bold tracking-widest text-white/50 uppercase">Fun Fact</p>
-                  <p className="leading-relaxed font-medium text-white/80">
-                    idk but i share the same birthday with elon musk (lol) (#BlessPeopleBornInJune)
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:border-white/30 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]">
+                  <p className="text-xs font-bold tracking-widest text-white/50 uppercase mb-3">Fun Fact</p>
+                  <p className="text-white/80 font-medium leading-relaxed">
+                    idk though but i share the same birthday with 
+                    <a href="https://en.wikipedia.org/wiki/Elon_Musk" target="_blank" className="transition-all duration-300 hover:text-blue-300 hover:[text-shadow:0_0_10px_rgba(147,197,253,0.8)]"> elon musk </a> 
+                    (lol) (#BlessPeopleBornInJune)
                   </p>
                 </div>
               </div>
-
-              <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm transition-colors hover:bg-white/10">
-                <p className="mb-3 text-xs font-bold tracking-widest text-white/50 uppercase">Lagu Favorit</p>
-                <p className="mb-4 text-base font-semibold text-white/90">love.</p>
-                <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/5mtTAScDytxMMqZj14NmlN?si=655201ef718c486c" />
+                              
+              <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:border-white/30 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]">
+                <p className="text-xs font-bold tracking-widest text-white/50 uppercase mb-3">Lagu Favorit</p>
+                <p className="mb-4 text-base font-semibold text-white/90">End of Beginning</p>
+                <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/3qhlB30KknSejmIvZZLjOD?si=a084a797da404a92" />
+                <p className="mb-4 mt-4 text-base font-semibold text-white/90">love.</p>
+                <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/5mtTAScDytxMMqZj14NmlN?si=3aedeacc686749c3" />
+                <p className="mb-4 mt-4 text-base font-semibold text-white/90">Polish Girl</p>
+                <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/7vA9zWg6fmjLZn105Uj4TE?si=b7f6a8e407244934" />
               </div>
             </div>
           </div>

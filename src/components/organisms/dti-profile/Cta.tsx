@@ -42,6 +42,10 @@ const Cta = () => {
         </div>
       </div>
       <Image src={Bg} alt="Background" fill sizes="100vw" className="absolute inset-0 object-cover" />
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,#1F4DA8_0%,rgba(31,77,168,0.72)_10%,rgba(31,77,168,0)_32%)]"
+        aria-hidden="true"
+      />
 
       <div className="relative z-10">
         <h1
