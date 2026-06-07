@@ -8,8 +8,13 @@ import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
+import { Cinzel } from 'next/font/google'
 import BgGif from './gif.gif'
 import ProfileImage from './foto.jpeg'
+
+const cinzel = Cinzel({
+  subsets: ['latin'],
+})
 
 const popupStyle = `
   @keyframes slideUpFade {
@@ -101,7 +106,7 @@ const toggleBgm = () => {
         />
 
         <div
-          className="popup-animated relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] overflow-y-auto rounded-2xl p-6 text-white sm:max-h-[calc(100vh-10rem)] sm:p-8"
+          className={`popup-animated relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] overflow-y-auto rounded-2xl p-6 text-white sm:max-h-[calc(100vh-10rem)] sm:p-8 ${cinzel.className}`}
           style={{ borderColor: '#D4AF37', borderWidth: '3px', borderStyle: 'solid', backgroundColor: 'rgba(10, 10, 10, 0.88)' }}
         >
           <button
