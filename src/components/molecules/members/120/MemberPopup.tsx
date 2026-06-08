@@ -5,8 +5,6 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { createPortal } from 'react-dom'
 
-import { createPortal } from 'react-dom'
-
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
@@ -43,7 +41,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        triggerClose()
+        onClose()
       }
     }
 
@@ -54,70 +52,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen])
+  }, [isOpen, onClose])
 
-  const stopAllInternalAudio = () => {
-    if (trackRef1.current) { trackRef1.current.pause(); trackRef1.current.currentTime = 0 }
-    if (trackRef2.current) { trackRef2.current.pause(); trackRef2.current.currentTime = 0 }
-    setActiveTrack('none')
-  }
-
-  const handleTrackChange = (track: 'you-re-mine' | 'break-it-down') => {
-    stopAllInternalAudio()
-    setActiveSpotify('none')
-   
-    if (activeTrack !== track) {
-      setActiveTrack(track)
-      if (track === 'you-re-mine' && trackRef1.current) {
-        trackRef1.current.play().catch((e) => console.log("Audio play blocked", e))
-      } else if (track === 'break-it-down' && trackRef2.current) {
-        trackRef2.current.play().catch((e) => console.log("Audio play blocked", e))
-      }
-    }
-  }
-
-  const handleSpotifyPlay = (track: 'you-re-mine' | 'break-it-down') => {
-    stopAllInternalAudio()
-    setActiveSpotify(track)
-  }
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value
-    if (/^\d*$/.test(val)) {
-      setCode(val)
-    }
-  }
-
-  const handleLoginSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (code === '06042007') {
-      setLoginError('')
-      setCurrentStep('welcome')
-      if (sfxWelcomeRef.current) {
-        sfxWelcomeRef.current.currentTime = 0
-        sfxWelcomeRef.current.play().catch((e) => console.log("Audio play blocked", e))
-      }
-    } else {
-      setLoginError('ACCESS DENIED: Invalid Agent Code.')
-    }
-  }
-
-  const handleWelcomeNext = () => {
-    setCurrentStep('popup')
-    handleTrackChange('break-it-down')
-  }
-
-  const triggerClose = () => {
-    stopAllInternalAudio()
-    setActiveSpotify('none')
-    if (sfxCloseRef.current) {
-      sfxCloseRef.current.currentTime = 0
-      sfxCloseRef.current.play().catch((e) => console.log("Audio play blocked", e))
-    }
-    setTimeout(() => {
-      onClose()
-    }, 1100)
-  }
+  if (!isOpen) return null
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
@@ -125,7 +62,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       <button
         type="button"
         aria-label="Close member detail"
-        onClick={triggerClose}
+        onClick={onClose}
         className="absolute inset-0"
       />
 
@@ -157,18 +94,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             (Trik utama agar konten gerak tapi background di luar tetap diam)
            ========================================================= */}
         <div className="absolute inset-0 overflow-y-auto p-6 sm:p-8">
-          {/* TOMBOL CLOSE POPUP */}
-          <button
-            type="button"
-            aria-label="Close member detail"
-            onClick={onClose}
-            className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
-          >
-            MULAI QUEST
-          </button>
-        </div>
-      )}
-
           {/* CONTAINER FOTO PROFIL */}
           <div
             onClick={() => setIsFlipped((prev) => !prev)} // Tambahkan fungsi untuk toggle flip saat foto diklik (buat bantu mobile user)
@@ -218,6 +143,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 berjam-jam)
               </p>
             </div>
+          </div>
 
           <div className="border-neutral-cs-10/40 relative z-10 mt-4 rounded-xl border bg-black/40 p-4 backdrop-blur-md">
             <p className="text-neutral-cs-10/60 font-mono text-xs font-bold tracking-wide uppercase">
@@ -234,4 +160,4 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   )
 }
 
-export default MemberPopup
+      export default MemberPopup

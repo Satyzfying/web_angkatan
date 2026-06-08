@@ -482,11 +482,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       />
 
       {/* Scrollable container — hanya card yang scroll, background tetap fixed */}
-      <div className="relative z-[2] flex items-start justify-center overflow-y-auto h-full px-4 pb-8 pt-16 sm:pt-20">
+      <div className="relative z-[2] flex h-full items-start justify-center overflow-hidden px-4">
 
       {/* ── CARD UTAMA — putih/bening ── */}
       <div
-        className="relative z-10 w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-hidden"
+        className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain"
         style={{
           background: 'rgba(255,255,255,0.25)',
           border: '1.5px solid rgba(255,255,255,0.55)',

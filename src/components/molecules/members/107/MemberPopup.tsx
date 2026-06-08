@@ -90,17 +90,18 @@ const SCRIPT: Record<string, SceneNode> = {
   s04: { type: 'dialog', speaker: '—', text: '.....', next: 's05' },
   s05: { type: 'dialog', speaker: 'Kamu', text: 'haloooo!!', next: 's06' },
   s06: { type: 'dialog', speaker: '—', text: '....', next: 's07' },
-  
-  s07: { type: 'choice', speaker: 'Kamu', text: '(Melihat sesuatu tertinggal di atas kursi...)',
+
+  s07: {
+    type: 'choice', speaker: 'Kamu', text: '(Melihat sesuatu tertinggal di atas kursi...)',
     choices: [
       { label: 'Mengambil buku bersampul merah gelap.', next: 's08_buku' },
       { label: 'Mengambil foto usang yang terbalik.', next: 's08_foto' },
     ]
   },
-  
+
   s08_buku: { type: 'dialog', speaker: 'Kamu', text: 'Sebuah buku...? Halamannya penuh coretan teks yang... berdarah?', next: 's09' },
   s08_foto: { type: 'dialog', speaker: 'Kamu', text: 'Sebuah foto...? Wajah orang di foto ini... tergores hancur.', next: 's09' },
-  
+
   s09: { type: 'dialog', speaker: '—', text: '.....', next: 's10' },
   s10: { type: 'dialog', speaker: '???', text: 'hi, kamu!', next: 's11' },
   s11: { type: 'dialog', speaker: 'Kamu', text: '!!!!', next: 's12' },
@@ -112,9 +113,9 @@ const SCRIPT: Record<string, SceneNode> = {
   s17_a: { type: 'dialog', speaker: '???', text: 'Kau sedang memegang barang milikku...', next: 's17' },
   s17: { type: 'dialog', speaker: 'Kamu', text: 'Kamu kan... lylera?', next: 's18' },
   s18: { type: 'dialog', speaker: 'Lylera', text: 'benar. kamu adalah', next: 's19' },
-  
+
   s19: { type: 'input', speaker: 'Lylera', prompt: '...', placeholder: 'Ketik namamu...', next: (v) => 's20' },
-  
+
   s20: { type: 'dialog', speaker: 'Lylera', text: '{{name}}...', next: 's21' },
   s21: { type: 'dialog', speaker: 'Lylera', text: 'Sudah lama sekali sejak terakhir kali ada yang berani menyentuh ingatanku.', next: 's22' },
   s22: { type: 'dialog', speaker: 'Kamu', text: 'Ingatan...? Maksudmu barang yang sedang kupegang ini?', next: 's23' },
@@ -123,15 +124,17 @@ const SCRIPT: Record<string, SceneNode> = {
   s25: { type: 'dialog', speaker: 'Lylera', text: 'Batas antara cerita dan kenyataan sudah lama hancur di sini.', next: 's26' },
   s26: { type: 'dialog', speaker: 'Lylera', text: 'Dan karena kau sudah menyentuhnya... dan menyebut namaku...', next: 's27' },
   s27: { type: 'dialog', speaker: 'Lylera', text: 'Sistem ini tidak akan membiarkanmu pergi begitu saja.', next: 's28' },
-  
-  s28: { type: 'choice', speaker: 'Kamu', text: '...', choices: [
-    { label: 'Aku tidak takut.', next: 's29_brave' },
-    { label: 'Tolong, lepaskan aku. Aku kembalikan barang ini!', next: 's29_scared' }
-  ]},
-  
+
+  s28: {
+    type: 'choice', speaker: 'Kamu', text: '...', choices: [
+      { label: 'Aku tidak takut.', next: 's29_brave' },
+      { label: 'Tolong, lepaskan aku. Aku kembalikan barang ini!', next: 's29_scared' }
+    ]
+  },
+
   s29_brave: { type: 'dialog', speaker: 'Lylera', text: 'Bagus. Karena kegelapan ini butuh teman.', next: 's30' },
   s29_scared: { type: 'dialog', speaker: 'Lylera', text: 'Terlambat. Pintu keluarnya sudah menghilang sejak kau menyentuhnya.', next: 's30' },
-  
+
   s30: { type: 'dialog', speaker: 'Lylera', text: 'Bersiaplah melihat dunia yang kusembunyikan di balik layar ini.', next: 's31' },
   s31: { type: 'dialog', speaker: 'Lylera', text: 'Baiklah. Selamat datang.', next: 'end' },
   end: { type: 'end' }
@@ -275,7 +278,7 @@ const GlitchCanvas = ({ src }: { src: string }) => {
           const ty = floor(o.t1)
           for (let y = 0; y < this.h; y++) if (ty === y) for (let x = 0; x < this.w; x++) {
             const i = (y * this.w + x) * 4
-            d[i] = p[i] + o.randX; d[i+1] = p[i+1] + o.randX; d[i+2] = p[i+2] + o.randX
+            d[i] = p[i] + o.randX; d[i + 1] = p[i + 1] + o.randX; d[i + 2] = p[i + 2] + o.randX
           }
           return d
         }
@@ -285,7 +288,7 @@ const GlitchCanvas = ({ src }: { src: string }) => {
           const ox = 4 * floor(random(-20, 20))
           for (let y = mn; y < mx; y++) for (let x = 0; x < this.w; x++) {
             const i = (y * this.w + x) * 4, t = i + ox
-            if (t >= 0 && t < d.length) { d[i] = p[t]; d[i+1] = p[t+1]; d[i+2] = p[t+2] }
+            if (t >= 0 && t < d.length) { d[i] = p[t]; d[i + 1] = p[t + 1]; d[i + 2] = p[t + 2] }
           }
           return d
         }
@@ -297,7 +300,7 @@ const GlitchCanvas = ({ src }: { src: string }) => {
           for (let i = 0; i < p.length; i += 4) {
             let r2 = (i + rR) % p.length, g2 = (i + 1 + rG) % p.length, b2 = (i + 2 + rB) % p.length
             if (r2 < 0) r2 += p.length; if (g2 < 0) g2 += p.length; if (b2 < 0) b2 += p.length
-            d[i] = p[r2]; d[i+1] = p[g2]; d[i+2] = p[b2]
+            d[i] = p[r2]; d[i + 1] = p[g2]; d[i + 2] = p[b2]
           }
           return d
         }
@@ -344,7 +347,7 @@ const OuterBg = ({ spotX, spotY, mode, visible = true }: OuterBgProps) => {
     if (mode !== 'horror' || !videoRef.current) return
     const vid = videoRef.current
     vid.volume = 0.3
-    vid.play().catch(() => {})
+    vid.play().catch(() => { })
   }, [mode])
 
   return (
@@ -438,45 +441,45 @@ type DialogBoxProps = {
   inputRef: React.RefObject<HTMLInputElement>
   onAdvance: (nextId?: string) => void
   onInputSubmit: () => void
-  userName: string 
+  userName: string
 }
 
 const DialogBox = ({ sceneId, scene, inputValue, setInputValue, inputRef, onAdvance, onInputSubmit, userName }: DialogBoxProps) => {
   const baseDialogText =
     scene.type === 'dialog' ? scene.text :
-    scene.type === 'choice' ? scene.text :
-    scene.type === 'input'  ? scene.prompt : ''
+      scene.type === 'choice' ? scene.text :
+        scene.type === 'input' ? scene.prompt : ''
 
   const dialogText = baseDialogText.replace('{{name}}', userName || 'Orang Asing')
 
   const { displayed, done, skip } = useTypewriter(dialogText)
   const speakerName = 'speaker' in scene ? scene.speaker : ''
-  const isInput  = scene.type === 'input'
+  const isInput = scene.type === 'input'
   const isChoice = scene.type === 'choice'
 
   const isKamu = speakerName === 'Kamu'
   const accent = {
-    rgb:        isKamu ? '80,120,210'  : '210,80,100',
-    main:       isKamu ? 'rgba(80,120,210,0.9)'  : 'rgba(210,80,100,0.9)',
-    mid:        isKamu ? 'rgba(80,120,210,0.7)'  : 'rgba(210,80,100,0.7)',
-    dim:        isKamu ? 'rgba(80,120,210,0.5)'  : 'rgba(210,80,100,0.5)',
-    faint:      isKamu ? 'rgba(80,120,210,0.35)' : 'rgba(210,80,100,0.35)',
-    vfaint:     isKamu ? 'rgba(80,120,210,0.06)' : 'rgba(210,80,100,0.06)',
-    line:       isKamu
+    rgb: isKamu ? '80,120,210' : '210,80,100',
+    main: isKamu ? 'rgba(80,120,210,0.9)' : 'rgba(210,80,100,0.9)',
+    mid: isKamu ? 'rgba(80,120,210,0.7)' : 'rgba(210,80,100,0.7)',
+    dim: isKamu ? 'rgba(80,120,210,0.5)' : 'rgba(210,80,100,0.5)',
+    faint: isKamu ? 'rgba(80,120,210,0.35)' : 'rgba(210,80,100,0.35)',
+    vfaint: isKamu ? 'rgba(80,120,210,0.06)' : 'rgba(210,80,100,0.06)',
+    line: isKamu
       ? 'linear-gradient(90deg,transparent,rgba(80,120,210,0.6),rgba(80,120,210,0.8),rgba(80,120,210,0.6),transparent)'
       : 'linear-gradient(90deg,transparent,rgba(210,80,100,0.6),rgba(210,80,100,0.8),rgba(210,80,100,0.6),transparent)',
-    boxBg:      isKamu
+    boxBg: isKamu
       ? 'linear-gradient(90deg,transparent,rgba(80,120,210,0.6),rgba(80,120,210,0.8),rgba(80,120,210,0.6),transparent)'
       : 'linear-gradient(90deg,transparent,rgba(210,80,100,0.6),rgba(210,80,100,0.8),rgba(210,80,100,0.6),transparent)',
-    boxBorder:  isKamu ? 'rgba(80,120,210,0.45)'  : 'rgba(210,80,100,0.45)',
-    boxShadow:  isKamu
+    boxBorder: isKamu ? 'rgba(80,120,210,0.45)' : 'rgba(210,80,100,0.45)',
+    boxShadow: isKamu
       ? '0 0 40px rgba(80,120,210,0.08),inset 0 0 30px rgba(40,60,180,0.04)'
       : '0 0 40px rgba(210,80,100,0.08),inset 0 0 30px rgba(180,40,60,0.04)',
-    tagBg:      isKamu
+    tagBg: isKamu
       ? 'linear-gradient(135deg,rgba(5,8,25,0.97) 0%,rgba(8,12,40,0.95) 100%)'
       : 'linear-gradient(135deg,rgba(25,5,8,0.97) 0%,rgba(40,8,12,0.95) 100%)',
-    tagBorder:  isKamu ? 'rgba(80,120,210,0.55)'  : 'rgba(210,80,100,0.55)',
-    tagText:    isKamu ? '#b0c8f0' : '#f5d8dc',
+    tagBorder: isKamu ? 'rgba(80,120,210,0.55)' : 'rgba(210,80,100,0.55)',
+    tagText: isKamu ? '#b0c8f0' : '#f5d8dc',
     tagLetterSpacing: isKamu ? '0.12em' : '0.18em',
   }
 
@@ -509,7 +512,7 @@ const DialogBox = ({ sceneId, scene, inputValue, setInputValue, inputRef, onAdva
       {speakerName && (
         <div
           key={sceneId + '-spk'}
-          className="vn-speaker-tag ml-4 sm:ml-12" 
+          className="vn-speaker-tag ml-4 sm:ml-12"
           style={{ display: 'inline-block', marginBottom: '-2px', position: 'relative', zIndex: 2 }}
         >
           <span style={{ marginRight: '8px', color: accent.mid, fontSize: '14px' }}>✿</span>
@@ -531,7 +534,7 @@ const DialogBox = ({ sceneId, scene, inputValue, setInputValue, inputRef, onAdva
 
       <div
         key={sceneId}
-        className="vn-box mx-3 sm:mx-8" 
+        className="vn-box mx-3 sm:mx-8"
         style={{
           background: accent.boxBg,
           border: `1px solid ${accent.boxBorder}`,
@@ -629,18 +632,18 @@ type IntroProps = { onComplete: () => void }
 const IntroVisualNovel = ({ onComplete }: IntroProps) => {
   const [sceneId, setSceneId] = useState('s01')
   const [inputValue, setInputValue] = useState('')
-  const [userName, setUserName]     = useState('')
-  const [fadeIn, setFadeIn]         = useState(false)
-  const [fadeOut, setFadeOut]       = useState(false)
-  const [showDialog, setShowDialog] = useState(false) 
+  const [userName, setUserName] = useState('')
+  const [fadeIn, setFadeIn] = useState(false)
+  const [fadeOut, setFadeOut] = useState(false)
+  const [showDialog, setShowDialog] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const spot = useSpotlight()
   const scene = SCRIPT[sceneId]
 
-  useEffect(() => { 
+  useEffect(() => {
     const t = setTimeout(() => setFadeIn(true), 100)
     const d = setTimeout(() => setShowDialog(true), 3000)
-    
+
     return () => { clearTimeout(t); clearTimeout(d) }
   }, [])
 
@@ -720,20 +723,20 @@ type MemberPopupProps = { isOpen: boolean; onClose: () => void }
 type CardState = 'ALIVE' | 'PLAYING_VIRTUOSA' | 'DEADLOCK' | 'BOOTING'
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
-  const [activeGlitch,      setActiveGlitch]      = useState<string | null>(null)
-  const [cardTear,          setCardTear]           = useState<number>(0)
-  const [cardState,         setCardState]          = useState<CardState>('ALIVE')
-  const [glitchBg,          setGlitchBg]           = useState('rgba(5,0,1,1)')
-  const [glitchBorder,      setGlitchBorder]       = useState('rgba(200,0,50,0.8)')
-  const [glitchBoxBg,       setGlitchBoxBg]        = useState('rgba(0,0,0,0.9)')
-  const [glitchTextVariant, setGlitchTextVariant]  = useState(0)
-  const [glitchFlicker,     setGlitchFlicker]      = useState(false)
-  const [isMounted,         setIsMounted]          = useState(false)
+  const [activeGlitch, setActiveGlitch] = useState<string | null>(null)
+  const [cardTear, setCardTear] = useState<number>(0)
+  const [cardState, setCardState] = useState<CardState>('ALIVE')
+  const [glitchBg, setGlitchBg] = useState('rgba(5,0,1,1)')
+  const [glitchBorder, setGlitchBorder] = useState('rgba(200,0,50,0.8)')
+  const [glitchBoxBg, setGlitchBoxBg] = useState('rgba(0,0,0,0.9)')
+  const [glitchTextVariant, setGlitchTextVariant] = useState(0)
+  const [glitchFlicker, setGlitchFlicker] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   const cardContentRef = useRef<HTMLDivElement>(null)
 
   const spot = useSpotlight()
-  
+
   const isLocked = cardState === 'DEADLOCK' || cardState === 'BOOTING'
   const glitchPhase = useCornerGlitch(!isLocked)
 
@@ -784,11 +787,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   useEffect(() => {
     if (cardState !== 'DEADLOCK' && cardState !== 'BOOTING') return
-    const bgs   = ['rgba(5,0,1,1)','rgba(20,0,0,1)','rgba(0,0,5,1)','rgba(10,0,0,1)','rgba(50,0,10,1)','rgba(0,5,0,1)','rgba(2,0,8,1)']
-    const bords  = ['rgba(255,0,0,1)','rgba(200,0,50,0.8)','rgba(255,50,0,1)','rgba(180,0,0,0.9)','rgba(255,0,100,0.7)','rgba(255,255,0,0.5)','rgba(0,255,255,0.3)']
-    const boxes  = ['rgba(0,0,0,0.9)','rgba(30,0,0,0.95)','rgba(10,0,5,0.85)','rgba(0,0,10,0.92)','rgba(20,0,0,0.98)']
+    const bgs = ['rgba(5,0,1,1)', 'rgba(20,0,0,1)', 'rgba(0,0,5,1)', 'rgba(10,0,0,1)', 'rgba(50,0,10,1)', 'rgba(0,5,0,1)', 'rgba(2,0,8,1)']
+    const bords = ['rgba(255,0,0,1)', 'rgba(200,0,50,0.8)', 'rgba(255,50,0,1)', 'rgba(180,0,0,0.9)', 'rgba(255,0,100,0.7)', 'rgba(255,255,0,0.5)', 'rgba(0,255,255,0.3)']
+    const boxes = ['rgba(0,0,0,0.9)', 'rgba(30,0,0,0.95)', 'rgba(10,0,5,0.85)', 'rgba(0,0,10,0.92)', 'rgba(20,0,0,0.98)']
     let bt: NodeJS.Timeout, brt: NodeJS.Timeout, tt: NodeJS.Timeout, ft: NodeJS.Timeout
-    const cBg  = () => { setGlitchBg(bgs[floor(random(bgs.length))]); bt  = setTimeout(cBg,  floor(random(80, 400))) }
+    const cBg = () => { setGlitchBg(bgs[floor(random(bgs.length))]); bt = setTimeout(cBg, floor(random(80, 400))) }
     const cBrd = () => { setGlitchBorder(bords[floor(random(bords.length))]); setGlitchBoxBg(boxes[floor(random(boxes.length))]); brt = setTimeout(cBrd, floor(random(100, 500))) }
     const cTxt = () => { setGlitchTextVariant(floor(random(6))); tt = setTimeout(cTxt, floor(random(50, 300))) }
     const cFlk = () => { setGlitchFlicker(Math.random() > 0.5); ft = setTimeout(cFlk, floor(random(30, 200))) }
@@ -807,8 +810,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   if (!isOpen || !isMounted) return null
 
   const fatalErrorTexts = ['FATAL ERROR', 'F̷A̴T̸A̷L̵ ̸E̴R̵R̸O̷R̴', 'F̸̡̛̙̟̲̪̥̿̒̓̂Ä̵̰̩́̎T̶̨̮͋̉Ā̴̼͙̯̩͑͝L̸̜̻̊̔ ̷̙͔̫̮̫̓̑Ȅ̴̫̪͖̓̔͘R̷̨̗̄̋̾̒͝Ȑ̵̡̛̬̖̠͘Ö̸̰́R̴̩̙̳͖͑̉͒͠', '▓▒░FATAL░▒▓', 'FATAL_ERROR.exe', '//FATAL ERROR//']
-  const corruptTexts   = ['CORRUPTED_DATA_DETECTED', 'C̷O̸R̷R̸U̵P̴T̵E̸D̷_̷D̵A̸T̷A̴ ̵/̶/̷ ̸0̷x̷D̵E̸A̷D̵', 'ERR_CORRUPTION :: MEMORY_FAULT', '0xDEAD :: NULL_PTR_EXCEPTION', 'STACK_OVERFLOW // DATA_CORRUPTED', '????_????_??????? // 0xDEAD']
-  const buttonTexts    = ['please load this profile again', 'p̷l̴e̷a̶s̸e̵ ̶l̸o̸a̸d̷ ̴t̷h̶i̵s̵ ̵p̷r̷o̴f̸i̶l̶e̸ ̶a̸g̷a̷i̷n̸', 'PLEASE LOAD THIS PROFILE AGAIN', 'please_load_this_profile_again()', 'RELOAD // PLEASE LOAD THIS PROFILE', 'p̸̺̓l̷̙͝ȇ̶͙a̵̞͑ş̵̈e̸̹͋ ̶͖̋l̸͓̎o̶͕̿à̷͔d̴̡̊ ̵͚̽ṫ̸̻h̶̠͌i̴̮͘ş̵̄ ̷̯̐p̷̙̉ȓ̴̩o̶̻͝f̵̰͊i̶̼͑l̵̲̎ê̵͓']
+  const corruptTexts = ['CORRUPTED_DATA_DETECTED', 'C̷O̸R̷R̸U̵P̴T̵E̸D̷_̷D̵A̸T̷A̴ ̵/̶/̷ ̸0̷x̷D̵E̸A̷D̵', 'ERR_CORRUPTION :: MEMORY_FAULT', '0xDEAD :: NULL_PTR_EXCEPTION', 'STACK_OVERFLOW // DATA_CORRUPTED', '????_????_??????? // 0xDEAD']
+  const buttonTexts = ['please load this profile again', 'p̷l̴e̷a̶s̸e̵ ̶l̸o̸a̸d̷ ̴t̷h̶i̵s̵ ̵p̷r̷o̴f̸i̶l̶e̸ ̶a̸g̷a̷i̷n̸', 'PLEASE LOAD THIS PROFILE AGAIN', 'please_load_this_profile_again()', 'RELOAD // PLEASE LOAD THIS PROFILE', 'p̸̺̓l̷̙͝ȇ̶͙a̵̞͑ş̵̈e̸̹͋ ̶͖̋l̸͓̎o̶͕̿à̷͔d̴̡̊ ̵͚̽ṫ̸̻h̶̠͌i̴̮͘ş̵̄ ̷̯̐p̷̙̉ȓ̴̩o̶̻͝f̵̰͊i̶̼͑l̵̲̎ê̵͓']
 
   return createPortal(
     <div className="fixed inset-0 z-[9999] flex items-start justify-center overflow-y-auto px-4 font-mono">
@@ -827,7 +830,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           ${cardTear > 0 && cardState === 'ALIVE' ? `card-tear-base card-tear-${cardTear}` : ''}`}
         style={{
           backgroundColor: isLocked ? glitchBg : '#050001',
-          borderColor:     isLocked ? glitchBorder : undefined,
+          borderColor: isLocked ? glitchBorder : undefined,
           boxShadow: isLocked
             ? `0 0 25px ${glitchBorder}`
             : '0 0 60px rgba(180,20,40,0.35), 0 0 120px rgba(120,0,20,0.2), 0 0 200px rgba(60,0,10,0.15)',
@@ -846,86 +849,86 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }} />
 
         {!isLocked && (() => {
-  const rect = cardContentRef.current?.getBoundingClientRect()
-        if (!rect) return null
+          const rect = cardContentRef.current?.getBoundingClientRect()
+          if (!rect) return null
 
-        const px = ((spot.x - rect.left) / rect.width) * 100
-        const py = ((spot.y - rect.top) / rect.height) * 100
-        const inside =
-          spot.x >= rect.left && spot.x <= rect.right &&
-          spot.y >= rect.top  && spot.y <= rect.bottom
+          const px = ((spot.x - rect.left) / rect.width) * 100
+          const py = ((spot.y - rect.top) / rect.height) * 100
+          const inside =
+            spot.x >= rect.left && spot.x <= rect.right &&
+            spot.y >= rect.top && spot.y <= rect.bottom
 
-        const nx = Math.max(0, Math.min(1, (spot.x - rect.left) / rect.width))
-        const ny = Math.max(0, Math.min(1, (spot.y - rect.top)  / rect.height))
+          const nx = Math.max(0, Math.min(1, (spot.x - rect.left) / rect.width))
+          const ny = Math.max(0, Math.min(1, (spot.y - rect.top) / rect.height))
 
-        const wTL = (1 - nx) * (1 - ny)  
-        const wTR =      nx  * (1 - ny)  
-        const wBL = (1 - nx) * ny    
-        const wBR =      nx  * ny   
-        const tlPalette: [number,number,number][] = [
-          [255, 255, 255],  
-          [200,   0,  40],   
-          [ 30, 100, 220],  
-        ]
-        const trPalette: [number,number,number][] = [
-          [220,   0,  50],   
-          [  0,  80, 220], 
-        ]
+          const wTL = (1 - nx) * (1 - ny)
+          const wTR = nx * (1 - ny)
+          const wBL = (1 - nx) * ny
+          const wBR = nx * ny
+          const tlPalette: [number, number, number][] = [
+            [255, 255, 255],
+            [200, 0, 40],
+            [30, 100, 220],
+          ]
+          const trPalette: [number, number, number][] = [
+            [220, 0, 50],
+            [0, 80, 220],
+          ]
 
-        const tlIdx  = Math.floor(glitchPhase * 4) % tlPalette.length
-        const trIdx  = Math.floor(glitchPhase * 3) % trPalette.length
-        const [tlR, tlG, tlB] = tlPalette[tlIdx]
-        const [trR, trG, trB] = trPalette[trIdx]
+          const tlIdx = Math.floor(glitchPhase * 4) % tlPalette.length
+          const trIdx = Math.floor(glitchPhase * 3) % trPalette.length
+          const [tlR, tlG, tlB] = tlPalette[tlIdx]
+          const [trR, trG, trB] = trPalette[trIdx]
 
-        const corners = {
-          tl: { r: tlR, g: tlG, b: tlB },      
-          tr: { r: trR, g: trG, b: trB },          
-          bl: { r: 30,  g: 120, b: 220 },          
-          br: { r: 180, g:   0, b:  30 },          
-        }
+          const corners = {
+            tl: { r: tlR, g: tlG, b: tlB },
+            tr: { r: trR, g: trG, b: trB },
+            bl: { r: 30, g: 120, b: 220 },
+            br: { r: 180, g: 0, b: 30 },
+          }
 
-        const blendR = Math.round(corners.tl.r * wTL + corners.tr.r * wTR + corners.bl.r * wBL + corners.br.r * wBR)
-        const blendG = Math.round(corners.tl.g * wTL + corners.tr.g * wTR + corners.bl.g * wBL + corners.br.g * wBR)
-        const blendB = Math.round(corners.tl.b * wTL + corners.tr.b * wTR + corners.bl.b * wBL + corners.br.b * wBR)
+          const blendR = Math.round(corners.tl.r * wTL + corners.tr.r * wTR + corners.bl.r * wBL + corners.br.r * wBR)
+          const blendG = Math.round(corners.tl.g * wTL + corners.tr.g * wTR + corners.bl.g * wBL + corners.br.g * wBR)
+          const blendB = Math.round(corners.tl.b * wTL + corners.tr.b * wTR + corners.bl.b * wBL + corners.br.b * wBR)
 
-        const distLeft   = (spot.x - rect.left)  / (rect.width  * 0.35)
-        const distRight  = (rect.right - spot.x) / (rect.width  * 0.35)
-        const distTop    = (spot.y - rect.top)   / (rect.height * 0.35)
-        const distBottom = (rect.bottom - spot.y)/ (rect.height * 0.35)
+          const distLeft = (spot.x - rect.left) / (rect.width * 0.35)
+          const distRight = (rect.right - spot.x) / (rect.width * 0.35)
+          const distTop = (spot.y - rect.top) / (rect.height * 0.35)
+          const distBottom = (rect.bottom - spot.y) / (rect.height * 0.35)
 
-        const glowLeft   = inside ? Math.max(0, Math.min(1, 1 - distLeft))   : 0
-        const glowRight  = inside ? Math.max(0, Math.min(1, 1 - distRight))  : 0
-        const glowTop    = inside ? Math.max(0, Math.min(1, 1 - distTop))    : 0
-        const glowBottom = inside ? Math.max(0, Math.min(1, 1 - distBottom)) : 0
+          const glowLeft = inside ? Math.max(0, Math.min(1, 1 - distLeft)) : 0
+          const glowRight = inside ? Math.max(0, Math.min(1, 1 - distRight)) : 0
+          const glowTop = inside ? Math.max(0, Math.min(1, 1 - distTop)) : 0
+          const glowBottom = inside ? Math.max(0, Math.min(1, 1 - distBottom)) : 0
 
-        const spotAlpha = inside ? 0.55 : 0
+          const spotAlpha = inside ? 0.55 : 0
 
-        return (
-          <>
-            <div style={{
-              position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 16,
-              background: inside
-                ? `radial-gradient(ellipse 50% 40% at ${px}% ${py}%,
+          return (
+            <>
+              <div style={{
+                position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 16,
+                background: inside
+                  ? `radial-gradient(ellipse 50% 40% at ${px}% ${py}%,
                     rgba(${blendR},${blendG},${blendB},0.08) 0%,
                     rgba(0,0,0,0.35) 45%,
                     rgba(0,0,0,0.88) 70%,
                     rgba(0,0,0,0.96) 100%)`
-                : 'rgba(0,0,0,0.92)',
-            }} />
+                  : 'rgba(0,0,0,0.92)',
+              }} />
 
-            <div style={{
-              position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 17,
-              boxShadow: [
-                glowLeft   > 0.01 ? `inset ${Math.round(glowLeft   * 70)}px 0 ${Math.round(glowLeft   * 45)}px rgba(${blendR},${blendG},${blendB},${(glowLeft   * 0.40).toFixed(2)})` : '',
-                glowRight  > 0.01 ? `inset -${Math.round(glowRight  * 70)}px 0 ${Math.round(glowRight  * 45)}px rgba(${blendR},${blendG},${blendB},${(glowRight  * 0.40).toFixed(2)})` : '',
-                glowTop    > 0.01 ? `inset 0 ${Math.round(glowTop    * 50)}px ${Math.round(glowTop    * 35)}px rgba(${blendR},${blendG},${blendB},${(glowTop    * 0.32).toFixed(2)})` : '',
-                glowBottom > 0.01 ? `inset 0 -${Math.round(glowBottom* 50)}px ${Math.round(glowBottom* 35)}px rgba(${blendR},${blendG},${blendB},${(glowBottom * 0.32).toFixed(2)})` : '',
-              ].filter(Boolean).join(', ') || 'none',
-              transition: 'box-shadow 0.05s ease',
-            }} />
-          </>
-        )
-      })()}
+              <div style={{
+                position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 17,
+                boxShadow: [
+                  glowLeft > 0.01 ? `inset ${Math.round(glowLeft * 70)}px 0 ${Math.round(glowLeft * 45)}px rgba(${blendR},${blendG},${blendB},${(glowLeft * 0.40).toFixed(2)})` : '',
+                  glowRight > 0.01 ? `inset -${Math.round(glowRight * 70)}px 0 ${Math.round(glowRight * 45)}px rgba(${blendR},${blendG},${blendB},${(glowRight * 0.40).toFixed(2)})` : '',
+                  glowTop > 0.01 ? `inset 0 ${Math.round(glowTop * 50)}px ${Math.round(glowTop * 35)}px rgba(${blendR},${blendG},${blendB},${(glowTop * 0.32).toFixed(2)})` : '',
+                  glowBottom > 0.01 ? `inset 0 -${Math.round(glowBottom * 50)}px ${Math.round(glowBottom * 35)}px rgba(${blendR},${blendG},${blendB},${(glowBottom * 0.32).toFixed(2)})` : '',
+                ].filter(Boolean).join(', ') || 'none',
+                transition: 'box-shadow 0.05s ease',
+              }} />
+            </>
+          )
+        })()}
 
         {isLocked && (
           <div className="scanline-sweep absolute inset-x-0 h-8 pointer-events-none z-30"
@@ -945,36 +948,107 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           className="relative z-10 max-h-[100dvh] overflow-y-auto overflow-x-hidden p-6 sm:p-8 scrollbar-thin scrollbar-thumb-red-900 scrollbar-track-black"
         >
 
-        <div className="pr-10">
-          {/* UBAH NAMA ANDA */}
-          <h2 className="text-2xl font-black">Yovi Prayudya Rizky Rmaadhani</h2>
-          {/* UBAH NRP DAN ASAL */}
-          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251107 - Probolinggo</p>
-        </div>
+          <div style={{ position: 'relative', zIndex: 2 }}>
 
             {isLocked && (
               <div className={`flex flex-col gap-4 ${glitchFlicker ? 'corruption-container' : ''}`}>
                 <div className="relative overflow-hidden rounded-sm" style={{ border: `3px solid ${glitchBorder}`, boxShadow: `0 0 30px ${glitchBorder},inset 0 0 20px rgba(255,0,0,0.2)`, transition: 'none' }}>
                   {cardState === 'BOOTING'
-                    ? <Image src={readingGif}  alt="system booting..." className="w-full object-cover object-center" unoptimized />
-                    : <Image src={tauntingGif} alt="fatal error"       className="w-full object-cover object-center" unoptimized style={{ filter: glitchFlicker ? 'hue-rotate(180deg) saturate(200%) contrast(150%)' : 'none' }} />
+                    ? <Image src={readingGif} alt="system booting..." className="w-full object-cover object-center" unoptimized />
+                    : <Image src={tauntingGif} alt="fatal error" className="w-full object-cover object-center" unoptimized style={{ filter: glitchFlicker ? 'hue-rotate(180deg) saturate(200%) contrast(150%)' : 'none' }} />
                   }
                   <div className="crt-texture" />
                   <div className="absolute inset-0 pointer-events-none mix-blend-color-dodge" style={{ background: glitchFlicker ? 'linear-gradient(90deg,rgba(255,0,0,0.15) 0%,transparent 33%,rgba(0,255,255,0.15) 66%,transparent 100%)' : 'none', transition: 'none' }} />
                 </div>
 
-        <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
-            {/* UBAH HOBI KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
-            <p className="mt-2">Nyanyi</p>
-          </div>
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
-            {/* UBAH FUNFACT KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
-            <p className="mt-2">A story writer of Yui novel</p>
-          </div>
-        </div>
+                {cardState === 'DEADLOCK' && (
+                  <div className="box-glitch rounded-sm p-6 text-center" style={{ border: `3px solid ${glitchBorder}`, backgroundColor: glitchBoxBg, boxShadow: `inset 0 0 40px rgba(200,0,0,0.35),0 0 30px ${glitchBorder}`, transition: 'none' }}>
+                    <p className="rgb-split-text text-flicker font-black tracking-[0.3em] uppercase text-sm mb-1 drop-shadow-[0_0_10px_rgba(255,0,0,0.9)]" style={{ color: glitchBorder, transition: 'none' }}>
+                      {fatalErrorTexts[glitchTextVariant] ?? 'FATAL ERROR'}
+                    </p>
+                    <p className="text-xs font-mono mb-5" style={{ color: `${glitchBorder}99`, transition: 'none', filter: glitchFlicker ? 'blur(0.5px)' : 'none' }}>
+                      {corruptTexts[glitchTextVariant] ?? 'CORRUPTED_DATA_DETECTED // 0xDEAD'}
+                    </p>
+                    <button
+                      onClick={() => setCardState('BOOTING')}
+                      className="px-6 py-3 font-bold rounded-sm uppercase tracking-widest text-sm cursor-pointer"
+                      style={{ backgroundColor: 'rgba(0,0,0,0.8)', color: glitchBorder, border: `2px solid ${glitchBorder}`, boxShadow: `0 0 15px ${glitchBorder}`, textShadow: glitchFlicker ? '-2px 0 red,2px 0 cyan' : 'none', transition: 'none' }}
+                    >
+                      {buttonTexts[glitchTextVariant] ?? 'please load this profile again'}
+                    </button>
+                  </div>
+                )}
+
+                {cardState === 'BOOTING' && (
+                  <div className="rounded-sm p-3 text-center" style={{ border: `1px solid ${glitchBorder}66`, backgroundColor: 'rgba(0,0,0,0.6)', transition: 'none' }}>
+                    <p className="text-xs font-mono tracking-[0.2em] animate-pulse" style={{ color: glitchBorder }}>SYSTEM BOOTING... PLEASE WAIT</p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {!isLocked && (
+              <div>
+                <div
+                  className={`mb-5 overflow-hidden rounded-sm border-[2px] transition-all duration-100 relative bg-black pointer-events-none
+                    ${cardState === 'PLAYING_VIRTUOSA' ? 'border-red-600 shadow-[0_0_30px_rgba(255,0,0,0.7)]' : activeGlitch === 'image' ? 'border-red-500 scale-[1.03] filter invert sepia-[.8] hue-rotate-[180deg] brightness-75' : 'border-red-900/40 grayscale-[0.2]'}`}
+                >
+                  {cardState === 'PLAYING_VIRTUOSA' ? (
+                    <>
+                      <Image src={virtuosaGif} alt="???" className="h-120 w-full object-cover object-center pfp-glitch-in" unoptimized priority />
+                      <div className="crt-texture" />
+                      <div className="absolute inset-0 bg-red-950/25 mix-blend-color-burn animate-pulse pointer-events-none" />
+                      <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(90deg,rgba(255,0,0,0.08) 0%,transparent 40%,rgba(0,255,255,0.08) 70%,transparent 100%)' }} />
+                    </>
+                  ) : (
+                    <>
+                      <GlitchCanvas key={`canvas-${cardState}`} src={ProfileImage.src} />
+                      {cardTear > 0 && <div className="absolute inset-0 bg-red-900/30 mix-blend-color-burn animate-pulse pointer-events-none" />}
+                    </>
+                  )}
+                </div>
+
+                {cardState === 'PLAYING_VIRTUOSA' && (
+                  <div className="mb-4 py-1 px-3 rounded-sm text-center" style={{ border: '1px solid rgba(255,0,0,0.4)', backgroundColor: 'rgba(20,0,0,0.7)' }}>
+                    <p className="rgb-split-text text-xs font-mono tracking-[0.2em] text-red-700">F̵̖͈̓õ̸̼̙͊ṷ̶̎̚ń̶̡̗̊d̵̛̘̲ ̷̺͈̇y̸̥͛o̵̗̞͌̾u̷̯̿̕͜~̴͍̆ͅ.̸̞̞͋̑ ̸̧̙́L̴̘̙̎̓e̷̡̖̾t̵̗̕'̷̮̆͛s̸͓̄ ̶̣͛͝p̶͚͑͆ļ̴̿̇a̶̲͐y̴̻̒̎</p>
+                  </div>
+                )}
+
+                <div className="pr-10 border-l-[4px] pl-4 mb-6 transition-colors" style={{ borderColor: activeGlitch === 'name' ? '#ff0000' : 'rgba(200,0,50,0.6)' }}>
+                  <h2 className={`text-2xl font-black transition-all duration-75 ${activeGlitch === 'name' ? 'text-red-500 tracking-[0.3em] skew-x-12 animate-pulse' : 'text-gray-100'}`}>
+                    <GlitchText active={activeGlitch === 'name'} normalText="Yovi Prayudya Rizky Ramadhani" glitchText="L̸̩̮̈u̴̞̤̍́n̵͙͎͌̌ą̶̗̅̉ḽ̸̼̑i̷͍̔g̶̻̲̓̀h̷̠͕͗t̴͚̍̕_̶̞͗̔Y̸̞̔ű̶͕͜i̶͙̩̅̈́" />
+                  </h2>
+                  <p className={`mt-1 text-sm font-semibold transition-colors ${activeGlitch === 'name' ? 'text-white font-black' : 'text-red-700/80'}`}>
+                    <GlitchText active={activeGlitch === 'name'} normalText="5027251107 - Probolinggo" glitchText="U̷̲͘n̸̫͊k̵̮̐ṋ̶̂o̷̰͝w̷̜̋n̵͔͌" />
+                  </p>
+                </div>
+
+                <div className={`mt-5 flex gap-2 transition-all duration-75 relative ${activeGlitch === 'social' ? 'opacity-40 scale-[1.01]' : 'opacity-100'}`}>
+                  <Instagram username="yoviprayudya6" />
+                  <LinkedInButtonLink username="yoviprayudyarr" />
+                  {activeGlitch === 'social' && (
+                    <div className="absolute inset-0 flex items-center pointer-events-none">
+                      <span className="rgb-split-text text-xs font-mono tracking-[0.15em] animate-pulse px-2 py-1 rounded-sm" style={{ backgroundColor: 'rgba(10,0,0,0.85)', color: 'rgba(255,50,50,0.95)', border: '1px solid rgba(255,0,0,0.4)' }}>
+                        F̵̖͈̓õ̸̼̙͊ṷ̶̎̚ń̶̡̗̊d̵̛̘̲ ̷̺͈̇y̸̥͛o̵̗̞͌̾u̷̯̿̕͜~̴͍̆ͅ ̸̧̙́l̴̘̙̎̓e̷̡̖̾t̵̗̕'̷̮̆͛s̸͓̄ ̶̣͛͝p̶͚͑͆ļ̴̿̇a̶̲͐y̴̻̒̎!
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
+                  <div className={`rounded-sm border-[2px] p-4 transition-all duration-75 overflow-hidden backdrop-blur-sm ${activeGlitch === 'hobi' ? 'border-red-500 bg-red-950/40 text-red-400 scale-[1.02] shadow-[0_0_10px_rgba(255,0,0,0.3)]' : 'border-red-900/30 bg-black/20'}`}>
+                    <p className="text-red-700/80 text-xs tracking-wide uppercase">Hobi</p>
+                    <p className={`mt-2 transition-all ${activeGlitch === 'hobi' ? 'font-black text-lg tracking-tight' : 'text-gray-200'}`}>
+                      <GlitchText active={activeGlitch === 'hobi'} normalText="nulis cerita, main game, gambar, suka hal random" glitchText="b̴̗͑ú̴̫r̸̖͆n̵̬͐ ̸̡͆t̶̤̃h̸̤̚ě̸̜m̸̧̃ ̸͖̓ä̶̧́l̷̳͗l̷̄ͅ" />
+                    </p>
+                  </div>
+                  <div className={`rounded-sm border-[2px] p-4 transition-all duration-75 backdrop-blur-sm ${activeGlitch === 'funfact' ? 'border-red-500 bg-red-950/40 text-red-400 font-bold -skew-y-2' : 'border-red-900/30 bg-black/20'}`}>
+                    <p className="text-red-700/80 text-xs tracking-wide uppercase">Fun Fact</p>
+                    <p className={`mt-2 transition-all ${activeGlitch === 'funfact' ? 'font-black' : 'text-gray-200'}`}>
+                      <GlitchText active={activeGlitch === 'funfact'} normalText="A story writer of Yui novel" glitchText="T̴̫̭̈h̵͇̏e̴̬̔̆ ̵̖̿̚o̷̙͝n̴͙̿e̴̢͋ ̶̱̹͘͝y̶̺͝ó̶̬̔u̷̘͌̈́ ̶̳̀h̸̡̏͐û̸̫r̴̀͜t̵̳̬͋͋ ̷̯͑m̴̢͙̓e̸̱̓̈́" />
+                    </p>
+                  </div>
+                </div>
 
                 <div className="mt-4 rounded-sm border-[2px] border-red-900/30 bg-black/20 p-4 font-mono relative overflow-hidden backdrop-blur-sm">
                   <div className="relative">
@@ -1002,7 +1076,7 @@ type MemberWithIntroProps = { isOpen: boolean; onClose: () => void }
 
 const MemberWithIntro = ({ isOpen, onClose }: MemberWithIntroProps) => {
   const [introShown, setIntroShown] = useState(false)
-  const [isMounted,  setIsMounted]  = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => { setIsMounted(true) }, [])
   useEffect(() => { if (!isOpen) setIntroShown(false) }, [isOpen])
@@ -1013,7 +1087,7 @@ const MemberWithIntro = ({ isOpen, onClose }: MemberWithIntroProps) => {
     <>
       <style>{SHARED_STYLES}</style>
       {!introShown && <IntroVisualNovel onComplete={() => setIntroShown(true)} />}
-      {introShown  && <MemberPopup isOpen={true} onClose={onClose} />}
+      {introShown && <MemberPopup isOpen={true} onClose={onClose} />}
     </>,
     document.body
   )
