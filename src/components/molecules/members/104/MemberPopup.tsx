@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useEffect } from 'react'
+import { createPortal } from 'react-dom'
+
 import Image from 'next/image'
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
@@ -32,8 +34,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   if (!isOpen) return null
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-16 pb-8 sm:pt-24">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes steam-shine {
           0% { background-position: 200% center; }
@@ -150,7 +152,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </div>
 
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
