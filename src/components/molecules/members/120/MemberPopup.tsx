@@ -8,10 +8,11 @@ import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
-// Struktur Import Ori Sesuai Permintaan
+// Struktur Import Ori Sesuai Permintaan + Tambahan Background Baru
 import CinemeowImg from './absolute_cinemeow.jpg'
 import ProfileImage from './image.png'
 import ZetaGif from './zeta.gif'
+import BackgroundImg from './background.png'
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -145,8 +146,22 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   if (!isOpen) return null
 
   return createPortal(
-    /* REVISI: Backdrop luar sekarang menggunakan bg-black/50 (hitam opacity 50%) + backdrop-blur-sm */
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 bg-black/50 backdrop-blur-sm select-none">
+    /* REVISI: Mengganti backdrop blur luar menggunakan background.jpg yang digelapkan 50% (bg-black/50) */
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 select-none">
+      
+      {/* Background Image Container */}
+      <div className="absolute inset-0 -z-20">
+        <Image
+          src={BackgroundImg}
+          alt="Outer Background"
+          fill
+          priority
+          className="object-cover object-center"
+        />
+        {/* Overlay Gelap 50% */}
+        <div className="absolute inset-0 bg-black/50" />
+      </div>
+
       <button
         type="button"
         aria-label="Close member detail"
@@ -234,7 +249,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       {/* SCREEN 3: POPUP UTAMA DETIL MEMBER */}
       {currentStep === 'popup' && (
-        <div className="border-neutral-cs-10 relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-hidden rounded-2xl border-2 text-white shadow-xl bg-zinc-950">
+        <div className="border-neutral-cs-10 relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-hidden rounded-2xl border-2 text-white shadow-xl bg-zinc-950 my-4">
          
           <Image
             src={ZetaGif}
@@ -283,8 +298,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               </div>
             </div>
 
+            {/* REVISI: Ukuran nama dibikin lebih gede (text-3xl di HP, sm:text-4xl di desktop) */}
             <div className="relative z-10 pr-10">
-              <h2 className="font-sans text-2xl font-black tracking-wide">Rido Patra Yudhistira Edwin</h2>
+              <h2 className="font-sans text-3xl sm:text-4xl font-black tracking-wide">Rido Patra Yudhistira Edwin</h2>
               <p className="text-neutral-cs-10/70 mt-1 font-mono text-sm font-semibold">5027251120 - Surabaya</p>
             </div>
 
@@ -320,14 +336,33 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             </div>
 
             <div className="relative z-10 mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
+              {/* REVISI: Merapikan bagian hobi menggunakan struktur list (ul/li) */}
               <div className="border-neutral-cs-10/40 rounded-xl border bg-black/40 p-4 backdrop-blur-md">
-                <p className="text-neutral-cs-10/60 font-mono text-xs tracking-wide uppercase">
+                <p className="text-neutral-cs-10/60 font-mono text-xs tracking-wide uppercase mb-2">
                   Site ɑ: 俺の趣味 (Hobiku):
                 </p>
-                <p className="mt-2 font-sans font-medium">
-                  Nonton Anime dan Donghua, Baca Manga, Manhwa, Manhua, dan Light Novel, Main Game; terutama game Gacha,
-                  Shooter, RPG, Anime, Sandbox, Menggambar, Mendengarkan Lagu; mostly lagu Jepang, Game, Anime
-                </p>
+                <ul className="space-y-1.5 font-sans font-medium text-slate-200 text-sm">
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-cyan-400">‣</span>
+                    <span>Nonton Anime dan Donghua</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-cyan-400">‣</span>
+                    <span>Baca Manga, Manhwa, Manhua, dan Light Novel</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-cyan-400">‣</span>
+                    <span>Main Game terutama Gacha, Shooter, RPG, Anime, Sandbox</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-cyan-400">‣</span>
+                    <span>Menggambar</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-cyan-400">‣</span>
+                    <span>Mendengarkan Lagu (Mostly lagu Jepang, Game, Anime)</span>
+                  </li>
+                </ul>
               </div>
               <div className="border-neutral-cs-10/40 rounded-xl border bg-black/40 p-4 backdrop-blur-md">
                 <p className="text-neutral-cs-10/60 font-mono text-xs tracking-wide uppercase">
