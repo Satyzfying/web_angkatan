@@ -1,4 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Special+Elite&family=Libre+Baskerville:wght@400;700&display=swap');
 @import 'tailwindcss';
+
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  src: url('../components/molecules/members/012/ZenMaruGothic-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --background: #ffffff;
@@ -35,7 +44,9 @@
   --color-yellow-cs-40: #db901c;
 
   --font-sans: var(--font-montserrat);
+  --font-cinzel: var(--font-cinzel-local);
   --font-rubikone: var(--font-rubikone-local);
+  --font-maimai: 'Zen Maru Gothic', var(--font-montserrat), sans-serif;
 }
 
 body {
@@ -112,4 +123,25 @@ body {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+}
+
+@keyframes quote-glow-breathe {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 12px rgba(173, 216, 230, 0.45));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 24px rgba(173, 216, 230, 0.9));
+  }
+}
+
+.overflow-y-auto::-webkit-scrollbar {
+  display: none;
+}
+
+.overflow-y-auto {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
 }

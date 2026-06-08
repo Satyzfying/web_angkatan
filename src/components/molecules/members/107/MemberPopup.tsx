@@ -945,7 +945,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           className="relative z-10 max-h-[100dvh] overflow-y-auto overflow-x-hidden p-6 sm:p-8 scrollbar-thin scrollbar-thumb-red-900 scrollbar-track-black"
         >
 
-          <div style={{ position: 'relative', zIndex: 2 }}>
+        <div className="pr-10">
+          {/* UBAH NAMA ANDA */}
+          <h2 className="text-2xl font-black">Yovi Prayudya Rizky Rmaadhani</h2>
+          {/* UBAH NRP DAN ASAL */}
+          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251107 - Probolinggo</p>
+        </div>
 
             {isLocked && (
               <div className={`flex flex-col gap-4 ${glitchFlicker ? 'corruption-container' : ''}`}>
@@ -958,94 +963,18 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                   <div className="absolute inset-0 pointer-events-none mix-blend-color-dodge" style={{ background: glitchFlicker ? 'linear-gradient(90deg,rgba(255,0,0,0.15) 0%,transparent 33%,rgba(0,255,255,0.15) 66%,transparent 100%)' : 'none', transition: 'none' }} />
                 </div>
 
-                {cardState === 'DEADLOCK' && (
-                  <div className="box-glitch rounded-sm p-6 text-center" style={{ border: `3px solid ${glitchBorder}`, backgroundColor: glitchBoxBg, boxShadow: `inset 0 0 40px rgba(200,0,0,0.35),0 0 30px ${glitchBorder}`, transition: 'none' }}>
-                    <p className="rgb-split-text text-flicker font-black tracking-[0.3em] uppercase text-sm mb-1 drop-shadow-[0_0_10px_rgba(255,0,0,0.9)]" style={{ color: glitchBorder, transition: 'none' }}>
-                      {fatalErrorTexts[glitchTextVariant] ?? 'FATAL ERROR'}
-                    </p>
-                    <p className="text-xs font-mono mb-5" style={{ color: `${glitchBorder}99`, transition: 'none', filter: glitchFlicker ? 'blur(0.5px)' : 'none' }}>
-                      {corruptTexts[glitchTextVariant] ?? 'CORRUPTED_DATA_DETECTED // 0xDEAD'}
-                    </p>
-                    <button
-                      onClick={() => setCardState('BOOTING')}
-                      className="px-6 py-3 font-bold rounded-sm uppercase tracking-widest text-sm cursor-pointer"
-                      style={{ backgroundColor: 'rgba(0,0,0,0.8)', color: glitchBorder, border: `2px solid ${glitchBorder}`, boxShadow: `0 0 15px ${glitchBorder}`, textShadow: glitchFlicker ? '-2px 0 red,2px 0 cyan' : 'none', transition: 'none' }}
-                    >
-                      {buttonTexts[glitchTextVariant] ?? 'please load this profile again'}
-                    </button>
-                  </div>
-                )}
-
-                {cardState === 'BOOTING' && (
-                  <div className="rounded-sm p-3 text-center" style={{ border: `1px solid ${glitchBorder}66`, backgroundColor: 'rgba(0,0,0,0.6)', transition: 'none' }}>
-                    <p className="text-xs font-mono tracking-[0.2em] animate-pulse" style={{ color: glitchBorder }}>SYSTEM BOOTING... PLEASE WAIT</p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {!isLocked && (
-              <div>
-                <div
-                  className={`mb-5 overflow-hidden rounded-sm border-[2px] transition-all duration-100 relative bg-black pointer-events-none
-                    ${cardState === 'PLAYING_VIRTUOSA' ? 'border-red-600 shadow-[0_0_30px_rgba(255,0,0,0.7)]' : activeGlitch === 'image' ? 'border-red-500 scale-[1.03] filter invert sepia-[.8] hue-rotate-[180deg] brightness-75' : 'border-red-900/40 grayscale-[0.2]'}`}
-                >
-                  {cardState === 'PLAYING_VIRTUOSA' ? (
-                    <>
-                      <Image src={virtuosaGif} alt="???" className="h-120 w-full object-cover object-center pfp-glitch-in" unoptimized priority />
-                      <div className="crt-texture" />
-                      <div className="absolute inset-0 bg-red-950/25 mix-blend-color-burn animate-pulse pointer-events-none" />
-                      <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(90deg,rgba(255,0,0,0.08) 0%,transparent 40%,rgba(0,255,255,0.08) 70%,transparent 100%)' }} />
-                    </>
-                  ) : (
-                    <>
-                      <GlitchCanvas key={`canvas-${cardState}`} src={ProfileImage.src} />
-                      {cardTear > 0 && <div className="absolute inset-0 bg-red-900/30 mix-blend-color-burn animate-pulse pointer-events-none" />}
-                    </>
-                  )}
-                </div>
-
-                {cardState === 'PLAYING_VIRTUOSA' && (
-                  <div className="mb-4 py-1 px-3 rounded-sm text-center" style={{ border: '1px solid rgba(255,0,0,0.4)', backgroundColor: 'rgba(20,0,0,0.7)' }}>
-                    <p className="rgb-split-text text-xs font-mono tracking-[0.2em] text-red-700">F̵̖͈̓õ̸̼̙͊ṷ̶̎̚ń̶̡̗̊d̵̛̘̲ ̷̺͈̇y̸̥͛o̵̗̞͌̾u̷̯̿̕͜~̴͍̆ͅ.̸̞̞͋̑ ̸̧̙́L̴̘̙̎̓e̷̡̖̾t̵̗̕'̷̮̆͛s̸͓̄ ̶̣͛͝p̶͚͑͆ļ̴̿̇a̶̲͐y̴̻̒̎</p>
-                  </div>
-                )}
-
-                <div className="pr-10 border-l-[4px] pl-4 mb-6 transition-colors" style={{ borderColor: activeGlitch === 'name' ? '#ff0000' : 'rgba(200,0,50,0.6)' }}>
-                  <h2 className={`text-2xl font-black transition-all duration-75 ${activeGlitch === 'name' ? 'text-red-500 tracking-[0.3em] skew-x-12 animate-pulse' : 'text-gray-100'}`}>
-                    <GlitchText active={activeGlitch === 'name'} normalText="Yovi Prayudya Rizky Ramadhani" glitchText="L̸̩̮̈u̴̞̤̍́n̵͙͎͌̌ą̶̗̅̉ḽ̸̼̑i̷͍̔g̶̻̲̓̀h̷̠͕͗t̴͚̍̕_̶̞͗̔Y̸̞̔ű̶͕͜i̶͙̩̅̈́" />
-                  </h2>
-                  <p className={`mt-1 text-sm font-semibold transition-colors ${activeGlitch === 'name' ? 'text-white font-black' : 'text-red-700/80'}`}>
-                    <GlitchText active={activeGlitch === 'name'} normalText="5027251107 - Probolinggo" glitchText="U̷̲͘n̸̫͊k̵̮̐ṋ̶̂o̷̰͝w̷̜̋n̵͔͌" />
-                  </p>
-                </div>
-
-                <div className={`mt-5 flex gap-2 transition-all duration-75 relative ${activeGlitch === 'social' ? 'opacity-40 scale-[1.01]' : 'opacity-100'}`}>
-                  <Instagram username="yoviprayudya6" />
-                  <LinkedInButtonLink username="yoviprayudyarr" />
-                  {activeGlitch === 'social' && (
-                    <div className="absolute inset-0 flex items-center pointer-events-none">
-                      <span className="rgb-split-text text-xs font-mono tracking-[0.15em] animate-pulse px-2 py-1 rounded-sm" style={{ backgroundColor: 'rgba(10,0,0,0.85)', color: 'rgba(255,50,50,0.95)', border: '1px solid rgba(255,0,0,0.4)' }}>
-                        F̵̖͈̓õ̸̼̙͊ṷ̶̎̚ń̶̡̗̊d̵̛̘̲ ̷̺͈̇y̸̥͛o̵̗̞͌̾u̷̯̿̕͜~̴͍̆ͅ ̸̧̙́l̴̘̙̎̓e̷̡̖̾t̵̗̕'̷̮̆͛s̸͓̄ ̶̣͛͝p̶͚͑͆ļ̴̿̇a̶̲͐y̴̻̒̎!
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
-                  <div className={`rounded-sm border-[2px] p-4 transition-all duration-75 overflow-hidden backdrop-blur-sm ${activeGlitch === 'hobi' ? 'border-red-500 bg-red-950/40 text-red-400 scale-[1.02] shadow-[0_0_10px_rgba(255,0,0,0.3)]' : 'border-red-900/30 bg-black/20'}`}>
-                    <p className="text-red-700/80 text-xs tracking-wide uppercase">Hobi</p>
-                    <p className={`mt-2 transition-all ${activeGlitch === 'hobi' ? 'font-black text-lg tracking-tight' : 'text-gray-200'}`}>
-                      <GlitchText active={activeGlitch === 'hobi'} normalText="nulis cerita, main game, gambar, suka hal random" glitchText="b̴̗͑ú̴̫r̸̖͆n̵̬͐ ̸̡͆t̶̤̃h̸̤̚ě̸̜m̸̧̃ ̸͖̓ä̶̧́l̷̳͗l̷̄ͅ" />
-                    </p>
-                  </div>
-                  <div className={`rounded-sm border-[2px] p-4 transition-all duration-75 backdrop-blur-sm ${activeGlitch === 'funfact' ? 'border-red-500 bg-red-950/40 text-red-400 font-bold -skew-y-2' : 'border-red-900/30 bg-black/20'}`}>
-                    <p className="text-red-700/80 text-xs tracking-wide uppercase">Fun Fact</p>
-                    <p className={`mt-2 transition-all ${activeGlitch === 'funfact' ? 'font-black' : 'text-gray-200'}`}>
-                      <GlitchText active={activeGlitch === 'funfact'} normalText="A story writer of Yui novel" glitchText="T̴̫̭̈h̵͇̏e̴̬̔̆ ̵̖̿̚o̷̙͝n̴͙̿e̴̢͋ ̶̱̹͘͝y̶̺͝ó̶̬̔u̷̘͌̈́ ̶̳̀h̸̡̏͐û̸̫r̴̀͜t̵̳̬͋͋ ̷̯͑m̴̢͙̓e̸̱̓̈́" />
-                    </p>
-                  </div>
-                </div>
+        <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
+          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
+            {/* UBAH HOBI KAMU */}
+            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
+            <p className="mt-2">Nyanyi</p>
+          </div>
+          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
+            {/* UBAH FUNFACT KAMU */}
+            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
+            <p className="mt-2">A story writer of Yui novel</p>
+          </div>
+        </div>
 
                 <div className="mt-4 rounded-sm border-[2px] border-red-900/30 bg-black/20 p-4 font-mono relative overflow-hidden backdrop-blur-sm">
                   <div className="relative">
