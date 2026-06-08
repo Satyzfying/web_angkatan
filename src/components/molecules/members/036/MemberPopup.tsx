@@ -1,8 +1,6 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
-import React, { useEffect } from 'react'
-import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -190,91 +188,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
             <button type="button" aria-label="Close member detail" onClick={handleClose} className="absolute inset-0" />
 
-<<<<<<< HEAD
             <div className={`${styles.memberCardEnter} relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] overflow-hidden rounded-2xl border-2 border-orange-300/50 bg-gradient-to-br from-[#5a1b00]/95 via-[#9a3200]/95 to-[#2b0c00]/95 text-white shadow-xl sm:max-h-[calc(100vh-10rem)]`}>
               <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden">
-=======
-              <div className="absolute inset-0 z-20 flex items-center justify-center px-6">
-                <Image src={Aha036} alt="Aha Instant 036" priority className={`${styles.ahaLogo} h-auto w-[min(82vw,430px)]`} />
-              </div>
-            </>
-          )}
-  return createPortal(
-    // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
-      <button
-        type="button"
-        aria-label="Close member detail"
-        onClick={onClose}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-      />
-
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
-        <button
-          type="button"
-          aria-label="Close member detail"
-          onClick={onClose}
-          className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
-        >
-          x
-        </button>
-
-        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
-          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
-        </div>
-
-        <div className="pr-10">
-          {/* UBAH NAMA ANDA */}
-          <h2 className="text-2xl font-black">Catherina Vallencia K</h2>
-          {/* UBAH NRP DAN ASAL */}
-          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251082 - Surakarta</p>
-        </div>
-
-        <div className="mt-5 flex gap-2">
-          {/* UBAH USERNAME INSTAGRAM */}
-          <Instagram username="jkt48.erine" />
-          {/* UBAH USERNAME LINKEDIN */}
-          <LinkedInButtonLink username="jkt48.erine" />
-        </div>
-      )}
-
-      {phase === 'detail' && (
-        <div className={`${montserrat.className} fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32`}>
-          <Image src={AhaBackground} alt="" fill sizes="100vw" priority className="pointer-events-none object-cover" />
-
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-
-          <button type="button" aria-label="Close member detail" onClick={onClose} className="absolute inset-0" />
-
-          <div
-            className={`${styles.memberCardEnter} relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] overflow-y-auto rounded-2xl border-2 border-orange-300/50 bg-gradient-to-br from-[#5a1b00] via-[#9a3200] to-[#2b0c00] p-6 text-white shadow-xl sm:max-h-[calc(100vh-10rem)] sm:p-8`}
-          >
-            <button
-              type="button"
-              aria-label="Close member detail"
-              onClick={onClose}
-              className="absolute top-4 right-4 z-30 flex h-9 w-9 items-center justify-center rounded-full border border-white/80 text-xl leading-none text-white hover:bg-white/10"
-            >
-              x
-            </button>
-
-            <div className="mb-5 overflow-hidden rounded-2xl border border-orange-200/40">
-              <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
-            </div>
-
-            <div className="mt-6 grid items-center gap-4 sm:grid-cols-[1fr_150px]">
-              <div className="pr-4">
-                <h2 className="text-2xl font-black">Jonathan Steven Tjahjaputra</h2>
-                <p className="mt-1 text-sm font-semibold text-orange-100/80">5027251036 - Batam</p>
-
-                <div className="mt-5 flex gap-2">
-                  <Instagram username="jonathan.st_tj" />
-                  <LinkedInButtonLink username="jonathan-steven-tjahjaputra-90769a379" />
-                </div>
-              </div>
-
-              <div className="hidden items-center justify-center sm:flex">
->>>>>>> 855882ef2e24f32165f283c858cd23df312dd6cf
                 <Image
                   src={LogoJonut}
                   alt=""
@@ -341,18 +256,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         )}
       </div>
     </>
-
-        <div className="border-neutral-cs-10/40 mt-4 rounded-xl border p-4">
-          {/* UBAH LAGU FAVORIT KAMU */}
-          <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
-          <p className="my-2 text-sm font-semibold">There Is a Light That Never Goes Out</p>
-
-          {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2X62SjtuwVQiGiZvZZ9Ztr?si=f6718391848a4469" />
-        </div>
-      </div>
-    </div>,
-    document.body
   )
 }
 
