@@ -1310,7 +1310,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           className="relative z-10 max-h-[100dvh] overflow-y-auto overflow-x-hidden p-6 sm:p-8 scrollbar-thin scrollbar-thumb-red-900 scrollbar-track-black"
         >
 
-          <div style={{ position: 'relative', zIndex: 2 }}>
+        <div className="pr-10">
+          {/* UBAH NAMA ANDA */}
+          <h2 className="text-2xl font-black">Yovi Prayudya Rizky Rmaadhani</h2>
+          {/* UBAH NRP DAN ASAL */}
+          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251107 - Probolinggo</p>
+        </div>
 
             {isLocked && (
               <div className={`flex flex-col gap-4 ${glitchFlicker ? 'corruption-container' : ''}`}>
