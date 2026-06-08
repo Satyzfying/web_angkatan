@@ -1,9 +1,11 @@
 'use client'
 
+/* eslint-disable react-hooks/set-state-in-effect, react/no-unescaped-entities */
 import React, { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
+
+import { createPortal } from 'react-dom'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
@@ -57,19 +59,20 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     }
   }
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-20 pb-8 sm:pt-24">
   return createPortal(
-    // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
+      onClick={(event) => event.stopPropagation()}
+      onKeyDown={(event) => event.stopPropagation()}
+    >
       <button
         type="button"
         aria-label="Close member detail"
         onClick={onClose}
-        className="absolute inset-0 bg-pink-950/50 backdrop-blur-md"
+        className="fixed inset-0 bg-pink-950/50 backdrop-blur-md"
       />
 
-      <div className="relative z-10 max-h-[calc(100vh-7rem)] w-full max-w-[720px] overflow-y-auto rounded-[2rem] border-4 border-pink-100 bg-gradient-to-br from-pink-50 via-white to-pink-100 p-6 text-pink-950 shadow-[0_8px_40px_rgba(255,182,193,0.35)] sm:p-8">
+      <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain rounded-[2rem] border-4 border-pink-100 bg-gradient-to-br from-pink-50 via-white to-pink-100 p-6 text-pink-950 shadow-[0_8px_40px_rgba(255,182,193,0.35)] sm:p-8">
         <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[2rem]">
           <div className="absolute top-6 left-8 text-3xl opacity-40">🌙</div>
           <div className="absolute top-16 right-12 text-2xl opacity-30">⭐</div>
@@ -81,7 +84,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="absolute top-1/3 right-6 text-lg opacity-20">✨</div>
         </div>
 
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
@@ -112,6 +114,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)}
                 placeholder="ketik jawaban..."
+                type="text"
                 className="w-full rounded-full border-2 border-pink-300 bg-white px-4 py-2 text-sm font-semibold outline-none placeholder:text-pink-300 focus:border-pink-500"
               />
 
@@ -130,7 +133,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="relative z-10 rounded-3xl border-4 border-pink-200 bg-pink-50 p-6 text-center shadow-xl">
             <p className="text-5xl">🎀👑✨</p>
 
-            <p className="mt-4 text-base font-bold leading-relaxed">
+            <p className="mt-4 text-base leading-relaxed font-bold">
               "You can always begin again!
               <br />
               Romanticize your life cause you're the main character."
@@ -151,19 +154,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         {step === 'card' && (
           <>
             <div className="relative z-10 mb-5 overflow-hidden rounded-[1.5rem] border-4 border-white shadow-lg">
-              <Image
-                src={ProfileImage}
-                alt="Profile Image"
-                className="h-120 w-full object-cover object-center"
-              />
+              <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
             </div>
 
             <div className="relative z-10 rounded-2xl bg-white/70 p-4 shadow-md">
               <h2 className="text-3xl font-black">Nadya Putri Agustin 👑</h2>
 
-              <p className="mt-1 text-sm font-bold text-pink-700">
-                5027251013 - Surabaya
-              </p>
+              <p className="mt-1 text-sm font-bold text-pink-700">5027251013 - Surabaya</p>
             </div>
 
             <div className="relative z-10 mt-5 flex gap-2">

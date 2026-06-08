@@ -1,7 +1,8 @@
 'use client'
 
+/* eslint-disable react-hooks/set-state-in-effect, react/no-unescaped-entities */
+
 import React, { useEffect, useState } from 'react'
-import React, { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
@@ -64,18 +65,18 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   // --- TAMPILAN TERMINAL MACBOOK DENGAN TEBAK-TEBAKAN ---
   if (!isUnlocked) {
-    return (
-      <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+    return createPortal(
+      <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden px-4">
         {/* Background Backdrop */}
         <button
           type="button"
           aria-label="Close challenge"
           onClick={onClose}
-          className="absolute inset-0 bg-neutral-900/80 backdrop-blur-sm cursor-default"
+          className="fixed inset-0 cursor-default bg-neutral-900/80 backdrop-blur-sm"
         />
 
         {/* Mac Terminal Window */}
-        <div className="relative z-10 w-full max-w-2xl overflow-hidden rounded-xl bg-zinc-900/95 shadow-2xl ring-1 ring-zinc-700 animate-[member-popup-show_200ms_ease-out]">
+        <div className="relative z-10 max-h-[100dvh] w-full max-w-2xl animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-xl bg-zinc-900/95 shadow-2xl ring-1 ring-zinc-700">
           
           {/* Terminal Header (Title Bar) */}
           <div className="flex h-12 w-full items-center justify-between bg-zinc-800 px-4 border-b border-zinc-700">
@@ -133,25 +134,22 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             </form>
           </div>
         </div>
-      </div>
+      </div>,
+      document.body
     )
   }
 
   // --- TAMPILAN PROFIL SETELAH UNLOCK ---
-  return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
   return createPortal(
-    // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
       <button
         type="button"
         aria-label="Close member detail"
         onClick={onClose}
-        className="absolute inset-0 bg-neutral-900/90"
+        className="fixed inset-0 bg-neutral-900/90"
       />
 
-      <div className="border-zinc-600 bg-zinc-950 relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-md border-8 p-6 text-zinc-100 shadow-[8px_8px_0_rgba(0,0,0,0.5)] sm:max-h-[calc(100vh-10rem)] sm:p-8">
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
+      <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-md border-8 border-zinc-600 bg-zinc-950 p-6 text-zinc-100 shadow-[8px_8px_0_rgba(0,0,0,0.5)] sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
@@ -161,7 +159,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           X
         </button>
 
-        <div 
+        <div
           onClick={() => setIsZoomed(!isZoomed)}
           className={`mb-5 p-3 rounded-xl cursor-pointer transition-all duration-500 group relative bg-gradient-to-br from-black via-indigo-950 to-purple-900 border-4 border-white shadow-[0_0_15px_rgba(255,255,255,0.7)] hover:shadow-[0_0_30px_rgba(255,255,255,1)] ${isZoomed ? 'scale-[1.05]' : 'hover:scale-[1.02]'}`}
         >
@@ -173,10 +171,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
 
           <div className="overflow-hidden border border-white/20 rounded-lg relative z-10">
-            <Image 
-              src={ProfileImage} 
-              alt="Profile Image" 
-              className={`h-120 w-full object-cover object-center transition-transform duration-700 ease-in-out ${isZoomed ? 'scale-[1.6]' : 'group-hover:scale-110'}`} 
+            <Image
+              src={ProfileImage}
+              alt="Profile Image"
+              className={`h-120 w-full object-cover object-center transition-transform duration-700 ease-in-out ${isZoomed ? 'scale-[1.6]' : 'group-hover:scale-110'}`}
             />
           </div>
         </div>
