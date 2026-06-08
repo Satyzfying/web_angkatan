@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react-hooks/purity */
+
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 /* ─────────────────────────────────────────────
@@ -60,7 +62,7 @@ function playTurnRev(ctx: AudioContext) {
 
 function playOvertureBeep(ctx: AudioContext, onDone: () => void) {
   const notes = [523, 587, 659, 784, 880, 784, 659, 587, 523]
-  let lastEnd = ctx.currentTime + 0.6
+  const lastEnd = ctx.currentTime + 0.6
   notes.forEach((freq, i) => {
     const osc  = ctx.createOscillator()
     const gain = ctx.createGain()
@@ -608,7 +610,7 @@ export function F1Minigame({ onComplete, f1VideoSrc, overtureSrc }: F1MinigamePr
             className="font-pixel text-[12px] tracking-widest uppercase"
             style={{ color: '#e0f6ff', textShadow: '0 0 12px rgba(0,212,255,0.6)', fontWeight: 700 }}
           >
-            {rotations < 3 ? `WINDING ${rotations}/3` : 'LIGHTS OUT!'}
+            {rotations < 3 ? `PUTARAN ${rotations}/3` : 'LIGHTS OUT!'}
           </span>
           <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#00D4FF', boxShadow: '0 0 6px #00D4FF', animationDelay: '0.5s' }} />
         </div>
@@ -672,9 +674,9 @@ export function F1Minigame({ onComplete, f1VideoSrc, overtureSrc }: F1MinigamePr
                 className="font-pixel text-[14px] text-center leading-loose max-w-[320px]"
                 style={{ color: 'rgba(200,240,255,0.95)', fontWeight: 700 }}
               >
-                Drag the{' '}
-                <span style={{ color: '#00D4FF', textShadow: '0 0 10px #00D4FF', fontWeight: 800 }}>AQUA KEY</span>
-                {' '}x3 clockwise
+                Putar{' '}
+                <span style={{ color: '#00D4FF', textShadow: '0 0 10px #00D4FF', fontWeight: 800 }}>CENTER AQUA KEY</span>
+                {' '}x3 clockwise/kekanan
               </p>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" className="animate-bounce" style={{ animationDelay: '150ms' }} aria-hidden="true">
                 <path d="M12 4 C16.4 4 20 7.6 20 12 C20 16.4 16.4 20 12 20" stroke="#80EEFF" strokeWidth="2" strokeLinecap="round" />

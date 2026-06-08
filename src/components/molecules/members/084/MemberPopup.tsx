@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -45,9 +44,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     // BAGIAN BAWAH INI SUDAH DISESUAIKAN DENGAN TEMA "FOOTBALL GAME"
     <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
       {/* OVERLAY: Gelap dengan efek blur yang lebih kuat layaknya fokus ke kartu pemain */}
-  return createPortal(
-    // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
       <button
         type="button"
         aria-label="Close member detail"
@@ -59,7 +55,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       <div className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-4 border-yellow-500/80 bg-gradient-to-br from-emerald-800 via-green-700 to-emerald-900 p-6 text-white shadow-[0_0_40px_rgba(234,179,8,0.25)] sm:max-h-[calc(100vh-10rem)] sm:p-8">
         
         {/* CLOSE BUTTON: Tombol silang dengan efek hover mencolok layaknya UI Game */}
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
@@ -119,8 +114,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <SpotifyEmbed spotifyUrl="https://open.spotify.com/intl-id/track/3PExB0N7a56JkDdFGZ6PV8?si=cdd30bb5b62944d9" />
         </div>
       </div>
-    </div>,
-    document.body
+    </div>
   )
 }
 

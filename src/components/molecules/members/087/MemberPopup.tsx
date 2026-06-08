@@ -172,11 +172,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             audioRef.current?.play().catch(() => {})
           }
         }
-<<<<<<< HEAD
       } catch {}
-=======
       } catch (err) {}
->>>>>>> 72d16610f469041f6f61cf21fc4a5ed3a25ca849
+      } catch {}
     }
 
     document.body.style.overflow = 'hidden'
@@ -220,11 +218,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     >
       <audio ref={audioRef} src={BGM_AUDIO_SRC} loop preload="auto" />
 
-<<<<<<< HEAD
-=======
   return createPortal(
     <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
->>>>>>> 72d16610f469041f6f61cf21fc4a5ed3a25ca849
       {/* Background landscape kanan kiri */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <Image
@@ -275,11 +270,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         ))}
       </div>
 
-<<<<<<< HEAD
       <div className="relative z-[110] max-h-[calc(100vh-6rem)] w-full max-w-[760px] animate-[member-popup-show_250ms_ease-out] overflow-y-auto rounded-2xl border border-[#725524]/70 bg-[#020100] p-5 text-[#f3dfb2] shadow-[0_0_55px_rgba(94,68,24,0.24)] sm:p-7">
-=======
       <div className="relative z-[110] max-h-[100dvh] w-full max-w-[760px] animate-[member-popup-show_250ms_ease-out] overflow-y-auto rounded-2xl border border-[#725524]/70 bg-[#020100] p-5 text-[#f3dfb2] shadow-[0_0_55px_rgba(94,68,24,0.24)] sm:p-7">
->>>>>>> 72d16610f469041f6f61cf21fc4a5ed3a25ca849
+      <div className="relative z-[110] max-h-[calc(100vh-6rem)] w-full max-w-[760px] animate-[member-popup-show_250ms_ease-out] overflow-y-auto rounded-2xl border border-[#725524]/70 bg-[#020100] p-5 text-[#f3dfb2] shadow-[0_0_55px_rgba(94,68,24,0.24)] sm:p-7">
         {/* Dark Gold Glow */}
         <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_top,rgba(90,65,24,0.2),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.025),transparent_35%,rgba(70,8,8,0.12))]" />
 

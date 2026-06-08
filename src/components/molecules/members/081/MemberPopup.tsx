@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react-hooks/refs, react-hooks/set-state-in-effect */
+
 import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
@@ -9,7 +11,6 @@ import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
-import CyberpunkEdgerunnersLogo from './Cyberpunk_Edgerunners_logo.png'
 import IntroScreen from './IntroScreen'
 import PixelTransition from './PixelTransition'
 import ProfileImage from './image.png'

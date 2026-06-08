@@ -34,9 +34,9 @@ const CardMember = ({ linkHref }: CardMemberProps) => {
         <div className="flex flex-col gap-3">
           <div className="flex gap-2 px-1" onClick={(event) => event.stopPropagation()}>
             {/* UBAH USERNAME INSTAGRAM KAMU */}
-            <Instagram username="keisyaahm" asButton={!!linkHref} />
+            <Instagram username="keisyaahm" />
             {/* UBAH USERNAME LINKEDIN KAMU */}
-            <LinkedInButtonLink username="keisyahalimahmulia" asButton={!!linkHref} />
+            <LinkedInButtonLink username="keisyahalimahmulia" />
           </div>
           <div className="w-full rounded-2xl">
             <Image

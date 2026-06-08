@@ -12,7 +12,6 @@ import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
 import ProfileImage from './imag3.jpg'
 import TetrisGate from './TetrisGate'
-import ProfileImage from './image.jpg'
 
 type MemberPopupProps = {
   isOpen: boolean

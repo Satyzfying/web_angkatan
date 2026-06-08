@@ -71,68 +71,57 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-green-950/20 px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
       <button
         type="button"
         aria-label="Close member detail"
         onClick={onClose}
         className="absolute inset-0 bg-green-950/40 backdrop-blur-sm"
       />
-
-      <div
-        ref={popupRef}
-        className="relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-3xl border-2 border-green-200 bg-green-50 p-6 text-green-900 shadow-[0_10px_40px_rgba(34,197,94,0.18)] sm:p-8"
-      >
+      <div className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 border-green-200 bg-green-50 p-6 text-green-900 shadow-xl sm:max-h-[calc(100vh-10rem)] sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-green-200 bg-green-100 text-xl leading-none text-green-700 transition hover:scale-105 hover:bg-green-200"
+          className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-green-300 bg-green-200 text-xl leading-none text-green-800 transition hover:scale-105 hover:bg-green-300"
         >
           x
         </button>
 
-        <div
-          data-popup-item
-          className="mb-5 overflow-hidden rounded-2xl border border-green-200/60 bg-white shadow-sm"
-        >
+        <div className="mb-5 overflow-hidden rounded-2xl border border-green-200/60 bg-white shadow-sm">
           <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
         </div>
 
         <div data-popup-item className="pr-10">
           {/* UBAH NAMA ANDA */}
-          <h2 className="text-2xl font-black text-green-900">
-            Muhammad Rafi Pramudya Putra
-          </h2>
+          <h2 className="text-2xl font-black text-green-900">Muhammad Rafi Pramudya Putra</h2>
           {/* UBAH NRP DAN ASAL */}
-          <p className="mt-1 text-sm font-semibold text-green-600">
-            5027251024 - Bojonegoro
-          </p>
+          <p className="mt-1 text-sm font-semibold text-green-700">5027251024 - Bojonegoro</p>
         </div>
 
-        <div data-popup-item className="mt-5 flex gap-2">
+        <div className="mt-5 flex gap-2">
           {/* UBAH USERNAME INSTAGRAM */}
           <Instagram username="rpramoedya" />
           {/* UBAH USERNAME LINKEDIN */}
           <LinkedInButtonLink username="rafi-pramudya-8140a132a" />
         </div>
 
-        <div data-popup-item className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
+        <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
           <div className="rounded-2xl border border-green-200 bg-white p-4 shadow-sm">
             {/* UBAH HOBI KAMU */}
-            <p className="text-xs tracking-wide text-green-500 uppercase">Hobi</p>
+            <p className="text-xs tracking-wide text-green-600 uppercase">Hobi</p>
             <p className="mt-2 text-green-900">Renang</p>
           </div>
           <div className="rounded-2xl border border-green-200 bg-white p-4 shadow-sm">
             {/* UBAH FUNFACT KAMU */}
-            <p className="text-xs tracking-wide text-green-500 uppercase">Fun Fact</p>
+            <p className="text-xs tracking-wide text-green-600 uppercase">Fun Fact</p>
             <p className="mt-2 text-green-900">Suka Mengaji 😇😇</p>
           </div>
         </div>
 
-        <div data-popup-item className="mt-4 rounded-2xl border border-green-200 bg-white p-4 shadow-sm">
+        <div className="mt-4 rounded-2xl border border-green-200 bg-white p-4 shadow-sm">
           {/* UBAH LAGU FAVORIT KAMU */}
-          <p className="text-xs font-bold tracking-wide text-green-500 uppercase">Lagu Favorit</p>
+          <p className="text-xs font-bold tracking-wide text-green-600 uppercase">Lagu Favorit</p>
           <p className="my-2 text-sm font-semibold text-green-900">Somewhere Only We Know</p>
 
           {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}

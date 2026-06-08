@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useEffect, useState, useRef } from 'react'
-import { createPortal } from 'react-dom'
+/* eslint-disable react-hooks/set-state-in-effect */
+
+import React, { useEffect, useState } from 'react'
 
 import Image from 'next/image'
 
@@ -17,36 +18,9 @@ type MemberPopupProps = {
 }
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
-  const popupRef = useRef<HTMLDivElement>(null)
   const [showIntro, setShowIntro] = useState(true)
   const [isAmbruk, setIsAmbruk] = useState(false)
   const [minionState, setMinionState] = useState<'hop-back' | 'become-o' | 'freeze-first' | 'missile-strike'>('hop-back')
-
-  useEffect(() => {
-    if (!isOpen || !popupRef.current) {
-      return
-    }
-
-    const itemAnimations = Array.from(popupRef.current.querySelectorAll<HTMLElement>('[data-popup-item]')).map(
-      (item, index) =>
-        item.animate(
-          [
-            { opacity: 0, transform: 'translateY(-32px)' },
-            { opacity: 1, transform: 'translateY(0)' },
-          ],
-          {
-            duration: 450,
-            delay: 100 + index * 90,
-            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-            fill: 'both',
-          }
-        )
-    )
-
-    return () => {
-      itemAnimations.forEach((animation) => animation.cancel())
-    }
-  }, [isOpen, showIntro])
 
   useEffect(() => {
     if (!isOpen) {
@@ -80,15 +54,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 py-6 bg-[#0072BB]/60 backdrop-blur-md">
       <button type="button" aria-label="Close" onClick={onClose} className="absolute inset-0" />
-  return createPortal(
-    // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 bg-[#0072BB]/40 backdrop-blur-md">
-      <button
-        type="button"
-        aria-label="Close member detail"
-        onClick={onClose}
-        className="absolute inset-0"
-      />
 
       <style>{`
         /* ANIMASI INTRO */
@@ -114,9 +79,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       {showIntro ? (
         <div className="relative z-10 flex flex-col items-center justify-center p-10 select-none w-full h-full overflow-hidden">
-        <div className="relative z-10 flex flex-col items-center justify-center p-10 select-none w-full min-h-[100dvh] overflow-hidden">
-          
-          {/* OVERLAY LEDAKAN KUNING KOMIK */}
           {minionState === 'missile-strike' && (
             <div className="absolute inset-0 z-50 animate-yellow-explosion flex flex-col items-center justify-center text-black font-sans">
               <div className="text-5xl sm:text-7xl font-black tracking-normal uppercase border-8 border-black p-6 bg-white rotate-[-4deg] minion-shadow">KA-BOOM!</div>
@@ -140,12 +102,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </div>
       ) : (
         <div className="relative z-10 w-full max-w-[720px] max-h-[calc(100vh-9rem)] sm:max-h-[calc(100vh-10rem)] overflow-y-auto rounded-[60px] border-[12px] border-black bg-[#FFE100] p-8 sm:p-10 text-black minion-shadow">
-        
-        /* ================= TAMPILAN 2: PROFIL UTAMA DAFFA (FLIP 3D CARD JUMBO SIZE) ================= */
-        <div
-          ref={popupRef}
-          className="perspective-wrapper relative z-10 max-h-[100dvh] h-[780px] sm:h-[820px] w-full max-w-[700px] animate-[member-popup-show_200ms_ease-out] my-auto"
-        >
           
           {/* DEKORASI RAME JUMBO */}
           <div className="absolute -top-8 -left-8 text-8xl animate-doodle rotate-[-25deg] pointer-events-none">🍌</div>
@@ -179,98 +135,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 <span className="bg-white px-4 py-1 text-xs font-black uppercase text-black border-4 border-black rounded-xl">FUN FACT</span>
                 <p className="mt-4 text-xl font-black">Linjur SMK Akuntansi!</p>
               </div>
-                {/* Foto Lanskap Daffa */}
-                <div data-popup-item className="w-full overflow-hidden rounded-[25px] border-[6px] border-black bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] mb-6 aspect-[16/10]">
-                  <Image 
-                    src={ProfileImage} 
-                    alt="Profile Image" 
-                    className="h-full w-full object-cover object-center" 
-                    priority
-                  />
-                </div>
-
-                {/* Identitas Teks */}
-                <div data-popup-item className="px-2 text-left">
-                  <h3 className="text-4xl sm:text-5xl font-black uppercase tracking-tight leading-none drop-shadow-[1px_1px_0px_rgba(255,255,255,1)]">
-                    Daffa Rifqi As Shidiq
-                  </h3>
-                  <p className="mt-3 font-mono text-sm sm:text-base font-bold text-[#0072BB]">
-                    5027251038 — TEGAL
-                  </p>
-                </div>
-
-                {/* Kotak Sosmed Denim Gelap & Hitam kontras */}
-                <div data-popup-item className="flex justify-start gap-4 pl-2 mt-6">
-                   <div className="rounded-2xl border-[4px] border-black bg-[#0072BB] h-16 w-16 flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:bg-black hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer">
-                      <Instagram username="daffarifqiasshidiq" />
-                   </div>
-                   <div className="rounded-2xl border-[4px] border-black bg-[#0072BB] h-16 w-16 flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:bg-black hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer">
-                      <LinkedInButtonLink username="daffa-rifqi-as-shidiq-0b6619379" />
-                   </div>
-                </div>
-              </div>
-
-              {/* Tombol Interaktif buat ngebalik kartu */}
-              <button
-                data-popup-item
-                type="button"
-                onClick={() => setIsFlipped(true)}
-                className="w-full py-4 sm:py-5 mt-6 rounded-2xl border-[4px] border-black bg-white text-xs font-black uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-2"
-              >
-                LIHAT DETAIL INFO ➔
-              </button>
-            </div>
-
-            {/* ─── KARTU SISI BELAKANG (BACK FACE) ─── */}
-            <div className="card-face-back absolute inset-0 w-full h-full rounded-[40px] border-[8px] border-black bg-[#FFE100] p-6 sm:p-8 text-black minion-shadow flex flex-col justify-between overflow-y-auto">
-              
-              <div className="space-y-5 text-left">
-                {/* Header Kartu Belakang */}
-                <div data-popup-item className="flex justify-between items-center border-b-4 border-black pb-3 px-1 mt-2">
-                  <h4 className="text-2xl font-black uppercase tracking-tight">Banana Details 🍌</h4>
-                  <span className="text-xs font-mono font-bold bg-white border-2 border-black px-2.5 py-1 rounded-md">INFO</span>
-                </div>
-
-                {/* Grid Box Hobi & Fun Fact */}
-                <div data-popup-item className="grid gap-5 sm:grid-cols-2">
-                  <div className="rounded-[20px] border-[5px] border-black denim-texture p-5 text-white shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:scale-[1.03] transition-transform flex flex-col justify-between h-full min-h-[140px]">
-                    <span className="rounded-md bg-white px-2.5 py-1 text-[10px] font-black uppercase text-black border-2 border-black self-start">
-                      Hobi
-                    </span>
-                    <p className="mt-3 text-base font-black">Ngemil & Musik</p>
-                  </div>
-                  <div className="rounded-[20px] border-[5px] border-black bg-[#38B000] p-5 text-white shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:scale-[1.03] transition-transform flex flex-col justify-between h-full min-h-[140px]">
-                    <span className="rounded-md bg-white px-2.5 py-1 text-[10px] font-black uppercase text-black border-2 border-black self-start">
-                      Fun Fact
-                    </span>
-                    <p className="mt-3 text-base font-black">Linjur dari SMK Akuntansi!</p>
-                  </div>
-                </div>
-
-                {/* Spotify Embed */}
-                <div data-popup-item className="rounded-[25px] border-[6px] border-black bg-white p-5 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]">
-                  <div className="mb-3.5 flex items-center justify-between border-b-4 border-black pb-2 px-1">
-                    <p className="font-mono text-sm font-black text-[#0072BB]">♫ LAGU FAVORIT</p>
-                    <span className="animate-bounce text-base">🎵</span>
-                  </div>
-                  <div className="overflow-hidden rounded-xl border-4 border-black bg-[#FFE100] p-2.5">
-                    <p className="mb-2 text-[11px] font-black uppercase tracking-tighter text-black">
-                      Playing: Helena
-                    </p>
-                    <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/5dTHtzHFPyi8TlTtzoz1J9?si=TZ-VGQ-2S--93gh5AAlqQQ" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Tombol Balik Kembali ke Depan */}
-              <button
-                data-popup-item
-                type="button"
-                onClick={() => setIsFlipped(false)}
-                className="w-full py-4 sm:py-5 mt-6 rounded-2xl border-[4px] border-black bg-black text-white text-xs font-black uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(100,100,100,0.5)] hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
-              >
-                🠔 KEMBALI KE FOTO
-              </button>
             </div>
 
             <div className="rounded-[35px] border-[8px] border-black bg-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover-comic">
@@ -285,8 +149,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         </div>
       )}
-    </div>,
-    document.body
+    </div>
   )
 }
 

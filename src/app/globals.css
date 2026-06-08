@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Special+Elite&family=Libre+Baskerville:wght@400;700&display=swap');
 @import 'tailwindcss';
 
 @font-face {
@@ -124,6 +125,295 @@ body {
   }
 }
 
+@keyframes float1 {
+  0% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+  25% {
+    transform: translate(6px, -8px) rotate(3deg);
+  }
+  50% {
+    transform: translate(-5px, -15px) rotate(-2deg);
+  }
+  75% {
+    transform: translate(4px, -7px) rotate(2deg);
+  }
+  100% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+}
+
+@keyframes float2 {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(-8px, -12px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes float3 {
+  0% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+  50% {
+    transform: translate(8px, -10px) rotate(5deg);
+  }
+  100% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+}
+@keyframes member-086-backdrop-in {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+
+  to {
+    opacity: 1;
+    backdrop-filter: blur(6px);
+  }
+}
+
+@keyframes member-086-card-assemble {
+  from {
+    opacity: 0.12;
+    -webkit-mask-position:
+      3px 5px,
+      17px 11px,
+      100% 100%;
+    mask-position:
+      3px 5px,
+      17px 11px,
+      100% 100%;
+  }
+
+  to {
+    opacity: 1;
+    -webkit-mask-position:
+      3px 5px,
+      17px 11px,
+      0 0;
+    mask-position:
+      3px 5px,
+      17px 11px,
+      0 0;
+  }
+}
+
+@keyframes member-086-dust-front {
+  from {
+    opacity: 0.72;
+    -webkit-mask-position: 100% 100%;
+    mask-position: 100% 100%;
+  }
+
+  to {
+    opacity: 0;
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+}
+
+.member-086-backdrop {
+  animation: member-086-backdrop-in 900ms ease-out both;
+}
+
+.member-086-particle-card {
+  isolation: isolate;
+  contain: paint;
+  background:
+    radial-gradient(0.8px 0.8px at 12% 8%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(0.6px 0.6px at 28% 15%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 45% 5%, rgba(255,255,255,0.8), transparent),
+    radial-gradient(0.5px 0.5px at 62% 12%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(0.7px 0.7px at 78% 22%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(0.8px 0.8px at 91% 8%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(0.6px 0.6px at 8% 35%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 35% 30%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(0.5px 0.5px at 55% 28%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(0.7px 0.7px at 72% 38%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(0.6px 0.6px at 88% 42%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(0.8px 0.8px at 18% 55%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(0.5px 0.5px at 42% 52%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 65% 48%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(0.7px 0.7px at 82% 58%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(0.6px 0.6px at 5% 72%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(0.8px 0.8px at 25% 68%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(0.5px 0.5px at 48% 75%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 70% 65%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(0.7px 0.7px at 92% 72%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(0.6px 0.6px at 15% 88%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(0.8px 0.8px at 38% 92%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(0.5px 0.5px at 58% 85%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(0.7px 0.7px at 75% 90%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(0.6px 0.6px at 95% 88%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(ellipse 120% 80% at 20% 90%, rgba(80,60,180,0.12), transparent),
+    radial-gradient(ellipse 100% 60% at 80% 20%, rgba(40,100,180,0.1), transparent),
+    radial-gradient(ellipse 80% 50% at 50% 50%, rgba(20,50,120,0.08), transparent),
+    linear-gradient(to bottom, #06080f 0%, #0a0f1e 30%, #0d1228 60%, #080c18 100%) !important;
+  -webkit-mask-image:
+    radial-gradient(circle, #000 0 1.1px, transparent 1.9px), radial-gradient(circle, #000 0 0.7px, transparent 1.5px),
+    linear-gradient(135deg, #000 0 42%, transparent 58%);
+  mask-image:
+    radial-gradient(circle, #000 0 1.1px, transparent 1.9px), radial-gradient(circle, #000 0 0.7px, transparent 1.5px),
+    linear-gradient(135deg, #000 0 42%, transparent 58%);
+  -webkit-mask-position:
+    3px 5px,
+    17px 11px,
+    100% 100%;
+  mask-position:
+    3px 5px,
+    17px 11px,
+    100% 100%;
+  -webkit-mask-size:
+    19px 23px,
+    31px 37px,
+    250% 250%;
+  mask-size:
+    19px 23px,
+    31px 37px,
+    250% 250%;
+  -webkit-mask-repeat: repeat, repeat, no-repeat;
+  mask-repeat: repeat, repeat, no-repeat;
+  animation: member-086-card-assemble 5.8s linear both;
+}
+
+.member-086-particle-card::after {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  content: '';
+  border-radius: inherit;
+  background-image:
+    radial-gradient(circle, rgb(225 244 255 / 88%) 0 0.9px, transparent 1.7px),
+    radial-gradient(circle, rgb(129 196 229 / 72%) 0 1px, transparent 1.9px),
+    radial-gradient(circle, rgb(240 249 255 / 64%) 0 0.7px, transparent 1.5px),
+    radial-gradient(circle, rgb(91 166 204 / 58%) 0 1.1px, transparent 2px);
+  background-position:
+    3px 5px,
+    14px 11px,
+    8px 17px,
+    21px 7px;
+  background-size:
+    23px 29px,
+    31px 37px,
+    43px 47px,
+    53px 59px;
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(135deg, transparent 36%, #000 45%, #000 54%, transparent 63%);
+  mask-image: linear-gradient(135deg, transparent 36%, #000 45%, #000 54%, transparent 63%);
+  -webkit-mask-size: 250% 250%;
+  mask-size: 250% 250%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: member-086-dust-front 5.8s linear both;
+}
+
+/* Thin scrollbar for popup */
+.member-086-particle-card::-webkit-scrollbar {
+  width: 4px;
+}
+
+.member-086-particle-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.member-086-particle-card::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+}
+
+.member-086-particle-card::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.member-086-particle-card {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+/* Liquid glass — iOS 26 style (boosted) */
+.liquid-glass-086 {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.05) 40%,
+    rgba(255, 255, 255, 0.10) 100%
+  );
+  backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
+  -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.04),
+    0 4px 24px -4px rgba(0, 0, 0, 0.4),
+    0 0 0 0.5px rgba(255, 255, 255, 0.06);
+  transition: all 0.3s ease;
+}
+
+.liquid-glass-086::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.04) 45%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 55%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.liquid-glass-086:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.07) 40%,
+    rgba(255, 255, 255, 0.13) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.05),
+    0 8px 32px -4px rgba(0, 0, 0, 0.5),
+    0 0 0 0.5px rgba(255, 255, 255, 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .member-086-backdrop,
+  .member-086-particle-card,
+  .member-086-particle-card::after {
+    animation-duration: 1ms;
+    animation-delay: 0ms;
+  }
+}
 @keyframes quote-glow-breathe {
   0%,
   100% {

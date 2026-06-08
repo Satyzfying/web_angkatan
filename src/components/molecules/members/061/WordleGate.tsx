@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useEffect, useRef, useState, useCallback } from 'react'
+import { createPortal } from 'react-dom'
+
 import BgImage from './bg.webp'
 import bgMusic from './bgMusic'
 
@@ -246,10 +248,11 @@ const WordleGate = ({ isOpen, onClose, onSolved, offsetDays = 0 }: Props) => {
     ? `Replaying puzzle from ${offsetDays} day${offsetDays>1?'s':''} ago`
     : 'Solve to unlock profile'
 
-  return (
+  return createPortal(
     <div style={{
       position:'fixed', inset:0, zIndex:100,
-      display:'flex', alignItems:'center', justifyContent:'center',
+      display:'flex', alignItems:'flex-start', justifyContent:'center',
+      overflow:'hidden', paddingInline:16,
       backgroundImage:`url(${BgImage.src})`,
       backgroundSize:'cover', backgroundPosition:'center',
     }}>
@@ -258,7 +261,9 @@ const WordleGate = ({ isOpen, onClose, onSolved, offsetDays = 0 }: Props) => {
       }}/>
 
       <div style={{
-        position:'relative', zIndex:10, width:520,
+        position:'relative', zIndex:10, width:'100%', maxWidth:520,
+        height:'100dvh', maxHeight:'100dvh', overflowY:'auto',
+        boxSizing:'border-box', overscrollBehavior:'contain',
         outline:`1px solid #0a246a`,
         border:'2px solid', borderColor:`${C.bHi} ${C.bDark} ${C.bDark} ${C.bHi}`,
         boxShadow:`1px 1px 0 #0a246a`,
@@ -381,7 +386,8 @@ const WordleGate = ({ isOpen, onClose, onSolved, offsetDays = 0 }: Props) => {
           40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)}
         }
       `}</style>
-    </div>
+    </div>,
+    document.body
   )
 }
 
