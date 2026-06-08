@@ -1,0 +1,173 @@
+@keyframes ahaLogo {
+  0% {
+    transform: scale(7);
+  }
+
+  100% {
+    transform: scale(1.28);
+  }
+}
+
+@keyframes ahaCards {
+  0% {
+    opacity: 1;
+    transform: scale(0.35);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.85);
+  }
+}
+
+@keyframes ahaVideoFadeIn {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes ahaVideoFadeOut {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+@keyframes memberCardEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.82) translateY(20px);
+    filter: blur(6px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes flickerText {
+  0%,
+  18%,
+  100% {
+    opacity: 0;
+  }
+
+  5%,
+  8%,
+  12% {
+    opacity: 1;
+  }
+
+  6%,
+  10% {
+    opacity: 0.2;
+  }
+}
+
+.ahaLogo {
+  opacity: 1;
+  animation: ahaLogo 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform;
+}
+
+.ahaCards {
+  animation: ahaCards 1.8s linear forwards;
+  will-change: transform, opacity;
+}
+
+.ahaVideoHidden {
+  opacity: 0;
+}
+
+.ahaVideoVisible {
+  animation: ahaVideoFadeIn 650ms ease-out forwards;
+}
+
+.ahaVideoFadeOut {
+  animation: ahaVideoFadeOut 1s ease-in forwards;
+}
+
+.memberCardEnter {
+  animation: memberCardEnter 420ms ease-out forwards;
+}
+
+.flickerText {
+  position: absolute;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-shadow:
+    0 0 8px currentColor,
+    0 0 18px currentColor;
+  animation-name: flickerText;
+  animation-duration: 2s;
+  animation-timing-function: steps(1, end);
+  animation-iteration-count: infinite;
+}
+
+.flickerText1 {
+  top: 6%;
+  left: 5%;
+  font-size: clamp(1.6rem, 5vw, 4.5rem);
+  color: #7f1d1d;
+  animation-delay: 0s;
+}
+
+.flickerText2 {
+  top: 18%;
+  right: 6%;
+  font-size: clamp(2.5rem, 8vw, 7rem);
+  color: #dc2626;
+  animation-delay: 0.4s;
+}
+
+.flickerText3 {
+  bottom: 10%;
+  left: 8%;
+  font-size: clamp(1.2rem, 4vw, 3.5rem);
+  color: #facc15;
+  animation-delay: 0.8s;
+}
+
+.flickerText4 {
+  bottom: 24%;
+  right: 10%;
+  font-size: clamp(1.8rem, 6vw, 5rem);
+  color: #991b1b;
+  animation-delay: 1.2s;
+}
+
+.flickerText5 {
+  top: 52%;
+  left: 42%;
+  font-size: clamp(1rem, 3.5vw, 3rem);
+  color: #dc2626;
+  animation-delay: 1.6s;
+}
+
+@keyframes rotatingLogo {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.rotatingLogo {
+  animation: rotatingLogo 4s linear infinite;
+  transform-origin: center;
+}

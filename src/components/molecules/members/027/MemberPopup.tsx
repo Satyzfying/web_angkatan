@@ -4,6 +4,8 @@ import React, { useEffect } from 'react'
 
 import Image from 'next/image'
 
+import { createPortal } from 'react-dom'
+
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
@@ -49,25 +51,25 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/80 backdrop-blur-sm"
       />
 
-      {/* F1 CARD CONTAINER */}
-      <div
-        className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto text-white shadow-2xl sm:max-h-[calc(100vh-10rem)]"
-        style={{
+      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8"
+           style={{
           background: 'linear-gradient(160deg, #1a0000 0%, #0f0f0f 40%, #1a0000 100%)',
           border: '1px solid #cc0000',
           borderRadius: '4px',
           boxShadow: '0 0 40px rgba(204,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)',
         }}
-      >
-        {/* TOP LIVERY STRIPE */}
-        <div className="relative h-3 w-full overflow-hidden" style={{ background: '#cc0000' }}>
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                'repeating-linear-gradient(90deg, #cc0000 0px, #cc0000 60px, #ff1e00 60px, #ff1e00 62px, #cc0000 62px)',
-            }}
-          />
+        >
+        <button
+          type="button"
+          aria-label="Close member detail"
+          onClick={onClose}
+          className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
+        >
+          x
+        </button>
+
+        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
+          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
         </div>
 
         {/* HEADER BAR — Constructor style */}
@@ -302,9 +304,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               borderRadius: '1px',
             }}
           />
+          {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
+          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/3z6XUommYDWPHeFhmhhT6j?si=abad557666e6450b" />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
