@@ -99,7 +99,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               <div className="relative z-10">
                 {/* UBAH HOBI KAMU */}
                 <p className="text-[11px] font-black tracking-widest text-sky-700 uppercase">✦ HOBI</p>
-                <p className="mt-2 text-lg font-bold text-sky-950">Masak</p>
+                <p className="mt-2 text-lg font-bold text-sky-950">Masak & Membaca</p>
               </div>
             </div>
 
