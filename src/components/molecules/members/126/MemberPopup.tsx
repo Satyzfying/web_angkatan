@@ -27,26 +27,28 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const [isMuted, setIsMuted] = useState(false)
 
   const togglePlay = () => {
-  if (audioRef.current) {
-    if (isPlaying) {
-      audioRef.current.pause()
-    } else {
-      audioRef.current.play().catch(() => {})
-    }
-    setIsPlaying(!isPlaying)
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause()
+      } else {
+        audioRef.current.play().catch(() => {})
+      }
+      setIsPlaying(!isPlaying)
     }
   }
 
   const toggleMute = () => {
     if (audioRef.current) {
-      audioRef.current.muted = !isMuted
-      setIsMuted(!isMuted)
+      const nextMuted = !isMuted
+      audioRef.current.muted = nextMuted
+      setIsMuted(nextMuted)
     }
   }
 
   useEffect(() => {
     if (isOpen && audioRef.current) {
       audioRef.current.currentTime = 0
+      audioRef.current.muted = isMuted
       audioRef.current.play().catch(() => {})
       setIsPlaying(true)
     }
@@ -55,7 +57,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       audioRef.current.currentTime = 0
       setIsPlaying(false)
     }
-  }, [isOpen])
+  }, [isMuted, isOpen])
 
   useEffect(() => {
     if (!isOpen) {
@@ -149,6 +151,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             style={{ color: isPlaying ? '#4ade80' : '#f87171' }}
           >
             {isPlaying ? 'ON' : 'OFF'}
+          </button>
+          <button
+            onClick={toggleMute}
+            className="text-sm font-bold transition-all hover:scale-105"
+            style={{ color: isMuted ? '#fbbf24' : '#93c5fd' }}
+          >
+            {isMuted ? 'MUTED' : 'UNMUTED'}
           </button>
         </div>
 

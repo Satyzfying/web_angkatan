@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -75,8 +76,8 @@ const CardMember = () => {
       </div>
 
       {/* PHASE: INTRO */}
-      {phase === 'intro' && (
-        <div className="fixed inset-0 z-[99] bg-black flex items-center justify-center">
+      {phase === 'intro' && createPortal((
+        <div className="fixed inset-0 z-[140] flex items-center justify-center bg-black">
           <video
             src={introVideoSrc}
             autoPlay
@@ -91,11 +92,11 @@ const CardMember = () => {
             Skip →
           </button>
         </div>
-      )}
+      ), document.body)}
 
       {/* PHASE: CODE */}
-      {phase === 'code' && (
-        <div className="fixed inset-0 z-[99] bg-white flex items-center justify-center">
+      {phase === 'code' && createPortal((
+        <div className="fixed inset-0 z-[140] flex items-center justify-center bg-white">
           {/* Card biru di tengah, mirip gambar */}
           <div className="relative w-[min(500px,90vw)]">
             <Image src={CodeBg} alt="Enter Code" className="w-full" />
@@ -154,11 +155,11 @@ const CardMember = () => {
             Cancel
           </button>
         </div>
-      )}
+      ), document.body)}
 
       {/* PHASE: WELCOME */}
-      {phase === 'welcome' && (
-        <div className="fixed inset-0 z-[99] bg-black flex items-center justify-center">
+      {phase === 'welcome' && createPortal((
+        <div className="fixed inset-0 z-[140] flex items-center justify-center bg-black">
           <video
             src={welcomeVideoSrc}
             autoPlay
@@ -173,7 +174,7 @@ const CardMember = () => {
             Skip →
           </button>
         </div>
-      )}
+      ), document.body)}
 
       <MemberPopup isOpen={phase === 'popup'} onClose={() => setPhase('idle')} />
     </>
