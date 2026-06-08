@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 
 type Game16Props = {
   onWin: () => void
@@ -35,11 +35,14 @@ const initializeBoard = () => {
 
 export default function Game16({ onWin }: Game16Props) {
   const [board, setBoard] = useState<number[][]>(initializeBoard())
+  
+  // Referensi untuk mendeteksi posisi sentuhan layar HP
+  const touchStart = useRef({ x: 0, y: 0 })
 
   const checkWin = (b: number[][]) => {
     for (let r = 0; r < 4; r++) {
       for (let c = 0; c < 4; c++) {
-        if (b[r][c] === 16) return true // Cek jika ada elemen bernilai 16
+        if (b[r][c] === 16) return true 
       }
     }
     return false
@@ -68,7 +71,7 @@ export default function Game16({ onWin }: Game16Props) {
     return { newBoard, moved }
   }
 
-  // Menangani input keyboard dan menentukan arah rotasi matriks
+  // Menangani input pergerakan (dari Keyboard maupun usapan HP)
   const move = useCallback((direction: 'ArrowUp' | 'ArrowDown' | 'ArrowLeft' | 'ArrowRight') => {
     let tempBoard = [...board.map(row => [...row])]
     let moved = false
@@ -102,22 +105,55 @@ export default function Game16({ onWin }: Game16Props) {
       setBoard(tempBoard)
 
       if (checkWin(tempBoard)) {
-        setTimeout(() => onWin(), 400) // Delay sedikit agar angka 16 sempat terlihat sebelum menghilang
+        setTimeout(() => onWin(), 400) 
       }
     }
   }, [board, onWin])
 
-  // Deteksi pencetan Panah Keyboard
+  // Deteksi pencetan Panah Keyboard (Untuk PC)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-        e.preventDefault() // Mencegah layar ikut scrolling saat main game
+        e.preventDefault() 
         move(e.key as any)
       }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [move])
+
+  // === FITUR BARU: Deteksi Usapan (Swipe) untuk Layar HP ===
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStart.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY
+    }
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const touchEndX = e.changedTouches[0].clientX
+    const touchEndY = e.changedTouches[0].clientY
+
+    const deltaX = touchEndX - touchStart.current.x
+    const deltaY = touchEndY - touchStart.current.y
+
+    // Jarak minimal usapan agar terdeteksi (mencegah klik biasa dianggap usapan)
+    const minSwipeDistance = 30 
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Usapan Horizontal (Kiri/Kanan)
+      if (Math.abs(deltaX) > minSwipeDistance) {
+        if (deltaX > 0) move('ArrowRight')
+        else move('ArrowLeft')
+      }
+    } else {
+      // Usapan Vertikal (Atas/Bawah)
+      if (Math.abs(deltaY) > minSwipeDistance) {
+        if (deltaY > 0) move('ArrowDown')
+        else move('ArrowUp')
+      }
+    }
+  }
 
   const getBgColor = (val: number) => {
     switch (val) {
@@ -132,11 +168,16 @@ export default function Game16({ onWin }: Game16Props) {
   return (
     <div className="flex flex-col items-center p-5 rounded-2xl border border-white/20 bg-black/20 backdrop-blur-md w-full">
       <p className="mb-4 text-sm font-semibold text-white/80 text-center drop-shadow-[0_1px_2px_rgba(0,0,0,1)]">
-        aman ga nih  <span className="text-emerald-400 font-bold">16</span> point <br/> 
-        <span className="text-xs text-white/50">(ea ea ea)</span>
+       ayo <span className="text-emerald-400 font-bold">16</span> point masa gabisa <br/> 
+        <span className="text-xs text-white/50">(ea ea ea ea)</span>
       </p>
 
-      <div className="grid grid-cols-4 gap-2 bg-black/40 p-2 rounded-xl border border-white/10">
+      {/* Area yang bisa diusap/swipe di HP */}
+      <div 
+        className="grid grid-cols-4 gap-2 bg-black/40 p-2 rounded-xl border border-white/10 touch-none"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         {board.map((row, r) => (
           row.map((cell, c) => (
             <div 
@@ -153,7 +194,7 @@ export default function Game16({ onWin }: Game16Props) {
         onClick={() => setBoard(initializeBoard())}
         className="mt-5 px-4 py-2 text-xs bg-white/10 hover:bg-white/20 text-white/70 rounded-full transition-colors border border-white/10"
       >
-        Ulang Game = BOT
+        gabisa=bott
       </button>
     </div>
   )

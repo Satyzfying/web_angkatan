@@ -192,7 +192,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                         
                         {/* Petunjuk Interaksi */}
                         <div className="mt-3 py-2 rounded-xl bg-black/30 border border-white/10 text-center flex items-center justify-center gap-2 hover:bg-black/50 transition-colors">
-                          <span className="text-base"></span>
+                          <span className="text-base">git status</span>
                           <span className="text-xs sm:text-sm font-bold text-white shadow-sm">
                             jgn di klik 
                           </span>
