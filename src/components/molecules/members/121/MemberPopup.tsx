@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState, useCallback, useRef } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -447,6 +448,29 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       <button type="button" aria-label="Close" onClick={onClose} className="absolute inset-0" style={{ background: 'transparent', zIndex: 1 }} />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ zIndex: 1, backgroundImage: `repeating-linear-gradient(0deg,transparent,transparent 31px,rgba(80,80,160,0.03) 31px,rgba(80,80,160,0.03) 32px),repeating-linear-gradient(90deg,transparent,transparent 31px,rgba(80,80,160,0.03) 31px,rgba(80,80,160,0.03) 32px)` }} />
+  return createPortal(
+    // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+      <button
+        type="button"
+        aria-label="Close member detail"
+        onClick={onClose}
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+      />
+
+      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
+        <button
+          type="button"
+          aria-label="Close member detail"
+          onClick={onClose}
+          className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
+        >
+          x
+        </button>
+
+        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
+          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
+        </div>
 
       {floats.map(f => (
         <div key={f.id} className="pointer-events-none fixed" style={{ left: '50%', top: '40%', zIndex: 9999, color: f.correct ? '#44ffaa' : '#ff4444', fontWeight: 900, fontSize: f.pts >= 15 ? 28 : 22, textShadow: f.correct ? '0 0 14px rgba(68,255,170,0.9),2px 2px 0 #000' : '0 0 10px rgba(255,68,68,0.8),2px 2px 0 #000', animation: 'mcFloatUp 1s cubic-bezier(0.22,1,0.36,1) forwards', transform: 'translateX(-50%)', pointerEvents: 'none' }}>
@@ -723,7 +747,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
