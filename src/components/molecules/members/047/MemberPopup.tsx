@@ -80,7 +80,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   return createPortal(
     <>
       {/* PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK */}
-      <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+      <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
         <button
           type="button"
           aria-label="Close member detail"
@@ -92,8 +92,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         <div
           className="relative z-10 w-full max-w-[560px]"
           style={{
-            height: '100dvh',
-            maxHeight: '100dvh',
+            height: '90dvh',
+            maxHeight: '90dvh',
             border: '2px solid #fff',
             borderRadius: 0,
             overflow: 'hidden',

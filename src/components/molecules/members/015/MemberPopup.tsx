@@ -283,6 +283,14 @@ function TerminalScreen({ onSuccess, onClose }: { onSuccess: () => void; onClose
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight
   }, [lines])
 
+  useEffect(() => {
+    if (busy) {
+      return
+    }
+
+    inputRef.current?.focus()
+  }, [busy, lines.length])
+
   const colorClass: Record<TermLine['color'], string> = {
     teal: 'text-teal-400',
     cyan: 'text-cyan-300',
@@ -358,6 +366,8 @@ const handleCommand = (cmd: string) => {
 };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    e.stopPropagation()
+
     if (e.key === 'Enter') {
       handleCommand(input)
       setInput('')
@@ -367,6 +377,7 @@ const handleCommand = (cmd: string) => {
   return (
     <div
       className="flex flex-col"
+      onClick={() => inputRef.current?.focus()}
       style={{ background: 'linear-gradient(135deg, #020c0a 0%, #040d14 50%, #060810 100%)' }}
     >
       {/* Title bar */}
@@ -406,6 +417,11 @@ const handleCommand = (cmd: string) => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={onKeyDown}
+          onBlur={() => {
+            window.setTimeout(() => {
+              inputRef.current?.focus()
+            }, 0)
+          }}
           disabled={busy}
           autoFocus
           autoComplete="off"
@@ -580,11 +596,11 @@ export default function MemberPopup({ onClose, isOpen = true }: MemberPopupProps
   if (!isOpen) return null
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden bg-black/85 backdrop-blur-md">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-black/85 px-4 py-[5dvh] backdrop-blur-md">
       <button type="button" onClick={closePopup} className="absolute inset-0" aria-label="Close" />
 
       <div
-        className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-2xl"
+        className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-2xl"
         style={{
           background: 'linear-gradient(135deg, #020c0a 0%, #040d14 50%, #060810 100%)',
           border: '1px solid rgba(0,255,200,0.2)',
@@ -633,7 +649,7 @@ export default function MemberPopup({ onClose, isOpen = true }: MemberPopupProps
             </div>
 
             {/* Main content */}
-            <div className="relative space-y-4 p-4 sm:p-5">
+            <div className="relative space-y-4 p-4 pt-5 sm:p-5 sm:pt-6">
               {/* Telemetry chips */}
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                 <TelChip label="SATS" value="14/16" ok />

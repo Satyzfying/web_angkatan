@@ -1803,7 +1803,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }, [stopRitualAudio])
 
   const handleClose = useCallback(() => {
-    stopRitualAudio(true)
+    stopRitualAudio(false)
     setMounted(false)
     onClose()
   }, [onClose, stopRitualAudio])
@@ -1927,8 +1927,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           {phase === 'logo' && <LogoPhase />}
         </div>
       ) : (
-        <div className="pointer-events-none fixed inset-0 z-10 flex items-center justify-center overflow-y-auto px-4 py-6">
-          <div className="member-popup-card pointer-events-auto relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[card-enter_450ms_ease-out_forwards] overflow-y-auto rounded-2xl border border-[#5F7EB2]/24 bg-[#050914] text-[#E5E7EB] shadow-[0_0_54px_rgba(18,42,86,0.26)]">
+        <div className="pointer-events-none fixed inset-0 z-10 flex items-center justify-center overflow-y-auto px-4 py-[5dvh]">
+          <div className="member-popup-card pointer-events-auto relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[card-enter_450ms_ease-out_forwards] overflow-y-auto rounded-2xl border border-[#5F7EB2]/24 bg-[#050914] text-[#E5E7EB] shadow-[0_0_54px_rgba(18,42,86,0.26)]">
             <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_top,rgba(176,141,87,0.14),transparent_36%),linear-gradient(145deg,rgba(17,24,39,0.98),rgba(7,10,15,0.98))]" />
             <div className="pointer-events-none absolute inset-4 z-[3] rounded-xl border border-[#6C88BC]/10" />
 

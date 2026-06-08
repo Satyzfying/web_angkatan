@@ -78,13 +78,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       setShowWelcome(true)
 
       // --- AKSI: PLAY MUSIK SAAT STIKER DILEPAS ---
-      // Pastikan file lagu kamu ditaruh di public/audio/kingdom-theme.mp3
       if (!audioRef.current) {
         audioRef.current = new Audio('/assets/sounds/096.mp3')
-        audioRef.current.volume = 0.08 // Mengatur tingkatan volume (0.0 s/d 1.0)
+        audioRef.current.volume = 0.08 // Silakan ganti nilai desibel ini (0.0 s/d 1.0) sesuai kenyamanan audiens
         audioRef.current.loop = true   // Mengaktifkan loop otomatis
       }
-      
+            
       audioRef.current.play().catch((err) => {
         console.log("Autoplay ditahan oleh kebijakan privasi browser:", err)
       })
@@ -178,7 +177,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const showMainContent = !isSealed && !showWelcome
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       
       {/* BACKGROUND DI SEBELAH/LUAR POPUP */}
       <div className="absolute inset-0 bg-black/75 backdrop-blur-md">
@@ -196,7 +195,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         />
       </div>
 
-      <div className={`relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] rounded-none border-4 border-amber-600/60 bg-zinc-950 p-6 font-mono text-zinc-100 shadow-[0_0_50px_rgba(217,119,6,0.15)] sm:p-8 ${showMainContent ? 'overflow-y-auto' : 'overflow-hidden'}`}>
+      <div className={`relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] rounded-none border-4 border-amber-600/60 bg-zinc-950 p-6 font-mono text-zinc-100 shadow-[0_0_50px_rgba(217,119,6,0.15)] sm:p-8 ${showMainContent ? 'overflow-y-auto' : 'overflow-hidden'}`}>
         
         {/* 1. LAYER COVER & STIKER */}
         <div className={`absolute inset-0 z-30 bg-zinc-950 flex flex-col items-center justify-center cursor-default select-none transition-all duration-1000 ease-in-out ${isSealed ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
@@ -224,11 +223,18 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 fill
                 className="object-cover opacity-100 z-0 pointer-events-none" 
               />
+              
+              {/* AREA PEGANGAN TARIK STIKER DENGAN INDIKATOR PENDARAN EMAS (PULSING TARGET LOCK) */}
               <div 
                 onMouseDown={onDragStart}
                 onTouchStart={onDragStart}
-                className="absolute -bottom-4 -right-4 flex h-14 w-14 items-center justify-center cursor-grab active:cursor-grabbing bg-transparent rounded-full z-20"
-              />
+                className="absolute bottom-2 right-2 flex h-10 w-10 items-center justify-center cursor-grab active:cursor-grabbing rounded-full z-20"
+              >
+                {/* Efek radar lingkaran luar memancar halus */}
+                <span className="animate-ping absolute inline-flex h-6 w-6 rounded-full bg-amber-400/60 opacity-75"></span>
+                {/* Titik inti kursor dalam dengan pendaran neon */}
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500 border border-zinc-950 shadow-[0_0_8px_rgba(251,191,36,0.8)]"></span>
+              </div>
             </div>
             <p className="text-[10px] text-amber-500/80 font-bold tracking-[0.2em] text-center uppercase animate-pulse">
               ◄ DRAG FROM THE CORNER TO OPEN ↑

@@ -114,7 +114,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       {/* ── Phase 3: Card ── */}
       {phase === 'card' && (
         <div
-          className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
+          className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]"
           style={{ animation: 'card-reveal 180ms ease-out forwards' }}
         >
           {/* Backdrop — navy dark */}
@@ -127,7 +127,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
           {/* Card — glassmorphism dengan border kuning */}
           <div
-            className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto rounded-2xl p-6 text-white shadow-xl sm:h-[100dvh] max-h-[100dvh] sm:p-8"
+            className="relative z-10 max-h-[90dvh] w-full max-w-[720px] overflow-y-auto rounded-2xl p-6 text-white shadow-xl sm:max-h-[90dvh] sm:p-8"
             style={{
               background: 'rgba(255, 255, 255, 0.07)',
               backdropFilter: 'blur(20px) saturate(160%)',

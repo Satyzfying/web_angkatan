@@ -486,7 +486,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       {/* ── CARD UTAMA — putih/bening ── */}
       <div
-        className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain"
+        className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain"
         style={{
           background: 'rgba(255,255,255,0.25)',
           border: '1.5px solid rgba(255,255,255,0.55)',

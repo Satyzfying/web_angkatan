@@ -124,7 +124,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal((
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
       
       {/* Animasi partikel melayang secara global */}
       <style>{`
@@ -173,7 +173,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       )}
 
       {/* Kontainer Utama (z-10 agar partikel melayang indah melintasi komponen ini) */}
-      <div className="border-neutral-cs-10 bg-zinc-950 relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-2xl sm:h-[100dvh] max-h-[100dvh] sm:p-8 font-mono overflow-hidden">
+      <div className="border-neutral-cs-10 bg-zinc-950 relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-2xl sm:max-h-[90dvh] sm:p-8 font-mono overflow-hidden">
         
         {/* Tombol Close */}
         <button

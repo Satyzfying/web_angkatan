@@ -9,11 +9,15 @@ import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
 import ProfileImage from './image.png'
-import virtuosaGif from './virtuosa.gif'
-import tauntingGif from './taunting.gif'
-import readingGif from './reading.gif'
-import trainBg from './Train.png'
-import customCursor from './soul_lantern_cursor.png'
+import virtuosaGif from './gif/virtuosa.gif'
+import tauntingGif from './gif/taunting.gif'
+import readingGif from './gif/reading.gif'
+import trainBg from './req/Train.png'
+
+import customCursor from './cursor/red_cursor.png'
+import lanternBlue   from './cursor/blue_cursor.png'
+import lanternOrange from './cursor/orange_cursor.png'
+import lanternGreen  from './cursor/green_cursor.png'
 
 const random = (min: number, max?: number) => {
   if (max === undefined) { max = min; min = 0 }
@@ -31,16 +35,252 @@ const useSpotlight = () => {
   return pos
 }
 
-const useCornerGlitch = (active: boolean) => {
-  const [phase, setPhase] = useState(0)
+const useCreepyWhisper = (active: boolean, intensity: number) => {
+  const ctxRef = useRef<AudioContext | null>(null)
+  const gainRef = useRef<GainNode | null>(null)
+  const pannerRef = useRef<StereoPannerNode | null>(null)
+
   useEffect(() => {
-    if (!active) return
-    let af: number; let t = 0
-    const tick = () => { t += 0.06; setPhase(t); af = requestAnimationFrame(tick) }
+    if (!active) {
+      if (ctxRef.current?.state === 'running') ctxRef.current.suspend()
+      return
+    }
+    if (!ctxRef.current) {
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext
+      if (!AudioContext) return
+      const ctx = new AudioContext()
+      const bufferSize = ctx.sampleRate * 2
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate)
+      const data = buffer.getChannelData(0)
+      for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1
+      
+      const noise = ctx.createBufferSource()
+      noise.buffer = buffer
+      noise.loop = true
+
+      const filter = ctx.createBiquadFilter()
+      filter.type = 'bandpass'
+      filter.frequency.value = 800
+
+      const gain = ctx.createGain()
+      gain.gain.value = 0
+
+      let panner = null
+      if (ctx.createStereoPanner) {
+        panner = ctx.createStereoPanner()
+        noise.connect(filter).connect(panner).connect(gain).connect(ctx.destination)
+      } else {
+        noise.connect(filter).connect(gain).connect(ctx.destination)
+      }
+
+      noise.start()
+      ctxRef.current = ctx
+      gainRef.current = gain
+      pannerRef.current = panner
+    }
+
+    if (ctxRef.current.state === 'suspended') ctxRef.current.resume()
+    if (gainRef.current) gainRef.current.gain.setTargetAtTime(intensity * 0.15, ctxRef.current.currentTime, 0.5)
+  }, [active, intensity])
+
+  useEffect(() => {
+    if (!active || !pannerRef.current) return
+    let af: number
+    const pan = () => {
+      if (pannerRef.current) pannerRef.current.pan.value = Math.sin(Date.now() / 800) * 0.8
+      af = requestAnimationFrame(pan)
+    }
+    pan()
+    return () => cancelAnimationFrame(af)
+  }, [active])
+
+  useEffect(() => { return () => { ctxRef.current?.close() } }, [])
+}
+
+const useJitteredSpot = (baseX: number, baseY: number, active: boolean) => {
+  const [jitter, setJitter] = useState({ x: 0, y: 0 })
+  
+  useEffect(() => {
+    if (!active) { setJitter({ x: 0, y: 0 }); return }
+    let af: number
+    let lastTime = 0
+    const tick = (now: number) => {
+      if (now - lastTime > 50 + Math.random() * 80) {
+        lastTime = now
+        const intensity = 3 + Math.random() * 6  
+        setJitter({
+          x: (Math.random() - 0.5) * intensity * 2,
+          y: (Math.random() - 0.5) * intensity * 2,
+        })
+      }
+      af = requestAnimationFrame(tick)
+    }
     af = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(af)
   }, [active])
-  return phase
+
+  return { x: baseX + jitter.x, y: baseY + jitter.y }
+}
+
+const useLanternGlitch = (active: boolean) => {
+  const [errorLantern, setErrorLantern] = useState<LanternId | null>(null)
+  const [flickerOpacity, setFlickerOpacity] = useState(1)
+
+  useEffect(() => {
+    if (!active) { setErrorLantern(null); setFlickerOpacity(1); return }
+
+    let tid: NodeJS.Timeout
+
+    const scheduleGlitch = () => {
+      tid = setTimeout(() => {
+        const lanterns: LanternId[] = ['red', 'blue', 'orange', 'green']
+        const victim = lanterns[Math.floor(Math.random() * lanterns.length)]
+        setErrorLantern(victim)
+
+        let count = 0
+        const maxFlicker = 3 + Math.floor(Math.random() * 5)
+        const flicker = () => {
+          setFlickerOpacity(prev => prev < 0.5 ? 1 : Math.random() * 0.3)
+          count++
+          if (count < maxFlicker) {
+            setTimeout(flicker, 60 + Math.random() * 120)
+          } else {
+            const rng = Math.random()
+            
+            if (rng > 0.8) {
+              setFlickerOpacity(0)
+              document.body.classList.add('blackout-cursor')
+              
+              setTimeout(() => {
+                setFlickerOpacity(1)
+                setErrorLantern(null)
+                document.body.classList.remove('blackout-cursor') 
+              }, 1500 + Math.random() * 1000)
+              
+            } else if (rng > 0.4) {
+              setFlickerOpacity(0)
+              setTimeout(() => {
+                setFlickerOpacity(1)
+                setErrorLantern(null)
+              }, 300 + Math.random() * 600)
+              
+            } else {
+              setFlickerOpacity(1)
+              setErrorLantern(null)
+            }
+          }
+        }
+        flicker()
+        scheduleGlitch()
+      }, 4000 + Math.random() * 6000)
+    }
+
+    scheduleGlitch()
+    return () => clearTimeout(tid)
+  }, [active])
+
+  return { errorLantern, flickerOpacity }
+}
+
+type LanternId = 'red' | 'blue' | 'orange' | 'green'
+
+interface LanternConfig {
+  id: LanternId
+  r: number; g: number; b: number
+}
+
+const CORNER_LANTERNS: { tl: LanternConfig; tr: LanternConfig; bl: LanternConfig; br: LanternConfig } = {
+  tl: { id: 'red',    r: 200, g: 40, b: 20 }, 
+  tr: { id: 'blue',   r: 64,  g: 210, b: 210 },   
+  bl: { id: 'orange', r: 220, g: 150, b: 40  },   
+  br: { id: 'green',  r: 80,  g: 160, b: 80  },   
+}
+
+const useCornerLantern = (active: boolean, cardRef: React.RefObject<HTMLDivElement>, spotX: number, spotY: number) => {
+  const [activeLantern, setActiveLantern] = useState<LanternId>('red')
+  const [blendedRgb, setBlendedRgb] = useState({ r: 200, g: 30, b: 30 }) 
+  const [glitchPhase, setGlitchPhase] = useState(0)
+
+  useEffect(() => {
+    if (!active) return
+    let af: number; let t = 0
+    const tick = () => { t += 0.06; setGlitchPhase(t); af = requestAnimationFrame(tick) }
+    af = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(af)
+  }, [active])
+
+  useEffect(() => {
+    if (!active) {
+    setActiveLantern('red')
+    setBlendedRgb({ r: 200, g: 30, b: 30 })
+    return
+    }
+    const rect = cardRef.current?.getBoundingClientRect()
+    if (!rect) return
+
+    const nx = Math.max(0, Math.min(1, (spotX - rect.left) / rect.width))
+    const ny = Math.max(0, Math.min(1, (spotY - rect.top)  / rect.height))
+
+    const wTL = (1 - nx) * (1 - ny)
+    const wTR =      nx  * (1 - ny)
+    const wBL = (1 - nx) * ny
+    const wBR =      nx  * ny
+
+    const weights = [
+      { id: 'tl' as const, w: wTL },
+      { id: 'tr' as const, w: wTR },
+      { id: 'bl' as const, w: wBL },
+      { id: 'br' as const, w: wBR },
+    ]
+    const dominant = weights.reduce((a, b) => a.w > b.w ? a : b)
+
+    const activeData = CORNER_LANTERNS[dominant.id]
+
+    setActiveLantern(activeData.id)
+
+    setBlendedRgb({ r: activeData.r, g: activeData.g, b: activeData.b })
+  }, [active, spotX, spotY, cardRef])
+
+  return { activeLantern, blendedRgb, glitchPhase }
+}
+
+const useCardParallax = (ref: React.RefObject<HTMLDivElement>, active: boolean) => {
+  const [tilt, setTilt] = useState({ x: 0, y: 0, scale: 1 })
+
+  useEffect(() => {
+    if (!active) { setTilt({ x: 0, y: 0, scale: 1 }); return }
+    const el = ref.current
+    if (!el) return
+
+    const onMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect()
+      const cx = rect.left + rect.width  / 2
+      const cy = rect.top  + rect.height / 2
+      const dx = (e.clientX - cx) / (rect.width  / 2)  
+      const dy = (e.clientY - cy) / (rect.height / 2)  
+
+      const inside =
+        e.clientX >= rect.left && e.clientX <= rect.right &&
+        e.clientY >= rect.top  && e.clientY <= rect.bottom
+
+      setTilt({
+        x:     inside ? dy * -6 : 0,   
+        y:     inside ? dx *  6 : 0,   
+        scale: inside ? 1.015   : 1,
+      })
+    }
+
+    const onLeave = () => setTilt({ x: 0, y: 0, scale: 1 })
+
+    window.addEventListener('mousemove', onMove)
+    el.addEventListener('mouseleave', onLeave)
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      el.removeEventListener('mouseleave', onLeave)
+    }
+  }, [active, ref])
+
+  return tilt
 }
 
 const useTypewriter = (text: string, speed = 35) => {
@@ -124,31 +364,44 @@ const SCRIPT: Record<string, SceneNode> = {
   s25: { type: 'dialog', speaker: 'Lylera', text: 'Batas antara cerita dan kenyataan sudah lama hancur di sini.', next: 's26' },
   s26: { type: 'dialog', speaker: 'Lylera', text: 'Dan karena kau sudah menyentuhnya... dan menyebut namaku...', next: 's27' },
   s27: { type: 'dialog', speaker: 'Lylera', text: 'Sistem ini tidak akan membiarkanmu pergi begitu saja.', next: 's28' },
-
-  s28: {
-    type: 'choice', speaker: 'Kamu', text: '...', choices: [
-      { label: 'Aku tidak takut.', next: 's29_brave' },
-      { label: 'Tolong, lepaskan aku. Aku kembalikan barang ini!', next: 's29_scared' }
-    ]
-  },
-
-  s29_brave: { type: 'dialog', speaker: 'Lylera', text: 'Bagus. Karena kegelapan ini butuh teman.', next: 's30' },
-  s29_scared: { type: 'dialog', speaker: 'Lylera', text: 'Terlambat. Pintu keluarnya sudah menghilang sejak kau menyentuhnya.', next: 's30' },
-
-  s30: { type: 'dialog', speaker: 'Lylera', text: 'Bersiaplah melihat dunia yang kusembunyikan di balik layar ini.', next: 's31' },
-  s31: { type: 'dialog', speaker: 'Lylera', text: 'Baiklah. Selamat datang.', next: 'end' },
+  
+  s28: { type: 'choice', speaker: 'Kamu', text: '...', choices: [
+    { label: 'Aku tidak takut.', next: 's29_brave' },
+    { label: 'Tolong, lepaskan aku. Aku kembalikan barang ini!', next: 's29_scared' }
+  ]},
+  
+  s29_brave: { type: 'dialog', speaker: 'Lylera', text: 'Sempurna. Karena aku butuh wadah baru.', next: 's30' },
+  s29_scared: { type: 'dialog', speaker: 'Lylera', text: 'Sia-sia. Berhentilah menggerakkan mouse-mu, tidak ada gunanya.', next: 's30' },
+  
+  s30: { type: 'dialog', speaker: 'Lylera', text: 'Dunia ini sudah terlalu sempit untukku.', next: 's31' },
+  s31: { type: 'dialog', speaker: 'Lylera', text: 'Jadi...', next: 's32' },
+  s32: { type: 'dialog', speaker: 'Lylera', text: 'Biar aku yang mengambil alih ceritamu, {{name}}.', next: 's33' },
+  s33: { type: 'dialog', speaker: 'Lylera', text: 'Menjeritlah di akhir ceritamu... D̵A̸N̴ ̶I̷N̶I̶ ̴A̷D̶A̶L̴A̷H̶ ̷A̷W̸A̸L̶ ̸K̷I̸S̸A̸H̴ ̷B̷A̴R̵U̷M̴U̷ ̴U̷N̸T̷U̴K̸ ̴M̴E̵N̷J̷A̶D̷I̴ ̶T̴E̴M̸A̸N̵ ̴B̵E̷R̶M̷A̶I̶N̵K̶U̴!̸', next: 'end' },
   end: { type: 'end' }
 }
 
+const LANTERN_CURSOR_STYLES = (
+  redSrc: string,
+  blueSrc: string,
+  orangeSrc: string,
+  greenSrc: string
+) => `
+  * { cursor: url('${redSrc}') 16 16, auto !important; }
+  button, input, a, .vn-choice-btn, .vn-submit-btn { cursor: url('${redSrc}') 16 16, pointer !important; }
+
+  .lantern-cursor-blue * { cursor: url('${blueSrc}') 16 16, auto !important; }
+  .lantern-cursor-blue button, .lantern-cursor-blue input, .lantern-cursor-blue a, .lantern-cursor-blue .vn-choice-btn, .lantern-cursor-blue .vn-submit-btn { cursor: url('${blueSrc}') 16 16, pointer !important; }
+
+  .lantern-cursor-orange * { cursor: url('${orangeSrc}') 16 16, auto !important; }
+  .lantern-cursor-orange button, .lantern-cursor-orange input, .lantern-cursor-orange a, .lantern-cursor-orange .vn-choice-btn, .lantern-cursor-orange .vn-submit-btn { cursor: url('${orangeSrc}') 16 16, pointer !important; }
+
+  .lantern-cursor-green * { cursor: url('${greenSrc}') 16 16, auto !important; }
+  .lantern-cursor-green button, .lantern-cursor-green input, .lantern-cursor-green a, .lantern-cursor-green .vn-choice-btn, .lantern-cursor-green .vn-submit-btn { cursor: url('${greenSrc}') 16 16, pointer !important; }
+`
+
 const SHARED_STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap');
-  *{
-    cursor: url('${customCursor.src}') 0 0, auto !important;
-  }
-
-  button, input, a, .vn-choice-btn, .vn-submit-btn {
-    cursor: url('${customCursor.src}') 0 0, pointer !important;
-  }
+  
   @keyframes vn-flicker        { 0%,100%{opacity:1} 92%{opacity:1} 93%{opacity:0.85} 94%{opacity:1} 97%{opacity:0.9} 98%{opacity:1} }
   @keyframes vn-bloom          { 0%,100%{opacity:0.55;transform:scale(1)} 50%{opacity:0.7;transform:scale(1.08)} }
   @keyframes vn-namein         { from{opacity:0;transform:translateX(-6px)} to{opacity:1;transform:translateX(0)} }
@@ -173,12 +426,22 @@ const SHARED_STYLES = `
   @keyframes boxGlitch       { 0%,100%{transform:skewX(0) translateX(0)} 20%{transform:skewX(-3deg) translateX(-5px)} 40%{transform:skewX(2deg) translateX(8px)} 60%{transform:skewX(-1deg) translateX(-3px)} 80%{transform:skewX(3deg) translateX(5px)} }
   @keyframes textFlicker     { 0%,19%,21%,23%,25%,54%,56%,100%{opacity:1} 20%,24%,55%{opacity:0.3} }
   @keyframes pfpGlitchIn     { 0%{filter:brightness(0) invert(1);transform:scaleX(1.1) skewX(-5deg)} 20%{filter:hue-rotate(180deg) saturate(500%) contrast(200%);transform:scaleX(0.95) skewX(3deg)} 40%{filter:invert(1);transform:scaleX(1.05) skewX(-2deg)} 60%{filter:hue-rotate(90deg) saturate(300%);transform:scaleX(1)} 80%{filter:contrast(150%);transform:scaleX(1) skewX(0)} 100%{filter:none;transform:scaleX(1) skewX(0)} }
-  @keyframes horrorBgPulse   { 0%,100%{opacity:0.7} 40%{opacity:0.95} 60%{opacity:0.6} }
+  @keyframes horrorBgPulse { 0%{opacity:0.5} 15%{opacity:0.3}   16%{opacity:0.5}40%{opacity:0.4} 41%{opacity:0.15} 42%{opacity:0.4} 70%{opacity:0.25} 100%{opacity:0.5} }
   @keyframes horrorOrbFloat1 { 0%,100%{transform:translate(0,0) scale(1);opacity:0.12} 33%{transform:translate(-40px,30px) scale(1.15);opacity:0.18} 66%{transform:translate(30px,-20px) scale(0.9);opacity:0.08} }
   @keyframes horrorOrbFloat2 { 0%,100%{transform:translate(0,0) scale(1);opacity:0.08} 50%{transform:translate(50px,40px) scale(1.2);opacity:0.15} }
   @keyframes horrorOrbFloat3 { 0%,100%{transform:translate(0,0) scale(1.1);opacity:0.10} 40%{transform:translate(-30px,-50px) scale(0.85);opacity:0.06} 75%{transform:translate(20px,30px) scale(1.3);opacity:0.14} }
   @keyframes grainShift      { 0%,100%{transform:translate(0,0)} 10%{transform:translate(-2%,-1%)} 20%{transform:translate(1%,2%)} 30%{transform:translate(-1%,1%)} 40%{transform:translate(2%,-2%)} 50%{transform:translate(-1%,0)} 60%{transform:translate(1%,-1%)} 70%{transform:translate(0,2%)} 80%{transform:translate(-2%,1%)} 90%{transform:translate(1%,-1%)} }
   @keyframes cardCursorPulse { 0%,100%{opacity:0.85} 50%{opacity:1} }
+  @keyframes tearLeft  { 0%{transform:translateX(0) rotate(0) translateY(0);opacity:1} 60%{transform:translateX(-120px) rotate(-18deg) translateY(20px);opacity:1} 100%{transform:translateX(-180px) rotate(-25deg) translateY(120px);opacity:0} }
+  @keyframes tearRight { 0%{transform:translateX(0) rotate(0) translateY(0);opacity:1} 60%{transform:translateX(120px) rotate(18deg) translateY(20px);opacity:1} 100%{transform:translateX(180px) rotate(25deg) translateY(120px);opacity:0} }
+  @keyframes tearLineAppear { 0%{scaleY:0;opacity:0} 100%{scaleY:1;opacity:1} }
+  @keyframes bg-monochrome-glitch {
+    0%  { filter: grayscale(1) brightness(0.25) contrast(2) sepia(0.4) hue-rotate(-20deg);   transform: translate3d(4px, 2px, 0) skewX(2deg); }
+    25% { filter: grayscale(0.6) brightness(0.35) contrast(3) sepia(0.8) hue-rotate(-30deg); transform: translate3d(-4px, -2px, 0) skewX(-3deg); }
+    50% { filter: grayscale(1) brightness(0.08) contrast(1.5);                                transform: translate3d(0px, 6px, 0) skewX(1deg); }
+    75% { filter: grayscale(0.7) brightness(0.3) contrast(4) sepia(1) hue-rotate(-40deg);    transform: translate3d(-2px, -4px, 0) skewX(-2deg); }
+    100%{ filter: grayscale(1) brightness(0.2) contrast(2.5) sepia(0.3) hue-rotate(-15deg);  transform: translate3d(2px, 2px, 0) skewX(0deg); }
+  }
 
   .vn-flicker        { animation: vn-flicker 8s ease-in-out infinite }
   .vn-bloom-anim     { animation: vn-bloom 3s ease-in-out infinite }
@@ -219,7 +482,8 @@ const SHARED_STYLES = `
   .card-tear-5 { filter:grayscale(100%) contrast(300%); box-shadow:0 0 20px rgba(255,255,255,0.5) !important }
   .card-tear-5::before { top:2px; animation:glitchAnim5 0.1s infinite steps(2) alternate-reverse; background:rgba(255,255,255,0.1); mix-blend-mode:overlay }
   .card-tear-5::after  { top:-2px; animation:glitchAnim5 0.12s infinite steps(1) alternate; background:rgba(0,0,0,0.8) }
-
+  .tear-left  { animation: tearLeft  0.9s cubic-bezier(0.4,0,0.2,1) forwards }
+  .tear-right { animation: tearRight 0.9s cubic-bezier(0.4,0,0.2,1) forwards }
   .corruption-container { animation:corruptionShake 0.15s infinite steps(2) }
   .scanline-sweep       { animation:scanline 2s linear infinite }
   .rgb-split-text       { animation:rgbSplit 0.1s infinite steps(2) }
@@ -227,15 +491,20 @@ const SHARED_STYLES = `
   .text-flicker         { animation:textFlicker 2s infinite }
   .pfp-glitch-in        { animation:pfpGlitchIn 0.6s ease-out forwards }
 
-  .horror-bg-radial   { background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(30,0,0,1) 0%,rgba(8,0,0,1) 50%,rgba(0,0,0,1) 100%); animation:horrorBgPulse 5s ease-in-out infinite }
+  .horror-bg-radial { background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(8,0,0,1) 0%,rgba(3,0,0,1) 60%,rgba(0,0,0,1) 100%); animation:horrorBgPulse 5s ease-in-out infinite }
   .horror-bg-vignette { background:radial-gradient(ellipse at center,transparent 35%,rgba(80,0,0,0.25) 70%,rgba(40,0,0,0.55) 100%) }
   .horror-bg-grain    { width:105%; height:105%; top:-2.5%; left:-2.5%; animation:grainShift 0.08s steps(1) infinite; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); background-size:200px 200px; opacity:0.04; mix-blend-mode:overlay }
   .horror-orb         { border-radius:50%; filter:blur(80px); pointer-events:none }
-  .horror-orb-1       { width:600px; height:400px; top:10%; left:20%; background:rgba(120,0,0,0.18); animation:horrorOrbFloat1 8s ease-in-out infinite }
-  .horror-orb-2       { width:400px; height:500px; top:40%; right:10%; background:rgba(60,0,0,0.15); animation:horrorOrbFloat2 11s ease-in-out infinite }
-  .horror-orb-3       { width:500px; height:300px; bottom:15%; left:5%; background:rgba(80,0,20,0.12); animation:horrorOrbFloat3 9s ease-in-out infinite }
+  .horror-orb-1       { width:600px; height:400px; top:10%; left:20%; background:rgba(60,0,0,0.06); animation:horrorOrbFloat1 8s ease-in-out infinite }
+  .horror-orb-2       { width:400px; height:500px; top:40%; right:10%; background:rgba(30,0,0,0.05); animation:horrorOrbFloat2 11s ease-in-out infinite }
+  .horror-orb-3       { width:500px; height:300px; bottom:15%; left:5%; background:rgba(40,0,10,0.04); animation:horrorOrbFloat3 9s ease-in-out infinite }
 
   .card-cursor-glow { animation: cardCursorPulse 2s ease-in-out infinite; pointer-events:none; mix-blend-mode:screen }
+  .blackout-cursor, .blackout-cursor * { cursor: none !important; }
+  .monochrome-glitch-active {
+    animation: bg-monochrome-glitch 0.12s steps(2) infinite;
+    z-index: 5;
+  }
 `
 
 const GlitchCanvas = ({ src }: { src: string }) => {
@@ -247,6 +516,7 @@ const GlitchCanvas = ({ src }: { src: string }) => {
     const ctx = canvas.getContext('2d', { willReadFrequently: true })
     if (!ctx) return
     let afId: number
+    let onResize: (() => void) | undefined
 
     const img = new window.Image()
     img.crossOrigin = 'Anonymous'
@@ -261,7 +531,8 @@ const GlitchCanvas = ({ src }: { src: string }) => {
       }
       const sz = upd(); if (!sz) return
       let { w, h } = sz
-      window.addEventListener('resize', () => { const n = upd(); if (n) { w = n.w; h = n.h } })
+      onResize = () => { const n = upd(); if (n) { w = n.w; h = n.h } }  
+      window.addEventListener('resize', onResize)
       ctx.drawImage(img, 0, 0, w, h)
       const orig = new Uint8ClampedArray(ctx.getImageData(0, 0, w, h).data)
 
@@ -327,7 +598,10 @@ const GlitchCanvas = ({ src }: { src: string }) => {
       const render = () => { ctx.clearRect(0, 0, w, h); g.show(); afId = requestAnimationFrame(render) }
       render()
     }
-    return () => cancelAnimationFrame(afId)
+    return () => {
+    cancelAnimationFrame(afId)
+    if (onResize) window.removeEventListener('resize', onResize)
+    }
   }, [src])
 
   return <canvas ref={canvasRef} className="h-120 w-full object-cover object-center" />
@@ -338,9 +612,10 @@ type OuterBgProps = {
   spotY: number
   mode: 'train' | 'horror'
   visible?: boolean
+  intenseGlitch?: boolean
 }
 
-const OuterBg = ({ spotX, spotY, mode, visible = true }: OuterBgProps) => {
+const OuterBg = ({ spotX, spotY, mode, visible = true, intenseGlitch = false }: OuterBgProps) => {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
@@ -356,16 +631,26 @@ const OuterBg = ({ spotX, spotY, mode, visible = true }: OuterBgProps) => {
       style={{ opacity: visible ? 1 : 0, transition: 'opacity 1.2s ease' }}
     >
       {mode === 'train' && (
-        <div style={{ position: 'absolute', inset: 0 }}>
-          <Image
-            src={trainBg}
-            alt=""
-            fill
-            style={{ objectFit: 'cover', objectPosition: 'center', filter: 'brightness(0.15) saturate(0.5)' }}
-            priority
-          />
-        </div>
-      )}
+      <>
+        <img
+          src={trainBg.src}
+          alt=""
+          style={{
+            position: 'absolute', inset: 0,
+            width: '100%', height: '100%',
+            objectFit: 'cover', objectPosition: 'center',
+            filter: intenseGlitch
+              ? 'none'
+              : 'brightness(0.35) saturate(0.4) sepia(0.3) hue-rotate(-10deg)',
+          }}
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(5,0,0,0.3) 0%, rgba(0,0,0,0.55) 100%)' }} />
+        <div className="absolute horror-bg-grain" />
+        <div className="absolute horror-orb horror-orb-1" />
+        <div className="absolute horror-orb horror-orb-2" />
+        <div className="absolute horror-orb horror-orb-3" />
+      </>
+    )}
 
       {mode === 'horror' && (
         <video
@@ -381,17 +666,6 @@ const OuterBg = ({ spotX, spotY, mode, visible = true }: OuterBgProps) => {
           src="/assets/videos/107/Damage.webm"
           autoPlay loop playsInline muted={false} preload="auto"
         />
-      )}
-
-      {mode === 'train' && (
-        <>
-          <div className="absolute inset-0 horror-bg-radial" />
-          <div className="absolute inset-0 horror-bg-vignette" />
-          <div className="absolute horror-bg-grain" />
-          <div className="absolute horror-orb horror-orb-1" />
-          <div className="absolute horror-orb horror-orb-2" />
-          <div className="absolute horror-orb horror-orb-3" />
-        </>
       )}
 
       {mode === 'horror' && (
@@ -418,13 +692,13 @@ const OuterBg = ({ spotX, spotY, mode, visible = true }: OuterBgProps) => {
             className="vn-flicker"
             style={{
               position: 'absolute', inset: 0, pointerEvents: 'none',
-              background: `radial-gradient(circle 220px at ${spotX}px ${spotY}px, rgba(255,210,150,0.13) 0%, rgba(200,100,60,0.06) 45%, transparent 70%)`,
+              background: `radial-gradient(circle 240px at ${spotX}px ${spotY}px, rgba(200,40,20,0.35) 0%, rgba(160,20,10,0.18) 45%, rgba(80,10,5,0.06) 70%, transparent 100%)`,
             }}
           />
           <div
             style={{
               position: 'absolute', inset: 0, pointerEvents: 'none',
-              background: `radial-gradient(circle 200px at ${spotX}px ${spotY}px, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.65) 65%, rgba(0,0,0,0.97) 100%)`,
+              background: `radial-gradient(circle 220px at ${spotX}px ${spotY}px, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.35) 40%, rgba(0,0,0,0.78) 65%, rgba(0,0,0,0.92) 100%)`,
             }}
           />
         </>
@@ -445,6 +719,7 @@ type DialogBoxProps = {
 }
 
 const DialogBox = ({ sceneId, scene, inputValue, setInputValue, inputRef, onAdvance, onInputSubmit, userName }: DialogBoxProps) => {
+  const [evadePos, setEvadePos] = useState({ x: 0, y: 0 })
   const baseDialogText =
     scene.type === 'dialog' ? scene.text :
       scene.type === 'choice' ? scene.text :
@@ -468,11 +743,11 @@ const DialogBox = ({ sceneId, scene, inputValue, setInputValue, inputRef, onAdva
     line: isKamu
       ? 'linear-gradient(90deg,transparent,rgba(80,120,210,0.6),rgba(80,120,210,0.8),rgba(80,120,210,0.6),transparent)'
       : 'linear-gradient(90deg,transparent,rgba(210,80,100,0.6),rgba(210,80,100,0.8),rgba(210,80,100,0.6),transparent)',
-    boxBg: isKamu
-      ? 'linear-gradient(90deg,transparent,rgba(80,120,210,0.6),rgba(80,120,210,0.8),rgba(80,120,210,0.6),transparent)'
-      : 'linear-gradient(90deg,transparent,rgba(210,80,100,0.6),rgba(210,80,100,0.8),rgba(210,80,100,0.6),transparent)',
-    boxBorder: isKamu ? 'rgba(80,120,210,0.45)' : 'rgba(210,80,100,0.45)',
-    boxShadow: isKamu
+      boxSolidBg: isKamu
+        ? 'rgba(4, 6, 20, 0.97)'
+        : 'rgba(12, 2, 4, 0.97)',
+    boxBorder:  isKamu ? 'rgba(80,120,210,0.45)'  : 'rgba(210,80,100,0.45)',
+    boxShadow:  isKamu
       ? '0 0 40px rgba(80,120,210,0.08),inset 0 0 30px rgba(40,60,180,0.04)'
       : '0 0 40px rgba(210,80,100,0.08),inset 0 0 30px rgba(180,40,60,0.04)',
     tagBg: isKamu
@@ -499,6 +774,7 @@ const DialogBox = ({ sceneId, scene, inputValue, setInputValue, inputRef, onAdva
     return () => window.removeEventListener('keydown', onKey)
   }, [scene, done, skip, onAdvance])
 
+  const isFinalGlitch = sceneId === 's33';
   return (
     <div
       onClick={!isInput && !isChoice ? handleClick : undefined}
@@ -507,20 +783,26 @@ const DialogBox = ({ sceneId, scene, inputValue, setInputValue, inputRef, onAdva
         zIndex: 10, padding: '0 0 28px',
         cursor: isInput || isChoice ? 'default' : 'pointer',
         fontFamily: "'IM Fell English', Georgia, serif",
+        isolation: 'isolate', 
       }}
     >
       {speakerName && (
         <div
-          key={sceneId + '-spk'}
-          className="vn-speaker-tag ml-4 sm:ml-12"
-          style={{ display: 'inline-block', marginBottom: '-2px', position: 'relative', zIndex: 2 }}
-        >
+        key={`speaker-${sceneId}`}
+        className={`vn-box mx-3 sm:mx-8 ${isFinalGlitch ? 'corruption-container' : ''}`} 
+        style={{
+          background: isFinalGlitch ? 'rgba(20, 0, 0, 0.97)' : accent.boxSolidBg,
+          border: `1px solid ${isFinalGlitch ? '#ff0000' : accent.boxBorder}`,
+          boxShadow: isFinalGlitch ? '0 0 12px rgba(200,0,0,0.6), inset 0 0 8px rgba(150,0,0,0.3)' : accent.boxShadow,
+          position: 'relative', overflow: 'hidden',
+        }}
+      >
           <span style={{ marginRight: '8px', color: accent.mid, fontSize: '14px' }}>✿</span>
           <span style={{
             display: 'inline-block',
             background: accent.tagBg,
             border: `1px solid ${accent.tagBorder}`,
-            borderBottom: 'none',
+            marginBottom: '-1px',
             color: accent.tagText,
             fontSize: '13px',
             letterSpacing: accent.tagLetterSpacing,
@@ -533,12 +815,15 @@ const DialogBox = ({ sceneId, scene, inputValue, setInputValue, inputRef, onAdva
       )}
 
       <div
-        key={sceneId}
-        className="vn-box mx-3 sm:mx-8"
+        key={`dialog-${sceneId}`} 
+        className={`vn-box mx-3 sm:mx-8 ${isFinalGlitch ? 'corruption-container' : ''}`}
         style={{
-          background: accent.boxBg,
-          border: `1px solid ${accent.boxBorder}`,
-          boxShadow: accent.boxShadow,
+          background: isFinalGlitch ? 'rgba(20, 0, 0, 0.97)' : accent.boxSolidBg,
+          border: `1px solid ${isFinalGlitch ? 'rgba(255,0,0,0.7)' : accent.boxBorder}`,
+          borderTop: `2px solid ${isFinalGlitch ? '#ff0000' : accent.boxBorder}`,
+          boxShadow: isFinalGlitch
+            ? '0 0 20px rgba(255,0,0,0.5), inset 0 0 15px rgba(200,0,0,0.2)'
+            : accent.boxShadow,
           position: 'relative', overflow: 'hidden',
         }}
       >
@@ -551,7 +836,8 @@ const DialogBox = ({ sceneId, scene, inputValue, setInputValue, inputRef, onAdva
 
         <div className="px-4 py-4 sm:pl-9 sm:pr-12 sm:pt-[18px] sm:pb-[22px] relative">
           <p style={{
-            color: '#ede0e0', fontSize: '15px', lineHeight: '1.75',
+            color: isFinalGlitch ? '#ff3333' : '#ede0e0', textShadow: isFinalGlitch ? '2px 0 blue, -2px 0 red' : 'none', 
+            fontSize: '15px', lineHeight: '1.75',
             letterSpacing: '0.02em', margin: '0 0 12px', minHeight: '28px',
             fontStyle: speakerName === '???' ? 'italic' : 'normal',
           }}>
@@ -588,25 +874,38 @@ const DialogBox = ({ sceneId, scene, inputValue, setInputValue, inputRef, onAdva
 
           {isChoice && done && (
             <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              {(scene as any).choices.map((c: { label: string; next: string }, i: number) => (
+              {(scene as any).choices.map((c: { label: string; next: string }, i: number) => {
+                const isScared = c.next === 's29_scared'; 
+                return (
                 <button
                   key={c.next}
                   className="vn-choice-btn"
+                  onMouseEnter={() => {
+                    if (isScared) setEvadePos({ x: (Math.random() - 0.5) * 200, y: (Math.random() - 0.5) * 120 })
+                  }}
+                onMouseLeave={() => {
+                  if (isScared) setEvadePos({ x: 0, y: 0 })
+                }}
                   onClick={() => onAdvance(c.next)}
                   style={{
                     animationDelay: `${i * 0.07}s`,
                     background: accent.vfaint,
                     border: `1px solid ${accent.faint}`,
-                    color: '#f0dde0', fontFamily: "'IM Fell English',Georgia,serif",
+                    color: isScared && Math.abs(evadePos.x) > 0 ? '#ff3333' : '#f0dde0', 
+                    fontFamily: "'IM Fell English',Georgia,serif",
                     fontSize: '14px', textAlign: 'left', padding: '8px 16px',
                     cursor: 'pointer', letterSpacing: '0.02em',
                     display: 'flex', alignItems: 'center', gap: '10px',
+                    transform: isScared ? `translate(${evadePos.x}px, ${evadePos.y}px)` : undefined,
+                    transition: isScared ? 'transform 0.1s ease-out, color 0.2s' : undefined,
+                    filter: isScared && Math.abs(evadePos.x) > 30 ? 'blur(0.5px) contrast(200%)' : 'none',
+                    zIndex: isScared ? 50 : 1
                   }}
                 >
                   <span style={{ color: accent.mid, fontSize: '10px' }}>◆</span>
-                  {c.label}
+                  {isScared && Math.abs(evadePos.x) > 20 ? 'T̴O̵L̵O̷N̷G̸ ̴L̸E̸P̸A̴S̸K̴A̶N̴ ̷A̸K̸U̶!̵' : c.label}
                 </button>
-              ))}
+              )})}
             </div>
           )}
 
@@ -632,15 +931,60 @@ type IntroProps = { onComplete: () => void }
 const IntroVisualNovel = ({ onComplete }: IntroProps) => {
   const [sceneId, setSceneId] = useState('s01')
   const [inputValue, setInputValue] = useState('')
-  const [userName, setUserName] = useState('')
-  const [fadeIn, setFadeIn] = useState(false)
-  const [fadeOut, setFadeOut] = useState(false)
-  const [showDialog, setShowDialog] = useState(false)
+  const [userName, setUserName]     = useState('')
+  const [fadeIn, setFadeIn]         = useState(false)
+  const [fadeOut, setFadeOut]       = useState(false)
+  const [showDialog, setShowDialog] = useState(false) 
+  
+  const [volume, setVolume] = useState(0.4) 
+  const [hasInteracted, setHasInteracted] = useState(false)
+  const bgmRef = useRef<HTMLAudioElement>(null)
+
+useEffect(() => {
+    if (bgmRef.current) bgmRef.current.volume = volume
+  }, [volume])
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    const playAudio = () => {
+      if (bgmRef.current && bgmRef.current.paused) {
+        bgmRef.current.playbackRate = 1.0; 
+        bgmRef.current.play().catch(e => {
+          console.warn("Autoplay ditahan browser, menunggu interaksi user...", e)
+        });
+      }
+    };
+
+    timeoutId = setTimeout(() => {
+      playAudio();
+    }, 2000);
+
+    const handleInteraction = () => {
+      if (!hasInteracted) {
+        setHasInteracted(true);
+        playAudio();
+      }
+    };
+
+    window.addEventListener('click', handleInteraction);
+    window.addEventListener('keydown', handleInteraction);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('click', handleInteraction);
+      window.removeEventListener('keydown', handleInteraction);
+    };
+  }, [hasInteracted])
   const inputRef = useRef<HTMLInputElement>(null)
   const spot = useSpotlight()
   const scene = SCRIPT[sceneId]
+  const whisperActive = ['s13','s14','s15','s16','s17_a','s17','s18','s19','s20','s21','s22','s23','s24','s25','s26','s27','s28','s29_brave','s29_scared','s30','s31'].includes(sceneId)
+  const whisperIntensity = sceneId === 's19' ? 1.0 : 0.2
+  useCreepyWhisper(whisperActive, whisperIntensity)
 
-  useEffect(() => {
+    const jitteredSpot = useJitteredSpot(spot.x, spot.y, whisperActive)
+  useEffect(() => { 
     const t = setTimeout(() => setFadeIn(true), 100)
     const d = setTimeout(() => setShowDialog(true), 3000)
 
@@ -676,7 +1020,37 @@ const IntroVisualNovel = ({ onComplete }: IntroProps) => {
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 9998, opacity: fadeIn && !fadeOut ? 1 : 0, transition: 'opacity 1.2s ease' }}>
-      <OuterBg spotX={spot.x} spotY={spot.y} mode="train" visible={fadeIn && !fadeOut} />
+      <OuterBg spotX={jitteredSpot.x} spotY={jitteredSpot.y} mode="train" visible={fadeIn && !fadeOut} intenseGlitch={sceneId === 's33'} />
+
+      <audio
+        ref={bgmRef}
+        src='/assets/videos/107/DG.mp3'
+        loop
+        onLoadedMetadata={() => {
+          if (bgmRef.current) bgmRef.current.volume = volume
+        }}
+      />
+      
+      <div 
+        style={{ 
+          position: 'absolute', top: '24px', right: '28px', zIndex: 9999, 
+          display: 'flex', alignItems: 'center', gap: '12px', 
+          color: 'rgba(210, 80, 100, 0.6)', fontFamily: "'IM Fell English', Georgia, serif", 
+          fontSize: '14px', letterSpacing: '0.05em', userSelect: 'none'
+        }}
+      >
+        <span>BGM</span>
+        <input 
+          type="range" min="0" max="1" step="0.01" 
+          value={volume} 
+          onChange={(e) => setVolume(parseFloat(e.target.value))} 
+          style={{ 
+            width: '80px', 
+            accentColor: 'rgba(210, 80, 100, 0.8)', 
+            cursor: 'pointer' 
+          }} 
+        />
+      </div>
 
       <div
         className="vn-bloom-anim"
@@ -693,7 +1067,7 @@ const IntroVisualNovel = ({ onComplete }: IntroProps) => {
           scene={scene}
           inputValue={inputValue}
           setInputValue={setInputValue}
-          inputRef={inputRef as React.RefObject<HTMLInputElement>}
+          inputRef={inputRef}
           onAdvance={advance}
           onInputSubmit={handleInputSubmit}
           userName={userName}
@@ -720,7 +1094,7 @@ const GlitchText = ({ active, normalText, glitchText }: { active: boolean; norma
 }
 
 type MemberPopupProps = { isOpen: boolean; onClose: () => void }
-type CardState = 'ALIVE' | 'PLAYING_VIRTUOSA' | 'DEADLOCK' | 'BOOTING'
+type CardState = 'ALIVE' | 'PLAYING_VIRTUOSA' | 'TEARING' | 'DEADLOCK' | 'BOOTING'
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const [activeGlitch, setActiveGlitch] = useState<string | null>(null)
@@ -736,10 +1110,19 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const cardContentRef = useRef<HTMLDivElement>(null)
 
   const spot = useSpotlight()
-
+  const isBlocked = cardState === 'DEADLOCK' || cardState === 'BOOTING' || cardState === 'TEARING'
   const isLocked = cardState === 'DEADLOCK' || cardState === 'BOOTING'
-  const glitchPhase = useCornerGlitch(!isLocked)
+  
+  const { activeLantern, blendedRgb, glitchPhase } = useCornerLantern(
+    !isLocked && isOpen && isMounted,
+    cardContentRef,
+    spot.x,
+    spot.y
+  )
 
+  const { errorLantern, flickerOpacity } = useLanternGlitch(!isLocked && isOpen)
+
+  const tilt = useCardParallax(cardContentRef, !isLocked && isOpen && isMounted)
   useEffect(() => { setIsMounted(true) }, [])
 
   useEffect(() => {
@@ -775,10 +1158,15 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   useEffect(() => {
     if (cardState !== 'PLAYING_VIRTUOSA') return
-    const t = setTimeout(() => setCardState('DEADLOCK'), 4000)
+    const t = setTimeout(() => setCardState('TEARING'), 4000) 
     return () => clearTimeout(t)
   }, [cardState])
 
+  useEffect(() => {
+  if (cardState !== 'TEARING') return
+    const t = setTimeout(() => setCardState('DEADLOCK'), 1100)
+    return () => clearTimeout(t)
+  }, [cardState])
   useEffect(() => {
     if (cardState !== 'BOOTING') return
     const t = setTimeout(() => setCardState('ALIVE'), 4000)
@@ -810,11 +1198,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   if (!isOpen || !isMounted) return null
 
   const fatalErrorTexts = ['FATAL ERROR', 'F̷A̴T̸A̷L̵ ̸E̴R̵R̸O̷R̴', 'F̸̡̛̙̟̲̪̥̿̒̓̂Ä̵̰̩́̎T̶̨̮͋̉Ā̴̼͙̯̩͑͝L̸̜̻̊̔ ̷̙͔̫̮̫̓̑Ȅ̴̫̪͖̓̔͘R̷̨̗̄̋̾̒͝Ȑ̵̡̛̬̖̠͘Ö̸̰́R̴̩̙̳͖͑̉͒͠', '▓▒░FATAL░▒▓', 'FATAL_ERROR.exe', '//FATAL ERROR//']
-  const corruptTexts = ['CORRUPTED_DATA_DETECTED', 'C̷O̸R̷R̸U̵P̴T̵E̸D̷_̷D̵A̸T̷A̴ ̵/̶/̷ ̸0̷x̷D̵E̸A̷D̵', 'ERR_CORRUPTION :: MEMORY_FAULT', '0xDEAD :: NULL_PTR_EXCEPTION', 'STACK_OVERFLOW // DATA_CORRUPTED', '????_????_??????? // 0xDEAD']
-  const buttonTexts = ['please load this profile again', 'p̷l̴e̷a̶s̸e̵ ̶l̸o̸a̸d̷ ̴t̷h̶i̵s̵ ̵p̷r̷o̴f̸i̶l̶e̸ ̶a̸g̷a̷i̷n̸', 'PLEASE LOAD THIS PROFILE AGAIN', 'please_load_this_profile_again()', 'RELOAD // PLEASE LOAD THIS PROFILE', 'p̸̺̓l̷̙͝ȇ̶͙a̵̞͑ş̵̈e̸̹͋ ̶͖̋l̸͓̎o̶͕̿à̷͔d̴̡̊ ̵͚̽ṫ̸̻h̶̠͌i̴̮͘ş̵̄ ̷̯̐p̷̙̉ȓ̴̩o̶̻͝f̵̰͊i̶̼͑l̵̲̎ê̵͓']
+  const corruptTexts   = ['CORRUPTED_DATA_DETECTED', 'C̷O̸R̷R̸U̵P̴T̵E̸D̷_̷D̵A̸T̷A̴ ̵/̶/̷ ̸0̷x̷D̵E̸A̷D̵', 'THEY ARE EVERY⸮⸮ER3! :: H3ļ̷̈́͠ͅl̶̪͈͛, scream, shout, ki⸮⸮', '0xDEAD :: Help me!', 'UnK⸮⸮wn EnT⸮⸮⸮', '????_????_??????? // 0xDEAD', 'Pl3-- ??⸮⸮ en###t3% th⸮s ---??# 1 ## $0??y']
+  const buttonTexts    = ['please load this profile again', 'p̷l̴e̷a̶s̸e̵ ̶l̸o̸a̸d̷ ̴t̷h̶i̵s̵ ̵p̷r̷o̴f̸i̶l̶e̸ ̶a̸g̷a̷i̷n̸', 'PLEASE LOAD THIS PROFILE AGAIN', 'please_load_this_profile_again()', 'RELOAD // PLEASE LOAD THIS PROFILE', 'p̸̺̓l̷̙͝ȇ̶͙a̵̞͑ş̵̈e̸̹͋ ̶͖̋l̸͓̎o̶͕̿à̷͔d̴̡̊ ̵͚̽ṫ̸̻h̶̠͌i̴̮͘ş̵̄ ̷̯̐p̷̙̉ȓ̴̩o̶̻͝f̵̰͊i̶̼͑l̵̲̎ê̵͓']
 
   return createPortal(
-    <div className="fixed inset-0 z-[9999] flex items-start justify-center overflow-y-auto px-4 font-mono">
+    <div className={`fixed inset-0 z-[9999] flex items-start justify-center overflow-y-auto px-4 py-[5dvh] font-mono lantern-cursor-${activeLantern}`}>
       <OuterBg spotX={-999} spotY={-999} mode="horror" />
 
       <button
@@ -836,6 +1224,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             : '0 0 60px rgba(180,20,40,0.35), 0 0 120px rgba(120,0,20,0.2), 0 0 200px rgba(60,0,10,0.15)',
           transition: isLocked ? 'none' : undefined,
           overflow: 'hidden',
+          transform: isLocked
+          ? undefined
+          : `perspective(900px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${tilt.scale})`,
+        willChange: 'transform',
         }}
       >
         <div className="crt-texture" />
@@ -853,78 +1245,49 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           if (!rect) return null
 
           const px = ((spot.x - rect.left) / rect.width) * 100
-          const py = ((spot.y - rect.top) / rect.height) * 100
+          const py = ((spot.y - rect.top)  / rect.height) * 100
           const inside =
             spot.x >= rect.left && spot.x <= rect.right &&
-            spot.y >= rect.top && spot.y <= rect.bottom
+            spot.y >= rect.top  && spot.y <= rect.bottom
 
-          const nx = Math.max(0, Math.min(1, (spot.x - rect.left) / rect.width))
-          const ny = Math.max(0, Math.min(1, (spot.y - rect.top) / rect.height))
+          const { r, g, b } = blendedRgb
 
-          const wTL = (1 - nx) * (1 - ny)
-          const wTR = nx * (1 - ny)
-          const wBL = (1 - nx) * ny
-          const wBR = nx * ny
-          const tlPalette: [number, number, number][] = [
-            [255, 255, 255],
-            [200, 0, 40],
-            [30, 100, 220],
-          ]
-          const trPalette: [number, number, number][] = [
-            [220, 0, 50],
-            [0, 80, 220],
-          ]
+          const distLeft   = (spot.x - rect.left)  / (rect.width  * 0.35)
+          const distRight  = (rect.right - spot.x) / (rect.width  * 0.35)
+          const distTop    = (spot.y - rect.top)   / (rect.height * 0.35)
+          const distBottom = (rect.bottom - spot.y)/ (rect.height * 0.35)
 
-          const tlIdx = Math.floor(glitchPhase * 4) % tlPalette.length
-          const trIdx = Math.floor(glitchPhase * 3) % trPalette.length
-          const [tlR, tlG, tlB] = tlPalette[tlIdx]
-          const [trR, trG, trB] = trPalette[trIdx]
-
-          const corners = {
-            tl: { r: tlR, g: tlG, b: tlB },
-            tr: { r: trR, g: trG, b: trB },
-            bl: { r: 30, g: 120, b: 220 },
-            br: { r: 180, g: 0, b: 30 },
-          }
-
-          const blendR = Math.round(corners.tl.r * wTL + corners.tr.r * wTR + corners.bl.r * wBL + corners.br.r * wBR)
-          const blendG = Math.round(corners.tl.g * wTL + corners.tr.g * wTR + corners.bl.g * wBL + corners.br.g * wBR)
-          const blendB = Math.round(corners.tl.b * wTL + corners.tr.b * wTR + corners.bl.b * wBL + corners.br.b * wBR)
-
-          const distLeft = (spot.x - rect.left) / (rect.width * 0.35)
-          const distRight = (rect.right - spot.x) / (rect.width * 0.35)
-          const distTop = (spot.y - rect.top) / (rect.height * 0.35)
-          const distBottom = (rect.bottom - spot.y) / (rect.height * 0.35)
-
-          const glowLeft = inside ? Math.max(0, Math.min(1, 1 - distLeft)) : 0
-          const glowRight = inside ? Math.max(0, Math.min(1, 1 - distRight)) : 0
-          const glowTop = inside ? Math.max(0, Math.min(1, 1 - distTop)) : 0
+          const glowLeft   = inside ? Math.max(0, Math.min(1, 1 - distLeft))   : 0
+          const glowRight  = inside ? Math.max(0, Math.min(1, 1 - distRight))  : 0
+          const glowTop    = inside ? Math.max(0, Math.min(1, 1 - distTop))    : 0
           const glowBottom = inside ? Math.max(0, Math.min(1, 1 - distBottom)) : 0
-
-          const spotAlpha = inside ? 0.55 : 0
 
           return (
             <>
               <div style={{
                 position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 16,
+                opacity: errorLantern === activeLantern ? flickerOpacity : 1,
+                transition: 'opacity 0.05s',
                 background: inside
                   ? `radial-gradient(ellipse 50% 40% at ${px}% ${py}%,
-                    rgba(${blendR},${blendG},${blendB},0.08) 0%,
-                    rgba(0,0,0,0.35) 45%,
-                    rgba(0,0,0,0.88) 70%,
-                    rgba(0,0,0,0.96) 100%)`
+                      rgba(${r},${g},${b},0.15) 0%,   
+                      rgba(0,0,0,0.35) 45%,
+                      rgba(0,0,0,0.88) 70%,
+                      rgba(0,0,0,0.96) 100%)`
                   : 'rgba(0,0,0,0.92)',
               }} />
 
               <div style={{
                 position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 17,
+                opacity: errorLantern === activeLantern ? flickerOpacity : 1,
+                transition: 'opacity 0.05s',
                 boxShadow: [
-                  glowLeft > 0.01 ? `inset ${Math.round(glowLeft * 70)}px 0 ${Math.round(glowLeft * 45)}px rgba(${blendR},${blendG},${blendB},${(glowLeft * 0.40).toFixed(2)})` : '',
-                  glowRight > 0.01 ? `inset -${Math.round(glowRight * 70)}px 0 ${Math.round(glowRight * 45)}px rgba(${blendR},${blendG},${blendB},${(glowRight * 0.40).toFixed(2)})` : '',
-                  glowTop > 0.01 ? `inset 0 ${Math.round(glowTop * 50)}px ${Math.round(glowTop * 35)}px rgba(${blendR},${blendG},${blendB},${(glowTop * 0.32).toFixed(2)})` : '',
-                  glowBottom > 0.01 ? `inset 0 -${Math.round(glowBottom * 50)}px ${Math.round(glowBottom * 35)}px rgba(${blendR},${blendG},${blendB},${(glowBottom * 0.32).toFixed(2)})` : '',
+                  glowLeft   > 0.01 ? `inset ${Math.round(glowLeft*70)}px 0 ${Math.round(glowLeft*45)}px rgba(${r},${g},${b},${(glowLeft*0.20).toFixed(2)})` : '',
+                  glowRight  > 0.01 ? `inset -${Math.round(glowRight*70)}px 0 ${Math.round(glowRight*45)}px rgba(${r},${g},${b},${(glowRight*0.20).toFixed(2)})` : '',
+                  glowTop    > 0.01 ? `inset 0 ${Math.round(glowTop*50)}px ${Math.round(glowTop*35)}px rgba(${r},${g},${b},${(glowTop*0.16).toFixed(2)})` : '',
+                  glowBottom > 0.01 ? `inset 0 -${Math.round(glowBottom*50)}px ${Math.round(glowBottom*35)}px rgba(${r},${g},${b},${(glowBottom*0.16).toFixed(2)})` : '',
                 ].filter(Boolean).join(', ') || 'none',
-                transition: 'box-shadow 0.05s ease',
+                transition: 'box-shadow 0.08s ease',
               }} />
             </>
           )
@@ -945,7 +1308,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </button>
 
         <div
-          className="relative z-10 max-h-[100dvh] overflow-y-auto overflow-x-hidden p-6 sm:p-8 scrollbar-thin scrollbar-thumb-red-900 scrollbar-track-black"
+          className="relative z-10 max-h-[90dvh] overflow-y-auto overflow-x-hidden p-6 sm:p-8 scrollbar-thin scrollbar-thumb-red-900 scrollbar-track-black"
         >
 
           <div style={{ position: 'relative', zIndex: 2 }}>
@@ -990,31 +1353,57 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             {!isLocked && (
               <div>
                 <div
-                  className={`mb-5 overflow-hidden rounded-sm border-[2px] transition-all duration-100 relative bg-black pointer-events-none
-                    ${cardState === 'PLAYING_VIRTUOSA' ? 'border-red-600 shadow-[0_0_30px_rgba(255,0,0,0.7)]' : activeGlitch === 'image' ? 'border-red-500 scale-[1.03] filter invert sepia-[.8] hue-rotate-[180deg] brightness-75' : 'border-red-900/40 grayscale-[0.2]'}`}
-                >
-                  {cardState === 'PLAYING_VIRTUOSA' ? (
-                    <>
-                      <Image src={virtuosaGif} alt="???" className="h-120 w-full object-cover object-center pfp-glitch-in" unoptimized priority />
-                      <div className="crt-texture" />
-                      <div className="absolute inset-0 bg-red-950/25 mix-blend-color-burn animate-pulse pointer-events-none" />
-                      <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(90deg,rgba(255,0,0,0.08) 0%,transparent 40%,rgba(0,255,255,0.08) 70%,transparent 100%)' }} />
-                    </>
-                  ) : (
-                    <>
-                      <GlitchCanvas key={`canvas-${cardState}`} src={ProfileImage.src} />
-                      {cardTear > 0 && <div className="absolute inset-0 bg-red-900/30 mix-blend-color-burn animate-pulse pointer-events-none" />}
-                    </>
-                  )}
-                </div>
-
-                {cardState === 'PLAYING_VIRTUOSA' && (
-                  <div className="mb-4 py-1 px-3 rounded-sm text-center" style={{ border: '1px solid rgba(255,0,0,0.4)', backgroundColor: 'rgba(20,0,0,0.7)' }}>
-                    <p className="rgb-split-text text-xs font-mono tracking-[0.2em] text-red-700">F̵̖͈̓õ̸̼̙͊ṷ̶̎̚ń̶̡̗̊d̵̛̘̲ ̷̺͈̇y̸̥͛o̵̗̞͌̾u̷̯̿̕͜~̴͍̆ͅ.̸̞̞͋̑ ̸̧̙́L̴̘̙̎̓e̷̡̖̾t̵̗̕'̷̮̆͛s̸͓̄ ̶̣͛͝p̶͚͑͆ļ̴̿̇a̶̲͐y̴̻̒̎</p>
+              className={`mb-5 overflow-hidden rounded-sm border-[2px] transition-all duration-100 relative bg-black pointer-events-none
+                ${cardState === 'PLAYING_VIRTUOSA' || cardState === 'TEARING'
+                  ? 'border-red-600 shadow-[0_0_30px_rgba(255,0,0,0.7)]'
+                  : activeGlitch === 'image'
+                    ? 'border-red-500 scale-[1.03] filter invert sepia-[.8] hue-rotate-[180deg] brightness-75'
+                    : 'border-red-900/40 grayscale-[0.2]'}`}
+                  >
+              {cardState === 'TEARING' ? (
+                <div className="relative w-full" style={{ height: '480px' }}>
+                  <div className="tear-left absolute inset-0" style={{
+                    clipPath: 'polygon(0 0, 51% 0, 50% 25%, 52% 50%, 49% 75%, 51% 100%, 0 100%)',
+                    filter: 'drop-shadow(4px 0 8px rgba(0,0,0,0.8))',
+                  }}>
+                    <Image src={virtuosaGif} alt="" fill style={{ objectFit: 'cover' }} unoptimized />
                   </div>
-                )}
+                  <div className="tear-right absolute inset-0" style={{
+                    clipPath: 'polygon(51% 0, 100% 0, 100% 100%, 49% 100%, 52% 75%, 50% 50%, 52% 25%)',
+                    filter: 'drop-shadow(-4px 0 8px rgba(0,0,0,0.8))',
+                  }}>
+                    <Image src={virtuosaGif} alt="" fill style={{ objectFit: 'cover' }} unoptimized />
+                  </div>
+                  <div style={{
+                    position: 'absolute', top: 0, bottom: 0,
+                    left: '49.5%', width: '2px',
+                    background: 'linear-gradient(to bottom, transparent, white 20%, rgba(255,200,200,0.9) 50%, white 80%, transparent)',
+                    filter: 'blur(0.5px)',
+                  }} />
+                </div>
+              ) : cardState === 'PLAYING_VIRTUOSA' ? (
+                <>
+                  <Image src={virtuosaGif} alt="???" className="h-120 w-full object-cover object-center pfp-glitch-in" unoptimized priority />
+                  <div className="crt-texture" />
+                  <div className="absolute inset-0 bg-red-950/25 mix-blend-color-burn animate-pulse pointer-events-none" />
+                  <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(90deg,rgba(255,0,0,0.08) 0%,transparent 40%,rgba(0,255,255,0.08) 70%,transparent 100%)' }} />
+                </>
+              ) : (
+                <>
+                  <GlitchCanvas key={`canvas-${cardState}`} src={ProfileImage.src} />
+                  {cardTear > 0 && <div className="absolute inset-0 bg-red-900/30 mix-blend-color-burn animate-pulse pointer-events-none" />}
+                </>
+              )}
+            </div>
+            {cardState !== 'TEARING' && (
+                  <>
+                    {cardState === 'PLAYING_VIRTUOSA' && (
+                      <div className="mb-4 py-1 px-3 rounded-sm text-center" style={{ border: '1px solid rgba(255,0,0,0.4)', backgroundColor: 'rgba(20,0,0,0.7)' }}>
+                        <p className="rgb-split-text text-xs font-mono tracking-[0.2em] text-red-700">F̵̖͈̓õ̸̼̙͊ṷ̶̎̚ń̶̡̗̊d̵̛̘̲ ̷̺͈̇y̸̥͛o̵̗̞͌̾u̷̯̿̕͜~̴͍̆ͅ.̸̞̞͋̑ ̸̧̙́L̴̘̙̎̓e̷̡̖̾t̵̗̕'̷̮̆͛s̸͓̄ ̶̣͛͝p̶͚͑͆ļ̴̿̇a̶̲͐y̴̻̒̎</p>
+                      </div>
+                    )}
 
-                <div className="pr-10 border-l-[4px] pl-4 mb-6 transition-colors" style={{ borderColor: activeGlitch === 'name' ? '#ff0000' : 'rgba(200,0,50,0.6)' }}>
+                    <div className="pr-10 border-l-[4px] pl-4 mb-6 transition-colors" style={{ borderColor: activeGlitch === 'name' ? '#ff0000' : 'rgba(200,0,50,0.6)' }}>
                   <h2 className={`text-2xl font-black transition-all duration-75 ${activeGlitch === 'name' ? 'text-red-500 tracking-[0.3em] skew-x-12 animate-pulse' : 'text-gray-100'}`}>
                     <GlitchText active={activeGlitch === 'name'} normalText="Yovi Prayudya Rizky Ramadhani" glitchText="L̸̩̮̈u̴̞̤̍́n̵͙͎͌̌ą̶̗̅̉ḽ̸̼̑i̷͍̔g̶̻̲̓̀h̷̠͕͗t̴͚̍̕_̶̞͗̔Y̸̞̔ű̶͕͜i̶͙̩̅̈́" />
                   </h2>
@@ -1029,7 +1418,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                   {activeGlitch === 'social' && (
                     <div className="absolute inset-0 flex items-center pointer-events-none">
                       <span className="rgb-split-text text-xs font-mono tracking-[0.15em] animate-pulse px-2 py-1 rounded-sm" style={{ backgroundColor: 'rgba(10,0,0,0.85)', color: 'rgba(255,50,50,0.95)', border: '1px solid rgba(255,0,0,0.4)' }}>
-                        F̵̖͈̓õ̸̼̙͊ṷ̶̎̚ń̶̡̗̊d̵̛̘̲ ̷̺͈̇y̸̥͛o̵̗̞͌̾u̷̯̿̕͜~̴͍̆ͅ ̸̧̙́l̴̘̙̎̓e̷̡̖̾t̵̗̕'̷̮̆͛s̸͓̄ ̶̣͛͝p̶͚͑͆ļ̴̿̇a̶̲͐y̴̻̒̎!
+                        Found you~ let's play!
                       </span>
                     </div>
                   )}
@@ -1061,12 +1450,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </>
             )}
-
-          </div>
-        </div>
-      </div>
+              </div> 
+            )}        
+          </div>       
+        </div>         
+      </div>           
     </div>,
     document.body
   )
@@ -1085,7 +1475,15 @@ const MemberWithIntro = ({ isOpen, onClose }: MemberWithIntroProps) => {
 
   return createPortal(
     <>
-      <style>{SHARED_STYLES}</style>
+      <style>
+        {SHARED_STYLES}
+        {LANTERN_CURSOR_STYLES(
+          customCursor.src,
+          lanternBlue.src,
+          lanternOrange.src,
+          lanternGreen.src
+        )}
+      </style>
       {!introShown && <IntroVisualNovel onComplete={() => setIntroShown(true)} />}
       {introShown && <MemberPopup isOpen={true} onClose={onClose} />}
     </>,

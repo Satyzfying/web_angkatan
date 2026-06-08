@@ -41,7 +41,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
 
       <div className="absolute inset-0 z-0 bg-[#5c94fc] overflow-hidden">
 
@@ -107,7 +107,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       </div>
 
       <div
-        className="relative z-50 w-full max-w-[720px] max-h-[100dvh] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-4 border-black p-6 sm:p-8 text-white shadow-[12px_12px_0px_rgba(0,0,0,0.5)]"
+        className="relative z-50 w-full max-w-[720px] max-h-[90dvh] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-4 border-black p-6 sm:p-8 text-white shadow-[12px_12px_0px_rgba(0,0,0,0.5)]"
         style={{ backgroundColor: '#5c94fc' }}
       >
         <button

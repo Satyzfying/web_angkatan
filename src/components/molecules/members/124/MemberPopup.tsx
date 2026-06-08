@@ -43,7 +43,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       <button
         type="button"
         aria-label="Close member detail"
@@ -51,7 +51,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/80 backdrop-blur-md"
       />
 
-      <div className="relative z-10 max-h-[calc(100vh-8rem)] w-full max-w-[780px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-[1.7rem] border border-[#8B0000] bg-[#0D0D0D] p-5 text-[#E0CBA8] shadow-[0_0_45px_rgba(139,0,0,0.65)] sm:max-h-[calc(100vh-9rem)] sm:p-7">
+      <div className="relative z-10 max-h-[90dvh] w-full max-w-[780px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-[1.7rem] border border-[#8B0000] bg-[#0D0D0D] p-5 text-[#E0CBA8] shadow-[0_0_45px_rgba(139,0,0,0.65)] sm:p-7">
         <div className="pointer-events-none absolute inset-0 rounded-[1.7rem] bg-[radial-gradient(circle_at_top_left,rgba(211,47,47,0.22),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(139,0,0,0.28),transparent_40%)]" />
         <div className="pointer-events-none absolute inset-0 rounded-[1.7rem] opacity-20 [background-image:linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:28px_28px]" />
 

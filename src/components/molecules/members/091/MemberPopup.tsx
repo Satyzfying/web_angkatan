@@ -44,7 +44,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       <button
         type="button"
         aria-label="Close member detail"
@@ -53,7 +53,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       />
 
       <div
-        className="nier-panel relative z-10 max-h-[100dvh] w-full max-w-[720px] overflow-y-auto rounded-none border border-[#454138] bg-[#c6c0a8] p-6 text-[#454138] shadow-[0_0_40px_rgba(15,14,11,0.65)] sm:p-8"
+        className="nier-panel relative z-10 max-h-[90dvh] w-full max-w-[720px] overflow-y-auto rounded-none border border-[#454138] bg-[#c6c0a8] p-6 text-[#454138] shadow-[0_0_40px_rgba(15,14,11,0.65)] sm:p-8"
         style={{ animation: 'member-popup-show 200ms ease-out, nier-flicker 6s linear 1s infinite' }}
       >
         <button

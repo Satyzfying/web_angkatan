@@ -35,7 +35,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   if (!isOpen) return null
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes steam-shine {
           0% { background-position: 200% center; }
@@ -57,7 +57,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="animate-profile-sweep absolute -inset-[100%] h-[300%] w-[300%] bg-gradient-to-br from-transparent via-white/[0.04] to-transparent"></div>
         </div>
 
-        <div className="relative z-10 h-full w-full max-h-[calc(100vh-9rem)] overflow-y-auto p-6 sm:max-h-[calc(100vh-10rem)] sm:p-8">
+        <div className="relative z-10 h-full w-full max-max-h-[90dvh] overflow-y-auto p-6 sm:max-h-[90dvh] sm:p-8">
           
           {/* FIX: Close button is now in a sticky container to ensure it stays above the image */}
           <div className="sticky top-0 right-0 z-50 flex justify-end">

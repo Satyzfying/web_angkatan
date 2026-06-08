@@ -451,7 +451,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <div
-      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4"
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]"
       style={{ opacity: animIn ? 1 : 0, transition: 'opacity 0.3s ease', fontFamily: '"Courier New",Courier,monospace' }}
     >
       {/* ── Video background — path diperbaiki ke /assets/videos/ ── */}
@@ -529,7 +529,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       {/* Main card */}
       <div
-        className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain p-6 text-white sm:p-8"
+        className="relative z-10 max-h-[90dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain p-6 text-white sm:p-8"
         style={{ background: 'linear-gradient(160deg,#0c0c20ee,#10102aee)', outline: '3px solid #3a3a6a', boxShadow: 'inset 1px 1px 0 rgba(120,120,200,0.1),inset -1px -1px 0 rgba(0,0,20,0.6),0 0 0 6px rgba(20,20,50,0.85),0 0 0 9px rgba(40,40,80,0.4),0 8px 48px rgba(0,0,0,0.9)', borderRadius: 0, transform: animIn ? 'translateY(0px) scale(1)' : 'translateY(-40px) scale(0.92)', transition: 'transform 0.35s cubic-bezier(0.34,1.56,0.64,1)', backdropFilter: 'blur(4px)' }}
       >
 

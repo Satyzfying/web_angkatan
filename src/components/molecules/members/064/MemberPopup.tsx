@@ -120,7 +120,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
       {/* BACKGROUND LUAR */}
       <button
         type="button"
@@ -137,10 +137,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       </button>
 
       {/* CONTAINER POPUP */}
-      <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-hidden rounded-3xl border border-white/10 shadow-2xl transition-all duration-500">
+      <div className="relative z-10 h-[90dvh] max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-hidden rounded-3xl border border-white/10 shadow-2xl transition-all duration-500">
         {!isUnlocked ? (
           // Bomb Interface
-          <div className="relative flex h-full flex-col items-center justify-center overflow-y-auto p-8 overflow-hidden">
+          <div className="relative flex h-full flex-col items-center justify-center overflow-hidden p-8">
             <img
               src="https://files.catbox.moe/pi8xqr.gif"
               alt="Bomb Background"
@@ -185,7 +185,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         ) : (
           // Profile Interface
-          <div className="relative h-full w-full animate-[member-popup-show_400ms_ease-out] overflow-hidden">
+          <div className="relative flex h-full w-full min-h-0 flex-col animate-[member-popup-show_400ms_ease-out] overflow-hidden">
             <img
               src="https://files.catbox.moe/njk7f3.gif"
               alt="Inner Background"
@@ -193,7 +193,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             />
             <div className="absolute inset-0 bg-black/60" />
 
-            <div className="relative z-20 h-full overflow-y-auto p-6 text-white sm:p-8">
+            <div className="relative z-20 min-h-0 flex-1 overflow-y-auto p-6 text-white sm:p-8">
               <button
                 type="button"
                 aria-label="Close member detail"

@@ -131,7 +131,7 @@ useEffect(() => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       <video
         ref={videoRef}
         muted
@@ -201,7 +201,7 @@ useEffect(() => {
             border-purple-300/20
             bg-[#1e1e2e]/40 backdrop-blur-xl border-[#cba6f7]/20
             relative z-10
-            max-h-[100dvh]
+            max-h-[90dvh]
             w-full
             max-w-[720px]
             overflow-y-auto

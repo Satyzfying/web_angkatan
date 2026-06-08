@@ -43,7 +43,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 font-serif">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 py-[5dvh] font-serif">
       {/* Backdrop: Misty/Cloud-like blur for a soft feel */}
       <button
         type="button"
@@ -53,7 +53,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       />
 
       {/* Main Content Box: Inspired by the light aesthetic and rounded panels of image_0.png */}
-      <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 font-serif">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 py-[5dvh] font-serif">
       {/* Backdrop: Dibuat gelap transparan dengan blur agar menyatu dengan tema dark */}
       <button
         type="button"
@@ -73,7 +73,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           onClick={onClose}
           className="absolute top-5 right-5 flex h-8 w-8 items-center justify-center rounded-full text-lg leading-none text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all border border-slate-700/50"
         > </button>
-        <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 font-serif">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 py-[5dvh] font-serif">
       </div>
       {/* Backdrop: Dibuat gelap transparan dengan blur agar menyatu dengan tema dark */}
       <button
@@ -95,7 +95,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           onClick={onClose}
           className="absolute top-5 right-5 flex h-8 w-8 items-center justify-center rounded-full text-lg leading-none text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all border border-slate-700/50"
         > </button>
-          <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 font-serif">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 py-[5dvh] font-serif">
       </div>
       {/* Backdrop: Dibuat gelap transparan dengan blur agar menyatu dengan tema dark */}
       <button
@@ -116,7 +116,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           onClick={onClose}
           className="absolute top-5 right-5 flex h-8 w-8 items-center justify-center rounded-full text-lg leading-none text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all border border-slate-700/50"
         > </button>
-        <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 font-serif">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 py-[5dvh] font-serif">
       {/* Backdrop: Dibuat gelap transparan dengan blur agar menyatu dengan tema dark */}
       <button
         type="button"

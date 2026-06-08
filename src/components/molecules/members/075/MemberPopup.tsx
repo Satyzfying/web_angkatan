@@ -524,7 +524,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
  
             {/* window frame */}
             <div
-              className="rounded-[18px] overflow-y-auto max-h-[100dvh]"
+              className="rounded-[18px] overflow-y-auto max-h-[90dvh]"
               style={{
                 border: '2.5px solid #e8c9ce',
                 boxShadow: '0 8px 40px rgba(200,140,155,0.3)',

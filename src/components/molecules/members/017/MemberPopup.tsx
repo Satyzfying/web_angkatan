@@ -55,7 +55,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       {showLoading && (
         <div className="absolute inset-0 z-[110] flex items-center justify-center bg-gradient-to-br from-slate-950 via-blue-900 to-black">
           <div className="flex flex-col items-center gap-6">
@@ -104,7 +104,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         })}
       </div>
 
-      <div className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-hidden overflow-y-auto rounded-3xl border-2 border-black/30 bg-gradient-to-br from-slate-950 via-blue-900 to-black p-6 text-white shadow-[0_30px_70px_rgba(0,0,0,0.5)] sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div className="relative z-10 max-max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-hidden overflow-y-auto rounded-3xl border-2 border-black/30 bg-gradient-to-br from-slate-950 via-blue-900 to-black p-6 text-white shadow-[0_30px_70px_rgba(0,0,0,0.5)] sm:max-h-[90dvh] sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"

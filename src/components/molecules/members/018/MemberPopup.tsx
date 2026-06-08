@@ -54,7 +54,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       <button
         type="button"
         aria-label="Close member detail"
@@ -63,7 +63,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       />
 
       <div
-        className="popup-card border-yellow-cs-30/40 bg-[radial-gradient(circle_at_top_right,_rgba(255,214,122,0.18),_transparent_30%),_linear-gradient(180deg,_rgba(35,21,12,0.96)_0%,_rgba(15,9,5,0.98)_100%)] relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-[28px] border-2 p-6 text-white shadow-[0_28px_90px_-24px_rgba(0,0,0,0.8)] ring-1 ring-yellow-cs-20/20 transition duration-500 hover:shadow-[0_44px_120px_-42px_rgba(255,214,122,0.32)] sm:p-8"
+        className="popup-card border-yellow-cs-30/40 bg-[radial-gradient(circle_at_top_right,_rgba(255,214,122,0.18),_transparent_30%),_linear-gradient(180deg,_rgba(35,21,12,0.96)_0%,_rgba(15,9,5,0.98)_100%)] relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-[28px] border-2 p-6 text-white shadow-[0_28px_90px_-24px_rgba(0,0,0,0.8)] ring-1 ring-yellow-cs-20/20 transition duration-500 hover:shadow-[0_44px_120px_-42px_rgba(255,214,122,0.32)] sm:p-8"
         onPointerMove={handleDecorPointerMove}
         onPointerLeave={handleDecorPointerLeave}
       >

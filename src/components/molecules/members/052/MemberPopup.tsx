@@ -43,7 +43,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       <button
         type="button"
         aria-label="Close member detail"
@@ -53,7 +53,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       />
 
       {/* Main Container - Added slate border, deep neutral background, and slate glow */}
-      <div className="relative z-10 w-full max-w-[720px] max-h-[100dvh] overflow-y-auto rounded-2xl border border-slate-600/40 bg-neutral-950 p-6 sm:p-8 text-neutral-300 shadow-[0_0_40px_-10px_rgba(100,116,139,0.3)] animate-[member-popup-show_200ms_ease-out]">
+      <div className="relative z-10 w-full max-w-[720px] max-h-[90dvh] overflow-y-auto rounded-2xl border border-slate-600/40 bg-neutral-950 p-6 sm:p-8 text-neutral-300 shadow-[0_0_40px_-10px_rgba(100,116,139,0.3)] animate-[member-popup-show_200ms_ease-out]">
         
         {/* Close Button - Terminal brackets style hover effect */}
         <button

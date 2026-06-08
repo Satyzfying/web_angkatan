@@ -138,7 +138,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       <style dangerouslySetInnerHTML={{ __html: animationStyles }} />
 
       {/* Animated background */}
@@ -273,7 +273,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       <button type="button" aria-label="Close member detail" onClick={onClose} className="absolute inset-0" />
 
       <div
-        className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain rounded-2xl p-6 text-white sm:p-8"
+        className="relative z-10 max-h-[90dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain rounded-2xl p-6 text-white sm:p-8"
         style={{
           background: 'linear-gradient(160deg, rgba(10,25,70,0.97) 0%, rgba(6,16,48,0.99) 100%)',
           border: '1px solid rgba(50,130,255,0.45)',

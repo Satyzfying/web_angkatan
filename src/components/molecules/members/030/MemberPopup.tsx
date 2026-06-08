@@ -694,7 +694,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       } ${popupStage === 'data' ? 'hidden' : 'block'}`}></div>
 
       {/* STAGE 1 & 2: MEMORY GAME & EVOKER */}
-      <div className={`fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 ${
+      <div className={`fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh] ${
         popupStage === 'data' ? 'hidden' : 'block'
       }`}>
         <button type="button" aria-label="Close" onClick={handleClose} className="absolute inset-0 cursor-default" />
@@ -729,11 +729,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       {/* STAGE 3: DATA ANGGOTA */}
       {popupStage === 'data' && (
-        <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+        <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
           <button type="button" aria-label="Close" onClick={handleClose} className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-default" />
 
           {/* Kotak Utama */}
-          <div className="bg-[#0044cc] relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-p3-container overflow-y-auto rounded-none border-4 border-white p-6 text-white shadow-[12px_12px_0_0_rgba(255,255,255,1)] sm:p-8 custom-scrollbar">
+          <div className="bg-[#0044cc] relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-p3-container overflow-y-auto rounded-none border-4 border-white p-6 text-white shadow-[12px_12px_0_0_rgba(255,255,255,1)] sm:p-8 custom-scrollbar">
 
             {/* Tombol X */}
             <button

@@ -66,7 +66,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
       {/* CSS Khusus untuk animasi meteor Gacha (Krem) & Glow */}
       <style>{`
         @keyframes gacha-meteor {
@@ -97,7 +97,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       {/* FASE 1: BANNER SPECIAL SUMMON (KREM - UNKNOWN) */}
       {gachaPhase === 'banner' && (
-        <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[800px] animate-pulse overflow-y-auto overscroll-contain rounded-3xl border-4 border-[#E7DCCA]/80 bg-gradient-to-b from-[#1a1a1a] to-[#0d0d0d] p-1 shadow-[0_0_60px_rgba(231,220,202,0.5)]">
+        <div className="relative z-10 max-h-[90dvh] w-full max-w-[800px] animate-pulse overflow-y-auto overscroll-contain rounded-3xl border-4 border-[#E7DCCA]/80 bg-gradient-to-b from-[#1a1a1a] to-[#0d0d0d] p-1 shadow-[0_0_60px_rgba(231,220,202,0.5)]">
           {/* Inner Container untuk border krem */}
           <div className="relative min-h-full rounded-2xl bg-gradient-to-br from-[#1a1a1a] via-[#101010] to-[#050505] p-8 text-white">
             
@@ -180,7 +180,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       {/* FASE 3: POPUP KARAKTER (THEMA GACHA/GENSHIN - KREM) */}
       {gachaPhase === 'revealed' && (
-        <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-card overflow-y-auto overscroll-contain rounded-2xl bg-gradient-to-br from-[#E7DCCA] via-[#FDF5E6] to-[#E7DCCA] p-1 shadow-[0_0_50px_rgba(231,220,202,0.6)]">
+        <div className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-card overflow-y-auto overscroll-contain rounded-2xl bg-gradient-to-br from-[#E7DCCA] via-[#FDF5E6] to-[#E7DCCA] p-1 shadow-[0_0_50px_rgba(231,220,202,0.6)]">
           {/* Inner Container untuk efek border krem */}
           <div className="relative min-h-full w-full overflow-hidden rounded-xl bg-gradient-to-b from-slate-900 via-[#0f172a] to-[#1e1b4b] p-6 text-white sm:p-8">
             
