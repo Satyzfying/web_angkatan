@@ -43,7 +43,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="member-086-particle-stage fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+    <div className="member-086-particle-stage fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
       <button
         type="button"
         aria-label="Close member detail"
@@ -51,7 +51,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="member-086-backdrop absolute inset-0 bg-black/75 backdrop-blur-sm"
       />
 
-      <div className="member-086-particle-card relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] overflow-y-auto rounded-2xl border border-white/[0.08] p-6 text-white shadow-2xl shadow-black/60 sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div className="member-086-particle-card relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto rounded-2xl border border-white/[0.08] p-6 text-white shadow-2xl shadow-black/60 sm:h-[100dvh] max-h-[100dvh] sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"

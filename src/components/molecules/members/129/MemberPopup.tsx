@@ -45,7 +45,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
 return createPortal(
   <div
-  className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32"
+  className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
   style={{
   backgroundImage: `linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(${BackgroundImage.src})`,
   backgroundSize: 'cover',
@@ -67,7 +67,7 @@ return createPortal(
       z-10
       w-full
       max-w-[720px]
-      max-h-[calc(100vh-9rem)]
+      h-[100dvh] max-h-[100dvh]
       overflow-y-auto
       [-ms-overflow-style:none]
       [scrollbar-width:none]

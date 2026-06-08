@@ -48,6 +48,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       {/* PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK */}
       <div
         className="outer-shell fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
+        onClick={(event) => event.stopPropagation()}
         style={{
           backgroundImage: `url(${BackgroundImage.src})`,
           backgroundSize: 'cover',

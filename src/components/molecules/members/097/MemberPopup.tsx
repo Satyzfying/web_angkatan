@@ -1,6 +1,9 @@
 'use client'
 
+/* eslint-disable react-hooks/set-state-in-effect, react/no-unescaped-entities */
+
 import React, { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -120,8 +123,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     }
   }
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+  return createPortal((
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
       
       {/* Animasi partikel melayang secara global */}
       <style>{`
@@ -170,7 +173,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       )}
 
       {/* Kontainer Utama (z-10 agar partikel melayang indah melintasi komponen ini) */}
-      <div className="border-neutral-cs-10 bg-zinc-950 relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-2xl sm:max-h-[calc(100vh-10rem)] sm:p-8 font-mono overflow-hidden">
+      <div className="border-neutral-cs-10 bg-zinc-950 relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-2xl sm:h-[100dvh] max-h-[100dvh] sm:p-8 font-mono overflow-hidden">
         
         {/* Tombol Close */}
         <button
@@ -278,7 +281,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         )}
       </div>
     </div>
-  )
+  ), document.body)
 }
 
 export default MemberPopup

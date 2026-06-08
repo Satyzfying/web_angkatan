@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react-hooks/set-state-in-effect, react/no-unescaped-entities */
+
 import React, { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import Image from 'next/image'
@@ -331,7 +333,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       ) : (
         /* ── MEMBER POPUP (setelah trivia cleared) ──────────────────── */
         <div
-          className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32"
+          className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
           style={{ background: 'rgba(10, 5, 0, 0.92)' }}
         >
           {/* Backdrop close */}
@@ -398,13 +400,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
           {/* Main panel */}
           <div
-            className="relative w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto p-6 text-[#e8dfc0] sm:p-8"
+            className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain p-6 text-[#e8dfc0] sm:p-8"
             style={{
-              zIndex: 10,
               background: '#100d08',
               border: '2px solid #c8972a',
               borderRadius: '2px',
-              maxHeight: 'calc(100vh - 9rem)',
               fontFamily: "'Special Elite', monospace",
             }}
           >
