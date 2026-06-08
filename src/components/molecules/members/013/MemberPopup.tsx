@@ -1,7 +1,7 @@
 'use client'
 
 /* eslint-disable react-hooks/set-state-in-effect, react/no-unescaped-entities */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 
 import Image from 'next/image'
 
@@ -33,7 +33,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     { e: '🌺', sz: 26 }, { e: '💕', sz: 22 }, { e: '✨', sz: 28 },
   ]
 
-  const stars = useMemo(() => Array.from({ length: 85 }), [])
   const sakura = useMemo(() => Array.from({ length: 28 }), [])
 
   useEffect(() => {
@@ -80,8 +79,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal(
-    <div
-      className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
+    <>
+      <div
+        className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
       onClick={(event) => event.stopPropagation()}
       onKeyDown={(event) => event.stopPropagation()}
     >
@@ -146,11 +146,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 jawab
               </button>
             </div>
-          ))}
-        </div>
+          </div>
+        )}
 
-        <div className="sakura-layer">
-          {sakura.map((_, i) => (
+        <div className="sakura-layer pointer-events-none">
+          {sakura.map((_: unknown, i: number) => (
             <span
               key={i}
               className="sakura"
@@ -166,121 +166,85 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           ))}
         </div>
 
-            <p className="mt-4 text-base leading-relaxed font-bold">
-              "You can always begin again!
-              <br />
-              Romanticize your life cause you're the main character."
-            </p>
+        {step === 'quote' && (
+          <div className="slide">
+            <div className="quote-header">Secret quote unlocked 💌</div>
 
-      <div className="page">
-        <div className="card">
-          <button className="close-btn" onClick={onClose} title="Tutup">×</button>
+            <div className="env-scene">
+              <div className="q-paper">
+                <div className="paper-crown-icon">👑</div>
+                <div className="paper-quote">
+                  &quot;You can always<br />
+                  <em>begin again!</em><br />
+                  Romanticize your life<br />
+                  cause you&apos;re the<br />
+                  main character.&quot;
+                </div>
+              </div>
 
-            <button
-              type="button"
-              onClick={() => setStep('card')}
-              className="mt-5 rounded-full bg-pink-500 px-6 py-2 text-sm font-black text-white shadow-md transition-all hover:scale-105 hover:bg-pink-600"
-            >
+              <div className="env-body">
+                <div className="env-main">
+                  <div className="env-fold-l" />
+                  <div className="env-fold-r" />
+                  <div className="env-gold-l" />
+                  <div className="env-gold-r" />
+                  <div className="env-seal">💗</div>
+                </div>
+              </div>
+
+              <div className="env-wing l">🪽</div>
+              <div className="env-wing r">🪽</div>
+              <div className="env-flower-l">🌸</div>
+              <div className="env-flower-r">🎀</div>
+              <div className="env-cloud-l">☁️</div>
+              <div className="env-cloud-r">☁️</div>
+            </div>
+
+            <button className="btn-found" onClick={() => setStep('card')}>
               You Found Me 👀
             </button>
           </div>
         )}
 
         {step === 'card' && (
-          <>
-            <div className="relative z-10 mb-5 overflow-hidden rounded-[1.5rem] border-4 border-white shadow-lg">
-              <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
+          <div className="slide">
+            <div className="prof-crown">👑</div>
+
+            <div className="photo-frame">
+              <Image src={ProfileImage} alt="Profile" className="profile-img" />
+              <span className="photo-spark spark-1">✦</span>
+              <span className="photo-spark spark-2">✨</span>
+              <span className="photo-spark spark-3">💫</span>
+              <span className="photo-spark spark-4">⭐</span>
             </div>
 
-              <div className="quiz-title">Aku lagi ngumpet nih 🫣</div>
-              <div className="quiz-body">
-                Kalau mau ketemu,<br />coba panggil aku dulu 💌
-              </div>
+            <div className="prof-name">Nadya Putri Agustin 👑</div>
+            <div className="prof-id">5027251013 - Surabaya</div>
 
-              <p className="mt-1 text-sm font-bold text-pink-700">5027251013 - Surabaya</p>
+            <div className="social-row">
+              <Instagram username="nadyaputria._" />
+              <LinkedInButtonLink username="nadyaputria" />
             </div>
-          )}
 
-          {step === 'quote' && (
-            <div className="slide">
-              <div className="quote-header">Secret quote unlocked 💌</div>
-
-              <div className="env-scene">
-                <div className="q-paper">
-                  <div className="paper-crown-icon">👑</div>
-                  <div className="paper-quote">
-                    &quot;You can always<br />
-                    <em>begin again!</em><br />
-                    Romanticize your life<br />
-                    cause you&apos;re the<br />
-                    main character.&quot;
-                  </div>
-                </div>
-
-                <div className="env-body">
-                  <div className="env-main">
-                    <div className="env-fold-l" />
-                    <div className="env-fold-r" />
-                    <div className="env-gold-l" />
-                    <div className="env-gold-r" />
-                    <div className="env-seal">💗</div>
-                  </div>
-                </div>
-
-                <div className="env-wing l">🪽</div>
-                <div className="env-wing r">🪽</div>
-                <div className="env-flower-l">🌸</div>
-                <div className="env-flower-r">🎀</div>
-                <div className="env-cloud-l">☁️</div>
-                <div className="env-cloud-r">☁️</div>
+            <div className="info-grid">
+              <div className="info-card">
+                <div className="ic-label">Hobi</div>
+                <div className="ic-val">Ketiduran sambil dengerin musik 🎧🎶</div>
               </div>
 
-              <button className="btn-found" onClick={() => setStep('card')}>
-                You Found Me 👀
-              </button>
-            </div>
-          )}
-
-          {step === 'card' && (
-            <div className="slide">
-              <div className="prof-crown">👑</div>
-
-              <div className="photo-frame">
-                <Image src={ProfileImage} alt="Profile" className="profile-img" />
-                <span className="photo-spark spark-1">✦</span>
-                <span className="photo-spark spark-2">✨</span>
-                <span className="photo-spark spark-3">💫</span>
-                <span className="photo-spark spark-4">⭐</span>
-              </div>
-
-              <div className="prof-name">Nadya Putri Agustin 👑</div>
-              <div className="prof-id">5027251013 - Surabaya</div>
-
-              <div className="social-row">
-                <Instagram username="nadyaputria._" />
-                <LinkedInButtonLink username="nadyaputria" />
-              </div>
-
-              <div className="info-grid">
-                <div className="info-card">
-                  <div className="ic-label">Hobi</div>
-                  <div className="ic-val">Ketiduran sambil dengerin musik 🎧🎶</div>
-                </div>
-
-                <div className="info-card">
-                  <div className="ic-label">Fun Fact</div>
-                  <div className="ic-val">Kalau aku gak bales chat berarti aku ketiduran 🥱</div>
-                </div>
-              </div>
-
-              <div className="spotify-box">
-                <div className="sp-label-title">Lagu Favorit</div>
-                <div className="sp-song-name">Begin Again 🎶</div>
-                <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/05GsNucq8Bngd9fnd4fRa0?si=87e953ecc5f4492c" />
+              <div className="info-card">
+                <div className="ic-label">Fun Fact</div>
+                <div className="ic-val">Kalau aku gak bales chat berarti aku ketiduran 🥱</div>
               </div>
             </div>
-          )}
-        </div>
+
+            <div className="spotify-box">
+              <div className="sp-label-title">Lagu Favorit</div>
+              <div className="sp-song-name">Begin Again 🎶</div>
+              <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/05GsNucq8Bngd9fnd4fRa0?si=87e953ecc5f4492c" />
+            </div>
+          </div>
+        )}
       </div>
 
       <style jsx global>{`
@@ -1083,7 +1047,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           overflow: hidden;
           border: 4px solid #ff6eb0;
           box-shadow: 0 0 0 6px rgba(255,110,176,.22), 0 15px 40px rgba(233,30,140,.4);
-          height: 260px;
+          width: 100%;
+          aspect-ratio: 4 / 5;
           background: linear-gradient(135deg, #ffd6f0, #ffaad4);
         }
 
@@ -1198,7 +1163,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           margin-bottom: 8px;
         }
       `}</style>
-    </div>
+      </div>
+    </>,
+    document.body
   )
 }
 
