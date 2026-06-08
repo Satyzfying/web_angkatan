@@ -43,7 +43,9 @@ export type ProvincePathData = {
   id: string
   province: string
   totalMahasiswa: number
-  path: string
+  paths: { d: string; fill: string }[]
+  x: number
+  y: number
   centerX: number
   centerY: number
   fillClassName: string

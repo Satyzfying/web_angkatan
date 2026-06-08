@@ -1,11 +1,8 @@
 'use client'
 
 import React, { useEffect, useRef, useCallback, useState } from 'react'
-<<<<<<< HEAD
-=======
 import { createPortal } from 'react-dom'
 
->>>>>>> e3a11db60a9839a167f348fea8a6d7063e6e5460
 import Image from 'next/image'
 
 // Shared UI Components
@@ -35,7 +32,6 @@ type MemberPopupProps = {
  * - Dynamic contrast text adapting to background gradients
  */
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
-<<<<<<< HEAD
   // ---------------------------------------------------------------------------
   // Refs
   // ---------------------------------------------------------------------------
@@ -62,7 +58,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const [isTextInDarkArea, setIsTextInDarkArea] = useState(false)
   const [isTopCardsInDarkArea, setIsTopCardsInDarkArea] = useState(true)
   const [isCardInDarkArea, setIsCardInDarkArea] = useState(true)
-=======
   const cardWrapperRef = useRef<HTMLDivElement>(null)
   const splashLayerRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
@@ -97,11 +92,24 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [isOpen, handleClose])
->>>>>>> e3a11db60a9839a167f348fea8a6d7063e6e5460
+
 
   // ---------------------------------------------------------------------------
   // Callbacks & Handlers
   // ---------------------------------------------------------------------------
+
+  // Magnetic button handler
+  const handleMagneticMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const el = e.currentTarget
+    const rect = el.getBoundingClientRect()
+    const x = e.clientX - rect.left - rect.width / 2
+    const y = e.clientY - rect.top - rect.height / 2
+    el.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px)`
+  }, [])
+
+  const handleMagneticLeave = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    e.currentTarget.style.transform = 'translate(0px, 0px)'
+  }, [])
 
   /**
    * Spawns a randomized neon paint splash element at the target coordinates.
@@ -232,7 +240,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       const rect = wrapper.getBoundingClientRect()
       let clientX, clientY
 
-<<<<<<< HEAD
       // Extract coordinates from touch or mouse event
       if ('touches' in e) {
         if (e.touches.length > 0) {
@@ -244,7 +251,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       } else {
         clientX = (e as MouseEvent).clientX
         clientY = (e as MouseEvent).clientY
-=======
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+
       spawnSplash(x, y)
 
       // 3D Card Tilt
@@ -257,7 +266,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       if (glowRef.current) {
         glowRef.current.style.background = `radial-gradient(800px circle at ${x}px ${y}px, rgba(85, 255, 234, 0.15), transparent 40%)`
->>>>>>> e3a11db60a9839a167f348fea8a6d7063e6e5460
       }
 
       const x = clientX - rect.left
@@ -386,7 +394,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     const totalFrames = 20
     let interval: ReturnType<typeof setInterval> | undefined
 
-<<<<<<< HEAD
     const interval = setInterval(() => {
       frame++
       if (frame >= totalFrames) {
@@ -404,7 +411,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       }
       setNrpText(text)
     }, 50)
-=======
     const startFrame = requestAnimationFrame(() => {
       setNrpText('0000000000')
       setIsRevealed(true)
@@ -433,7 +439,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         setNrpText(text)
       }, 50)
     })
->>>>>>> e3a11db60a9839a167f348fea8a6d7063e6e5460
+
 
     return () => {
       cancelAnimationFrame(startFrame)
@@ -450,7 +456,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   if (!isOpen) return null
 
-<<<<<<< HEAD
   return (
     <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-16 pb-8 sm:pt-32" onClick={() => setIsImageActive(prev => !prev)}>
       
@@ -465,7 +470,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         aria-label="Close member detail"
         onClick={onClose}
         className="absolute inset-0 z-0"
-=======
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
@@ -474,7 +478,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         aria-label="Close member detail"
         onClick={handleClose}
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
->>>>>>> e3a11db60a9839a167f348fea8a6d7063e6e5460
       />
 
       <div ref={cardWrapperRef} className="relative z-10 flex w-full max-w-[720px] justify-center animate-[member-popup-show_200ms_ease-out]" style={{ perspective: '2000px' }}>
@@ -487,7 +490,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           aria-hidden="true"
         />
 
-<<<<<<< HEAD
         {/* Main 3D Card Container */}
         <div 
           ref={cardRef} 
@@ -518,7 +520,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             WebkitMaskImage: 'linear-gradient(to bottom, transparent 45%, black 65%, transparent 85%)',
             maskImage: 'linear-gradient(to bottom, transparent 45%, black 65%, transparent 85%)'
           }} />
-=======
         <div ref={cardRef} className="border-neutral-cs-10 bg-blue-cs-40 member-popup-font card-breathe card-tilt relative z-10 w-full max-h-[100dvh] overflow-y-auto overflow-x-hidden rounded-2xl border-2 p-6 text-white sm:p-8">
           {/* Cursor glow overlay */}
           <div ref={glowRef} className="pointer-events-none absolute inset-0 z-0 rounded-2xl" />
@@ -533,7 +534,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               x
             </button>
           </div>
->>>>>>> e3a11db60a9839a167f348fea8a6d7063e6e5460
 
           {/* === TOP SECTION (Image & Header) === */}
           <div className="relative z-[60] p-5 pb-0 sm:p-6 sm:pb-0 md:p-8 md:pb-0 rounded-t-2xl">
@@ -735,7 +735,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               50% { box-shadow: 0 0 25px rgba(85, 255, 234, 0.3), 0 0 50px rgba(68, 239, 108, 0.15); }
               100% { box-shadow: 0 0 15px rgba(85, 255, 234, 0.1), 0 0 30px rgba(68, 239, 108, 0.05); }
             }
-<<<<<<< HEAD
             .card-breathe { transition: box-shadow 0.5s ease; }
             .card-breathe:hover { animation: breathe 4s infinite ease-in-out; }
             
@@ -750,7 +749,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             .bg-zoom-wrapper.zoomed { transform: scale(1.08); }
             .cutout-zoom-wrapper.zoomed { transform: scale(1.12); }
             
-=======
             .card-breathe {
               transition: box-shadow 0.5s ease;
               animation: breathe 4s infinite ease-in-out;
@@ -768,7 +766,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               transform: scale(1.05);
             }
             /* Info box hover effects */
->>>>>>> e3a11db60a9839a167f348fea8a6d7063e6e5460
             .info-box {
               position: relative;
               overflow: hidden;

@@ -10,7 +10,7 @@ import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import DiscordEffect from '@/assets/images/members/discord-effect.svg'
 
 import MemberPopup from './MemberPopup'
-import ProfileImage from './image.png'
+import ProfileImage from './image.jpg'
 
 const CardMember = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
@@ -23,6 +23,10 @@ const CardMember = () => {
         tabIndex={0}
         onClick={() => setIsPopupOpen(true)}
         onKeyDown={(event) => {
+          if (event.target !== event.currentTarget) {
+            return
+          }
+
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault()
             setIsPopupOpen(true)

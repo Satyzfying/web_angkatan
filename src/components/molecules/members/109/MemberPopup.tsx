@@ -9,7 +9,7 @@ import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
-import ProfileImage from './image.png'
+import ProfileImage from './image.jpeg'
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -43,62 +43,156 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 font-serif">
+      {/* Backdrop: Misty/Cloud-like blur for a soft feel */}
       <button
         type="button"
         aria-label="Close member detail"
         onClick={onClose}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-slate-200/40 backdrop-blur-xl"
       />
 
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
+      {/* Main Content Box: Inspired by the light aesthetic and rounded panels of image_0.png */}
+      <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 font-serif">
+      {/* Backdrop: Dibuat gelap transparan dengan blur agar menyatu dengan tema dark */}
+      <button
+        type="button"
+        aria-label="Close member detail"
+        onClick={onClose}
+        className="absolute inset-0 bg-slate-950/60 backdrop-blur-md"
+      />
+
+      {/* Main Content Box: Menggunakan warna dasar Deep Midnight Navy sesuai gambar Spotify */}
+      <div 
+        className="relative z-10 max-h-[90dvh] w-full max-w-[550px] animate-[member-popup-show_250ms_ease-out] overflow-y-auto rounded-[2.5rem] p-6 text-slate-200 shadow-[0_20px_50px_rgba(13,34,58,0.5)] border border-slate-800 bg-[#0d223a] sm:p-8"
+      >
+        {/* Tombol Close Silang yang minimalis */}
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
-        >
-          x
-        </button>
+          className="absolute top-5 right-5 flex h-8 w-8 items-center justify-center rounded-full text-lg leading-none text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all border border-slate-700/50"
+        > </button>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 font-serif">
+      </div>
+      {/* Backdrop: Dibuat gelap transparan dengan blur agar menyatu dengan tema dark */}
+      <button
+        type="button"
+        aria-label="Close member detail"
+        onClick={onClose}
+        className="absolute inset-0 bg-slate-950/60 backdrop-blur-md"
+      />
 
-        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
-          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
+      {/* Main Content Box: Menggunakan warna dasar Deep Midnight Navy sesuai gambar Spotify */}
+      <div 
+        className="relative z-10 max-h-[90dvh] w-full max-w-[550px] animate-[member-popup-show_250ms_ease-out] overflow-y-auto rounded-[2.5rem] p-6 text-slate-200 shadow-[0_20px_50px_rgba(13,34,58,0.5)] border border-slate-800 bg-[#0d223a] sm:p-8"
+      >
+      </div>
+        {/* Tombol Close Silang yang minimalis */}
+        <button
+          type="button"
+          aria-label="Close member detail"
+          onClick={onClose}
+          className="absolute top-5 right-5 flex h-8 w-8 items-center justify-center rounded-full text-lg leading-none text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all border border-slate-700/50"
+        > </button>
+          <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 font-serif">
+      </div>
+      {/* Backdrop: Dibuat gelap transparan dengan blur agar menyatu dengan tema dark */}
+      <button
+        type="button"
+        aria-label="Close member detail"
+        onClick={onClose}
+        className="absolute inset-0 bg-slate-950/60 backdrop-blur-md"
+      />
+
+      {/* Main Content Box: Menggunakan warna dasar Deep Midnight Navy sesuai gambar Spotify */}
+      <div 
+        className="relative z-10 max-h-[90dvh] w-full max-w-[550px] animate-[member-popup-show_250ms_ease-out] overflow-y-auto rounded-[2.5rem] p-6 text-slate-200 shadow-[0_20px_50px_rgba(13,34,58,0.5)] border border-slate-800 bg-[#0d223a] sm:p-8"
+      > </div>
+        {/* Tombol Close Silang yang minimalis */}
+        <button
+          type="button"
+          aria-label="Close member detail"
+          onClick={onClose}
+          className="absolute top-5 right-5 flex h-8 w-8 items-center justify-center rounded-full text-lg leading-none text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all border border-slate-700/50"
+        > </button>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 font-serif">
+      {/* Backdrop: Dibuat gelap transparan dengan blur agar menyatu dengan tema dark */}
+      <button
+        type="button"
+        aria-label="Close member detail"
+        onClick={onClose}
+        className="absolute inset-0 bg-slate-950/60 backdrop-blur-md"
+      />
+
+      {/* Main Content Box: Menggunakan warna dasar Deep Midnight Navy sesuai gambar Spotify */}
+      <div 
+        className="relative z-10 max-h-[90dvh] w-full max-w-[550px] animate-[member-popup-show_250ms_ease-out] overflow-y-auto rounded-[2.5rem] p-6 text-slate-200 shadow-[0_20px_50px_rgba(13,34,58,0.5)] border border-slate-800 bg-[#0d223a] sm:p-8"
+      >
+        {/* Tombol Close Silang yang minimalis */}
+        <button
+          type="button"
+          aria-label="Close member detail"
+          onClick={onClose}
+          className="absolute top-5 right-5 flex h-8 w-8 items-center justify-center rounded-full text-lg leading-none text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all border border-slate-700/50"
+        > </button>
+
+        {/* Profile Image with 'cloud-like' / soft organic shape and white frame */}
+        <div className="mb-6 overflow-hidden rounded-[3rem] border-4 border-white shadow-md mx-auto w-32 h-32 bg-white/50">
+          <Image src={ProfileImage} alt="Profile Image" className="h-full w-full object-cover object-center mix-blend-normal" />
         </div>
 
-        <div className="pr-10">
-          {/* UBAH NAMA ANDA */}
-          <h2 className="text-2xl font-black">Catherina Vallencia K</h2>
-          {/* UBAH NRP DAN ASAL */}
-          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251082 - Surakarta</p>
+        {/* Profile Information Section */}
+        <div className="text-center">
+          {/* UBAH NAMA ANDA - Apply Gothic/Fairytale system font style for the name */}
+          <h2 className="text-3xl font-black font-serif tracking-tight text-white">Syarifah Nailatur Rohma</h2>
+          {/* UBAH NRP DAN ASAL - Keep other text soft and medium weight */}
+          <p className="text-zinc-400/80 mt-1 text-xs font-medium tracking-wide">.5027251109 • Tangerang Selatan</p>
         </div>
 
-        <div className="mt-5 flex gap-2">
+        {/* Social Icons Section */}
+        <div className="mt-5 flex gap-3 justify-center">
           {/* UBAH USERNAME INSTAGRAM */}
-          <Instagram username="jkt48.erine" />
+          <div className="hover:opacity-80 transition-opacity">
+            <Instagram username="fa3lyn3" />
+          </div>
           {/* UBAH USERNAME LINKEDIN */}
-          <LinkedInButtonLink username="jkt48.erine" />
+          <div className="hover:opacity-80 transition-opacity">
+            <LinkedInButtonLink username="syarifah-nailatur-rohma-10a641379" />
+          </div>
         </div>
 
-        <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
+        {/* Grid Sections: Clean white panels with subtle borders and shadows like image_0.png */}
+        <div className="mt-6 grid gap-4 text-xs font-medium sm:grid-cols-2">
+          
+          {/* Kotak Hobi */}
+          <div className="bg-white rounded-2xl border border-zinc-100 p-5 shadow-sm">
             {/* UBAH HOBI KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
-            <p className="mt-2">Nyanyi</p>
+            <p className="text-zinc-400 text-[10px] tracking-wider uppercase font-bold">Hobi</p>
+            <p className="mt-1 text-zinc-600">Membaca, Menulis, Melukis, Panahan</p>
           </div>
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
+
+          {/* Kotak Fun Fact */}
+          <div className="bg-white rounded-2xl border border-zinc-100 p-5 shadow-sm">
             {/* UBAH FUNFACT KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
-            <p className="mt-2">Gwe Member JKT</p>
+            <p className="text-zinc-400 text-[10px] tracking-wider uppercase font-bold">Fun Fact</p>
+            <p className="mt-1 text-zinc-600">Aku pelihara ikan di kosan</p>
           </div>
         </div>
 
-        <div className="border-neutral-cs-10/40 mt-4 rounded-xl border p-4">
+        {/* Kotak Lagu Favorit */}
+        <div className="bg-white mt-4 rounded-2xl border border-zinc-100 p-5 shadow-sm">
           {/* UBAH LAGU FAVORIT KAMU */}
-          <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
-          <p className="my-2 text-sm font-semibold">There Is a Light That Never Goes Out</p>
+          <p className="text-zinc-400 text-[10px] font-bold tracking-wider uppercase">Lagu Favorit</p>
+          <p className="my-1 text-sm font-semibold text-zinc-700">Goddess by Laufey</p>
 
           {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2X62SjtuwVQiGiZvZZ9Ztr?si=f6718391848a4469" />
+          <div className="mt-2 rounded-xl overflow-hidden border border-zinc-200/50">
+            <SpotifyEmbed spotifyUrl="https://open.spotify.com/intl-id/track/4R3AU2pjv8ge2siX1fVbZs?si=044d6ee8a968437c" />
+          </div>
+          </div>
+          </div>
+          </div>
         </div>
       </div>
     </div>,
