@@ -246,21 +246,21 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               <div className="rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-xl shadow-[0_8px_32px_rgba(31,38,135,0.18)] transition-all duration-300 hover:scale-[1.02] hover:bg-white/15">
                 <p className="text-lg mb-2">🎯</p>
                 <p className="text-white/70 text-xs tracking-[0.15em] uppercase">Hobi</p>
-                <p className="mt-2">suka mencoba hal baru apapun itu</p>
+                <p className="mt-2">Ngoding, Baca Manhwa, Badminton </p>
               </div>
 
               {/* Fun Fact dengan ikon */}
               <div className="rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-xl shadow-[0_8px_32px_rgba(31,38,135,0.18)] transition-all duration-300 hover:scale-[1.02] hover:bg-white/15">
                 <p className="text-lg mb-2">✨</p>
                 <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
-                <p className="mt-2">pingin banyak hal dicoba tapi gabisa bisa</p>
+                <p className="mt-2">pingin extrovert aslinya introvert</p>
               </div>
             </div>
 
             {/* Lagu Favorit (opsional, tanpa ikon tambahan) */}
             <div className="mt-4 rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-xl shadow-[0_8px_32px_rgba(31,38,135,0.18)]">
               <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
-              <p className="my-2 text-sm font-semibold">Sunshine - Panturas</p>
+              <p className="my-2 text-sm font-semibold">Sunshine - Panturas.</p>
               <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/5j7HESfa8OXs3hTqQ1ZvnR?si=b204794961294c3d" />
             </div>
           </>

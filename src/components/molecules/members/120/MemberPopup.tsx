@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 
 import Image from 'next/image'
+import { createPortal } from 'react-dom'
 
 import { createPortal } from 'react-dom'
 
@@ -24,6 +25,9 @@ type MemberPopupProps = {
   onClose: () => void
 }
 
+type Step = 'login' | 'welcome' | 'popup'
+type SpotifyTrack = 'none' | 'you-re-mine' | 'break-it-down'
+
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   // TAMBAHKAN STATE INI:
   const [isFlipped, setIsFlipped] = useState(false)
@@ -39,7 +43,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        onClose()
+        triggerClose()
       }
     }
 
@@ -50,10 +54,69 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen, onClose])
+  }, [isOpen])
 
-  if (!isOpen) {
-    return null
+  const stopAllInternalAudio = () => {
+    if (trackRef1.current) { trackRef1.current.pause(); trackRef1.current.currentTime = 0 }
+    if (trackRef2.current) { trackRef2.current.pause(); trackRef2.current.currentTime = 0 }
+    setActiveTrack('none')
+  }
+
+  const handleTrackChange = (track: 'you-re-mine' | 'break-it-down') => {
+    stopAllInternalAudio()
+    setActiveSpotify('none')
+   
+    if (activeTrack !== track) {
+      setActiveTrack(track)
+      if (track === 'you-re-mine' && trackRef1.current) {
+        trackRef1.current.play().catch((e) => console.log("Audio play blocked", e))
+      } else if (track === 'break-it-down' && trackRef2.current) {
+        trackRef2.current.play().catch((e) => console.log("Audio play blocked", e))
+      }
+    }
+  }
+
+  const handleSpotifyPlay = (track: 'you-re-mine' | 'break-it-down') => {
+    stopAllInternalAudio()
+    setActiveSpotify(track)
+  }
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value
+    if (/^\d*$/.test(val)) {
+      setCode(val)
+    }
+  }
+
+  const handleLoginSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (code === '06042007') {
+      setLoginError('')
+      setCurrentStep('welcome')
+      if (sfxWelcomeRef.current) {
+        sfxWelcomeRef.current.currentTime = 0
+        sfxWelcomeRef.current.play().catch((e) => console.log("Audio play blocked", e))
+      }
+    } else {
+      setLoginError('ACCESS DENIED: Invalid Agent Code.')
+    }
+  }
+
+  const handleWelcomeNext = () => {
+    setCurrentStep('popup')
+    handleTrackChange('break-it-down')
+  }
+
+  const triggerClose = () => {
+    stopAllInternalAudio()
+    setActiveSpotify('none')
+    if (sfxCloseRef.current) {
+      sfxCloseRef.current.currentTime = 0
+      sfxCloseRef.current.play().catch((e) => console.log("Audio play blocked", e))
+    }
+    setTimeout(() => {
+      onClose()
+    }, 1100)
   }
 
   return createPortal(
@@ -62,8 +125,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       <button
         type="button"
         aria-label="Close member detail"
-        onClick={onClose}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onClick={triggerClose}
+        className="absolute inset-0"
       />
 
       {/* =========================================================
@@ -101,8 +164,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             onClick={onClose}
             className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
           >
-            x
+            MULAI QUEST
           </button>
+        </div>
+      )}
 
           {/* CONTAINER FOTO PROFIL */}
           <div
@@ -153,7 +218,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 berjam-jam)
               </p>
             </div>
-          </div>
 
           <div className="border-neutral-cs-10/40 relative z-10 mt-4 rounded-xl border bg-black/40 p-4 backdrop-blur-md">
             <p className="text-neutral-cs-10/60 font-mono text-xs font-bold tracking-wide uppercase">

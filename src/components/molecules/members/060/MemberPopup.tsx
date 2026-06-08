@@ -1,7 +1,6 @@
 'use client'
 
 /* eslint-disable react-hooks/set-state-in-effect */
-
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import Image from 'next/image'
@@ -32,6 +31,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const bgAudioARef = useRef<HTMLAudioElement | null>(null)
   const bgAudioBRef = useRef<HTMLAudioElement | null>(null)
   const bgActiveRef = useRef<'A' | 'B'>('A')
+  const typingAudioRef = useRef<HTMLAudioElement | null>(null)
 
   const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*<>{}[]'
   const scrambleChar = () => SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)]
@@ -90,8 +90,20 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }, [])
 
   useEffect(() => {
-    const stored = localStorage.getItem('rickrollCount')
-    setRickrollCount(stored ? parseInt(stored, 10) : 0)
+    fetch('https://countapi.mileshilliard.com/api/v1/get/web_angkatan_rickroll_count_060')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.value !== undefined) {
+          setRickrollCount(data.value)
+        } else {
+          const stored = localStorage.getItem('rickrollCount')
+          setRickrollCount(stored ? parseInt(stored, 10) : 0)
+        }
+      })
+      .catch(() => {
+        const stored = localStorage.getItem('rickrollCount')
+        setRickrollCount(stored ? parseInt(stored, 10) : 0)
+      })
   }, [])
 
   useEffect(() => {
@@ -174,9 +186,37 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     scrambleReveal('Lagu Favorit', setLaguTitle, 12800, 10)
     typeWriter('Laskar Pelangi', setLaguText, 13200)
 
+    const typingAudio = new Audio()
+    typingAudio.preload = 'auto'
+    typingAudio.src = '/assets/members/060/typing-noises.mp3'
+    typingAudioRef.current = typingAudio
+    typingAudio.loop = true
+    typingAudio.volume = 0.25
+    typingAudio.currentTime = 0
+    timers.push(
+      setTimeout(() => {
+        typingAudio.play().catch(() => {})
+      }, 3400)
+    )
+    timers.push(
+      setTimeout(() => {
+        try {
+          typingAudio.pause()
+          typingAudio.currentTime = 0
+        } catch {}
+      }, 14500)
+    )
+
     return () => {
       timers.forEach(clearTimeout)
       intervals.forEach(clearInterval)
+      try {
+        if (typingAudioRef.current) {
+          typingAudioRef.current.pause()
+          typingAudioRef.current.currentTime = 0
+          typingAudioRef.current.src = ''
+        }
+      } catch {}
     }
   }, [isOpen])
 
@@ -189,11 +229,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   useEffect(() => {
     if (!isOpen) return
-    const glitchAudio = new Audio('/assets/sounds/mixkit-tech-weird-glitch-2685.mp3')
+    const glitchAudio = new Audio('/assets/members/060/mixkit-tech-weird-glitch-2685.mp3')
     glitchAudioRef.current = glitchAudio
     glitchAudio.volume = 0.5
 
-    const bgSrc = '/assets/sounds/mixkit-radio-waves-glitch-white-noise-1041.wav'
+    const bgSrc = '/assets/members/060/mixkit-radio-waves-glitch-white-noise-1041.mp3'
     const bgA = new Audio(bgSrc)
     const bgB = new Audio(bgSrc)
     bgAudioARef.current = bgA
@@ -267,6 +307,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           const newCount = rickrollCount + 1
           setRickrollCount(newCount)
           localStorage.setItem('rickrollCount', String(newCount))
+          fetch('https://countapi.mileshilliard.com/api/v1/hit/web_angkatan_rickroll_count_060').catch(() => {})
           window.open('https://www.youtube.com/watch?v=Aq5WXmQQooo', '_blank')
         }}
         className="absolute inset-0 cursor-pointer"
@@ -397,41 +438,264 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               className="vhs-block-7 absolute"
               style={{ width: '90px', height: '12px', background: 'rgba(255,100,0,0.3)', bottom: '40%', right: '5%' }}
             />
-            <div className="absolute" style={{ width: '120px', height: '60px', background: 'rgba(0,255,200,0.25)', top: '5%', left: '30%', animation: 'vhs-block-1-anim 0.08s steps(1) infinite' }} />
-            <div className="absolute" style={{ width: '80px', height: '80px', background: 'rgba(255,0,200,0.3)', top: '60%', left: '10%', animation: 'vhs-block-2-anim 0.07s steps(1) infinite' }} />
-            <div className="absolute" style={{ width: '150px', height: '25px', background: 'rgba(200,0,255,0.35)', bottom: '10%', left: '40%', animation: 'vhs-block-3-anim 0.06s steps(1) infinite' }} />
-            <div className="absolute" style={{ width: '60px', height: '100px', background: 'rgba(255,255,0,0.2)', top: '25%', right: '5%', animation: 'vhs-block-4-anim 0.09s steps(1) infinite' }} />
-            <div className="absolute" style={{ width: '200px', height: '15px', background: 'rgba(0,200,255,0.4)', top: '45%', left: '0', animation: 'vhs-block-5-anim 0.05s steps(1) infinite' }} />
-            <div className="absolute" style={{ width: '100px', height: '50px', background: 'rgba(255,100,100,0.3)', bottom: '30%', right: '15%', animation: 'vhs-block-6-anim 0.07s steps(1) infinite' }} />
-            <div className="absolute" style={{ width: '70px', height: '70px', background: 'rgba(100,255,100,0.25)', top: '70%', left: '60%', animation: 'vhs-block-7-anim 0.08s steps(1) infinite' }} />
-            <div className="absolute" style={{ width: '180px', height: '20px', background: 'rgba(255,150,0,0.35)', top: '15%', left: '15%', animation: 'vhs-block-1-anim 0.06s steps(1) infinite' }} />
-            <div className="absolute" style={{ width: '90px', height: '40px', background: 'rgba(0,100,255,0.3)', bottom: '50%', left: '25%', animation: 'vhs-block-2-anim 0.09s steps(1) infinite' }} />
-            <div className="absolute" style={{ width: '140px', height: '30px', background: 'rgba(255,0,100,0.4)', top: '35%', right: '10%', animation: 'vhs-block-3-anim 0.05s steps(1) infinite' }} />
-            <div className="absolute" style={{ width: '55px', height: '55px', background: 'rgba(0,255,100,0.3)', bottom: '20%', left: '55%', animation: 'vhs-block-4-anim 0.07s steps(1) infinite' }} />
-            <div className="absolute" style={{ width: '110px', height: '18px', background: 'rgba(200,200,0,0.35)', top: '80%', left: '5%', animation: 'vhs-block-5-anim 0.08s steps(1) infinite' }} />
-            <div className="vhs-pixel-1 absolute w-3 h-3" style={{ background: '#ff0080', top: '8%', left: '18%' }} />
-            <div className="vhs-pixel-2 absolute w-2 h-2" style={{ background: '#00e5ff', top: '60%', left: '68%' }} />
-            <div className="vhs-pixel-3 absolute w-4 h-4" style={{ background: '#ff4040', bottom: '15%', left: '38%' }} />
-            <div className="vhs-pixel-4 absolute w-2 h-3" style={{ background: '#00ff80', top: '38%', left: '12%' }} />
-            <div className="vhs-pixel-5 absolute w-3 h-2" style={{ background: '#ffaa00', bottom: '30%', right: '18%' }} />
-            <div className="vhs-pixel-6 absolute w-2 h-2" style={{ background: '#ff00ff', top: '25%', left: '60%' }} />
-            <div className="vhs-pixel-7 absolute w-3 h-3" style={{ background: '#0080ff', bottom: '45%', left: '75%' }} />
-            <div className="vhs-pixel-8 absolute w-2 h-4" style={{ background: '#ff6040', top: '50%', left: '30%' }} />
-            <div className="vhs-pixel-9 absolute w-4 h-2" style={{ background: '#40ff80', bottom: '10%', right: '30%' }} />
-            <div className="vhs-pixel-10 absolute w-2 h-2" style={{ background: '#ffff00', top: '75%', left: '55%' }} />
-            <div className="vhs-pixel-11 absolute w-3 h-2" style={{ background: '#00ffff', top: '20%', right: '10%' }} />
-            <div className="vhs-pixel-12 absolute w-2 h-3" style={{ background: '#ff2020', bottom: '25%', left: '10%' }} />
-            <div className="absolute w-5 h-5" style={{ background: '#ff00ff', top: '12%', left: '45%', animation: 'vhs-pixel-1-anim 0.04s steps(1) infinite' }} />
-            <div className="absolute w-4 h-4" style={{ background: '#00ffcc', top: '55%', right: '20%', animation: 'vhs-pixel-2-anim 0.05s steps(1) infinite' }} />
-            <div className="absolute w-6 h-3" style={{ background: '#ff3300', bottom: '35%', left: '20%', animation: 'vhs-pixel-3-anim 0.04s steps(1) infinite' }} />
-            <div className="absolute w-3 h-6" style={{ background: '#3300ff', top: '40%', left: '70%', animation: 'vhs-pixel-4-anim 0.06s steps(1) infinite' }} />
-            <div className="absolute w-5 h-5" style={{ background: '#00ff33', bottom: '15%', right: '35%', animation: 'vhs-pixel-5-anim 0.05s steps(1) infinite' }} />
-            <div className="absolute w-4 h-3" style={{ background: '#ffff33', top: '65%', left: '40%', animation: 'vhs-pixel-6-anim 0.04s steps(1) infinite' }} />
-            <div className="absolute w-3 h-4" style={{ background: '#ff33ff', top: '30%', left: '5%', animation: 'vhs-pixel-7-anim 0.05s steps(1) infinite' }} />
-            <div className="absolute w-5 h-2" style={{ background: '#33ffff', bottom: '40%', right: '10%', animation: 'vhs-pixel-8-anim 0.06s steps(1) infinite' }} />
-            <div className="absolute inset-0" style={{ background: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,0,128,0.15) 3px, rgba(255,0,128,0.15) 6px)', animation: 'vhs-noise 0.03s steps(6) infinite' }} />
-            <div className="absolute inset-0" style={{ background: 'repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(0,229,255,0.1) 4px, rgba(0,229,255,0.1) 8px)', animation: 'vhs-noise 0.04s steps(5) infinite' }} />
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(255,0,0,0.15) 0%, transparent 20%, rgba(0,255,0,0.1) 40%, transparent 60%, rgba(0,0,255,0.15) 80%, transparent 100%)', animation: 'vhs-tint-r-anim 0.06s steps(1) infinite' }} />
+            <div
+              className="absolute"
+              style={{
+                width: '120px',
+                height: '60px',
+                background: 'rgba(0,255,200,0.25)',
+                top: '5%',
+                left: '30%',
+                animation: 'vhs-block-1-anim 0.08s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute"
+              style={{
+                width: '80px',
+                height: '80px',
+                background: 'rgba(255,0,200,0.3)',
+                top: '60%',
+                left: '10%',
+                animation: 'vhs-block-2-anim 0.07s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute"
+              style={{
+                width: '150px',
+                height: '25px',
+                background: 'rgba(200,0,255,0.35)',
+                bottom: '10%',
+                left: '40%',
+                animation: 'vhs-block-3-anim 0.06s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute"
+              style={{
+                width: '60px',
+                height: '100px',
+                background: 'rgba(255,255,0,0.2)',
+                top: '25%',
+                right: '5%',
+                animation: 'vhs-block-4-anim 0.09s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute"
+              style={{
+                width: '200px',
+                height: '15px',
+                background: 'rgba(0,200,255,0.4)',
+                top: '45%',
+                left: '0',
+                animation: 'vhs-block-5-anim 0.05s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute"
+              style={{
+                width: '100px',
+                height: '50px',
+                background: 'rgba(255,100,100,0.3)',
+                bottom: '30%',
+                right: '15%',
+                animation: 'vhs-block-6-anim 0.07s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute"
+              style={{
+                width: '70px',
+                height: '70px',
+                background: 'rgba(100,255,100,0.25)',
+                top: '70%',
+                left: '60%',
+                animation: 'vhs-block-7-anim 0.08s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute"
+              style={{
+                width: '180px',
+                height: '20px',
+                background: 'rgba(255,150,0,0.35)',
+                top: '15%',
+                left: '15%',
+                animation: 'vhs-block-1-anim 0.06s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute"
+              style={{
+                width: '90px',
+                height: '40px',
+                background: 'rgba(0,100,255,0.3)',
+                bottom: '50%',
+                left: '25%',
+                animation: 'vhs-block-2-anim 0.09s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute"
+              style={{
+                width: '140px',
+                height: '30px',
+                background: 'rgba(255,0,100,0.4)',
+                top: '35%',
+                right: '10%',
+                animation: 'vhs-block-3-anim 0.05s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute"
+              style={{
+                width: '55px',
+                height: '55px',
+                background: 'rgba(0,255,100,0.3)',
+                bottom: '20%',
+                left: '55%',
+                animation: 'vhs-block-4-anim 0.07s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute"
+              style={{
+                width: '110px',
+                height: '18px',
+                background: 'rgba(200,200,0,0.35)',
+                top: '80%',
+                left: '5%',
+                animation: 'vhs-block-5-anim 0.08s steps(1) infinite'
+              }}
+            />
+            <div className="vhs-pixel-1 absolute h-3 w-3" style={{ background: '#ff0080', top: '8%', left: '18%' }} />
+            <div className="vhs-pixel-2 absolute h-2 w-2" style={{ background: '#00e5ff', top: '60%', left: '68%' }} />
+            <div
+              className="vhs-pixel-3 absolute h-4 w-4"
+              style={{ background: '#ff4040', bottom: '15%', left: '38%' }}
+            />
+            <div className="vhs-pixel-4 absolute h-3 w-2" style={{ background: '#00ff80', top: '38%', left: '12%' }} />
+            <div
+              className="vhs-pixel-5 absolute h-2 w-3"
+              style={{ background: '#ffaa00', bottom: '30%', right: '18%' }}
+            />
+            <div className="vhs-pixel-6 absolute h-2 w-2" style={{ background: '#ff00ff', top: '25%', left: '60%' }} />
+            <div
+              className="vhs-pixel-7 absolute h-3 w-3"
+              style={{ background: '#0080ff', bottom: '45%', left: '75%' }}
+            />
+            <div className="vhs-pixel-8 absolute h-4 w-2" style={{ background: '#ff6040', top: '50%', left: '30%' }} />
+            <div
+              className="vhs-pixel-9 absolute h-2 w-4"
+              style={{ background: '#40ff80', bottom: '10%', right: '30%' }}
+            />
+            <div className="vhs-pixel-10 absolute h-2 w-2" style={{ background: '#ffff00', top: '75%', left: '55%' }} />
+            <div
+              className="vhs-pixel-11 absolute h-2 w-3"
+              style={{ background: '#00ffff', top: '20%', right: '10%' }}
+            />
+            <div
+              className="vhs-pixel-12 absolute h-3 w-2"
+              style={{ background: '#ff2020', bottom: '25%', left: '10%' }}
+            />
+            <div
+              className="absolute h-5 w-5"
+              style={{
+                background: '#ff00ff',
+                top: '12%',
+                left: '45%',
+                animation: 'vhs-pixel-1-anim 0.04s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute h-4 w-4"
+              style={{
+                background: '#00ffcc',
+                top: '55%',
+                right: '20%',
+                animation: 'vhs-pixel-2-anim 0.05s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute h-3 w-6"
+              style={{
+                background: '#ff3300',
+                bottom: '35%',
+                left: '20%',
+                animation: 'vhs-pixel-3-anim 0.04s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute h-6 w-3"
+              style={{
+                background: '#3300ff',
+                top: '40%',
+                left: '70%',
+                animation: 'vhs-pixel-4-anim 0.06s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute h-5 w-5"
+              style={{
+                background: '#00ff33',
+                bottom: '15%',
+                right: '35%',
+                animation: 'vhs-pixel-5-anim 0.05s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute h-3 w-4"
+              style={{
+                background: '#ffff33',
+                top: '65%',
+                left: '40%',
+                animation: 'vhs-pixel-6-anim 0.04s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute h-4 w-3"
+              style={{
+                background: '#ff33ff',
+                top: '30%',
+                left: '5%',
+                animation: 'vhs-pixel-7-anim 0.05s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute h-2 w-5"
+              style={{
+                background: '#33ffff',
+                bottom: '40%',
+                right: '10%',
+                animation: 'vhs-pixel-8-anim 0.06s steps(1) infinite'
+              }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,0,128,0.15) 3px, rgba(255,0,128,0.15) 6px)',
+                animation: 'vhs-noise 0.03s steps(6) infinite'
+              }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(0,229,255,0.1) 4px, rgba(0,229,255,0.1) 8px)',
+                animation: 'vhs-noise 0.04s steps(5) infinite'
+              }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'linear-gradient(180deg, rgba(255,0,0,0.15) 0%, transparent 20%, rgba(0,255,0,0.1) 40%, transparent 60%, rgba(0,0,255,0.15) 80%, transparent 100%)',
+                animation: 'vhs-tint-r-anim 0.06s steps(1) infinite'
+              }}
+            />
             <div className="vhs-pixel-1 absolute h-3 w-3" style={{ background: '#ff0080', top: '8%', left: '18%' }} />
             <div className="vhs-pixel-2 absolute h-2 w-2" style={{ background: '#00e5ff', top: '60%', left: '68%' }} />
             <div
@@ -559,7 +823,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </button>
 
         <div
-          className="image-glitch relative mb-5 overflow-hidden rounded-2xl border-2 cursor-pointer"
+          className="image-glitch relative mb-5 cursor-pointer overflow-hidden rounded-2xl border-2"
           style={{ borderColor: '#0099ff' }}
           onClick={() => {
             if (imageTransitioning) return
@@ -576,7 +840,14 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               animation: imageFlipped ? 'none' : 'none'
             }}
           >
-            <div style={{ opacity: imageFlipped ? 0 : 1, transition: 'opacity 0s', position: imageFlipped ? 'absolute' : 'relative', inset: 0 }}>
+            <div
+              style={{
+                opacity: imageFlipped ? 0 : 1,
+                transition: 'opacity 0s',
+                position: imageFlipped ? 'absolute' : 'relative',
+                inset: 0
+              }}
+            >
               <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
               <div
                 className="pointer-events-none absolute inset-0 z-[5]"
@@ -589,7 +860,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             </div>
             <div
               className="flex items-center justify-center"
-              style={{ opacity: imageFlipped ? 1 : 0, position: imageFlipped ? 'relative' : 'absolute', inset: 0, background: '#0a1628' }}
+              style={{
+                opacity: imageFlipped ? 1 : 0,
+                position: imageFlipped ? 'relative' : 'absolute',
+                inset: 0,
+                background: '#0a1628'
+              }}
             >
               <img
                 src="https://preview.redd.it/svg-formatted-logo-for-navi-v0-rkwxximk4s0e1.png?width=743&format=png&auto=webp&s=07c9719ea424cb691f6979e7f8f9457b2cefc270"
@@ -600,15 +876,87 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             </div>
           </div>
           {imageTransitioning && (
-            <div className="pointer-events-none absolute inset-0 z-[10] overflow-hidden" style={{ animation: 'glitch-swap 0.4s steps(1) forwards' }}>
-              <div style={{ background: 'rgba(0,229,255,0.3)', position: 'absolute', top: '10%', left: '5%', width: '40%', height: '20%', animation: 'vhs-block-1-anim 0.05s steps(1) infinite' }} />
-              <div style={{ background: 'rgba(255,0,128,0.3)', position: 'absolute', top: '30%', right: '10%', width: '35%', height: '25%', animation: 'vhs-block-2-anim 0.04s steps(1) infinite' }} />
-              <div style={{ background: 'rgba(0,255,128,0.25)', position: 'absolute', bottom: '20%', left: '15%', width: '50%', height: '15%', animation: 'vhs-block-3-anim 0.06s steps(1) infinite' }} />
-              <div style={{ background: 'rgba(255,200,0,0.3)', position: 'absolute', top: '50%', left: '30%', width: '30%', height: '30%', animation: 'vhs-block-4-anim 0.05s steps(1) infinite' }} />
-              <div style={{ position: 'absolute', inset: 0, background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.15) 2px, rgba(255,255,255,0.15) 4px)', animation: 'vhs-noise 0.03s steps(4) infinite' }} />
-              <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,0,0,0.15)', animation: 'vhs-tint-r-anim 0.04s steps(1) infinite' }} />
-              <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,255,0,0.1)', animation: 'vhs-tint-g-anim 0.05s steps(1) infinite' }} />
-              <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,255,0.15)', animation: 'vhs-tint-b-anim 0.04s steps(1) infinite' }} />
+            <div
+              className="pointer-events-none absolute inset-0 z-[10] overflow-hidden"
+              style={{ animation: 'glitch-swap 0.4s steps(1) forwards' }}
+            >
+              <div
+                style={{
+                  background: 'rgba(0,229,255,0.3)',
+                  position: 'absolute',
+                  top: '10%',
+                  left: '5%',
+                  width: '40%',
+                  height: '20%',
+                  animation: 'vhs-block-1-anim 0.05s steps(1) infinite'
+                }}
+              />
+              <div
+                style={{
+                  background: 'rgba(255,0,128,0.3)',
+                  position: 'absolute',
+                  top: '30%',
+                  right: '10%',
+                  width: '35%',
+                  height: '25%',
+                  animation: 'vhs-block-2-anim 0.04s steps(1) infinite'
+                }}
+              />
+              <div
+                style={{
+                  background: 'rgba(0,255,128,0.25)',
+                  position: 'absolute',
+                  bottom: '20%',
+                  left: '15%',
+                  width: '50%',
+                  height: '15%',
+                  animation: 'vhs-block-3-anim 0.06s steps(1) infinite'
+                }}
+              />
+              <div
+                style={{
+                  background: 'rgba(255,200,0,0.3)',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '30%',
+                  width: '30%',
+                  height: '30%',
+                  animation: 'vhs-block-4-anim 0.05s steps(1) infinite'
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background:
+                    'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.15) 2px, rgba(255,255,255,0.15) 4px)',
+                  animation: 'vhs-noise 0.03s steps(4) infinite'
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'rgba(255,0,0,0.15)',
+                  animation: 'vhs-tint-r-anim 0.04s steps(1) infinite'
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'rgba(0,255,0,0.1)',
+                  animation: 'vhs-tint-g-anim 0.05s steps(1) infinite'
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'rgba(0,0,255,0.15)',
+                  animation: 'vhs-tint-b-anim 0.04s steps(1) infinite'
+                }}
+              />
             </div>
           )}
         </div>
@@ -626,9 +974,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
         <div className="relative z-10 mt-5 flex gap-2">
           {/* UBAH USERNAME INSTAGRAM */}
-          <div className="icon-glitch"><Instagram username="husam.danish" /></div>
+          <div className="icon-glitch">
+            <Instagram username="husam.danish" />
+          </div>
           {/* UBAH USERNAME LINKEDIN */}
-          <div className="icon-glitch"><LinkedInButtonLink username="husam.danish" /></div>
+          <div className="icon-glitch">
+            <LinkedInButtonLink username="husam.danish" />
+          </div>
         </div>
 
         <div className="relative z-10 mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">

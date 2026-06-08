@@ -10,6 +10,9 @@ import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
 import ProfileImage from './image.jpeg'
+import Cat1 from './cat1.png'
+import Cat2 from './cat2.png'
+import Cat3 from './cat3.png'
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -17,6 +20,7 @@ type MemberPopupProps = {
 }
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
+  const cats = [Cat1, Cat2, Cat3]
   useEffect(() => {
     if (!isOpen) {
       return
