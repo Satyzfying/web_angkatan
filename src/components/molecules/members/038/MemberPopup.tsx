@@ -3,6 +3,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 
 import React, { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -51,8 +52,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   if (!isOpen) return null
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 py-6 bg-[#0072BB]/60 backdrop-blur-md">
+  return createPortal((
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 bg-[#0072BB]/60 backdrop-blur-md">
       <button type="button" aria-label="Close" onClick={onClose} className="absolute inset-0" />
 
       <style>{`
@@ -101,7 +102,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         </div>
       ) : (
-        <div className="relative z-10 w-full max-w-[720px] max-h-[calc(100vh-9rem)] sm:max-h-[calc(100vh-10rem)] overflow-y-auto rounded-[60px] border-[12px] border-black bg-[#FFE100] p-8 sm:p-10 text-black minion-shadow">
+        <div className="relative z-10 w-full max-w-[720px] h-[100dvh] max-h-[100dvh] sm:h-[100dvh] max-h-[100dvh] overflow-y-auto rounded-[60px] border-[12px] border-black bg-[#FFE100] p-8 sm:p-10 text-black minion-shadow">
           
           {/* DEKORASI RAME JUMBO */}
           <div className="absolute -top-8 -left-8 text-8xl animate-doodle rotate-[-25deg] pointer-events-none">🍌</div>
@@ -150,7 +151,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </div>
       )}
     </div>
-  )
+  ), document.body)
 }
 
 export default MemberPopup

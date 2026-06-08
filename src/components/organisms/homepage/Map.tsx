@@ -2,7 +2,7 @@ import ScrollReveal from '@/components/atoms/animation/ScrollReveal'
 
 import { getTextStrokeStyle } from '@/lib/textStroke'
 
-import mapDataJson from '@/assets/maps/indonesia-map-generated.json'
+import mapDataJson from '@/assets/maps/cartoon-map-data.json'
 import type { GeneratedMapData } from '@/types/maps'
 
 import MapInteractive from './MapInteractive'
@@ -20,7 +20,7 @@ const Map = () => {
           EVASTRA Maps
         </h2>
       </ScrollReveal>
-      <ScrollReveal className="w-full" delay={120} distance={36}>
+      <ScrollReveal className="flex w-full justify-center overflow-x-hidden px-4" delay={120} distance={36}>
         <MapInteractive provinces={mapData.provinces} svgWidth={mapData.svgWidth} svgHeight={mapData.svgHeight} />
       </ScrollReveal>
     </section>

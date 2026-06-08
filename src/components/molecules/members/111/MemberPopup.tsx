@@ -170,18 +170,18 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                         <div className="flex items-center gap-3 mb-3">
                           <span className="text-3xl">0_0</span>
                           <div className="flex-1">
-                            <p className="text-xs font-bold uppercase tracking-wide text-emerald-300">HOKII</p>
+                            <p className="text-xs font-bold uppercase tracking-wide text-emerald-300">SELAMATT</p>
                             <h3 className="text-lg sm:text-xl font-black text-emerald-100 leading-tight">BTW UDAH IMO BELUM!</h3>
                           </div>
                         </div>
                         
                         {/* Foto Wajah Melet (imo.png) */}
-                        <div className="relative flex-1 w-full overflow-hidden rounded-xl border border-emerald-500/30">
+                        <div className="relative flex-1 w-full overflow-hidden rounded-xl border border-emerald-500/30 bg-black/40">
                           <Image 
                             src={FaceImage} 
                             alt="Faro imo" 
                             fill
-                            className="object-cover object-center"
+                            className="object-contain object-center"
                           />
                         </div>
                         
@@ -192,7 +192,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                         
                         {/* Petunjuk Interaksi */}
                         <div className="mt-3 py-2 rounded-xl bg-black/30 border border-white/10 text-center flex items-center justify-center gap-2 hover:bg-black/50 transition-colors">
-                          <span className="text-base">git status</span>
+                          <span className="text-base"></span>
                           <span className="text-xs sm:text-sm font-bold text-white shadow-sm">
                             jgn di klik 
                           </span>

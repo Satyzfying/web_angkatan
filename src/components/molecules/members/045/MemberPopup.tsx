@@ -1,6 +1,9 @@
 'use client'
 
+/* eslint-disable react-hooks/set-state-in-effect */
+
 import React, { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
@@ -46,7 +49,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   if (phase === 'idle') return null
 
-  return (
+  return createPortal((
     <>
       <style>{`
         @keyframes camera-pop {
@@ -111,7 +114,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       {/* ── Phase 3: Card ── */}
       {phase === 'card' && (
         <div
-          className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32"
+          className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
           style={{ animation: 'card-reveal 180ms ease-out forwards' }}
         >
           {/* Backdrop — navy dark */}
@@ -124,7 +127,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
           {/* Card — glassmorphism dengan border kuning */}
           <div
-            className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] overflow-y-auto rounded-2xl p-6 text-white shadow-xl sm:max-h-[calc(100vh-10rem)] sm:p-8"
+            className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto rounded-2xl p-6 text-white shadow-xl sm:h-[100dvh] max-h-[100dvh] sm:p-8"
             style={{
               background: 'rgba(255, 255, 255, 0.07)',
               backdropFilter: 'blur(20px) saturate(160%)',
@@ -223,7 +226,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </div>
       )}
     </>
-  )
+  ), document.body)
 }
 
 export default MemberPopup

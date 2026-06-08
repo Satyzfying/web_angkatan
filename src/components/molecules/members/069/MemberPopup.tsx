@@ -233,7 +233,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
       <button
         type="button"
         aria-label="Close member detail"
@@ -253,14 +253,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       {/* Card */}
       <div
-        className="relative z-10 w-full max-w-[680px] animate-[member-popup-show_200ms_ease-out] overflow-hidden rounded-3xl text-white shadow-2xl"
+        className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[680px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-3xl text-white shadow-2xl"
         style={{
           background: 'linear-gradient(145deg,rgba(20,16,60,0.97) 0%,rgba(30,24,80,0.94) 100%)',
           border: '1.5px solid rgba(249,168,212,0.32)',
           boxShadow:
             '0 8px 40px rgba(249,168,212,0.18), 0 2px 14px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)',
-          marginTop: '2rem',
-          marginBottom: '2rem',
         }}
       >
         {/* Soft tint pendar */}

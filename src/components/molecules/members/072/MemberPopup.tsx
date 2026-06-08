@@ -86,9 +86,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   useEffect(() => {
     if (!isOpen) return
 
-    if (audioRef.current) {
-      audioRef.current.volume = 0.1
-      audioRef.current.play().catch(e => console.log("Menunggu interaksi user:", e))
+    const audio = audioRef.current
+
+    if (audio) {
+      audio.volume = 0.1
+      audio.play().catch((error) => console.log('Menunggu interaksi user:', error))
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -101,9 +103,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return () => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
-      if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current.currentTime = 0
+      if (audio) {
+        audio.pause()
+        audio.currentTime = 0
       }
     }
   }, [isOpen, onClose])
@@ -157,7 +159,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
+      onClick={(event) => event.stopPropagation()}
+      onKeyDown={(event) => event.stopPropagation()}
+    >
       
       {/* ANIMASI KEYFRAMES */}
       <style jsx global>{`
@@ -197,7 +203,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       <div
         ref={popupRef}
-        className="border-neutral-cs-10/50 bg-black/60 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_400ms_cubic-bezier(0.175,0.885,0.32,1.275)] overflow-y-auto rounded-2xl border backdrop-blur-md p-6 text-white shadow-[0_0_50px_rgba(0,0,0,0.8)] sm:p-8"
+        className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_400ms_cubic-bezier(0.175,0.885,0.32,1.275)] overflow-y-auto overscroll-contain rounded-2xl border border-neutral-cs-10/50 bg-black/60 p-6 text-white shadow-[0_0_50px_rgba(0,0,0,0.8)] backdrop-blur-md sm:p-8"
       >
         <button
           type="button"
