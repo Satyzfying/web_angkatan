@@ -20,6 +20,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const [answer, setAnswer] = useState('')
   const [isWrong, setIsWrong] = useState(false)
   const [step, setStep] = useState<'quiz' | 'quote' | 'card'>('quiz')
+  const [isMusicMode, setIsMusicMode] = useState(false)
 
   const magicalFloaters = [
     { e: '⭐', sz: 28 }, { e: '✨', sz: 24 }, { e: '🌟', sz: 32 },
@@ -61,7 +62,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const checkAnswer = () => {
     const normalizedAnswer = answer.trim().toLowerCase().replace(/\s+/g, ' ')
 
-    if (normalizedAnswer === 'princess nadya') {
+    if (normalizedAnswer === 'nadya') {
       setStep('quote')
       setIsWrong(false)
       return
@@ -76,7 +77,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return (
-    <div className="member-popup-shell">
+    <div className={`member-popup-shell ${isMusicMode ? 'music-mode' : ''}`}>
       <div className="bg-kingdom">
         <div className="castle-wrap">
           <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" fill="rgba(180,80,255,.7)">
@@ -190,20 +191,20 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 <span className="quiz-bow">🎀</span>
               </div>
 
-              <div className="quiz-title">Aku lagi ngumpet nih 🫣</div>
+              <div className="quiz-title">The castle gate is locked 👑</div>
               <div className="quiz-body">
-                Kalau mau ketemu,<br />coba panggil aku dulu 💌
+                Only the princess&apos;s name can open it
               </div>
 
               <div className="clue-box">
-                <p>💌 Clue:<br />coba panggil dulu<br />princess nadya 👑</p>
+                <p>👑 Hint: It&apos;s her first name</p>
               </div>
 
               <div className="input-row">
                 <input
                   className="q-input"
                   value={answer}
-                  placeholder="ketik jawaban..."
+                  placeholder="type her name..."
                   onChange={(e) => setAnswer(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') checkAnswer()
@@ -226,7 +227,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                   </div>
                 </div>
                 <div className="wrong-msg-only">
-                  Belum bener, coba panggil<br />&quot;Princess Nadya&quot; dulu yaa 💗
+                  🌙 The magic didn&apos;t work...
+                  <br />
+                  Perhaps that&apos;s not the princess we&apos;re looking for.
                 </div>
                 <button className="btn-wrong-close" onClick={closeWrong}>✕</button>
               </div>
@@ -305,7 +308,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 </div>
               </div>
 
-              <div className="spotify-box">
+              <div className="music-hint">
+🌙 Tap the song card to unlock the starry night
+</div>
+
+              <div className="spotify-box" onClick={() => setIsMusicMode(true)}>
                 <div className="sp-label-title">Lagu Favorit</div>
                 <div className="sp-song-name">Begin Again 🎶</div>
                 <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/05GsNucq8Bngd9fnd4fRa0?si=87e953ecc5f4492c" />
@@ -1229,6 +1236,199 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           text-align: center;
           margin-bottom: 8px;
         }
+
+        /* =========================
+   MUSIC MODE - NIGHT SKY
+========================= */
+
+.member-popup-shell.music-mode .bg-kingdom {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,.15), transparent 20%),
+    radial-gradient(circle at 80% 30%, rgba(255,255,255,.12), transparent 25%),
+    radial-gradient(circle at 50% 80%, rgba(255,255,255,.08), transparent 30%),
+    linear-gradient(
+      180deg,
+      #050816 0%,
+      #0b1330 20%,
+      #1b2558 45%,
+      #35296d 65%,
+      #5d3e91 85%,
+      #7f5ab5 100%
+    );
+  animation: nightSkyGlow 8s ease-in-out infinite;
+}
+
+@keyframes nightSkyGlow {
+  0%,100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.15);
+  }
+}
+
+/* SHOOTING STAR */
+
+.member-popup-shell.music-mode .bg-kingdom::after {
+  content: '';
+  position: absolute;
+  width: 220px;
+  height: 2px;
+  top: 20%;
+  left: -250px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.95),
+    transparent
+  );
+  transform: rotate(-25deg);
+  animation: shootingStar 4s linear infinite;
+}
+
+@keyframes shootingStar {
+  0% {
+    transform: translateX(0) translateY(0) rotate(-25deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(1800px) translateY(350px) rotate(-25deg);
+    opacity: 0;
+  }
+}
+
+/* SUPER TWINKLE STARS */
+
+.member-popup-shell.music-mode .star-dot {
+  background: #fff;
+  animation: magicalTwinkle .8s ease-in-out infinite !important;
+  box-shadow:
+    0 0 8px #fff,
+    0 0 15px #fff,
+    0 0 25px #8ec5ff,
+    0 0 40px #caa8ff;
+}
+
+@keyframes magicalTwinkle {
+  0%,100% {
+    opacity: .2;
+    transform: scale(.6);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(2);
+  }
+}
+
+/* EXTRA FLOWERS */
+
+.member-popup-shell.music-mode .sakura {
+  animation-duration: 2.8s !important;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,.8));
+}
+
+.member-popup-shell.music-mode .sakura-layer::before,
+.member-popup-shell.music-mode .sakura-layer::after {
+  content: '🌸 🌷 💗 🌺 🌸 💗 🌷 🌸';
+  position: absolute;
+  width: 100%;
+  left: 0;
+  font-size: 26px;
+  letter-spacing: 26px;
+  animation: extraFlowerFall 4s linear infinite;
+  opacity: .95;
+}
+
+.member-popup-shell.music-mode .sakura-layer::after {
+  left: 40px;
+  animation-delay: 2s;
+  font-size: 22px;
+}
+
+@keyframes extraFlowerFall {
+  0% {
+    transform: translateY(-80px) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(110vh) translateX(80px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* FLOATERS MORE ACTIVE */
+
+.member-popup-shell.music-mode .floater {
+  animation-duration: 1.8s !important;
+  filter:
+    drop-shadow(0 0 12px rgba(255,255,255,.8))
+    drop-shadow(0 0 25px rgba(255,180,255,.6));
+}
+
+/* CARD AURORA GLOW */
+
+.member-popup-shell.music-mode .card {
+  animation:
+    cardPop .75s cubic-bezier(.34,1.56,.64,1) both,
+    auroraGlow 4s ease-in-out infinite;
+}
+
+@keyframes auroraGlow {
+  0%,100% {
+    box-shadow:
+      0 0 20px rgba(130,180,255,.3),
+      0 0 40px rgba(175,120,255,.25),
+      0 20px 60px rgba(120,80,255,.25);
+  }
+
+  50% {
+    box-shadow:
+      0 0 50px rgba(130,180,255,.7),
+      0 0 90px rgba(175,120,255,.55),
+      0 30px 90px rgba(120,80,255,.4);
+  }
+}
+
+/* SPOTIFY GLOW */
+
+.member-popup-shell.music-mode .spotify-box {
+  transform: scale(1.03);
+  box-shadow:
+    0 0 20px rgba(130,180,255,.4),
+    0 0 45px rgba(175,120,255,.35);
+}
+
+.music-hint {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: #8a1457;
+  margin-bottom: 10px;
+  animation: hintGlow 2.5s ease-in-out infinite;
+  letter-spacing: .3px;
+}
+
+@keyframes hintGlow {
+  0%,100% {
+    opacity: .7;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
+    text-shadow:
+      0 0 8px rgba(255,105,180,.5),
+      0 0 15px rgba(190,120,255,.4);
+  }
+}
       `}</style>
     </div>
   )
