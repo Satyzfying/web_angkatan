@@ -1,7 +1,11 @@
 'use client'
 
-import React, { useEffect, useMemo, useState } from 'react'
+/* eslint-disable react-hooks/set-state-in-effect, react/no-unescaped-entities */
+import React, { useEffect, useState } from 'react'
+
 import Image from 'next/image'
+
+import { createPortal } from 'react-dom'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
@@ -75,73 +79,72 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     setAnswer('')
   }
 
-  return (
-    <div className="member-popup-shell">
-      <div className="bg-kingdom">
-        <div className="castle-wrap">
-          <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" fill="rgba(180,80,255,.7)">
-            <rect x="60" y="180" width="90" height="320" rx="4" />
-            <rect x="45" y="160" width="120" height="40" rx="2" />
-            <rect x="50" y="130" width="20" height="50" />
-            <rect x="80" y="120" width="20" height="60" />
-            <rect x="110" y="130" width="20" height="50" />
-            <polygon points="100,60 60,160 140,160" />
-            <rect x="170" y="260" width="60" height="240" rx="2" />
-            <polygon points="200,210 170,265 230,265" />
-            <rect x="260" y="200" width="380" height="300" rx="4" />
-            <ellipse cx="450" cy="380" rx="55" ry="75" fill="rgba(100,20,160,.5)" />
-            <rect x="395" y="380" width="110" height="120" fill="rgba(100,20,160,.5)" />
-            <rect x="370" y="80" width="160" height="200" rx="4" />
-            <rect x="355" y="60" width="190" height="35" rx="2" />
-            <polygon points="450,0 355,65 545,65" />
-            <ellipse cx="450" cy="140" rx="22" ry="28" fill="rgba(100,20,160,.45)" />
-            <ellipse cx="410" cy="230" rx="14" ry="18" fill="rgba(100,20,160,.45)" />
-            <ellipse cx="490" cy="230" rx="14" ry="18" fill="rgba(100,20,160,.45)" />
-            <rect x="670" y="260" width="60" height="240" rx="2" />
-            <polygon points="700,210 670,265 730,265" />
-            <rect x="750" y="180" width="90" height="320" rx="4" />
-            <rect x="735" y="160" width="120" height="40" rx="2" />
-            <polygon points="800,60 750,160 850,160" />
-          </svg>
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
+      onClick={(event) => event.stopPropagation()}
+      onKeyDown={(event) => event.stopPropagation()}
+    >
+      <button
+        type="button"
+        aria-label="Close member detail"
+        onClick={onClose}
+        className="fixed inset-0 bg-pink-950/50 backdrop-blur-md"
+      />
+
+      <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain rounded-[2rem] border-4 border-pink-100 bg-gradient-to-br from-pink-50 via-white to-pink-100 p-6 text-pink-950 shadow-[0_8px_40px_rgba(255,182,193,0.35)] sm:p-8">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[2rem]">
+          <div className="absolute top-6 left-8 text-3xl opacity-40">🌙</div>
+          <div className="absolute top-16 right-12 text-2xl opacity-30">⭐</div>
+          <div className="absolute top-32 left-16 text-xl opacity-40">🌸</div>
+          <div className="absolute right-10 bottom-24 text-3xl opacity-30">✨</div>
+          <div className="absolute bottom-10 left-12 text-2xl opacity-30">☁️</div>
+          <div className="absolute right-24 bottom-12 text-xl opacity-40">🌸</div>
+          <div className="absolute top-1/2 left-6 text-lg opacity-20">⭐</div>
+          <div className="absolute top-1/3 right-6 text-lg opacity-20">✨</div>
         </div>
 
-        <div className="moon">🌙</div>
+        <button
+          type="button"
+          aria-label="Close member detail"
+          onClick={onClose}
+          className="absolute top-4 right-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border-2 border-pink-300 bg-white text-xl font-black shadow-md hover:bg-pink-100"
+        >
+          ×
+        </button>
 
-        <div className="star-field">
-          {stars.map((_, i) => (
-            <div
-              key={i}
-              className="star-dot"
-              style={{
-                width: `${1.5 + (i % 4)}px`,
-                height: `${1.5 + (i % 4)}px`,
-                top: `${(i * 13.7) % 96}%`,
-                left: `${(i * 19.3) % 99}%`,
-                '--d': `${1.2 + (i % 4) * 0.6}s`,
-                '--dl': `${(i * 0.15) % 4}s`,
-              } as StyleVars}
-            />
-          ))}
-        </div>
+        {step === 'quiz' && (
+          <div className="relative z-10 rounded-3xl border-4 border-white bg-white/80 p-6 text-center shadow-xl">
+            <p className="text-5xl">👑🎀✨</p>
 
-        <div className="floaters">
-          {magicalFloaters.map((item, i) => (
-            <div
-              key={i}
-              className="floater"
-              style={{
-                top: `${2 + (i * 14.5) % 92}%`,
-                left: `${1 + (i * 21.4) % 97}%`,
-                '--sz': `${item.sz}px`,
-                '--ty': `${-(12 + (i % 6) * 4)}px`,
-                '--r0': `${(i % 4) * 8 - 16}deg`,
-                '--r1': `${(i % 5) * 8 - 12}deg`,
-                '--op': 0.65 + (i % 4) * 0.08,
-                '--d': `${2.5 + (i % 3) * 0.8}s`,
-                '--dl': `${i * 0.14}s`,
-              } as StyleVars}
-            >
-              {item.e}
+            <p className="mt-4 text-lg font-bold">
+              Aku lagi ngumpet nih 🫣
+              <br />
+              Kalau mau lihat, coba panggil aku dulu 💌
+            </p>
+
+            <div className="mt-5 rounded-2xl border-2 border-dashed border-pink-300 bg-pink-50 p-4 text-sm font-semibold">
+              💌 Clue:
+              <br />
+              coba panggil dulu princess nadya 👑
+            </div>
+
+            <div className="mt-5 flex gap-2">
+              <input
+                value={answer}
+                onChange={(e) => setAnswer(e.target.value)}
+                placeholder="ketik jawaban..."
+                type="text"
+                className="w-full rounded-full border-2 border-pink-300 bg-white px-4 py-2 text-sm font-semibold outline-none placeholder:text-pink-300 focus:border-pink-500"
+              />
+
+              <button
+                type="button"
+                onClick={checkAnswer}
+                className="rounded-full bg-pink-500 px-5 py-2 text-sm font-black text-white shadow-md transition-all hover:scale-105 hover:bg-pink-600"
+              >
+                jawab
+              </button>
             </div>
           ))}
         </div>
@@ -163,73 +166,38 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           ))}
         </div>
 
-        <div className="cloud-base cloud-1"><span>☁️</span></div>
-        <div className="cloud-base cloud-2"><span>☁️</span></div>
-        <div className="cloud-base cloud-3"><span>☁️</span></div>
-        <div className="cloud-base cloud-4"><span>☁️</span></div>
-      </div>
+            <p className="mt-4 text-base leading-relaxed font-bold">
+              "You can always begin again!
+              <br />
+              Romanticize your life cause you're the main character."
+            </p>
 
       <div className="page">
         <div className="card">
           <button className="close-btn" onClick={onClose} title="Tutup">×</button>
 
-          <div className="cd moon-tl">🌙</div>
-          <div className="cd star-tr">⭐</div>
-          <div className="cd star2">✨</div>
-          <div className="cd flower-tr">🌸</div>
-          <div className="cd tulip-r">🌷</div>
-          <div className="cd flower-bl">🌸</div>
-          <div className="cd flower-br">🌸</div>
-          <div className="cd heart-bl">💗</div>
-          <div className="cd heart-br">💕</div>
+            <button
+              type="button"
+              onClick={() => setStep('card')}
+              className="mt-5 rounded-full bg-pink-500 px-6 py-2 text-sm font-black text-white shadow-md transition-all hover:scale-105 hover:bg-pink-600"
+            >
+              You Found Me 👀
+            </button>
+          </div>
+        )}
 
-          {step === 'quiz' && (
-            <div className="slide">
-              <div className="quiz-icon-row">
-                <span className="quiz-crown">👑</span>
-                <span className="quiz-bow">🎀</span>
-              </div>
+        {step === 'card' && (
+          <>
+            <div className="relative z-10 mb-5 overflow-hidden rounded-[1.5rem] border-4 border-white shadow-lg">
+              <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
+            </div>
 
               <div className="quiz-title">Aku lagi ngumpet nih 🫣</div>
               <div className="quiz-body">
                 Kalau mau ketemu,<br />coba panggil aku dulu 💌
               </div>
 
-              <div className="clue-box">
-                <p>💌 Clue:<br />coba panggil dulu<br />princess nadya 👑</p>
-              </div>
-
-              <div className="input-row">
-                <input
-                  className="q-input"
-                  value={answer}
-                  placeholder="ketik jawaban..."
-                  onChange={(e) => setAnswer(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') checkAnswer()
-                  }}
-                />
-                <button className="btn-kirim" onClick={checkAnswer}>Kirim</button>
-              </div>
-
-              <div className={`wrong-overlay ${isWrong ? 'show' : ''}`}>
-                <div className="sad-cloud-wrap">
-                  <div className="sad-cloud-img">
-                    <div className="cloud-body">
-                      <div className="cloud-eye-l" />
-                      <div className="cloud-eye-r" />
-                      <div className="tear-l" />
-                      <div className="tear-r" />
-                    </div>
-                    <span className="cloud-star-l">✦</span>
-                    <span className="cloud-star-r">✨</span>
-                  </div>
-                </div>
-                <div className="wrong-msg-only">
-                  Belum bener, coba panggil<br />&quot;Princess Nadya&quot; dulu yaa 💗
-                </div>
-                <button className="btn-wrong-close" onClick={closeWrong}>✕</button>
-              </div>
+              <p className="mt-1 text-sm font-bold text-pink-700">5027251013 - Surabaya</p>
             </div>
           )}
 
