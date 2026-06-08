@@ -330,18 +330,17 @@ const SCRIPT: Record<string, SceneNode> = {
   s04: { type: 'dialog', speaker: '—', text: '.....', next: 's05' },
   s05: { type: 'dialog', speaker: 'Kamu', text: 'haloooo!!', next: 's06' },
   s06: { type: 'dialog', speaker: '—', text: '....', next: 's07' },
-
-  s07: {
-    type: 'choice', speaker: 'Kamu', text: '(Melihat sesuatu tertinggal di atas kursi...)',
+  
+  s07: { type: 'choice', speaker: 'Kamu', text: '(Melihat sesuatu tertinggal di atas kursi...)',
     choices: [
       { label: 'Mengambil buku bersampul merah gelap.', next: 's08_buku' },
       { label: 'Mengambil foto usang yang terbalik.', next: 's08_foto' },
     ]
   },
-
+  
   s08_buku: { type: 'dialog', speaker: 'Kamu', text: 'Sebuah buku...? Halamannya penuh coretan teks yang... berdarah?', next: 's09' },
   s08_foto: { type: 'dialog', speaker: 'Kamu', text: 'Sebuah foto...? Wajah orang di foto ini... tergores hancur.', next: 's09' },
-
+  
   s09: { type: 'dialog', speaker: '—', text: '.....', next: 's10' },
   s10: { type: 'dialog', speaker: '???', text: 'hi, kamu!', next: 's11' },
   s11: { type: 'dialog', speaker: 'Kamu', text: '!!!!', next: 's12' },
@@ -353,9 +352,9 @@ const SCRIPT: Record<string, SceneNode> = {
   s17_a: { type: 'dialog', speaker: '???', text: 'Kau sedang memegang barang milikku...', next: 's17' },
   s17: { type: 'dialog', speaker: 'Kamu', text: 'Kamu kan... lylera?', next: 's18' },
   s18: { type: 'dialog', speaker: 'Lylera', text: 'benar. kamu adalah', next: 's19' },
-
+  
   s19: { type: 'input', speaker: 'Lylera', prompt: '...', placeholder: 'Ketik namamu...', next: (v) => 's20' },
-
+  
   s20: { type: 'dialog', speaker: 'Lylera', text: '{{name}}...', next: 's21' },
   s21: { type: 'dialog', speaker: 'Lylera', text: 'Sudah lama sekali sejak terakhir kali ada yang berani menyentuh ingatanku.', next: 's22' },
   s22: { type: 'dialog', speaker: 'Kamu', text: 'Ingatan...? Maksudmu barang yang sedang kupegang ini?', next: 's23' },
@@ -549,7 +548,7 @@ const GlitchCanvas = ({ src }: { src: string }) => {
           const ty = floor(o.t1)
           for (let y = 0; y < this.h; y++) if (ty === y) for (let x = 0; x < this.w; x++) {
             const i = (y * this.w + x) * 4
-            d[i] = p[i] + o.randX; d[i + 1] = p[i + 1] + o.randX; d[i + 2] = p[i + 2] + o.randX
+            d[i] = p[i] + o.randX; d[i+1] = p[i+1] + o.randX; d[i+2] = p[i+2] + o.randX
           }
           return d
         }
@@ -559,7 +558,7 @@ const GlitchCanvas = ({ src }: { src: string }) => {
           const ox = 4 * floor(random(-20, 20))
           for (let y = mn; y < mx; y++) for (let x = 0; x < this.w; x++) {
             const i = (y * this.w + x) * 4, t = i + ox
-            if (t >= 0 && t < d.length) { d[i] = p[t]; d[i + 1] = p[t + 1]; d[i + 2] = p[t + 2] }
+            if (t >= 0 && t < d.length) { d[i] = p[t]; d[i+1] = p[t+1]; d[i+2] = p[t+2] }
           }
           return d
         }
@@ -571,7 +570,7 @@ const GlitchCanvas = ({ src }: { src: string }) => {
           for (let i = 0; i < p.length; i += 4) {
             let r2 = (i + rR) % p.length, g2 = (i + 1 + rG) % p.length, b2 = (i + 2 + rB) % p.length
             if (r2 < 0) r2 += p.length; if (g2 < 0) g2 += p.length; if (b2 < 0) b2 += p.length
-            d[i] = p[r2]; d[i + 1] = p[g2]; d[i + 2] = p[b2]
+            d[i] = p[r2]; d[i+1] = p[g2]; d[i+2] = p[b2]
           }
           return d
         }
@@ -622,7 +621,7 @@ const OuterBg = ({ spotX, spotY, mode, visible = true, intenseGlitch = false }: 
     if (mode !== 'horror' || !videoRef.current) return
     const vid = videoRef.current
     vid.volume = 0.3
-    vid.play().catch(() => { })
+    vid.play().catch(() => {})
   }, [mode])
 
   return (
@@ -715,32 +714,32 @@ type DialogBoxProps = {
   inputRef: React.RefObject<HTMLInputElement>
   onAdvance: (nextId?: string) => void
   onInputSubmit: () => void
-  userName: string
+  userName: string 
 }
 
 const DialogBox = ({ sceneId, scene, inputValue, setInputValue, inputRef, onAdvance, onInputSubmit, userName }: DialogBoxProps) => {
   const [evadePos, setEvadePos] = useState({ x: 0, y: 0 })
   const baseDialogText =
     scene.type === 'dialog' ? scene.text :
-      scene.type === 'choice' ? scene.text :
-        scene.type === 'input' ? scene.prompt : ''
+    scene.type === 'choice' ? scene.text :
+    scene.type === 'input'  ? scene.prompt : ''
 
   const dialogText = baseDialogText.replace('{{name}}', userName || 'Orang Asing')
 
   const { displayed, done, skip } = useTypewriter(dialogText)
   const speakerName = 'speaker' in scene ? scene.speaker : ''
-  const isInput = scene.type === 'input'
+  const isInput  = scene.type === 'input'
   const isChoice = scene.type === 'choice'
 
   const isKamu = speakerName === 'Kamu'
   const accent = {
-    rgb: isKamu ? '80,120,210' : '210,80,100',
-    main: isKamu ? 'rgba(80,120,210,0.9)' : 'rgba(210,80,100,0.9)',
-    mid: isKamu ? 'rgba(80,120,210,0.7)' : 'rgba(210,80,100,0.7)',
-    dim: isKamu ? 'rgba(80,120,210,0.5)' : 'rgba(210,80,100,0.5)',
-    faint: isKamu ? 'rgba(80,120,210,0.35)' : 'rgba(210,80,100,0.35)',
-    vfaint: isKamu ? 'rgba(80,120,210,0.06)' : 'rgba(210,80,100,0.06)',
-    line: isKamu
+    rgb:        isKamu ? '80,120,210'  : '210,80,100',
+    main:       isKamu ? 'rgba(80,120,210,0.9)'  : 'rgba(210,80,100,0.9)',
+    mid:        isKamu ? 'rgba(80,120,210,0.7)'  : 'rgba(210,80,100,0.7)',
+    dim:        isKamu ? 'rgba(80,120,210,0.5)'  : 'rgba(210,80,100,0.5)',
+    faint:      isKamu ? 'rgba(80,120,210,0.35)' : 'rgba(210,80,100,0.35)',
+    vfaint:     isKamu ? 'rgba(80,120,210,0.06)' : 'rgba(210,80,100,0.06)',
+    line:       isKamu
       ? 'linear-gradient(90deg,transparent,rgba(80,120,210,0.6),rgba(80,120,210,0.8),rgba(80,120,210,0.6),transparent)'
       : 'linear-gradient(90deg,transparent,rgba(210,80,100,0.6),rgba(210,80,100,0.8),rgba(210,80,100,0.6),transparent)',
       boxSolidBg: isKamu
@@ -750,11 +749,11 @@ const DialogBox = ({ sceneId, scene, inputValue, setInputValue, inputRef, onAdva
     boxShadow:  isKamu
       ? '0 0 40px rgba(80,120,210,0.08),inset 0 0 30px rgba(40,60,180,0.04)'
       : '0 0 40px rgba(210,80,100,0.08),inset 0 0 30px rgba(180,40,60,0.04)',
-    tagBg: isKamu
+    tagBg:      isKamu
       ? 'linear-gradient(135deg,rgba(5,8,25,0.97) 0%,rgba(8,12,40,0.95) 100%)'
       : 'linear-gradient(135deg,rgba(25,5,8,0.97) 0%,rgba(40,8,12,0.95) 100%)',
-    tagBorder: isKamu ? 'rgba(80,120,210,0.55)' : 'rgba(210,80,100,0.55)',
-    tagText: isKamu ? '#b0c8f0' : '#f5d8dc',
+    tagBorder:  isKamu ? 'rgba(80,120,210,0.55)'  : 'rgba(210,80,100,0.55)',
+    tagText:    isKamu ? '#b0c8f0' : '#f5d8dc',
     tagLetterSpacing: isKamu ? '0.12em' : '0.18em',
   }
 
@@ -987,7 +986,7 @@ useEffect(() => {
   useEffect(() => { 
     const t = setTimeout(() => setFadeIn(true), 100)
     const d = setTimeout(() => setShowDialog(true), 3000)
-
+    
     return () => { clearTimeout(t); clearTimeout(d) }
   }, [])
 
@@ -1097,15 +1096,15 @@ type MemberPopupProps = { isOpen: boolean; onClose: () => void }
 type CardState = 'ALIVE' | 'PLAYING_VIRTUOSA' | 'TEARING' | 'DEADLOCK' | 'BOOTING'
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
-  const [activeGlitch, setActiveGlitch] = useState<string | null>(null)
-  const [cardTear, setCardTear] = useState<number>(0)
-  const [cardState, setCardState] = useState<CardState>('ALIVE')
-  const [glitchBg, setGlitchBg] = useState('rgba(5,0,1,1)')
-  const [glitchBorder, setGlitchBorder] = useState('rgba(200,0,50,0.8)')
-  const [glitchBoxBg, setGlitchBoxBg] = useState('rgba(0,0,0,0.9)')
-  const [glitchTextVariant, setGlitchTextVariant] = useState(0)
-  const [glitchFlicker, setGlitchFlicker] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
+  const [activeGlitch,      setActiveGlitch]      = useState<string | null>(null)
+  const [cardTear,          setCardTear]           = useState<number>(0)
+  const [cardState,         setCardState]          = useState<CardState>('ALIVE')
+  const [glitchBg,          setGlitchBg]           = useState('rgba(5,0,1,1)')
+  const [glitchBorder,      setGlitchBorder]       = useState('rgba(200,0,50,0.8)')
+  const [glitchBoxBg,       setGlitchBoxBg]        = useState('rgba(0,0,0,0.9)')
+  const [glitchTextVariant, setGlitchTextVariant]  = useState(0)
+  const [glitchFlicker,     setGlitchFlicker]      = useState(false)
+  const [isMounted,         setIsMounted]          = useState(false)
 
   const cardContentRef = useRef<HTMLDivElement>(null)
 
@@ -1175,11 +1174,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   useEffect(() => {
     if (cardState !== 'DEADLOCK' && cardState !== 'BOOTING') return
-    const bgs = ['rgba(5,0,1,1)', 'rgba(20,0,0,1)', 'rgba(0,0,5,1)', 'rgba(10,0,0,1)', 'rgba(50,0,10,1)', 'rgba(0,5,0,1)', 'rgba(2,0,8,1)']
-    const bords = ['rgba(255,0,0,1)', 'rgba(200,0,50,0.8)', 'rgba(255,50,0,1)', 'rgba(180,0,0,0.9)', 'rgba(255,0,100,0.7)', 'rgba(255,255,0,0.5)', 'rgba(0,255,255,0.3)']
-    const boxes = ['rgba(0,0,0,0.9)', 'rgba(30,0,0,0.95)', 'rgba(10,0,5,0.85)', 'rgba(0,0,10,0.92)', 'rgba(20,0,0,0.98)']
+    const bgs   = ['rgba(5,0,1,1)','rgba(20,0,0,1)','rgba(0,0,5,1)','rgba(10,0,0,1)','rgba(50,0,10,1)','rgba(0,5,0,1)','rgba(2,0,8,1)']
+    const bords  = ['rgba(255,0,0,1)','rgba(200,0,50,0.8)','rgba(255,50,0,1)','rgba(180,0,0,0.9)','rgba(255,0,100,0.7)','rgba(255,255,0,0.5)','rgba(0,255,255,0.3)']
+    const boxes  = ['rgba(0,0,0,0.9)','rgba(30,0,0,0.95)','rgba(10,0,5,0.85)','rgba(0,0,10,0.92)','rgba(20,0,0,0.98)']
     let bt: NodeJS.Timeout, brt: NodeJS.Timeout, tt: NodeJS.Timeout, ft: NodeJS.Timeout
-    const cBg = () => { setGlitchBg(bgs[floor(random(bgs.length))]); bt = setTimeout(cBg, floor(random(80, 400))) }
+    const cBg  = () => { setGlitchBg(bgs[floor(random(bgs.length))]); bt  = setTimeout(cBg,  floor(random(80, 400))) }
     const cBrd = () => { setGlitchBorder(bords[floor(random(bords.length))]); setGlitchBoxBg(boxes[floor(random(boxes.length))]); brt = setTimeout(cBrd, floor(random(100, 500))) }
     const cTxt = () => { setGlitchTextVariant(floor(random(6))); tt = setTimeout(cTxt, floor(random(50, 300))) }
     const cFlk = () => { setGlitchFlicker(Math.random() > 0.5); ft = setTimeout(cFlk, floor(random(30, 200))) }
@@ -1218,7 +1217,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           ${cardTear > 0 && cardState === 'ALIVE' ? `card-tear-base card-tear-${cardTear}` : ''}`}
         style={{
           backgroundColor: isLocked ? glitchBg : '#050001',
-          borderColor: isLocked ? glitchBorder : undefined,
+          borderColor:     isLocked ? glitchBorder : undefined,
           boxShadow: isLocked
             ? `0 0 25px ${glitchBorder}`
             : '0 0 60px rgba(180,20,40,0.35), 0 0 120px rgba(120,0,20,0.2), 0 0 200px rgba(60,0,10,0.15)',
@@ -1311,14 +1310,19 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           className="relative z-10 max-h-[100dvh] overflow-y-auto overflow-x-hidden p-6 sm:p-8 scrollbar-thin scrollbar-thumb-red-900 scrollbar-track-black"
         >
 
-          <div style={{ position: 'relative', zIndex: 2 }}>
+        <div className="pr-10">
+          {/* UBAH NAMA ANDA */}
+          <h2 className="text-2xl font-black">Yovi Prayudya Rizky Rmaadhani</h2>
+          {/* UBAH NRP DAN ASAL */}
+          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251107 - Probolinggo</p>
+        </div>
 
             {isLocked && (
               <div className={`flex flex-col gap-4 ${glitchFlicker ? 'corruption-container' : ''}`}>
                 <div className="relative overflow-hidden rounded-sm" style={{ border: `3px solid ${glitchBorder}`, boxShadow: `0 0 30px ${glitchBorder},inset 0 0 20px rgba(255,0,0,0.2)`, transition: 'none' }}>
                   {cardState === 'BOOTING'
-                    ? <Image src={readingGif} alt="system booting..." className="w-full object-cover object-center" unoptimized />
-                    : <Image src={tauntingGif} alt="fatal error" className="w-full object-cover object-center" unoptimized style={{ filter: glitchFlicker ? 'hue-rotate(180deg) saturate(200%) contrast(150%)' : 'none' }} />
+                    ? <Image src={readingGif}  alt="system booting..." className="w-full object-cover object-center" unoptimized />
+                    : <Image src={tauntingGif} alt="fatal error"       className="w-full object-cover object-center" unoptimized style={{ filter: glitchFlicker ? 'hue-rotate(180deg) saturate(200%) contrast(150%)' : 'none' }} />
                   }
                   <div className="crt-texture" />
                   <div className="absolute inset-0 pointer-events-none mix-blend-color-dodge" style={{ background: glitchFlicker ? 'linear-gradient(90deg,rgba(255,0,0,0.15) 0%,transparent 33%,rgba(0,255,255,0.15) 66%,transparent 100%)' : 'none', transition: 'none' }} />
@@ -1466,7 +1470,7 @@ type MemberWithIntroProps = { isOpen: boolean; onClose: () => void }
 
 const MemberWithIntro = ({ isOpen, onClose }: MemberWithIntroProps) => {
   const [introShown, setIntroShown] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
+  const [isMounted,  setIsMounted]  = useState(false)
 
   useEffect(() => { setIsMounted(true) }, [])
   useEffect(() => { if (!isOpen) setIntroShown(false) }, [isOpen])
@@ -1485,7 +1489,7 @@ const MemberWithIntro = ({ isOpen, onClose }: MemberWithIntroProps) => {
         )}
       </style>
       {!introShown && <IntroVisualNovel onComplete={() => setIntroShown(true)} />}
-      {introShown && <MemberPopup isOpen={true} onClose={onClose} />}
+      {introShown  && <MemberPopup isOpen={true} onClose={onClose} />}
     </>,
     document.body
   )
