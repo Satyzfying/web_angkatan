@@ -1,11 +1,6 @@
-/* ============================================================
-   Member 091 — NieR:Automata theme (scoped, namespaced nier-*)
-   Self-contained: font + film grain + scanlines + flicker.
-   Effects use pseudo-elements only, so NO extra DOM nodes are
-   added to the popup structure.
-   ============================================================ */
 
-/* NieR:Automata theme font (variable weight) */
+
+/* font (variable weight) */
 @font-face {
   font-family: 'Jost';
   src: url('./Jost.ttf') format('truetype');
