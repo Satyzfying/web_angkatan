@@ -10,7 +10,7 @@ import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import DiscordEffect from '@/assets/images/members/discord-effect.svg'
 
 import MemberPopup from './MemberPopup'
-import ProfileImage from './fotoweb.jpeg'
+import ProfileImage from './ndr.jpeg'
 
 const CardMember = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
