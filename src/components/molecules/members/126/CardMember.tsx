@@ -29,6 +29,10 @@ const CardMember = () => {
         tabIndex={0}
         onClick={() => setPhase('intro')}
         onKeyDown={(event) => {
+          if (event.target !== event.currentTarget) {
+            return
+          }
+
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault()
             setPhase('intro')

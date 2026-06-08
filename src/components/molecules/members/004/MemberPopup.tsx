@@ -29,7 +29,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const battleFinishedRef = useRef(false)
   const [musicStarted, setMusicStarted] = useState(false)
   const profileMusicRef = useRef<HTMLAudioElement | null>(null)
-  const [flipped, setFlipped] = useState(false)
   const [bgmMuted, setBgmMuted] = useState(false)
 
   useEffect(() => {
@@ -82,7 +81,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     setMarkerPos(0)
     setMusicStarted(false)
     setBgmMuted(false)
-    setFlipped(false)
     setMessage('Press FIGHT to attack!')
 
     onClose()

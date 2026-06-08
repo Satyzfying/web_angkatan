@@ -27,6 +27,36 @@ const rubikone = localFont({
   display: 'swap'
 })
 
+const simplicity = localFont({
+  src: '../assets/fonts/simplicity/Simplicity.otf',
+  variable: '--font-simplicity',
+  display: 'swap'
+})
+
+const blackGoth = localFont({
+  src: '../assets/fonts/blackGoth/Blackgoth.otf',
+  variable: '--font-blackgoth',
+  display: 'swap'
+})
+
+const cloisterBlack = localFont({
+  src: '../assets/fonts/cloister-black/CloisterBlack.ttf',
+  variable: '--font-cloisterblack',
+  display: 'swap'
+})
+
+const Bodo = localFont({
+  src: '../assets/fonts/bodo/BodoRoman.ttf',
+  variable: '--font-bodo',
+  display: 'swap'
+})
+
+const ringerLuctor = localFont({
+  src: '../assets/fonts/ringer-luctor/RingerLuctor.otf',
+  variable: '--font-ringer',
+  display: 'swap'
+})
+
 export const metadata: Metadata = defineMetadata()
 
 export default function RootLayout({
@@ -35,7 +65,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${cinzel.variable} ${rubikone.variable} h-full antialiased`}>
+    <html lang="en" className={`${montserrat.variable} ${cinzel.variable} ${rubikone.variable} ${simplicity.variable} ${blackGoth.variable} 
+      ${cloisterBlack.variable} ${Bodo.variable} ${ringerLuctor.variable} h-full antialiased`}>
       <head>
         <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-96x96.png" sizes="96x96" />
         <link rel="icon" type="image/svg+xml" href="/assets/images/favicon/favicon.svg" />

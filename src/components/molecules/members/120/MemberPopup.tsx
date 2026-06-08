@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 
 import Image from 'next/image'
-
 import { createPortal } from 'react-dom'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
@@ -23,6 +22,9 @@ type MemberPopupProps = {
   isOpen: boolean
   onClose: () => void
 }
+
+type Step = 'login' | 'welcome' | 'popup'
+type SpotifyTrack = 'none' | 'you-re-mine' | 'break-it-down'
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   // TAMBAHKAN STATE INI:
@@ -52,9 +54,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     }
   }, [isOpen, onClose])
 
-  if (!isOpen) {
-    return null
-  }
+  if (!isOpen) return null
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
@@ -63,7 +63,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         type="button"
         aria-label="Close member detail"
         onClick={onClose}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0"
       />
 
       {/* =========================================================
@@ -94,16 +94,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             (Trik utama agar konten gerak tapi background di luar tetap diam)
            ========================================================= */}
         <div className="absolute inset-0 overflow-y-auto p-6 sm:p-8">
-          {/* TOMBOL CLOSE POPUP */}
-          <button
-            type="button"
-            aria-label="Close member detail"
-            onClick={onClose}
-            className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
-          >
-            x
-          </button>
-
           {/* CONTAINER FOTO PROFIL */}
           <div
             onClick={() => setIsFlipped((prev) => !prev)} // Tambahkan fungsi untuk toggle flip saat foto diklik (buat bantu mobile user)
