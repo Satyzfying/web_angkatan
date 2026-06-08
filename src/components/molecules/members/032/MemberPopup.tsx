@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -163,9 +165,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-  return (
+  return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
       <button
         type="button"
         aria-label="Close member detail"
@@ -180,6 +182,19 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         {/* Curtains */}
         <div className="pointer-events-none absolute top-0 left-0 h-full w-20 z-[1]" style={{ background: 'linear-gradient(to right, #5a2a8a, #7a4aaa, rgba(122,74,170,0))' }} />
         <div className="pointer-events-none absolute top-0 right-0 h-full w-20 z-[1]" style={{ background: 'linear-gradient(to left, #5a2a8a, #7a4aaa, rgba(122,74,170,0))' }} />
+      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
+        <button
+          type="button"
+          aria-label="Close member detail"
+          onClick={onClose}
+          className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
+        >
+          x
+        </button>
+
+        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
+          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
+        </div>
 
         {/* Gold bars top & bottom */}
         <div className="pointer-events-none absolute top-0 left-0 right-0 h-[10px] z-[4]" style={{ background: 'linear-gradient(90deg,#a06200,#f9d76b,#f0c040,#c8860a,#f9d76b,#a06200)', borderRadius: '14px 14px 0 0' }} />
@@ -271,7 +286,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
