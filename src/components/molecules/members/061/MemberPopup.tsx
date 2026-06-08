@@ -189,8 +189,9 @@ const MemberPopup = ({ isOpen, onClose, onOpenHelp }: MemberPopupProps) => {
       }}/>
 
       <div style={{
-        position: 'relative', zIndex: 10, width: 480,
+        position: 'relative', zIndex: 10, width: '100%', maxWidth: 480,
         height: '100dvh', maxHeight: '100dvh', overflowY: 'auto',
+        boxSizing: 'border-box', overscrollBehavior: 'contain',
         outline: `1px solid #0a246a`,
         border: '2px solid',
         borderColor: `${C.bHi} ${C.bDark} ${C.bDark} ${C.bHi}`,
