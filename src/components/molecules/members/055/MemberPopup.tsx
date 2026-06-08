@@ -1,19 +1,18 @@
 'use client'
 
 /* eslint-disable react/no-unescaped-entities */
-
 import React, { useEffect } from 'react'
-import { createPortal } from 'react-dom'
 
+import { VT323 } from 'next/font/google'
 import Image from 'next/image'
+
+import { createPortal } from 'react-dom'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
 import ProfileImage from './image.png'
-
-import { VT323 } from 'next/font/google'
 
 const vt323 = VT323({ weight: '400', subsets: ['latin'] })
 
@@ -57,7 +56,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
 
-      <div className="border-neutral-cs-10 bg-[#2c2420] relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
+      <div className="border-neutral-cs-10 relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 bg-[#2c2420] p-6 text-white shadow-xl sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
@@ -68,7 +67,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </button>
 
         <div className="border-neutral-cs-10/60 mb-5 overflow-hidden rounded-2xl border">
-          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
+          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-top" />
         </div>
 
         <div className="pr-10">

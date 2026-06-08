@@ -99,7 +99,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
         {/* ── Modal wrapper ── */}
         <div
-          className="relative z-10 my-6 w-full max-w-[720px] overflow-y-auto rounded-2xl border border-[rgba(120,160,220,0.08)] p-6 text-white shadow-2xl sm:p-8"
+          className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-2xl border border-[rgba(120,160,220,0.08)] p-6 text-white shadow-2xl sm:p-8"
           style={{
             /* Background diperbarui menjadi biru yang lebih gelap dan pekat */
             background: 'linear-gradient(155deg, #020813 0%, #091C3D 55%, #030A18 100%)',
