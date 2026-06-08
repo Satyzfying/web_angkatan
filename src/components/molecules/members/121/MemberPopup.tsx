@@ -146,7 +146,7 @@ const ORB_COLOR = '#ffaa00'
 const OrbBorder = ({ size }: { size: { w: number; h: number } }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animRef   = useRef<number>(0)
-  const tRef      = useRef<number>(Math.random())
+  const tRef      = useRef<number>(0)
   const tailRef   = useRef<{ x: number; y: number }[]>([])
   const MARGIN = 1, TAIL_LEN = 50, ORB_R = 4.5, SPEED = 0.0022
 
@@ -155,6 +155,7 @@ const OrbBorder = ({ size }: { size: { w: number; h: number } }) => {
     if (!canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
+    if (tRef.current === 0) tRef.current = Math.random()
     const W = canvas.width, H = canvas.height
     const x0 = MARGIN, y0 = MARGIN, x1 = W - MARGIN, y1 = H - MARGIN
     const bw = x1 - x0, bh = y1 - y0, perimeter = 2 * (bw + bh)
@@ -344,22 +345,33 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   useEffect(() => {
     if (!isOpen) {
-      setAnimIn(false)
+      const exitFrame = requestAnimationFrame(() => setAnimIn(false))
       const t = setTimeout(() => {
         setVisible(false); setPhase('game')
         setProfileRevealStep(0); setHeartsVisible(0); setXpAnimated(false)
         initGame()
         if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0 }
       }, 300)
-      return () => clearTimeout(t)
+      return () => {
+        cancelAnimationFrame(exitFrame)
+        clearTimeout(t)
+      }
     }
-    setVisible(true); initGame()
-    requestAnimationFrame(() => requestAnimationFrame(() => setAnimIn(true)))
-  }, [isOpen])
+    const enterFrame = requestAnimationFrame(() => {
+      setVisible(true)
+      initGame()
+      requestAnimationFrame(() => setAnimIn(true))
+    })
+    return () => cancelAnimationFrame(enterFrame)
+  }, [initGame, isOpen])
 
   useEffect(() => {
     if (phase !== 'profile') return
-    setProfileRevealStep(0); setHeartsVisible(0); setXpAnimated(false)
+    const resetFrame = requestAnimationFrame(() => {
+      setProfileRevealStep(0)
+      setHeartsVisible(0)
+      setXpAnimated(false)
+    })
     const timers: ReturnType<typeof setTimeout>[] = []
     timers.push(setTimeout(() => setProfileRevealStep(1), 100))
     timers.push(setTimeout(() => setProfileRevealStep(2), 350))
@@ -369,7 +381,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     for (let i = 1; i <= TOTAL_HEARTS; i++)
       timers.push(setTimeout(() => setHeartsVisible(i), 400 + i * 120))
     timers.push(setTimeout(() => setXpAnimated(true), 400 + TOTAL_HEARTS * 120 + 200))
-    return () => timers.forEach(clearTimeout)
+    return () => {
+      cancelAnimationFrame(resetFrame)
+      timers.forEach(clearTimeout)
+    }
   }, [phase])
 
   useEffect(() => {
@@ -433,44 +448,33 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const progress = Math.min((score / TARGET_SCORE) * 100, 100)
   const qIndex   = currentQ % totalQ
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32"
-      style={{ opacity: animIn ? 1 : 0, transition: 'opacity 0.3s ease', fontFamily: '"Courier New",Courier,monospace' }}>
-
+  return createPortal(
+    // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
+    <div
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4"
+      style={{ opacity: animIn ? 1 : 0, transition: 'opacity 0.3s ease', fontFamily: '"Courier New",Courier,monospace' }}
+    >
       {/* ── Video background — path diperbaiki ke /assets/videos/ ── */}
       <div className="absolute inset-0">
-        <video autoPlay loop muted playsInline className="w-full h-full object-cover">
+        <video autoPlay loop muted playsInline className="h-full w-full object-cover">
           <source src={BG_VIDEO_SRC} type="video/mp4" />
         </video>
         <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center,rgba(8,12,30,0.78) 0%,rgba(3,5,16,0.96) 100%)' }} />
-        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.07) 2px,rgba(0,0,0,0.07) 4px)', zIndex: 1 }} />
+        <div className="pointer-events-none absolute inset-0" style={{ backgroundImage: 'repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.07) 2px,rgba(0,0,0,0.07) 4px)', zIndex: 1 }} />
       </div>
 
-      <button type="button" aria-label="Close" onClick={onClose} className="absolute inset-0" style={{ background: 'transparent', zIndex: 1 }} />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ zIndex: 1, backgroundImage: `repeating-linear-gradient(0deg,transparent,transparent 31px,rgba(80,80,160,0.03) 31px,rgba(80,80,160,0.03) 32px),repeating-linear-gradient(90deg,transparent,transparent 31px,rgba(80,80,160,0.03) 31px,rgba(80,80,160,0.03) 32px)` }} />
-  return createPortal(
-    // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
       <button
         type="button"
         aria-label="Close member detail"
         onClick={onClose}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0"
+        style={{ background: 'transparent', zIndex: 1 }}
       />
-
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
-        <button
-          type="button"
-          aria-label="Close member detail"
-          onClick={onClose}
-          className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
-        >
-          x
-        </button>
-
-        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
-          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
-        </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{ zIndex: 1, backgroundImage: 'repeating-linear-gradient(0deg,transparent,transparent 31px,rgba(80,80,160,0.03) 31px,rgba(80,80,160,0.03) 32px),repeating-linear-gradient(90deg,transparent,transparent 31px,rgba(80,80,160,0.03) 31px,rgba(80,80,160,0.03) 32px)' }}
+      />
 
       {floats.map(f => (
         <div key={f.id} className="pointer-events-none fixed" style={{ left: '50%', top: '40%', zIndex: 9999, color: f.correct ? '#44ffaa' : '#ff4444', fontWeight: 900, fontSize: f.pts >= 15 ? 28 : 22, textShadow: f.correct ? '0 0 14px rgba(68,255,170,0.9),2px 2px 0 #000' : '0 0 10px rgba(255,68,68,0.8),2px 2px 0 #000', animation: 'mcFloatUp 1s cubic-bezier(0.22,1,0.36,1) forwards', transform: 'translateX(-50%)', pointerEvents: 'none' }}>
@@ -524,8 +528,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       `}</style>
 
       {/* Main card */}
-      <div className="relative w-full max-w-[720px] overflow-y-auto p-6 text-white sm:p-8"
-        style={{ background: 'linear-gradient(160deg,#0c0c20ee,#10102aee)', outline: '3px solid #3a3a6a', boxShadow: `inset 1px 1px 0 rgba(120,120,200,0.1),inset -1px -1px 0 rgba(0,0,20,0.6),0 0 0 6px rgba(20,20,50,0.85),0 0 0 9px rgba(40,40,80,0.4),0 8px 48px rgba(0,0,0,0.9)`, maxHeight: 'calc(100vh - 9rem)', zIndex: 10, borderRadius: 0, transform: animIn ? 'translateY(0px) scale(1)' : 'translateY(-40px) scale(0.92)', transition: 'transform 0.35s cubic-bezier(0.34,1.56,0.64,1)', backdropFilter: 'blur(4px)' }}>
+      <div
+        className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain p-6 text-white sm:p-8"
+        style={{ background: 'linear-gradient(160deg,#0c0c20ee,#10102aee)', outline: '3px solid #3a3a6a', boxShadow: 'inset 1px 1px 0 rgba(120,120,200,0.1),inset -1px -1px 0 rgba(0,0,20,0.6),0 0 0 6px rgba(20,20,50,0.85),0 0 0 9px rgba(40,40,80,0.4),0 8px 48px rgba(0,0,0,0.9)', borderRadius: 0, transform: animIn ? 'translateY(0px) scale(1)' : 'translateY(-40px) scale(0.92)', transition: 'transform 0.35s cubic-bezier(0.34,1.56,0.64,1)', backdropFilter: 'blur(4px)' }}
+      >
 
         {/* Title bar */}
         <div className="mb-5 flex items-center justify-between px-3 py-2" style={{ background: 'linear-gradient(90deg,rgba(30,30,100,0.4),rgba(15,15,50,0.4))', borderBottom: '1px solid rgba(80,80,160,0.25)', borderTop: '1px solid rgba(100,100,200,0.15)' }}>
