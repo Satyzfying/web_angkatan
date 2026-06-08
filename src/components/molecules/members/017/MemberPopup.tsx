@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Image from 'next/image'
 
@@ -20,10 +20,16 @@ type MemberPopupProps = {
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const cats = [Cat1, Cat2, Cat3]
+  const [showLoading, setShowLoading] = useState(false)
+
   useEffect(() => {
     if (!isOpen) {
+      setShowLoading(false)
       return
     }
+
+    setShowLoading(true)
+    const timer = window.setTimeout(() => setShowLoading(false), 3000)
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -35,6 +41,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     window.addEventListener('keydown', handleKeyDown)
 
     return () => {
+      window.clearTimeout(timer)
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
     }
@@ -47,6 +54,17 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   return (
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+      {showLoading && (
+        <div className="absolute inset-0 z-[110] flex items-center justify-center bg-gradient-to-br from-slate-950 via-blue-900 to-black">
+          <div className="flex flex-col items-center gap-6">
+            <div className="relative h-16 w-16">
+              <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-yellow-300 border-r-yellow-300 animate-spin" />
+              <div className="absolute inset-2 rounded-full border-4 border-transparent border-b-sky-400 animate-spin" style={{ animationDirection: 'reverse', animationDuration: '2s' }} />
+            </div>
+            <p className="text-xl font-bold text-yellow-300 tracking-widest">SABAR WOII !!!</p>
+          </div>
+        </div>
+      )}
       <button
         type="button"
         aria-label="Close member detail"
@@ -81,18 +99,20 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   })}
 </div>
 
-      <div className="border-neutral-cs-10 bg-neutral-cs-80 relative z-10 overflow-hidden max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-[0_20px_60px_rgba(0,0,0,0.25)] sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div className="border-black/30 bg-gradient-to-br from-slate-950 via-blue-900 to-black relative z-10 overflow-hidden max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-3xl border-2 p-6 text-white shadow-[0_30px_70px_rgba(0,0,0,0.5)] sm:max-h-[calc(100vh-10rem)] sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none"
+          className="border-white/10 hover:bg-white/10 absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full border text-xl leading-none text-white"
         >
           x
         </button>
 
-        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border">
-          <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
+        <div className="border-yellow-200/20 mb-5 overflow-hidden rounded-[32px] border bg-black/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
+          <div className="rounded-[32px] border-4 border-yellow-300/80 p-1 shadow-[0_0_0_6px_rgba(245,158,11,0.22)]">
+            <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full rounded-[28px] object-cover object-center" />
+          </div>
         </div>
 
         <div className="pr-10">
@@ -109,26 +129,28 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <LinkedInButtonLink username="viko.fauzan" />
         </div>
 
-        <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
-            {/* UBAH HOBI KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
-            <p className="mt-2">Belajar</p>
+        <div className="mt-6 rounded-3xl bg-slate-950/95 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+          <div className="grid gap-4 text-sm font-semibold sm:grid-cols-2">
+            <div className="rounded-3xl bg-yellow-300 p-4 shadow-[0_10px_30px_rgba(245,158,11,0.2)]">
+              {/* UBAH HOBI KAMU */}
+              <p className="text-slate-950 text-xs tracking-wide uppercase">Hobi</p>
+              <p className="mt-2 text-slate-950">Belajar</p>
+            </div>
+            <div className="rounded-3xl bg-yellow-300 p-4 shadow-[0_10px_30px_rgba(245,158,11,0.2)]">
+              {/* UBAH FUNFACT KAMU */}
+              <p className="text-slate-950 text-xs tracking-wide uppercase">Fun Fact</p>
+              <p className="mt-2 text-slate-950">Viko introvert parah</p>
+            </div>
           </div>
-          <div className="border-neutral-cs-10/40 rounded-xl border p-4">
-            {/* UBAH FUNFACT KAMU */}
-            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
-            <p className="mt-2">Viko introvert parah</p>
+
+          <div className="mt-4 rounded-3xl bg-yellow-300 p-5 shadow-[0_10px_30px_rgba(245,158,11,0.2)]">
+            {/* UBAH LAGU FAVORIT KAMU */}
+            <p className="text-slate-950 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
+            <p className="my-2 text-lg font-semibold text-slate-950">Stand by Me</p>
+
+            {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
+            <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2gANywSFYF58YFMPdDSAjC?si=w_eRxkMLQlmke7L3uooE4g" />
           </div>
-        </div>
-
-        <div className="border-neutral-cs-10/40 mt-4 rounded-xl border p-4">
-          {/* UBAH LAGU FAVORIT KAMU */}
-          <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
-          <p className="my-2 text-sm font-semibold">Stand by Me</p>
-
-          {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2gANywSFYF58YFMPdDSAjC?si=w_eRxkMLQlmke7L3uooE4g" />
         </div>
       </div>
     </div>
