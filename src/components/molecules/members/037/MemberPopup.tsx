@@ -1,10 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-<<<<<<< HEAD
-=======
-import React, { useCallback, useEffect, useState } from 'react'
->>>>>>> b1bfce937d4e458b144b5eebc54a7b23432ab790
+import React, { useEffect, useRef, useState } from 'react'
 
 import Image from 'next/image'
 import { Cormorant_Garamond, Great_Vibes, Nunito, Silkscreen } from 'next/font/google'
@@ -17,6 +13,7 @@ import ProfileImage from './image.jpg'
 import BackgroundImage from './background.jpg'
 import SleepingCatGif from './sleeping_cat_zzz_clean.gif'
 import IntroGif from './member-intro.gif'
+import FromTheStartAudio from './from-the-start.mp3'
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -45,6 +42,8 @@ const bodyFont = Nunito({
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const [introPhase, setIntroPhase] = useState<'playing' | 'zooming' | 'done'>('playing')
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const [isMuted, setIsMuted] = useState(false)
 
   useEffect(() => {
     if (!isOpen) {
@@ -75,9 +74,49 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       window.clearTimeout(zoomTimer)
       window.clearTimeout(doneTimer)
       document.body.style.overflow = ''
+
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current.currentTime = 0
+      }
+
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [isOpen, onClose])
+
+  useEffect(() => {
+    if (!isOpen || introPhase !== 'done') {
+      return
+    }
+
+    if (!audioRef.current) {
+      audioRef.current = new Audio(FromTheStartAudio)
+    }
+
+    const audio = audioRef.current
+    audio.pause()
+    audio.currentTime = 0
+    audio.loop = false
+    audio.muted = isMuted
+    audio.volume = 1
+
+    audio.play().catch(() => {
+      // autoplay bisa diblokir browser
+    })
+
+    return () => {
+      audio.pause()
+      audio.currentTime = 0
+    }
+  }, [isOpen, introPhase])
+
+  useEffect(() => {
+    if (!audioRef.current) {
+      return
+    }
+
+    audioRef.current.muted = isMuted
+  }, [isMuted])
 
   if (!isOpen) {
     return null
@@ -87,12 +126,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <div
       className={`fixed inset-0 z-[100] flex items-center justify-center overflow-hidden px-3 py-3 sm:px-4 sm:py-8 ${bodyFont.className}`}
-<<<<<<< HEAD
-=======
-
-      className={`fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 ${bodyFont.className}`}
-
->>>>>>> b1bfce937d4e458b144b5eebc54a7b23432ab790
     >
       <style jsx global>{`
         @keyframes intro-gif-zoom {
@@ -349,7 +382,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             </button>
 
             <div className="relative z-10">
-              <div className="relative mb-4 overflow-hidden rounded-[20px] border border-[#ffefb3]/45 bg-[rgba(91,133,182,0.16)] shadow-[0_0_30px_rgba(255,239,179,0.22)] backdrop-blur-md sm:mb-5 sm:rounded-[24px] sm:shadow-[0_0_36px_rgba(255,239,179,0.26)]">
+              <div className="relative mb-4 overflow-hidden rounded-[20px] border border-[#ffefb3]/45 bg-[rgba(91,133,182,0.16)] shadow-[0_0_30px_rgba(255,239,179,0.22)] backdrop-blur-md transition hover:bg-[rgba(91,133,182,0.22)] hover:shadow-[0_0_42px_rgba(255,239,179,0.34)] sm:mb-5 sm:rounded-[24px] sm:shadow-[0_0_36px_rgba(255,239,179,0.26)] sm:hover:shadow-[0_0_48px_rgba(255,239,179,0.38)]">
                 <Image
                   src={ProfileImage}
                   alt="Profile Image"
@@ -357,7 +390,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 />
               </div>
 
-              <div className="relative overflow-visible rounded-[20px] border border-[#ffefb3]/40 bg-[rgba(91,133,182,0.16)] px-4 py-5 pr-8 shadow-[0_0_28px_rgba(255,239,179,0.22)] backdrop-blur-md sm:rounded-[24px] sm:px-5 sm:py-5 sm:pr-10 sm:shadow-[0_0_32px_rgba(255,239,179,0.26)]">
+              <div className="relative overflow-visible rounded-[20px] border border-[#ffefb3]/40 bg-[rgba(91,133,182,0.16)] px-4 py-5 pr-8 shadow-[0_0_28px_rgba(255,239,179,0.22)] backdrop-blur-md transition hover:bg-[rgba(91,133,182,0.22)] hover:shadow-[0_0_42px_rgba(255,239,179,0.34)] sm:rounded-[24px] sm:px-5 sm:py-5 sm:pr-10 sm:shadow-[0_0_32px_rgba(255,239,179,0.26)] sm:hover:shadow-[0_0_48px_rgba(255,239,179,0.38)]">
                 <div className="pointer-events-none absolute -top-3 right-5 text-3xl text-[#ffefb3] drop-shadow-[0_0_14px_rgba(255,239,179,0.95)]">
                   ☆
                 </div>
@@ -492,12 +525,22 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                   ୨ৎ
                 </div>
 
+                <button
+                  type="button"
+                  onClick={() => setIsMuted((prev) => !prev)}
+                  className="absolute top-4 right-4 z-20 flex h-10 min-w-[44px] items-center justify-center rounded-full border border-[#ffefb3]/65 bg-[#ffefb3]/10 px-3 text-sm font-extrabold text-[#fff5d0] shadow-[0_0_18px_rgba(255,239,179,0.28)] backdrop-blur-md transition hover:bg-[#ffefb3]/18 hover:shadow-[0_0_26px_rgba(255,239,179,0.4)]"
+                  aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
+                  title={isMuted ? 'Unmute' : 'Mute'}
+                >
+                  {isMuted ? '🔇' : '🔊'}
+                </button>
+
                 {/* UBAH LAGU FAVORIT KAMU */}
                 <p className="text-xs font-extrabold tracking-[0.3em] uppercase text-[#ffefb3]/90 drop-shadow-[0_0_8px_rgba(255,239,179,0.65)]">
                   Lagu Favorit
                 </p>
                 <p
-                  className={`${titleFont.className} my-2 text-[clamp(1.35rem,4.2vw,2.25rem)] font-bold leading-tight tracking-wide text-[#fff5d0] drop-shadow-[0_0_12px_rgba(255,239,179,0.9)] sm:leading-none`}
+                  className={`${titleFont.className} my-2 pr-14 text-[clamp(1.35rem,4.2vw,2.25rem)] font-bold leading-tight tracking-wide text-[#fff5d0] drop-shadow-[0_0_12px_rgba(255,239,179,0.9)] sm:leading-none`}
                 >
                   apapun yg berunsur{' '}
                   <span className="inline-block text-[#fff0b3] drop-shadow-[0_0_14px_rgba(255,239,179,0.95)]">
