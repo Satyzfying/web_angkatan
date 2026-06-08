@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useEffect } from 'react'
-import { createPortal } from 'react-dom'
+import React, { useEffect, useRef } from 'react'
 
 import Image from 'next/image'
+import { Cinzel, Cinzel_Decorative } from 'next/font/google'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
@@ -12,6 +12,16 @@ import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 import ExpeditionBackgroundImage from './expedition-bg.png'
 import ExpeditionTitleImage from './expedition-title.png'
 import ProfileImage from './image.png'
+
+const expeditionFont = Cinzel({
+  subsets: ['latin'],
+  weight: ['600', '700', '800', '900'],
+})
+
+const expeditionDisplayFont = Cinzel_Decorative({
+  subsets: ['latin'],
+  weight: ['700', '900'],
+})
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -23,7 +33,12 @@ type HoverSparkTextProps = {
   className?: string
 }
 
-const fallingPetals = Array.from({ length: 150 }, (_, index) => ({
+// SESUAI FOLDER KAMU:
+// public/assets/audio/expedition-bgm.mp3
+const BGM_AUDIO_SRC = '/assets/sounds/expedition-bgm.mp3'
+const BGM_VOLUME = 0.33
+
+const fallingPetals = Array.from({ length: 330 }, (_, index) => ({
   id: index,
   right: `${-10 + ((index * 17) % 55)}%`,
   top: `${-35 + ((index * 13) % 95)}%`,
@@ -87,6 +102,48 @@ const HoverSparkText = ({ children, className = '' }: HoverSparkTextProps) => {
 }
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const isSpotifyPlayingRef = useRef(false)
+
+  const playBgm = async () => {
+    const audio = audioRef.current
+
+    if (!audio || isSpotifyPlayingRef.current) {
+      return
+    }
+
+    audio.volume = BGM_VOLUME
+    audio.muted = false
+
+    try {
+      await audio.play()
+    } catch {
+      // Browser bisa block autoplay.
+      // Nanti dicoba lagi saat user klik/sentuh area popup.
+    }
+  }
+
+  const pauseBgm = () => {
+    const audio = audioRef.current
+
+    if (!audio) {
+      return
+    }
+
+    audio.pause()
+  }
+
+  const handlePopupInteraction = () => {
+    if (!isSpotifyPlayingRef.current) {
+      playBgm()
+    }
+  }
+
+  const handleSpotifyInteraction = () => {
+    isSpotifyPlayingRef.current = true
+    pauseBgm()
+  }
+
   useEffect(() => {
     if (!isOpen) {
       return
@@ -98,12 +155,53 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       }
     }
 
+    const handleSpotifyMessage = (event: MessageEvent) => {
+      if (event.origin !== 'https://open.spotify.com') return
+
+      try {
+        const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data
+
+        if (data?.type === 'playback_update') {
+          const isPlaying = !data.payload?.isPaused
+
+          if (isPlaying) {
+            isSpotifyPlayingRef.current = true
+            audioRef.current?.pause()
+          } else {
+            isSpotifyPlayingRef.current = false
+            audioRef.current?.play().catch(() => {})
+          }
+        }
+      } catch {}
+    }
+
     document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('message', handleSpotifyMessage)
+
+    const audio = audioRef.current
+
+    if (audio) {
+      audio.volume = BGM_VOLUME
+      audio.currentTime = 0
+      audio.load()
+    }
+
+    setTimeout(() => {
+      playBgm()
+    }, 100)
 
     return () => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('message', handleSpotifyMessage)
+
+      isSpotifyPlayingRef.current = false
+
+      if (audio) {
+        audio.pause()
+        audio.currentTime = 0
+      }
     }
   }, [isOpen, onClose])
 
@@ -111,8 +209,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-  return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+  return (
+    <div
+      onPointerDownCapture={handlePopupInteraction}
+      className={`${expeditionFont.className} fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-20 pb-8 sm:pt-24`}
+    >
+      <audio ref={audioRef} src={BGM_AUDIO_SRC} loop preload="auto" />
+
       {/* Background landscape kanan kiri */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <Image
@@ -163,7 +266,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         ))}
       </div>
 
-      <div className="relative z-[110] max-h-[100dvh] w-full max-w-[760px] animate-[member-popup-show_250ms_ease-out] overflow-y-auto rounded-2xl border border-[#725524]/70 bg-[#020100] p-5 text-[#f3dfb2] shadow-[0_0_55px_rgba(94,68,24,0.24)] sm:p-7">
+      <div className="relative z-[110] max-h-[calc(100vh-6rem)] w-full max-w-[760px] animate-[member-popup-show_250ms_ease-out] overflow-y-auto rounded-2xl border border-[#725524]/70 bg-[#020100] p-5 text-[#f3dfb2] shadow-[0_0_55px_rgba(94,68,24,0.24)] sm:p-7">
         {/* Dark Gold Glow */}
         <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_top,rgba(90,65,24,0.2),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.025),transparent_35%,rgba(70,8,8,0.12))]" />
 
@@ -171,7 +274,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="absolute top-4 right-4 z-[140] flex h-9 w-9 items-center justify-center rounded-full border border-[#9f7c3b]/80 bg-black/80 text-xl leading-none text-[#f3dfb2] transition-all duration-300 hover:scale-110 hover:bg-[#b8944d] hover:text-black hover:shadow-[0_0_18px_rgba(184,148,77,0.75)]"
+          className={`${expeditionDisplayFont.className} absolute top-4 right-4 z-[140] flex h-9 w-9 items-center justify-center rounded-full border border-[#9f7c3b]/80 bg-black/80 text-xl leading-none text-[#f3dfb2] transition-all duration-300 hover:scale-110 hover:bg-[#b8944d] hover:text-black hover:shadow-[0_0_18px_rgba(184,148,77,0.75)]`}
         >
           ×
         </button>
@@ -203,11 +306,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
 
           <div className="pr-10">
-            <h2 className="text-2xl font-black text-[#f3dfb2] transition-all duration-300 hover:-translate-y-1 hover:tracking-wide hover:text-[#b8944d] hover:drop-shadow-[0_0_12px_rgba(184,148,77,0.8)]">
+            <h2
+              className={`${expeditionDisplayFont.className} text-2xl font-black tracking-wide text-[#f3dfb2] transition-all duration-300 hover:-translate-y-1 hover:tracking-wider hover:text-[#d7b56d] hover:drop-shadow-[0_0_12px_rgba(184,148,77,0.8)]`}
+            >
               <HoverSparkText>Muhammad Rifki Pribadi</HoverSparkText>
             </h2>
 
-            <p className="mt-1 text-sm font-semibold text-[#a89162]/80 transition-all duration-300 hover:translate-x-2 hover:text-white">
+            <p className="mt-1 text-sm font-bold tracking-wide text-[#a89162]/90 transition-all duration-300 hover:translate-x-2 hover:text-white">
               <HoverSparkText>5027251087 - Jakarta</HoverSparkText>
             </p>
           </div>
@@ -217,34 +322,44 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             <LinkedInButtonLink username="rifkipribadi" />
           </div>
 
-          <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
+          <div className="mt-6 grid gap-4 text-sm font-bold tracking-wide sm:grid-cols-2">
             <div className="group rounded-xl border border-[#725524]/55 bg-black/70 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#b8944d] hover:bg-[#070403] hover:shadow-[0_0_18px_rgba(120,89,32,0.25)]">
-              <p className="text-xs tracking-wide text-[#b8944d]/75 uppercase transition-all duration-300 group-hover:text-[#f3dfb2]">
+              <p
+                className={`${expeditionDisplayFont.className} text-xs tracking-[0.14em] text-[#b8944d]/80 uppercase transition-all duration-300 group-hover:text-[#f3dfb2]`}
+              >
                 <HoverSparkText>Hobi</HoverSparkText>
               </p>
 
-              <p className="mt-2 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white">
+              <p className="mt-2 font-bold transition-all duration-300 group-hover:translate-x-1 group-hover:text-white">
                 <HoverSparkText>Game (Valorant, Persona, Tekken, etc.)</HoverSparkText>
               </p>
             </div>
 
             <div className="group rounded-xl border border-[#725524]/55 bg-black/70 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#b8944d] hover:bg-[#070403] hover:shadow-[0_0_18px_rgba(120,89,32,0.25)]">
-              <p className="text-xs tracking-wide text-[#b8944d]/75 uppercase transition-all duration-300 group-hover:text-[#f3dfb2]">
+              <p
+                className={`${expeditionDisplayFont.className} text-xs tracking-[0.14em] text-[#b8944d]/80 uppercase transition-all duration-300 group-hover:text-[#f3dfb2]`}
+              >
                 <HoverSparkText>Fun Fact</HoverSparkText>
               </p>
 
-              <p className="mt-2 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white">
+              <p className="mt-2 font-bold transition-all duration-300 group-hover:translate-x-1 group-hover:text-white">
                 <HoverSparkText>Kalo udah suka sama sesuatu suka lupa waktu</HoverSparkText>
               </p>
             </div>
           </div>
 
-          <div className="group mt-4 rounded-xl border border-[#725524]/55 bg-black/70 p-4 transition-all duration-300 hover:border-[#b8944d] hover:bg-[#070403] hover:shadow-[0_0_22px_rgba(120,89,32,0.3)]">
-            <p className="text-xs font-bold tracking-wide text-[#b8944d]/75 uppercase transition-all duration-300 group-hover:text-[#f3dfb2]">
+          <div
+            onMouseDown={handleSpotifyInteraction}
+            onTouchStart={handleSpotifyInteraction}
+            className="group mt-4 rounded-xl border border-[#725524]/55 bg-black/70 p-4 transition-all duration-300 hover:border-[#b8944d] hover:bg-[#070403] hover:shadow-[0_0_22px_rgba(120,89,32,0.3)]"
+          >
+            <p
+              className={`${expeditionDisplayFont.className} text-xs font-black tracking-[0.14em] text-[#b8944d]/80 uppercase transition-all duration-300 group-hover:text-[#f3dfb2]`}
+            >
               <HoverSparkText>Lagu Favorit</HoverSparkText>
             </p>
 
-            <p className="my-2 text-sm font-semibold transition-all duration-300 hover:translate-x-2 hover:text-[#b8944d] hover:drop-shadow-[0_0_8px_rgba(184,148,77,0.75)]">
+            <p className="my-2 text-sm font-bold tracking-wide transition-all duration-300 hover:translate-x-2 hover:text-[#b8944d] hover:drop-shadow-[0_0_8px_rgba(184,148,77,0.75)]">
               <HoverSparkText>Ransom</HoverSparkText>
             </p>
 
@@ -307,8 +422,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           }
         `}</style>
       </div>
-    </div>,
-    document.body
+    </div>
   )
 }
 

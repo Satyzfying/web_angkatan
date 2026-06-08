@@ -209,7 +209,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       let step = 0
       to.volume = 0
       to.currentTime = 0
-      to.play().catch(() => {})
+      to.play().catch(() => { })
       const iv = setInterval(() => {
         step++
         const progress = step / steps
@@ -223,10 +223,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       }, stepTime)
     }
 
-    glitchAudio.play().catch(() => {})
+    glitchAudio.play().catch(() => { })
     glitchAudio.onended = () => {
       bgA.volume = TARGET_VOL
-      bgA.play().catch(() => {})
+      bgA.play().catch(() => { })
       bgA.onended = () => {
         fadeAudio(bgA, bgB)
         bgActiveRef.current = 'B'

@@ -9,7 +9,7 @@ import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
-import ProfileImage from './image.png'
+import ProfileImage from './foto webang 2.png'
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -67,38 +67,38 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
         <div className="pr-10">
           {/* UBAH NAMA ANDA */}
-          <h2 className="text-2xl font-black">Catherina Vallencia K</h2>
+          <h2 className="text-2xl font-black">Danish Faeyza Rusmawan</h2>
           {/* UBAH NRP DAN ASAL */}
-          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251082 - Surakarta</p>
+          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251028 - Malang</p>
         </div>
 
         <div className="mt-5 flex gap-2">
           {/* UBAH USERNAME INSTAGRAM */}
-          <Instagram username="jkt48.erine" />
+          <Instagram username="faeyzaaar_" />
           {/* UBAH USERNAME LINKEDIN */}
-          <LinkedInButtonLink username="jkt48.erine" />
+          <LinkedInButtonLink username="danish-faeyza-r" />
         </div>
 
         <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
           <div className="border-neutral-cs-10/40 rounded-xl border p-4">
             {/* UBAH HOBI KAMU */}
             <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
-            <p className="mt-2">Nyanyi</p>
+            <p className="mt-2">Olahraga</p>
           </div>
           <div className="border-neutral-cs-10/40 rounded-xl border p-4">
             {/* UBAH FUNFACT KAMU */}
             <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
-            <p className="mt-2">Gwe Member JKT</p>
+            <p className="mt-2">Ketolak kedokteran UB</p>
           </div>
         </div>
 
         <div className="border-neutral-cs-10/40 mt-4 rounded-xl border p-4">
           {/* UBAH LAGU FAVORIT KAMU */}
           <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
-          <p className="my-2 text-sm font-semibold">There Is a Light That Never Goes Out</p>
+          <p className="my-2 text-sm font-semibold">Work From Home</p>
 
           {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
-          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2X62SjtuwVQiGiZvZZ9Ztr?si=f6718391848a4469" />
+          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/4tCtwWceOPWzenK2HAIJSb?si=4147f972475c4c40" />
         </div>
       </div>
     </div>,
