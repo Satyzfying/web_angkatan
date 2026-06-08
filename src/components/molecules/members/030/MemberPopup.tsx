@@ -694,7 +694,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       } ${popupStage === 'data' ? 'hidden' : 'block'}`}></div>
 
       {/* STAGE 1 & 2: MEMORY GAME & EVOKER */}
-      <div className={`fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32 ${
+      <div className={`fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 ${
         popupStage === 'data' ? 'hidden' : 'block'
       }`}>
         <button type="button" aria-label="Close" onClick={handleClose} className="absolute inset-0 cursor-default" />

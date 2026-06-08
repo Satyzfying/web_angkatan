@@ -1,18 +1,19 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
+
+import { createPortal } from 'react-dom'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
-import ProfileImage from './image.jpeg'
 import Cat1 from './cat1.png'
 import Cat2 from './cat2.png'
 import Cat3 from './cat3.png'
+import ProfileImage from './image.jpeg'
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -52,17 +53,20 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-  return createPortal((
+  return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
       {showLoading && (
         <div className="absolute inset-0 z-[110] flex items-center justify-center bg-gradient-to-br from-slate-950 via-blue-900 to-black">
           <div className="flex flex-col items-center gap-6">
             <div className="relative h-16 w-16">
-              <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-yellow-300 border-r-yellow-300 animate-spin" />
-              <div className="absolute inset-2 rounded-full border-4 border-transparent border-b-sky-400 animate-spin" style={{ animationDirection: 'reverse', animationDuration: '2s' }} />
+              <div className="absolute inset-0 animate-spin rounded-full border-4 border-transparent border-t-yellow-300 border-r-yellow-300" />
+              <div
+                className="absolute inset-2 animate-spin rounded-full border-4 border-transparent border-b-sky-400"
+                style={{ animationDirection: 'reverse', animationDuration: '2s' }}
+              />
             </div>
-            <p className="text-xl font-bold text-yellow-300 tracking-widest">SABAR WOII !!!</p>
+            <p className="text-xl font-bold tracking-widest text-yellow-300">SABAR WOII !!!</p>
           </div>
         </div>
       )}
@@ -73,46 +77,50 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
 
-{/* Floating Cats Background */}
-<div className="pointer-events-none absolute inset-0 overflow-hidden">
-  {Array.from({ length: 70 }).map((_, index) => {
-    const randomCat = cats[Math.floor(Math.random() * cats.length)]
+      {/* Floating Cats Background */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        {Array.from({ length: 70 }).map((_, index) => {
+          const randomCat = cats[Math.floor(Math.random() * cats.length)]
 
-    return (
-      <Image
-        key={index}
-        src={randomCat}
-        alt="Floating Cat"
-        width={150}
-        height={150}
-        className="absolute animate-bounce opacity-80"
-        style={{
-          top: `${Math.random() * 100}%`,
-          left: `${Math.random() * 100}%`,
-          animationDuration: `${1 + Math.random() * 3}s`,
-          transform: `
+          return (
+            <Image
+              key={index}
+              src={randomCat}
+              alt="Floating Cat"
+              width={150}
+              height={150}
+              className="absolute animate-bounce opacity-80"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                animationDuration: `${1 + Math.random() * 3}s`,
+                transform: `
             rotate(${Math.random() * 360}deg)
             scale(${0.8 + Math.random() * 1.5})
-          `,
-        }}
-      />
-    )
-  })}
-</div>
+          `
+              }}
+            />
+          )
+        })}
+      </div>
 
-      <div className="border-black/30 bg-gradient-to-br from-slate-950 via-blue-900 to-black relative z-10 overflow-hidden max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-3xl border-2 p-6 text-white shadow-[0_30px_70px_rgba(0,0,0,0.5)] sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-hidden overflow-y-auto rounded-3xl border-2 border-black/30 bg-gradient-to-br from-slate-950 via-blue-900 to-black p-6 text-white shadow-[0_30px_70px_rgba(0,0,0,0.5)] sm:max-h-[calc(100vh-10rem)] sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="border-white/10 hover:bg-white/10 absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full border text-xl leading-none text-white"
+          className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-xl leading-none text-white hover:bg-white/10"
         >
           x
         </button>
 
-        <div className="border-yellow-200/20 mb-5 overflow-hidden rounded-[32px] border bg-black/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
+        <div className="mb-5 overflow-hidden rounded-[32px] border border-yellow-200/20 bg-black/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
           <div className="rounded-[32px] border-4 border-yellow-300/80 p-1 shadow-[0_0_0_6px_rgba(245,158,11,0.22)]">
-            <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full rounded-[28px] object-cover object-center" />
+            <Image
+              src={ProfileImage}
+              alt="Profile Image"
+              className="h-120 w-full rounded-[28px] object-cover object-center"
+            />
           </div>
         </div>
 
@@ -134,19 +142,19 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="grid gap-4 text-sm font-semibold sm:grid-cols-2">
             <div className="rounded-3xl bg-yellow-300 p-4 shadow-[0_10px_30px_rgba(245,158,11,0.2)]">
               {/* UBAH HOBI KAMU */}
-              <p className="text-slate-950 text-xs tracking-wide uppercase">Hobi</p>
+              <p className="text-xs tracking-wide text-slate-950 uppercase">Hobi</p>
               <p className="mt-2 text-slate-950">Belajar</p>
             </div>
             <div className="rounded-3xl bg-yellow-300 p-4 shadow-[0_10px_30px_rgba(245,158,11,0.2)]">
               {/* UBAH FUNFACT KAMU */}
-              <p className="text-slate-950 text-xs tracking-wide uppercase">Fun Fact</p>
+              <p className="text-xs tracking-wide text-slate-950 uppercase">Fun Fact</p>
               <p className="mt-2 text-slate-950">Viko introvert parah</p>
             </div>
           </div>
 
           <div className="mt-4 rounded-3xl bg-yellow-300 p-5 shadow-[0_10px_30px_rgba(245,158,11,0.2)]">
             {/* UBAH LAGU FAVORIT KAMU */}
-            <p className="text-slate-950 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
+            <p className="text-xs font-bold tracking-wide text-slate-950 uppercase">Lagu Favorit</p>
             <p className="my-2 text-lg font-semibold text-slate-950">Stand by Me</p>
 
             {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
@@ -154,8 +162,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         </div>
       </div>
-    </div>
-  ), document.body)
+    </div>,
+    document.body
+  )
 }
 
 export default MemberPopup
