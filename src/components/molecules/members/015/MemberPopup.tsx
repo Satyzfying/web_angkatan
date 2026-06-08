@@ -283,6 +283,14 @@ function TerminalScreen({ onSuccess, onClose }: { onSuccess: () => void; onClose
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight
   }, [lines])
 
+  useEffect(() => {
+    if (busy) {
+      return
+    }
+
+    inputRef.current?.focus()
+  }, [busy, lines.length])
+
   const colorClass: Record<TermLine['color'], string> = {
     teal: 'text-teal-400',
     cyan: 'text-cyan-300',
@@ -293,75 +301,73 @@ function TerminalScreen({ onSuccess, onClose }: { onSuccess: () => void; onClose
     default: 'text-gray-300'
   }
 
-  const handleCommand = (cmd: string) => {
-    if (busy) return
-    const trimmed = cmd.trim()
+const handleCommand = (cmd: string) => {
+  if (busy) return;
+  const trimmed = cmd.trim();
 
-    // echo the command
-    addLine(`user@geoterm:~$ ${trimmed}`, 'dim')
+  addLine(`user@geoterm:~$ ${trimmed}`, 'dim');
 
-    if (trimmed === 'ls') {
-      addLine('CardMember.tsx   image.png   MemberPopup.tsx', 'cyan')
-    } else if (trimmed === 'pwd') {
-      addLine('/home/evastra25/members', 'teal')
-      // trimmed === 'sudo profile 15'
-    } else if (trimmed === 'whoami') {
-      addLine('manusia,anakadam', 'teal')
-      // trimmed === 'sudo profile 15'
-    } else if (trimmed === 'sudo profile 15') {
-      setBusy(true)
-      addLine('[sudo] password for evastra25/015: ········', 'yellow')
+  // Command mappings
+  const commands: Record<string, () => void> = {
+    ls: () => addLine('CardMember.tsx   image.png   MemberPopup.tsx', 'cyan'),
+    pwd: () => addLine('/home/evastra25/members', 'teal'),
+    whoami: () => addLine('manusia,anakadam', 'teal'),
+    clear: () => setLines([]),
+    exit: () => {
+      addLine('Closing the terminal........', 'red');
+      onClose();
+    },
+    help: () => addLine('Available commands: ls  pwd  sudo profile [ID]  clear  help  exit  whoami', 'dim'),
+    '': () => {},
+  };
+
+  // Semua variasi command profile (tanpa spasi karena bug)
+  const profileCommands = [
+    'sudo profile 015',
+    'sudo profile 15',
+    'sudoprofile015',
+    'sudoprofile15',
+    'profile15',
+    'profile015'
+  ];
+
+  if (profileCommands.includes(trimmed)) {
+    setBusy(true);
+    addLine('[sudo] password for evastra25/015: ········', 'yellow');
+    setTimeout(() => {
+      addLine('Password accepted · Role: GE_ADMIN', 'teal');
+      addLine('Authenticating profile 015 ...', 'dim');
       setTimeout(() => {
-        addLine('Password accepted · Role: GE_ADMIN', 'teal')
-        addLine('Authenticating profile 015 ...', 'dim')
-        setTimeout(() => {
-          addLine('✓ Authorization granted · Decrypting entity record · GNSS FIX 3D', 'teal')
-          setTimeout(() => {
-            onSuccess()
-          }, 700)
-        }, 800)
-      }, 600)
-    } else if (trimmed === 'sudo profile 015') {
-      setBusy(true)
-      addLine('[sudo] password for evastra25/015: ········', 'yellow')
-      setTimeout(() => {
-        addLine('Password accepted · Role: GE_ADMIN', 'teal')
-        addLine('Authenticating profile 015 ...', 'dim')
-        setTimeout(() => {
-          addLine('✓ Authorization granted · Decrypting entity record · GNSS FIX 3D', 'teal')
-          setTimeout(() => {
-            onSuccess()
-          }, 700)
-        }, 800)
-      }, 600)
-    } else if (/^sudo profile \d+$/.test(trimmed)) {
-      const num = trimmed.match(/\d+$/)?.[0]
-      addLine(`Checking entity ${num} ...`, 'dim')
-      setTimeout(() => {
-        addLine(`✗ AUTHORIZATION FAILED · Entity ${num} not found in GNSS registry`, 'red')
-        addLine(`ERR: ACCESS_DENIED · EPSG:32649 · Sector mismatch · Clearance insufficient`, 'red')
-        addLine(
-          `Logging attempt · IP: 10.14.17.3 · Incident ID: GEO-${Math.floor(Math.random() * 9999)
-            .toString()
-            .padStart(4, '0')}`,
-          'yellow'
-        )
-      }, 600)
-    } else if (trimmed === 'help') {
-      addLine('Available commands: ls  pwd  sudo profile [ID]  clear  help  exit  whoami', 'dim')
-    } else if (trimmed === 'clear') {
-      setLines([])
-    } else if (trimmed === 'exit') {
-      addLine('Closing the terminal........', 'red')
-      onClose()
-    } else if (trimmed === '') {
-      // do nothing
-    } else {
-      addLine(`command not found: ${trimmed} · try 'help'`, 'red')
-    }
+        addLine('✓ Authorization granted · Decrypting entity record · GNSS FIX 3D', 'teal');
+        setTimeout(() => onSuccess(), 700);
+      }, 800);
+    }, 600);
+  } 
+  else if (/^sudo profile \d+$/.test(trimmed) || /^sudoprofile\d+$/.test(trimmed) || /^profile\d+$/.test(trimmed)) {
+    const num = trimmed.match(/\d+$/)?.[0];
+    addLine(`Checking entity ${num} ...`, 'dim');
+    setTimeout(() => {
+      addLine(`✗ AUTHORIZATION FAILED · Entity ${num} not found in GNSS registry`, 'red');
+      addLine(`ERR: ACCESS_DENIED · EPSG:32649 · Sector mismatch · Clearance insufficient`, 'red');
+      addLine(
+        `Logging attempt · IP: 10.14.17.3 · Incident ID: GEO-${Math.floor(Math.random() * 9999)
+          .toString()
+          .padStart(4, '0')}`,
+        'yellow'
+      );
+    }, 600);
   }
+  else if (commands[trimmed]) {
+    commands[trimmed]();
+  }
+  else {
+    addLine(`command not found: ${trimmed} · try 'help'`, 'red');
+  }
+};
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    e.stopPropagation()
+
     if (e.key === 'Enter') {
       handleCommand(input)
       setInput('')
@@ -371,6 +377,7 @@ function TerminalScreen({ onSuccess, onClose }: { onSuccess: () => void; onClose
   return (
     <div
       className="flex flex-col"
+      onClick={() => inputRef.current?.focus()}
       style={{ background: 'linear-gradient(135deg, #020c0a 0%, #040d14 50%, #060810 100%)' }}
     >
       {/* Title bar */}
@@ -410,6 +417,11 @@ function TerminalScreen({ onSuccess, onClose }: { onSuccess: () => void; onClose
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={onKeyDown}
+          onBlur={() => {
+            window.setTimeout(() => {
+              inputRef.current?.focus()
+            }, 0)
+          }}
           disabled={busy}
           autoFocus
           autoComplete="off"
@@ -425,7 +437,7 @@ function TerminalScreen({ onSuccess, onClose }: { onSuccess: () => void; onClose
         className="px-4 py-2 text-center font-mono text-[13px] tracking-widest"
         style={{ borderTop: '1px solid rgba(0,255,200,0.08)', color: 'rgba(0,255,200,0.35)' }}
       >
-        type <span style={{ color: 'rgba(0,255,200,0.7)' }}>&apos;sudo profile 015&apos;</span> to access · also try{' '}
+        type <span style={{ color: 'rgba(0,255,200,0.7)' }}>&apos;sudo profile 015&apos;</span> to access or sudoprofile015 · also try{' '}
         <span style={{ color: 'rgba(0,255,200,0.5)' }}>ls</span>
         {', '}
         <span style={{ color: 'rgba(0,255,200,0.5)' }}>pwd</span>
@@ -584,11 +596,11 @@ export default function MemberPopup({ onClose, isOpen = true }: MemberPopupProps
   if (!isOpen) return null
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden bg-black/85 backdrop-blur-md">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-black/85 px-4 py-[5dvh] backdrop-blur-md">
       <button type="button" onClick={closePopup} className="absolute inset-0" aria-label="Close" />
 
       <div
-        className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-2xl"
+        className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-2xl"
         style={{
           background: 'linear-gradient(135deg, #020c0a 0%, #040d14 50%, #060810 100%)',
           border: '1px solid rgba(0,255,200,0.2)',
@@ -637,7 +649,7 @@ export default function MemberPopup({ onClose, isOpen = true }: MemberPopupProps
             </div>
 
             {/* Main content */}
-            <div className="relative space-y-4 p-4 sm:p-5">
+            <div className="relative space-y-4 p-4 pt-5 sm:p-5 sm:pt-6">
               {/* Telemetry chips */}
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                 <TelChip label="SATS" value="14/16" ok />

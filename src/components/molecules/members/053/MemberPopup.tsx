@@ -89,7 +89,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           position: relative;
 
           width: 100%;
-          height: 100dvh;
+          height: 90dvh;
+          max-height: 90dvh;
 
           overflow: hidden;
 
@@ -463,7 +464,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }
       `}</style>
 
-      <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 py-[5dvh]">
         <button
           type="button"
           aria-label="Close member detail"
@@ -471,7 +472,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         />
 
-        <div className="relative z-10 h-screen w-full max-w-[720px]">
+        <div className="relative z-10 h-[90dvh] max-h-[90dvh] w-full max-w-[720px]">
 
           {/* OUTER CARD */}
           <div className="jp-card">

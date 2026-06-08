@@ -44,7 +44,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       <button
         type="button"
         aria-label="Close member detail"
@@ -52,7 +52,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
 
-      <div className="relative z-10 max-h-screen w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 border-[#7f1d1d] bg-[#1a1111] p-6 text-white shadow-xl sm:p-8">
+      <div className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 border-[#7f1d1d] bg-[#1a1111] p-6 pb-8 text-white shadow-xl sm:p-8 sm:pb-10">
         <button
           type="button"
           aria-label="Close member detail"

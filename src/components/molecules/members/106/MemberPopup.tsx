@@ -194,7 +194,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       {showCard && (
         <div
-          className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-6"
+          className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]"
           style={{ background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(6px)' }}
         >
           <button type="button" aria-label="Close member detail" onClick={onClose} className="absolute inset-0" />

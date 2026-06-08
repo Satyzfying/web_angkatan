@@ -1,6 +1,9 @@
 'use client'
 
+/* eslint-disable react-hooks/set-state-in-effect */
+
 import React, { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -146,7 +149,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   if (!isOpen) return null
 
-  return (
+  return createPortal(
     <>
       <audio ref={ahaLaughRef} src={ahaLaughSrc} preload="auto" />
       <audio ref={loopAudioRef} src={loopAudioSrc} preload="auto" loop />
@@ -255,7 +258,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         )}
       </div>
-    </>
+    </>, document.body
   )
 }
 

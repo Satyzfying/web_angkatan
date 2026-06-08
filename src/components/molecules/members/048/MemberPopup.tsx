@@ -66,7 +66,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   // --- TAMPILAN TERMINAL MACBOOK DENGAN TEBAK-TEBAKAN ---
   if (!isUnlocked) {
     return createPortal(
-      <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden px-4">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden px-4 py-[5dvh]">
         {/* Background Backdrop */}
         <button
           type="button"
@@ -76,7 +76,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         />
 
         {/* Mac Terminal Window */}
-        <div className="relative z-10 max-h-[100dvh] w-full max-w-2xl animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-xl bg-zinc-900/95 shadow-2xl ring-1 ring-zinc-700">
+        <div className="relative z-10 max-h-[90dvh] w-full max-w-2xl animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-xl bg-zinc-900/95 shadow-2xl ring-1 ring-zinc-700">
           
           {/* Terminal Header (Title Bar) */}
           <div className="flex h-12 w-full items-center justify-between bg-zinc-800 px-4 border-b border-zinc-700">
@@ -141,7 +141,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   // --- TAMPILAN PROFIL SETELAH UNLOCK ---
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
       <button
         type="button"
         aria-label="Close member detail"
@@ -149,7 +149,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="fixed inset-0 bg-neutral-900/90"
       />
 
-      <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-md border-8 border-zinc-600 bg-zinc-950 p-6 text-zinc-100 shadow-[8px_8px_0_rgba(0,0,0,0.5)] sm:p-8">
+      <div className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-md border-8 border-zinc-600 bg-zinc-950 p-6 text-zinc-100 shadow-[8px_8px_0_rgba(0,0,0,0.5)] sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"

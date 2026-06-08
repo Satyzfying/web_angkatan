@@ -43,7 +43,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       <button
         type="button"
         aria-label="Close member detail"
@@ -51,7 +51,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
 
-      <div className="relative z-10 w-full max-w-[720px] max-h-[100dvh] overflow-hidden overflow-y-auto rounded-2xl p-6 text-white shadow-2xl border border-sky-300/50 bg-gradient-to-br from-sky-400 via-blue-400 to-blue-500 animate-[member-popup-show_200ms_ease-out] sm:p-8">
+      <div className="relative z-10 w-full max-w-[720px] max-h-[90dvh] overflow-hidden overflow-y-auto rounded-2xl p-6 text-white shadow-2xl border border-sky-300/50 bg-gradient-to-br from-sky-400 via-blue-400 to-blue-500 animate-[member-popup-show_200ms_ease-out] sm:p-8">
         {/* Decorative mountain silhouette to match blue-mountain theme (style-only) */}
         <div className="pointer-events-none absolute left-0 right-0 top-6 -z-0 opacity-30">
           <svg viewBox="0 0 1200 200" className="w-full h-24" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">

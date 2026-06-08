@@ -59,7 +59,7 @@ const CardMember = () => {
             {/* UBAH NRP KAMU */}
             <p>5027251027</p>
             {/* UBAH ASAL KOTA KAMU */}
-            <p>Kota Reog</p>
+            <p>Ponorogo</p>
           </div>
         </div>
       </div>

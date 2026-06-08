@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState, useRef } from 'react'
+
 import Image from 'next/image'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
@@ -16,20 +17,20 @@ type MemberPopupProps = {
 
 const triviaQuestions = [
   {
-    question: "Album debut Led Zeppelin dirilis tahun berapa?",
-    options: ["1967", "1969", "1971", "1973"],
-    answer: 1,
+    question: 'Album debut Led Zeppelin dirilis tahun berapa?',
+    options: ['1967', '1969', '1971', '1973'],
+    answer: 1
   },
   {
-    question: "Siapa vokalis utama Queen?",
-    options: ["Robert Plant", "Mick Jagger", "Freddie Mercury", "David Bowie"],
-    answer: 2,
+    question: 'Siapa vokalis utama Queen?',
+    options: ['Robert Plant', 'Mick Jagger', 'Freddie Mercury', 'David Bowie'],
+    answer: 2
   },
   {
     question: "Lagu 'Come Together' milik band mana?",
-    options: ["The Rolling Stones", "The Who", "The Beatles", "The Kinks"],
-    answer: 2,
-  },
+    options: ['The Rolling Stones', 'The Who', 'The Beatles', 'The Kinks'],
+    answer: 2
+  }
 ]
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
@@ -97,7 +98,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       if (triviaIndex + 1 >= triviaQuestions.length) {
         setTriviaCleared(true)
       } else {
-        setTriviaIndex(idx => idx + 1)
+        setTriviaIndex((idx) => idx + 1)
         setAnswered(null)
       }
     }, 900)
@@ -151,10 +152,40 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             <circle cx="0" cy="5" r="7" strokeWidth="1" />
             <circle cx="0" cy="5" r="3" strokeWidth="1" />
           </g>
-          <path d="M-20,230 Q100,210 200,248 Q300,280 400,238 Q500,200 620,228 Q680,240 730,218" fill="none" stroke="#c8972a" strokeWidth="0.5" opacity="0.1" />
-          <text x="350" y="34" fill="#c8972a" fontFamily="'Oswald',sans-serif" fontSize="9" letterSpacing="7" textAnchor="middle" opacity="0.28" fontWeight="700">★  ROCK  AND  ROLL  ★</text>
+          <path
+            d="M-20,230 Q100,210 200,248 Q300,280 400,238 Q500,200 620,228 Q680,240 730,218"
+            fill="none"
+            stroke="#c8972a"
+            strokeWidth="0.5"
+            opacity="0.1"
+          />
+          <text
+            x="350"
+            y="34"
+            fill="#c8972a"
+            fontFamily="'Oswald',sans-serif"
+            fontSize="9"
+            letterSpacing="7"
+            textAnchor="middle"
+            opacity="0.28"
+            fontWeight="700"
+          >
+            ★ ROCK AND ROLL ★
+          </text>
           <line x1="30" y1="42" x2="670" y2="42" stroke="#c8972a" strokeWidth="0.4" opacity="0.22" />
-          <text x="350" y="808" fill="#c8972a" fontFamily="'Oswald',sans-serif" fontSize="9" letterSpacing="7" textAnchor="middle" opacity="0.28" fontWeight="700">★  ROCK  AND  ROLL  ★</text>
+          <text
+            x="350"
+            y="808"
+            fill="#c8972a"
+            fontFamily="'Oswald',sans-serif"
+            fontSize="9"
+            letterSpacing="7"
+            textAnchor="middle"
+            opacity="0.28"
+            fontWeight="700"
+          >
+            ★ ROCK AND ROLL ★
+          </text>
           <line x1="30" y1="793" x2="670" y2="793" stroke="#c8972a" strokeWidth="0.4" opacity="0.22" />
         </svg>
 
@@ -166,18 +197,26 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             background: '#100d08',
             border: '2px solid #c8972a',
             borderRadius: '2px',
-            fontFamily: "'Special Elite', monospace",
+            fontFamily: "'Special Elite', monospace"
           }}
         >
           {/* Corner ornaments */}
-          <div className="pointer-events-none absolute top-[14px] left-[14px] h-[18px] w-[18px]"
-            style={{ borderTop: '2px solid #c8972a', borderLeft: '2px solid #c8972a', opacity: 0.75 }} />
-          <div className="pointer-events-none absolute top-[14px] right-[14px] h-[18px] w-[18px]"
-            style={{ borderTop: '2px solid #c8972a', borderRight: '2px solid #c8972a', opacity: 0.75 }} />
-          <div className="pointer-events-none absolute bottom-[14px] left-[14px] h-[18px] w-[18px]"
-            style={{ borderBottom: '2px solid #c8972a', borderLeft: '2px solid #c8972a', opacity: 0.75 }} />
-          <div className="pointer-events-none absolute bottom-[14px] right-[14px] h-[18px] w-[18px]"
-            style={{ borderBottom: '2px solid #c8972a', borderRight: '2px solid #c8972a', opacity: 0.75 }} />
+          <div
+            className="pointer-events-none absolute top-[14px] left-[14px] h-[18px] w-[18px]"
+            style={{ borderTop: '2px solid #c8972a', borderLeft: '2px solid #c8972a', opacity: 0.75 }}
+          />
+          <div
+            className="pointer-events-none absolute top-[14px] right-[14px] h-[18px] w-[18px]"
+            style={{ borderTop: '2px solid #c8972a', borderRight: '2px solid #c8972a', opacity: 0.75 }}
+          />
+          <div
+            className="pointer-events-none absolute bottom-[14px] left-[14px] h-[18px] w-[18px]"
+            style={{ borderBottom: '2px solid #c8972a', borderLeft: '2px solid #c8972a', opacity: 0.75 }}
+          />
+          <div
+            className="pointer-events-none absolute right-[14px] bottom-[14px] h-[18px] w-[18px]"
+            style={{ borderBottom: '2px solid #c8972a', borderRight: '2px solid #c8972a', opacity: 0.75 }}
+          />
 
           {/* Close button */}
           <button
@@ -190,10 +229,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               color: '#c8972a',
               background: 'transparent',
               fontFamily: "'Special Elite', monospace",
-              zIndex: 10,
+              zIndex: 10
             }}
-            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(200,151,42,0.15)')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(200,151,42,0.15)')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
           >
             ✕
           </button>
@@ -207,7 +246,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '3px',
-                color: '#f2d878',
+                color: '#f2d878'
               }}
             >
               ★ Rock Trivia
@@ -229,13 +268,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 key={i}
                 className="h-1 flex-1"
                 style={{
-                  background: i < triviaIndex
-                    ? '#c8972a'
-                    : i === triviaIndex
-                    ? 'rgba(200,151,42,0.45)'
-                    : 'rgba(200,151,42,0.12)',
+                  background:
+                    i < triviaIndex ? '#c8972a' : i === triviaIndex ? 'rgba(200,151,42,0.45)' : 'rgba(200,151,42,0.12)',
                   borderRadius: '1px',
-                  transition: 'background 0.3s',
+                  transition: 'background 0.3s'
                 }}
               />
             ))}
@@ -260,13 +296,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           {/* Failed notice */}
           {failed && (
             <div
-              className="mb-3 px-3 py-2 text-xs text-center tracking-widest uppercase"
+              className="mb-3 px-3 py-2 text-center text-xs tracking-widest uppercase"
               style={{
                 border: '1px solid rgba(229,115,115,0.4)',
                 background: 'rgba(229,115,115,0.07)',
                 color: '#ef9a9a',
                 fontFamily: "'Oswald', sans-serif",
-                letterSpacing: '2px',
+                letterSpacing: '2px'
               }}
             >
               ✕ Salah — Mulai dari awal...
@@ -297,7 +333,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                   key={i}
                   type="button"
                   onClick={() => handleAnswer(i)}
-                  className="text-left px-3 py-2 text-xs"
+                  className="px-3 py-2 text-left text-xs"
                   style={{
                     border: `1px solid ${borderColor}`,
                     borderRadius: '2px',
@@ -305,12 +341,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                     color: textColor,
                     fontFamily: "'Special Elite', monospace",
                     cursor: answered !== null ? 'default' : 'pointer',
-                    transition: 'all 0.2s',
+                    transition: 'all 0.2s'
                   }}
-                  onMouseEnter={e => {
+                  onMouseEnter={(e) => {
                     if (answered === null) e.currentTarget.style.background = 'rgba(200,151,42,0.08)'
                   }}
-                  onMouseLeave={e => {
+                  onMouseLeave={(e) => {
                     if (answered === null) e.currentTarget.style.background = bgColor
                   }}
                 >
@@ -325,7 +361,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             <button
               type="button"
               onClick={() => {
-                setMuted(v => !v)
+                setMuted((v) => !v)
                 if (iframeRef.current) {
                   iframeRef.current.src = `https://www.youtube.com/embed/D2lSwosw9xY?autoplay=1&loop=1&playlist=D2lSwosw9xY&controls=0&mute=${muted ? 0 : 1}`
                 }
@@ -337,10 +373,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 background: 'transparent',
                 fontFamily: "'Oswald', sans-serif",
                 cursor: 'pointer',
-                borderRadius: '2px',
+                borderRadius: '2px'
               }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(200,151,42,0.08)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+              onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(200,151,42,0.08)')}
+              onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
             >
               {muted ? '🔇 Unmute' : '🔊 Mute'}
             </button>
@@ -355,7 +391,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               aria-hidden="true"
             >
               <text
-                x="300" y="17"
+                x="300"
+                y="17"
                 fill="#c8972a"
                 fontFamily="'Oswald',sans-serif"
                 fontSize="9"
@@ -364,7 +401,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 opacity="0.42"
                 fontWeight="700"
               >
-                ★   THE BEATLES  ·  LED ZEPPELIN  ·  THE ROLLING STONES  ·  QUEEN   ★
+                ★ THE BEATLES · LED ZEPPELIN · THE ROLLING STONES · QUEEN ★
               </text>
             </svg>
           </div>
@@ -376,16 +413,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   // ── MEMBER POPUP (setelah trivia cleared) ────────────────────
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32"
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4"
       style={{ background: 'rgba(10, 5, 0, 0.92)' }}
     >
       {/* Backdrop close */}
-      <button
-        type="button"
-        aria-label="Close member detail"
-        onClick={onClose}
-        className="absolute inset-0"
-      />
+      <button type="button" aria-label="Close member detail" onClick={onClose} className="absolute inset-0" />
 
       {/* Background SVG decorations */}
       <svg
@@ -424,7 +456,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <circle cx="0" cy="5" r="3" strokeWidth="1" />
         </g>
         <g transform="translate(660,420)" stroke="#c8972a" fill="none" opacity="0.14">
-          <path d="M0,-44 L10,-13 L44,-13 L18,5 L28,38 L0,18 L-28,38 L-18,5 L-44,-13 L-10,-13 Z" fill="#c8972a" opacity="0.1" strokeWidth="1.2" />
+          <path
+            d="M0,-44 L10,-13 L44,-13 L18,5 L28,38 L0,18 L-28,38 L-18,5 L-44,-13 L-10,-13 Z"
+            fill="#c8972a"
+            opacity="0.1"
+            strokeWidth="1.2"
+          />
         </g>
         <g transform="translate(56,370)" stroke="#c8972a" fill="none" opacity="0.14">
           <path d="M-6,22 C-6,22 -3,-34 0,-42 C3,-34 6,22 6,22" strokeWidth="1" />
@@ -434,10 +471,40 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <path d="M-10,5 C-18,0 -18,-18 -10,-14" strokeWidth="0.8" />
           <path d="M10,5 C18,0 18,-18 10,-14" strokeWidth="0.8" />
         </g>
-        <path d="M-20,230 Q100,210 200,248 Q300,280 400,238 Q500,200 620,228 Q680,240 730,218" fill="none" stroke="#c8972a" strokeWidth="0.5" opacity="0.1" />
-        <text x="350" y="34" fill="#c8972a" fontFamily="'Oswald',sans-serif" fontSize="9" letterSpacing="7" textAnchor="middle" opacity="0.28" fontWeight="700">★  ROCK  AND  ROLL  ★</text>
+        <path
+          d="M-20,230 Q100,210 200,248 Q300,280 400,238 Q500,200 620,228 Q680,240 730,218"
+          fill="none"
+          stroke="#c8972a"
+          strokeWidth="0.5"
+          opacity="0.1"
+        />
+        <text
+          x="350"
+          y="34"
+          fill="#c8972a"
+          fontFamily="'Oswald',sans-serif"
+          fontSize="9"
+          letterSpacing="7"
+          textAnchor="middle"
+          opacity="0.28"
+          fontWeight="700"
+        >
+          ★ ROCK AND ROLL ★
+        </text>
         <line x1="30" y1="42" x2="670" y2="42" stroke="#c8972a" strokeWidth="0.4" opacity="0.22" />
-        <text x="350" y="808" fill="#c8972a" fontFamily="'Oswald',sans-serif" fontSize="9" letterSpacing="7" textAnchor="middle" opacity="0.28" fontWeight="700">★  ROCK  AND  ROLL  ★</text>
+        <text
+          x="350"
+          y="808"
+          fill="#c8972a"
+          fontFamily="'Oswald',sans-serif"
+          fontSize="9"
+          letterSpacing="7"
+          textAnchor="middle"
+          opacity="0.28"
+          fontWeight="700"
+        >
+          ★ ROCK AND ROLL ★
+        </text>
         <line x1="30" y1="793" x2="670" y2="793" stroke="#c8972a" strokeWidth="0.4" opacity="0.22" />
       </svg>
 
@@ -450,19 +517,29 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           border: '2px solid #c8972a',
           borderRadius: '2px',
           maxHeight: 'calc(100vh - 9rem)',
-          fontFamily: "'Special Elite', monospace",
+          fontFamily: "'Special Elite', monospace"
         }}
       >
-        <div className="pointer-events-none absolute inset-[8px]"
-          style={{ border: '1px solid rgba(200,151,42,0.18)', borderRadius: '1px' }} />
-        <div className="pointer-events-none absolute top-[14px] left-[14px] h-[18px] w-[18px]"
-          style={{ borderTop: '2px solid #c8972a', borderLeft: '2px solid #c8972a', opacity: 0.75 }} />
-        <div className="pointer-events-none absolute top-[14px] right-[14px] h-[18px] w-[18px]"
-          style={{ borderTop: '2px solid #c8972a', borderRight: '2px solid #c8972a', opacity: 0.75 }} />
-        <div className="pointer-events-none absolute bottom-[14px] left-[14px] h-[18px] w-[18px]"
-          style={{ borderBottom: '2px solid #c8972a', borderLeft: '2px solid #c8972a', opacity: 0.75 }} />
-        <div className="pointer-events-none absolute bottom-[14px] right-[14px] h-[18px] w-[18px]"
-          style={{ borderBottom: '2px solid #c8972a', borderRight: '2px solid #c8972a', opacity: 0.75 }} />
+        <div
+          className="pointer-events-none absolute inset-[8px]"
+          style={{ border: '1px solid rgba(200,151,42,0.18)', borderRadius: '1px' }}
+        />
+        <div
+          className="pointer-events-none absolute top-[14px] left-[14px] h-[18px] w-[18px]"
+          style={{ borderTop: '2px solid #c8972a', borderLeft: '2px solid #c8972a', opacity: 0.75 }}
+        />
+        <div
+          className="pointer-events-none absolute top-[14px] right-[14px] h-[18px] w-[18px]"
+          style={{ borderTop: '2px solid #c8972a', borderRight: '2px solid #c8972a', opacity: 0.75 }}
+        />
+        <div
+          className="pointer-events-none absolute bottom-[14px] left-[14px] h-[18px] w-[18px]"
+          style={{ borderBottom: '2px solid #c8972a', borderLeft: '2px solid #c8972a', opacity: 0.75 }}
+        />
+        <div
+          className="pointer-events-none absolute right-[14px] bottom-[14px] h-[18px] w-[18px]"
+          style={{ borderBottom: '2px solid #c8972a', borderRight: '2px solid #c8972a', opacity: 0.75 }}
+        />
 
         <button
           type="button"
@@ -474,28 +551,37 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             color: '#c8972a',
             background: 'transparent',
             fontFamily: "'Special Elite', monospace",
-            zIndex: 10,
+            zIndex: 10
           }}
-          onMouseEnter={e => (e.currentTarget.style.background = 'rgba(200,151,42,0.15)')}
-          onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+          onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(200,151,42,0.15)')}
+          onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
         >
           ✕
         </button>
 
-        <div className="relative mb-5 overflow-hidden"
-          style={{ border: '2px solid #c8972a', borderRadius: '2px' }}>
-          <div className="w-full aspect-[62/34] relative">
+        <div className="relative mb-5 overflow-hidden" style={{ border: '2px solid #c8972a', borderRadius: '2px' }}>
+          <div className="relative aspect-[62/34] w-full">
             <Image
               src={ProfileImage}
               alt="Profile Image"
-              className="object-cover h-full w-full object-center"
+              className="h-full w-full object-cover object-center"
               style={{ filter: 'contrast(1.05) saturate(1.0)' }}
             />
-            <div className="pointer-events-none absolute inset-0"
-              style={{ background: 'radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,0.4) 100%)', zIndex: 2 }} />
-            <svg className="pointer-events-none absolute inset-0 h-full w-full"
-              style={{ opacity: 0.12, zIndex: 3 }} viewBox="0 0 620 340"
-              preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background: 'radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,0.4) 100%)',
+                zIndex: 2
+              }}
+            />
+            <svg
+              className="pointer-events-none absolute inset-0 h-full w-full"
+              style={{ opacity: 0.12, zIndex: 3 }}
+              viewBox="0 0 620 340"
+              preserveAspectRatio="xMidYMid slice"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
               <defs>
                 <pattern id="grain" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
                   <rect width="4" height="4" fill="transparent" />
@@ -507,10 +593,24 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               </defs>
               <rect width="100%" height="100%" fill="url(#grain)" />
             </svg>
-            <svg className="pointer-events-none absolute inset-0 h-full w-full"
-              style={{ zIndex: 4 }} viewBox="0 0 620 340"
-              preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect x="8" y="8" width="604" height="324" fill="none" stroke="#c8972a" strokeWidth="0.8" opacity="0.35" />
+            <svg
+              className="pointer-events-none absolute inset-0 h-full w-full"
+              style={{ zIndex: 4 }}
+              viewBox="0 0 620 340"
+              preserveAspectRatio="xMidYMid slice"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <rect
+                x="8"
+                y="8"
+                width="604"
+                height="324"
+                fill="none"
+                stroke="#c8972a"
+                strokeWidth="0.8"
+                opacity="0.35"
+              />
               <line x1="8" y1="8" x2="32" y2="8" stroke="#c8972a" strokeWidth="1.5" opacity="0.6" />
               <line x1="8" y1="8" x2="8" y2="32" stroke="#c8972a" strokeWidth="1.5" opacity="0.6" />
               <line x1="612" y1="8" x2="588" y2="8" stroke="#c8972a" strokeWidth="1.5" opacity="0.6" />
@@ -524,58 +624,130 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </div>
 
         <div className="pr-10">
-          <h2 className="leading-tight"
-            style={{ fontFamily: "'Oswald', sans-serif", fontSize: '26px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '3px', color: '#f2d878' }}>
+          <h2
+            className="leading-tight"
+            style={{
+              fontFamily: "'Oswald', sans-serif",
+              fontSize: '26px',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '3px',
+              color: '#f2d878'
+            }}
+          >
             Sean Arthur Tamajaya
           </h2>
-          <p className="mt-1 text-xs tracking-widest uppercase"
-            style={{ color: 'rgba(200,151,42,0.58)', fontFamily: "'Special Elite', monospace" }}>
-            5027251050  ·  Jombang
+          <p
+            className="mt-1 text-xs tracking-widest uppercase"
+            style={{ color: 'rgba(200,151,42,0.58)', fontFamily: "'Special Elite', monospace" }}
+          >
+            5027251050 · Jombang
           </p>
         </div>
 
         <div className="my-2" style={{ borderTop: '1px solid rgba(200,151,42,0.25)' }} />
 
-        <div className="-mt-1 flex items-center justify-start gap-2" style={{ transform: 'scale(0.78)', transformOrigin: 'left center' }}>
+        <div
+          className="-mt-1 flex items-center justify-start gap-2"
+          style={{ transform: 'scale(0.78)', transformOrigin: 'left center' }}
+        >
           <Instagram username="seanarthur17" />
           <LinkedInButtonLink username="jkt48.erine" />
         </div>
 
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
-          <div className="p-4" style={{ border: '1px solid rgba(200,151,42,0.25)', borderRadius: '2px', background: 'rgba(200,151,42,0.03)' }}>
-            <p className="mb-2 text-[10px] tracking-[3px] uppercase"
-              style={{ color: 'rgba(200,151,42,0.5)', fontFamily: "'Oswald', sans-serif" }}>⟡ Hobi</p>
-            <p className="text-sm leading-relaxed"
-              style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400, color: '#e8dfc0' }}>
+          <div
+            className="p-4"
+            style={{
+              border: '1px solid rgba(200,151,42,0.25)',
+              borderRadius: '2px',
+              background: 'rgba(200,151,42,0.03)'
+            }}
+          >
+            <p
+              className="mb-2 text-[10px] tracking-[3px] uppercase"
+              style={{ color: 'rgba(200,151,42,0.5)', fontFamily: "'Oswald', sans-serif" }}
+            >
+              ⟡ Hobi
+            </p>
+            <p
+              className="text-sm leading-relaxed"
+              style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400, color: '#e8dfc0' }}
+            >
               Olahraga, Main musik
             </p>
           </div>
-          <div className="p-4" style={{ border: '1px solid rgba(200,151,42,0.25)', borderRadius: '2px', background: 'rgba(200,151,42,0.03)' }}>
-            <p className="mb-2 text-[10px] tracking-[3px] uppercase"
-              style={{ color: 'rgba(200,151,42,0.5)', fontFamily: "'Oswald', sans-serif" }}>⟡ Fun Fact</p>
-            <p className="text-sm leading-relaxed"
-              style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400, color: '#e8dfc0' }}>
+          <div
+            className="p-4"
+            style={{
+              border: '1px solid rgba(200,151,42,0.25)',
+              borderRadius: '2px',
+              background: 'rgba(200,151,42,0.03)'
+            }}
+          >
+            <p
+              className="mb-2 text-[10px] tracking-[3px] uppercase"
+              style={{ color: 'rgba(200,151,42,0.5)', fontFamily: "'Oswald', sans-serif" }}
+            >
+              ⟡ Fun Fact
+            </p>
+            <p
+              className="text-sm leading-relaxed"
+              style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400, color: '#e8dfc0' }}
+            >
               Temennya Brad Pitt
             </p>
           </div>
         </div>
 
-        <div className="mt-4 p-4" style={{ border: '1px solid rgba(200,151,42,0.25)', borderRadius: '2px', background: 'rgba(200,151,42,0.03)' }}>
-          <p className="text-[10px] tracking-[3px] uppercase"
-            style={{ color: 'rgba(200,151,42,0.5)', fontFamily: "'Oswald', sans-serif" }}>♪ Lagu Favorit</p>
-          <p className="my-2 tracking-widest uppercase"
-            style={{ fontFamily: "'Oswald', sans-serif", fontSize: '15px', fontWeight: 700, color: '#f2d878', letterSpacing: '2px' }}>
+        <div
+          className="mt-4 p-4"
+          style={{
+            border: '1px solid rgba(200,151,42,0.25)',
+            borderRadius: '2px',
+            background: 'rgba(200,151,42,0.03)'
+          }}
+        >
+          <p
+            className="text-[10px] tracking-[3px] uppercase"
+            style={{ color: 'rgba(200,151,42,0.5)', fontFamily: "'Oswald', sans-serif" }}
+          >
+            ♪ Lagu Favorit
+          </p>
+          <p
+            className="my-2 tracking-widest uppercase"
+            style={{
+              fontFamily: "'Oswald', sans-serif",
+              fontSize: '15px',
+              fontWeight: 700,
+              color: '#f2d878',
+              letterSpacing: '2px'
+            }}
+          >
             Oh! Darling
           </p>
           <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/2mxByJWOajjiVsLWjNXvDJ?si=f21ada6a0280484f" />
         </div>
 
         <div className="mt-4 pt-3" style={{ borderTop: '1px solid rgba(200,151,42,0.18)' }}>
-          <svg viewBox="0 0 600 26" xmlns="http://www.w3.org/2000/svg"
-            style={{ width: '100%', height: '26px' }} aria-hidden="true">
-            <text x="300" y="17" fill="#c8972a" fontFamily="'Oswald',sans-serif"
-              fontSize="9" letterSpacing="5" textAnchor="middle" opacity="0.42" fontWeight="700">
-              ★   THE BEATLES  ·  LED ZEPPELIN  ·  THE ROLLING STONES  ·  QUEEN   ★
+          <svg
+            viewBox="0 0 600 26"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ width: '100%', height: '26px' }}
+            aria-hidden="true"
+          >
+            <text
+              x="300"
+              y="17"
+              fill="#c8972a"
+              fontFamily="'Oswald',sans-serif"
+              fontSize="9"
+              letterSpacing="5"
+              textAnchor="middle"
+              opacity="0.42"
+              fontWeight="700"
+            >
+              ★ THE BEATLES · LED ZEPPELIN · THE ROLLING STONES · QUEEN ★
             </text>
           </svg>
         </div>

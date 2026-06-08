@@ -44,7 +44,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
       <button
         type="button"
         aria-label="Close member detail"
@@ -52,7 +52,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
 
-      <div className="border-pink-600 bg-pink-200 relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
+      <div className="border-pink-600 bg-pink-200 relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
         {/* TABURAN BUNGA AURA */}
 <div className="absolute inset-0 pointer-events-none overflow-hidden z-20">
   <span className="absolute top-6 left-12 text-md opacity-80">🌸</span>

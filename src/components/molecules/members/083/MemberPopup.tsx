@@ -42,7 +42,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       
       {/* AREA BACKDROP */}
       <button
@@ -53,7 +53,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       />
 
       {/* MODAL CONTAINER - DARK GLASSMORPHISM BACKGROUND */}
-      <div className="relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-6 text-white shadow-2xl sm:p-8">
+      <div className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-6 text-white shadow-2xl sm:p-8">
         
         {/* TOMBOL CLOSE */}
         <button

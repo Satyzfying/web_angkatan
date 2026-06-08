@@ -44,15 +44,15 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
       <button
         type="button"
         aria-label="Close member detail"
         onClick={onClose}
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/40 backdrop-blur-md"
       />
 
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
+      <div className="border-purple-300/20 bg-gradient-to-br from-slate-700/90 via-slate-600/90 to-purple-700/90 backdrop-blur-xl shadow-2xl shadow-purple-500/20 relative z-10 max-h-[90dvh] w-full max-w-3xl overflow-y-auto rounded-3xl p-6 pb-8 sm:p-8 sm:pb-10">
         <button
           type="button"
           aria-label="Close member detail"
@@ -68,7 +68,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
         <div className="pr-10">
           {/* UBAH NAMA ANDA */}
-          <h2 className="text-2xl font-black">Nadia Iqlima A F</h2>
+          <h2 className="text-3xl font-extrabold text-purple-100 tracking-wide">Nadia Iqlima A F</h2>
           {/* UBAH NRP DAN ASAL */}
           <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251108 - Surabaya</p>
         </div>

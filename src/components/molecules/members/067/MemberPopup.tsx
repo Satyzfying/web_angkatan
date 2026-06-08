@@ -177,7 +177,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         .yusuf-popup-enter { animation: yusufPopupEntry 0.6s ease forwards; }
       `}</style>
 
-      <div className="yusuf-popup fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+      <div className="yusuf-popup fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
         {/* Cursor glow */}
         <div ref={glowRef} className="yusuf-glow" />
 
@@ -190,7 +190,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
         <div
           ref={cardRef}
-          className="yusuf-card border-neutral-cs-10 relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8"
+          className="yusuf-card border-neutral-cs-10 relative z-10 max-h-[90dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8"
         >
           <button
             type="button"

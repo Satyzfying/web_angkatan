@@ -87,7 +87,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       `}</style>
 
       {/* PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK */}
-      <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+      <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
 
         {/* ── Backdrop ── */}
         <button
@@ -105,7 +105,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             background: 'linear-gradient(155deg, #020813 0%, #091C3D 55%, #030A18 100%)',
             boxShadow:  '0 0 100px rgba(20,60,130,0.15)',
             animation:  'botaf-profile-in 0.75s cubic-bezier(0.16,1,0.3,1) forwards',
-            maxHeight:  'calc(100dvh - 3rem)',
+            maxHeight: '90dvh',
           }}
         >
           <StarField count={30} />

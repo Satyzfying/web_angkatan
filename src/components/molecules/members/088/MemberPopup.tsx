@@ -39,11 +39,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     if (!canvas) return
     const ctx = canvas.getContext('2d')!
     let raf: number
+    const startTs = performance.now()
 
-    const stars = Array.from({ length: 220 }, () => ({
-      x: Math.random(), y: Math.random() * 0.75,
-      r: Math.random() * 1.3 + 0.2,
-      a: Math.random() * 0.65 + 0.25,
+    const stars = Array.from({ length: 420 }, () => ({
+      x: Math.random(), y: Math.random(),
+      r: Math.random() * 1.55 + 0.25,
+      a: Math.random() * 0.7 + 0.35,
       tw: Math.random() * Math.PI * 2,
       sp: Math.random() * 0.025 + 0.008,
       col: [[200, 200, 255], [180, 160, 255], [160, 210, 255], [255, 220, 255], [220, 200, 255]][Math.floor(Math.random() * 5)] as number[],
@@ -76,6 +77,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       })
     }
 
+    for (let i = 0; i < 3; i++) {
+      spawnMeteor(startTs - Math.random() * 1800)
+    }
+
     function draw(ts: number) {
       canvas!.width = canvas!.parentElement?.offsetWidth ?? window.innerWidth
       canvas!.height = canvas!.parentElement?.offsetHeight ?? window.innerHeight
@@ -99,7 +104,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       })
 
       // meteors
-      if (ts - lastSpawn > 3000 + Math.random() * 2000) { spawnMeteor(ts); lastSpawn = ts }
+      if (ts - lastSpawn > 1400 + Math.random() * 900) {
+        spawnMeteor(ts)
+        if (Math.random() > 0.5) spawnMeteor(ts - Math.random() * 320)
+        lastSpawn = ts
+      }
       for (let i = meteors.length - 1; i >= 0; i--) {
         const m = meteors[i]
         m.progress = Math.min((ts - m.spawnT) / 3200, 1)
@@ -171,10 +180,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     if (!canvas) return
     const ctx = canvas.getContext('2d')!
     let raf: number
+    const startTs = performance.now()
 
-    const stars = Array.from({ length: 80 }, () => ({
+    const stars = Array.from({ length: 150 }, () => ({
       x: Math.random(), y: Math.random() * 0.85,
-      r: Math.random() * 1 + 0.2, a: Math.random() * 0.6 + 0.2,
+      r: Math.random() * 1.15 + 0.25, a: Math.random() * 0.65 + 0.25,
       tw: Math.random() * Math.PI * 2, sp: Math.random() * 0.03 + 0.01,
       col: [[200, 200, 255], [200, 180, 255], [180, 220, 255], [255, 230, 255]][Math.floor(Math.random() * 4)] as number[],
     }))
@@ -193,6 +203,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       meteors.push({ x: Math.random() * 0.6, y: Math.random() * 0.45, angle: Math.PI / 4 + (Math.random() - 0.5) * 0.3, col1: c.r, col2: c.g, progress: 0, alpha: 1, splitDone: false, sX: 0, sY: 0, sA1: 0, sA2: 0, spawnT: ts })
     }
 
+    for (let i = 0; i < 2; i++) {
+      spawnMeteor(startTs - Math.random() * 1400)
+    }
+
     function draw(ts: number) {
       canvas!.width = canvas!.parentElement?.offsetWidth ?? 480
       canvas!.height = canvas!.parentElement?.offsetHeight ?? 480 // Update default height assumption
@@ -205,7 +219,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         ctx.fillStyle = `rgba(${s.col[0]},${s.col[1]},${s.col[2]},${a})`; ctx.fill()
       })
 
-      if (ts - lastSpawn > 1800 + Math.random() * 1600) { spawnMeteor(ts); lastSpawn = ts }
+      if (ts - lastSpawn > 900 + Math.random() * 700) {
+        spawnMeteor(ts)
+        if (Math.random() > 0.55) spawnMeteor(ts - Math.random() * 220)
+        lastSpawn = ts
+      }
       for (let i = meteors.length - 1; i >= 0; i--) {
         const m = meteors[i]
         m.progress = Math.min((ts - m.spawnT) / 2400, 1)
@@ -248,7 +266,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       <button
         type="button"
         aria-label="Close member detail"
@@ -257,7 +275,26 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         style={{ background: 'rgba(3,5,20,0.75)', backdropFilter: 'blur(6px)' }}
       />
 
-      <div className="border-neutral-cs-10 bg-blue-cs-40 relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8">
+      <div
+        className="border-neutral-cs-10 relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8"
+        style={{
+          background: 'linear-gradient(180deg,rgba(15,16,42,0.9) 0%,rgba(8,11,32,0.96) 100%)',
+          backdropFilter: 'blur(10px)',
+        }}
+      >
+        <canvas
+          ref={bgCanvasRef}
+          className="pointer-events-none absolute inset-0"
+          style={{ zIndex: 0, width: '100%', height: '100%' }}
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            zIndex: 1,
+            background: 'radial-gradient(circle at top right, rgba(94, 92, 230, 0.12), transparent 28%), radial-gradient(circle at bottom left, rgba(162, 89, 255, 0.08), transparent 24%)',
+          }}
+        />
         <button
           type="button"
           aria-label="Close member detail"
@@ -276,26 +313,38 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </button>
 
         {/* ── Body ── */}
-        <div style={{ padding: '18px 22px 22px' }}>
+        <div style={{ position: 'relative', zIndex: 2, padding: '18px 22px 22px' }}>
 
           {/* ── FOTO PROFIL & ANIMASI (Menyatu dalam satu container dengan tinggi sesuai kode awalmu) ── */}
           <div
             className="relative border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border w-full h-120"
             style={{ background: 'linear-gradient(160deg,#080e28 0%,#0e1845 45%,#160c30 100%)' }}
           >
-            {/* Layer 1: Animasi Canvas (di belakang) */}
-            <canvas ref={hdrCanvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 1 }} />
-
-            {/* Layer 2: Gradient Overlay (opsional, memberikan efek menyatu ke bagian bawah) */}
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,transparent 60%,rgba(6,10,30,0.8) 100%)', zIndex: 2 }} />
-
-            {/* Layer 3: Fotonya (di depan) */}
+            {/* Layer 1: Fotonya */}
             <Image
               src={ProfileImage}
               alt="Profile Image"
               className="absolute inset-0 h-full w-full object-cover object-center"
-              style={{ zIndex: 3 }}
+              style={{ zIndex: 1 }}
             />
+
+            {/* Layer 2: Animasi Canvas */}
+            <canvas
+              ref={hdrCanvasRef}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: 2,
+                opacity: 0.55,
+                mixBlendMode: 'screen',
+                pointerEvents: 'none',
+              }}
+            />
+
+            {/* Layer 3: Gradient overlay */}
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,rgba(6,10,30,0.12) 0%,transparent 38%,rgba(6,10,30,0.82) 100%)', zIndex: 3 }} />
           </div>
 
           {/* Name */}
