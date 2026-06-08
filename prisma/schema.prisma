@@ -1,0 +1,11 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Add models here if you want Prisma to manage the schema.
+// For now we keep schema minimal and rely on existing DB objects.

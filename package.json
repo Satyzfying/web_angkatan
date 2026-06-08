@@ -7,14 +7,23 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate:dev": "prisma migrate dev",
+    "prisma:migrate:deploy": "prisma migrate deploy",
+    "prisma:studio": "prisma studio",
     "generate:map-data": "node scripts/generate-map-data.mjs"
   },
   "dependencies": {
+    "@prisma/client": "^5.6.0",
+    "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.106.2",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.40.0",
     "next": "16.2.6",
+    "openai": "^6.39.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "sonner": "^2.0.7",
     "tailwind-merge": "^3.6.0",
     "zod": "^4.4.3"
   },
@@ -27,8 +36,10 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "prettier-plugin-tailwindcss": "^0.8.0",
+    "prisma": "^5.6.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@types/bun": "latest"
   },
   "ignoreScripts": [
     "sharp",

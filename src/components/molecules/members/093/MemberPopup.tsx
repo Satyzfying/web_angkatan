@@ -1,0 +1,122 @@
+'use client'
+
+import React, { useEffect } from 'react'
+import { createPortal } from 'react-dom'
+
+import Image from 'next/image'
+
+import Instagram from '@/components/atoms/button/InstagramButtonLink'
+import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
+import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
+
+import ProfileImage from './image.png'
+
+type MemberPopupProps = {
+  isOpen: boolean
+  onClose: () => void
+}
+
+const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
+  useEffect(() => {
+    if (!isOpen) {
+      return
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen, onClose])
+
+  if (!isOpen) {
+    return null
+  }
+
+  return createPortal(
+    // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+      <button
+        type="button"
+        aria-label="Close member detail"
+        onClick={onClose}
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+      />
+
+      <div className="relative z-10 w-full max-w-[720px] max-h-[100dvh] overflow-hidden overflow-y-auto rounded-2xl p-6 text-white shadow-2xl border border-sky-300/50 bg-gradient-to-br from-sky-400 via-blue-400 to-blue-500 animate-[member-popup-show_200ms_ease-out] sm:p-8">
+        {/* Decorative mountain silhouette to match blue-mountain theme (style-only) */}
+        <div className="pointer-events-none absolute left-0 right-0 top-6 -z-0 opacity-30">
+          <svg viewBox="0 0 1200 200" className="w-full h-24" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1">
+                <stop offset="0%" stopColor="#0ea5e9" />
+                <stop offset="100%" stopColor="#0369a1" />
+              </linearGradient>
+            </defs>
+            <path d="M0,160 L120,120 L240,140 L360,80 L480,130 L600,100 L720,140 L840,90 L960,130 L1080,110 L1200,150 L1200,200 L0,200 Z" fill="url(#g1)" />
+          </svg>
+        </div>
+        <button
+          type="button"
+          aria-label="Close member detail"
+          onClick={onClose}
+          className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-neutral-cs-10 bg-black/20 hover:bg-black/30 text-xl leading-none"
+        >
+          ×
+        </button>
+
+        <div className="mb-5 relative overflow-hidden rounded-2xl border border-neutral-cs-10/20">
+          <Image src={ProfileImage} alt="Profile Image" className="h-48 w-full object-cover object-center sm:h-60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-sky-300/30 via-blue-300/20 to-blue-400/40 mix-blend-screen pointer-events-none" />
+        </div>
+
+        <div className="pr-10 flex flex-col">
+          {/* UBAH NAMA ANDA */}
+          <h2 className="text-2xl font-black">Donnavie Aulia</h2>
+          {/* UBAH NRP DAN ASAL */}
+          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251093 - Gresik</p>
+        </div>
+
+        <div className="mt-5 flex gap-3">
+          {/* UBAH USERNAME INSTAGRAM */}
+          <Instagram username="donnaviie" />
+          {/* UBAH USERNAME LINKEDIN */}
+          <LinkedInButtonLink username="donnavie-aulia-16b166325" />
+        </div>
+
+        <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2">
+          <div className="rounded-xl border border-neutral-cs-10/20 bg-black/10 p-4">
+            {/* UBAH HOBI KAMU */}
+            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Hobi</p>
+            <p className="mt-2">Nyanyi</p>
+          </div>
+          <div className="rounded-xl border border-neutral-cs-10/20 bg-black/10 p-4">
+            {/* UBAH FUNFACT KAMU */}
+            <p className="text-neutral-cs-10/60 text-xs tracking-wide uppercase">Fun Fact</p>
+            <p className="mt-2">Ga bisa makan Mie </p>
+          </div>
+        </div>
+
+        <div className="mt-4 rounded-xl border border-neutral-cs-10/20 bg-black/10 p-4">
+          {/* UBAH LAGU FAVORIT KAMU */}
+          <p className="text-neutral-cs-10/60 text-xs font-bold tracking-wide uppercase">Lagu Favorit</p>
+          <p className="my-2 text-sm font-semibold"></p>
+
+          {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
+          <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/0rmhhawrhWNqqZprQTGWWz?si=2d87b71c8e1948a2" />
+        </div>
+      </div>
+    </div>,
+    document.body
+  )
+}
+
+export default MemberPopup
