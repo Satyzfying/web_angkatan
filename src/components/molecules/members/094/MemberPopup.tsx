@@ -170,13 +170,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 bg-black/80 backdrop-blur-md group/modal select-none">
-
-      <audio
-        ref={audioRef}
-        src="/assets/sounds/Fire Force.mp3"
-        loop
-        className="hidden"
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-black/85 px-4 py-4 backdrop-blur-md group/modal select-none">
+      
+      <audio 
+        ref={audioRef} 
+        src="/assets/sounds/Fire Force.mp3" 
+        loop 
+        className="hidden" 
       />
 
       <style>{`
@@ -207,6 +207,25 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           0% { background-position: 0% 50%; }
           100% { background-position: 200% 50%; }
         }
+        
+        /* KEYFRAMES BARU: Efek Bara Api Terbang di Background */
+        @keyframes emberRise {
+          0% { transform: translateY(110vh) translateX(0) scale(0.6); opacity: 0; }
+          10% { opacity: 1; }
+          50% { transform: translateY(50vh) translateX(calc(var(--ember-x) / 2)) scale(1); }
+          90% { opacity: 0.8; }
+          100% { transform: translateY(-10vh) translateX(var(--ember-x)) scale(0.4); opacity: 0; filter: blur(1px); }
+        }
+
+        /* KEYFRAMES BARU: Gelombang Api dari Bawah & Garis Api */
+        @keyframes ragingFire {
+          0%, 100% { transform: scaleY(0.8) translateY(15px); opacity: 0.6; }
+          50% { transform: scaleY(1.3) translateY(-15px); opacity: 1; }
+        }
+        @keyframes fireLineTravel {
+          0% { background-position: 0% 0; }
+          100% { background-position: 200% 0; }
+        }
 
         .cursor-fire-1, .cursor-fire-2, .cursor-fire-3, .cursor-smoke-1, .cursor-smoke-2 {
           position: absolute;
@@ -225,10 +244,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           opacity: 1;
         }
         .bg-company8 { background: linear-gradient(135deg, rgba(20,20,20,0.95) 0%, rgba(0,0,0,0.95) 100%); }
+        
         .fire-border {
           position: absolute;
           inset: 0;
-          z-index: 50; /* Z-index diperbarui agar di atas konten namun transparan di tengah */
+          z-index: 50;
           border-radius: 1rem;
           padding: 3px;
           background: linear-gradient(90deg, #ff4500, #dc2626, #ffd700, #ff4500, #dc2626);
@@ -239,6 +259,36 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           mask-composite: exclude;
           pointer-events: none;
         }
+        
+        /* CLASS BARU: Partikel dan Api Dasar */
+        .ember-particle {
+          position: absolute;
+          bottom: -20px;
+          background: radial-gradient(circle, #ffffff 0%, #ffbc3d 40%, #ff4500 80%, transparent 100%);
+          box-shadow: 0 0 8px #ff4500, 0 0 15px #dc2626;
+          border-radius: 50%;
+          pointer-events: none;
+          mix-blend-mode: screen;
+          animation: emberRise linear infinite;
+        }
+        .flame-base {
+          position: absolute;
+          bottom: -40px;
+          border-radius: 50% 50% 0 0;
+          mix-blend-mode: screen;
+          filter: blur(25px);
+        }
+        
+        /* CLASS BARU: Garis Identitas Api */
+        .fire-line {
+          height: 2px;
+          background: linear-gradient(90deg, transparent 0%, #ff4500 20%, #ffd700 50%, #dc2626 80%, transparent 100%);
+          background-size: 200% auto;
+          animation: fireLineTravel 2s linear infinite;
+          box-shadow: 0 0 12px #ff4500, 0 0 6px #dc2626;
+          border-radius: 2px;
+        }
+
         .joker-glitch-active { animation: jokerGlitch 2.5s infinite linear; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.5); border-radius: 8px; }
@@ -251,13 +301,40 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         type="button"
         aria-label="Close member detail"
         onClick={onClose}
-        className="absolute inset-0 bg-transparent cursor-default w-full h-full"
+        className="absolute inset-0 bg-transparent cursor-default w-full h-full z-10"
       />
 
+      {/* ========================================================= */}
+      {/* AMBIENT BACKGROUND LAYER (TEMA FIRE FORCE) */}
+      {/* ========================================================= */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        
+        {/* KOBARAN API DARI BAWAH (BARU) */}
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#ff4500]/50 via-[#dc2626]/20 to-transparent blur-2xl" />
+        <div className="flame-base w-48 h-56 bg-[#ff4500] left-[-5%] animate-[ragingFire_2s_infinite_alternate]" />
+        <div className="flame-base w-64 h-64 bg-[#dc2626] left-[20%] animate-[ragingFire_2.5s_infinite_alternate-reverse]" />
+        <div className="flame-base w-56 h-60 bg-[#ff8c00] left-[45%] animate-[ragingFire_1.8s_infinite_alternate]" />
+        <div className="flame-base w-72 h-64 bg-[#ff4500] left-[70%] animate-[ragingFire_2.2s_infinite_alternate-reverse]" />
+        
+        {/* Aura Api membara besar di bagian dasar layar */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[140%] h-[55%] bg-[radial-gradient(ellipse_at_bottom,_rgba(220,38,38,0.25),_rgba(255,69,0,0.12),_transparent_70%)] blur-3xl animate-[pulse_4s_infinite_alternate]" />
+        
+        {/* Pencahayaan orange tipis dari atas untuk kontras */}
+        <div className="absolute top-0 inset-x-0 h-[30%] bg-gradient-to-b from-red-950/20 to-transparent blur-xl" />
+
+        {/* Partikel Bara Api Terbang (Embers) dengan posisi, delay, dan arah acak */}
+        <div className="ember-particle w-2.5 h-2.5 left-[8%] animate-[emberRise_7s_infinite]" style={{ '--ember-x': '60px', animationDelay: '0s' } as React.CSSProperties} />
+        <div className="ember-particle w-3.5 h-3.5 left-[22%] animate-[emberRise_9s_infinite]" style={{ '--ember-x': '-80px', animationDelay: '2s' } as React.CSSProperties} />
+        <div className="ember-particle w-2 h-2 left-[38%] animate-[emberRise_6s_infinite]" style={{ '--ember-x': '40px', animationDelay: '4s' } as React.CSSProperties} />
+        <div className="ember-particle w-4 h-4 left-[52%] animate-[emberRise_11s_infinite]" style={{ '--ember-x': '-50px', animationDelay: '0.5s' } as React.CSSProperties} />
+        <div className="ember-particle w-2.5 h-2.5 left-[67%] animate-[emberRise_8s_infinite]" style={{ '--ember-x': '90px', animationDelay: '3.5s' } as React.CSSProperties} />
+        <div className="ember-particle w-3 h-3 left-[81%] animate-[emberRise_10s_infinite]" style={{ '--ember-x': '-60px', animationDelay: '1.2s' } as React.CSSProperties} />
+        <div className="ember-particle w-1.5 h-1.5 left-[93%] animate-[emberRise_6.5s_infinite]" style={{ '--ember-x': '30px', animationDelay: '5s' } as React.CSSProperties} />
+      </div>
+
       {/* Main Responsive Frame Canvas */}
-      <div
-        ref={popupRef}
-        className="relative z-10 w-full max-w-[720px] max-h-[100dvh] min-h-[500px] rounded-2xl overflow-y-auto overflow-x-hidden shadow-2xl transition-all duration-300 ease-out bg-black my-auto custom-scrollbar"
+      <div 
+        className="custom-scrollbar relative z-20 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain rounded-2xl bg-black shadow-[0_0_50px_rgba(255,69,0,0.25)] transition-all duration-300 ease-out"
       >
 
         {/* ========================================================= */}
@@ -310,8 +387,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             onTouchMove={(e) => onDragMove(e.touches[0].clientX)}
             onTouchEnd={onDragEnd}
           >
-            {/* 
-              KARTU JOKER ANIMATIF:
+            {/* KARTU JOKER ANIMATIF:
               Bergeser dan berputar halus real-time mengikuti cursor/jari 
             */}
             <div
@@ -365,7 +441,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         <div
           className={`transition-opacity duration-1000 w-full ${stage === 2 ? 'opacity-100 relative' : 'opacity-0 absolute inset-0 pointer-events-none'}`}
         >
-          {/* PERBAIKAN 1: Border Api dipindah ke wrapper statis agar selalu membingkai container (full) */}
+          {/* Border Api membingkai container (full) */}
           <div className="fire-border" />
 
           {/* Wrapper Konten Scrollable */}
@@ -375,9 +451,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               if (stage !== 2) return;
               const rect = e.currentTarget.getBoundingClientRect()
               const x = e.clientX - rect.left
-              // Koordinat y menyesuaikan otomatis dengan rect.top yang berubah karena parent di-scroll
-              const y = e.clientY - rect.top
-
+              // Penambahan e.currentTarget.scrollTop agar koordinat kursor menyesuaikan ketika discroll
+              const y = e.clientY - rect.top + e.currentTarget.scrollTop 
+              
               const cursorElements = ['cursor-fire-1', 'cursor-fire-2', 'cursor-fire-3', 'cursor-smoke-1', 'cursor-smoke-2']
               cursorElements.forEach(className => {
                 const el = e.currentTarget.querySelector(`.${className}`) as HTMLElement | null
@@ -403,15 +479,19 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30 mix-blend-overlay" />
             </div>
 
-            {/* Header Identitas */}
-            <div className="relative z-10 flex justify-between items-center mb-6 border-b border-[#ff4500]/50 pb-2 text-[10px] sm:text-xs font-mono tracking-widest text-[#ff4500]">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#ff4500] animate-ping" />
-                <span>SQUAD: COMPANY 8 // FIRE FORCE</span>
+            {/* Header Identitas DENGAN GARIS API (BARU) */}
+            <div className="relative z-10 mb-6">
+              <div className="flex justify-between items-center pb-2 text-[10px] sm:text-xs font-mono tracking-widest text-[#ff4500]">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#ff4500] animate-ping" />
+                  <span>SQUAD: COMPANY 8 // FIRE FORCE</span>
+                </div>
+                <div className="text-white/80 border border-[#ff4500]/50 px-2 py-1 rounded bg-black/50 uppercase">
+                  HEATING LEVEL: MAX OVERDRIVE
+                </div>
               </div>
-              <div className="text-white/80 border border-[#ff4500]/50 px-2 py-1 rounded bg-black/50 uppercase">
-                HEATING LEVEL: MAX OVERDRIVE
-              </div>
+              {/* Garis Api Mengalir di Bawah SQUAD Header */}
+              <div className="fire-line w-full mt-1" />
             </div>
 
             {/* Tombol Close X */}

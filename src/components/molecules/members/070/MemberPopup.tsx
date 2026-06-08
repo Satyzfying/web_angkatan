@@ -43,7 +43,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-20 pb-8 sm:pt-24">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
       <button
         type="button"
         aria-label="Close member detail"
@@ -51,7 +51,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-slate-950/85 backdrop-blur-md"
       />
 
-      <div className="relative z-10 max-h-[calc(100vh-6rem)] w-full max-w-[760px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-[1.75rem] border-2 border-cyan-300/80 bg-[#08111f] p-5 text-white shadow-[0_0_35px_rgba(34,211,238,0.22),0_24px_80px_rgba(0,0,0,0.55)] sm:max-h-[calc(100vh-7rem)] sm:p-7">
+      <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[760px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-[1.75rem] border-2 border-cyan-300/80 bg-[#08111f] p-5 text-white shadow-[0_0_35px_rgba(34,211,238,0.22),0_24px_80px_rgba(0,0,0,0.55)] sm:h-[100dvh] max-h-[100dvh] sm:p-7">
         <div className="pointer-events-none absolute inset-0 rounded-[1.75rem] bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:22px_22px]" />
         <div className="pointer-events-none absolute -top-24 -right-20 h-64 w-64 rounded-full bg-cyan-400/15 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 -left-20 h-64 w-64 rounded-full bg-violet-500/15 blur-3xl" />

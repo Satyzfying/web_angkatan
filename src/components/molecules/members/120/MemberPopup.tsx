@@ -67,7 +67,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        triggerClose()
+        onClose()
       }
     }
 
@@ -78,70 +78,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen])
+  }, [isOpen, onClose])
 
-  const stopAllInternalAudio = () => {
-    if (trackRef1.current) { trackRef1.current.pause(); trackRef1.current.currentTime = 0 }
-    if (trackRef2.current) { trackRef2.current.pause(); trackRef2.current.currentTime = 0 }
-    setActiveTrack('none')
-  }
-
-  const handleTrackChange = (track: 'you-re-mine' | 'break-it-down') => {
-    stopAllInternalAudio()
-    setActiveSpotify('none')
-   
-    if (activeTrack !== track) {
-      setActiveTrack(track)
-      if (track === 'you-re-mine' && trackRef1.current) {
-        trackRef1.current.play().catch((e) => console.log("Audio play blocked", e))
-      } else if (track === 'break-it-down' && trackRef2.current) {
-        trackRef2.current.play().catch((e) => console.log("Audio play blocked", e))
-      }
-    }
-  }
-
-  const handleSpotifyPlay = (track: 'you-re-mine' | 'break-it-down') => {
-    stopAllInternalAudio()
-    setActiveSpotify(track)
-  }
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value
-    if (/^\d*$/.test(val)) {
-      setCode(val)
-    }
-  }
-
-  const handleLoginSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (code === '06042007') {
-      setLoginError('')
-      setCurrentStep('welcome')
-      if (sfxWelcomeRef.current) {
-        sfxWelcomeRef.current.currentTime = 0
-        sfxWelcomeRef.current.play().catch((e) => console.log("Audio play blocked", e))
-      }
-    } else {
-      setLoginError('ACCESS DENIED: Invalid Agent Code.')
-    }
-  }
-
-  const handleWelcomeNext = () => {
-    setCurrentStep('popup')
-    handleTrackChange('break-it-down')
-  }
-
-  const triggerClose = () => {
-    stopAllInternalAudio()
-    setActiveSpotify('none')
-    if (sfxCloseRef.current) {
-      sfxCloseRef.current.currentTime = 0
-      sfxCloseRef.current.play().catch((e) => console.log("Audio play blocked", e))
-    }
-    setTimeout(() => {
-      onClose()
-    }, 1100)
-  }
+  if (!isOpen) return null
 
   if (!isOpen) return null
 
@@ -165,7 +104,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       <button
         type="button"
         aria-label="Close member detail"
-        onClick={triggerClose}
+        onClick={onClose}
         className="absolute inset-0"
       />
 
@@ -385,6 +324,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               <p className="my-2 font-sans text-sm font-semibold">"You're Mine" — Vestia Zeta</p>
               <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/3kK8euC9eUBRwZKpMsQsDZ?si=2337bb62b0bd4ada" />
             </div>
+          </div>
 
             <div
               onClickCapture={() => handleSpotifyPlay('break-it-down')}

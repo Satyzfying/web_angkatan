@@ -3,6 +3,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 
 import React, { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 
 import InstagramButtonLink from '@/components/atoms/button/InstagramButtonLink'
@@ -45,8 +46,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+  return createPortal((
+    <div
+      className={`fixed inset-0 z-[100] flex ${isUnlocked ? 'items-start' : 'items-center'} justify-center overflow-hidden px-4`}
+      onClick={(event) => event.stopPropagation()}
+    >
       <button
         type="button"
         aria-label="Close member detail"
@@ -56,7 +60,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       {!isUnlocked ? (
         // TAMPILAN 1: BOOM LOVE GATE DENGAN BLINK-BLINK ✨
-        <div className="relative z-10 flex flex-col items-center justify-center animate-[member-popup-show_300ms_ease-out]">
+        <div className="relative z-10 flex h-full flex-col items-center justify-center animate-[member-popup-show_300ms_ease-out]">
           <div className="relative flex items-center justify-center">
             {/* Animasi Blink-Blink mengelilingi Love */}
             <span className="absolute -top-12 -left-10 text-5xl animate-pulse text-amber-300 drop-shadow-lg">✨</span>
@@ -82,7 +86,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       ) : (
         // TAMPILAN 2: BIODATA PASTEL
         <div 
-          className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_400ms_ease-out] overflow-y-auto rounded-3xl border-4 border-amber-300 p-6 shadow-2xl shadow-pink-200/50 sm:max-h-[calc(100vh-10rem)] sm:p-8"
+          className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_400ms_ease-out] overflow-y-auto rounded-3xl border-4 border-amber-300 p-6 shadow-2xl shadow-pink-200/50 sm:h-[100dvh] max-h-[100dvh] sm:p-8"
           style={{
             backgroundColor: '#fce7f3',
             backgroundImage: 'radial-gradient(#ffffff 20%, transparent 20%)',
@@ -142,7 +146,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </div>
       )}
     </div>
-  )
+  ), document.body)
 }
 
 export default MemberPopup

@@ -3,6 +3,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 
 import React, { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
@@ -125,8 +126,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   if (!isOpen) return null
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+  return createPortal((
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
       <button
         type="button"
         aria-label="Close member detail"
@@ -139,7 +140,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           border-neutral-cs-10
           relative
           z-10
-          max-h-[calc(100vh-9rem)]
+          h-[100dvh] max-h-[100dvh]
           w-full
           max-w-[720px]
           overflow-y-auto
@@ -152,7 +153,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           p-6
           text-white
           shadow-[0_0_40px_rgba(255,215,0,0.4)]
-          sm:max-h-[calc(100vh-10rem)]
+          sm:h-[100dvh] max-h-[100dvh]
           sm:p-8
           transition-all
           duration-500
@@ -267,7 +268,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         )}
       </div>
     </div>
-  )
+  ), document.body)
 }
 
 export default MemberPopup

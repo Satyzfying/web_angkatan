@@ -78,14 +78,14 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
       <button
         type="button"
         aria-label="Close member detail"
         onClick={onClose}
         className="absolute inset-0 bg-black/80"
       />
-      <div className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-x-hidden overflow-y-auto rounded-2xl border border-[#24496b] bg-[#071f35] p-6 shadow-[0_24px_60px_rgba(7,31,53,0.5)] sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-x-hidden overflow-y-auto rounded-2xl border border-[#24496b] bg-[#071f35] p-6 shadow-[0_24px_60px_rgba(7,31,53,0.5)] sm:h-[100dvh] max-h-[100dvh] sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"

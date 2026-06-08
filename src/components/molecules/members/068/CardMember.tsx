@@ -70,6 +70,10 @@ const CardMember = ({ linkHref }: CardMemberProps) => {
         tabIndex={0}
         onClick={() => setIsPopupOpen(true)}
         onKeyDown={(event) => {
+          if (event.target !== event.currentTarget) {
+            return
+          }
+
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault()
             setIsPopupOpen(true)

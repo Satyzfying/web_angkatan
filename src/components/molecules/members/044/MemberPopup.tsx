@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import Image from 'next/image'
 
@@ -19,9 +19,6 @@ type MemberPopupProps = {
 }
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
-  const [spotifyData, setSpotifyData] = useState<{ title?: string; author_name?: string; thumbnail_url?: string } | null>(null)
-  const spotifyUrl = 'https://open.spotify.com/track/41OCQS2Mul3MluLUUsfadr?si=c721971a8b304f3a'
-
   useEffect(() => {
     if (!isOpen) {
       return
@@ -42,31 +39,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     }
   }, [isOpen, onClose])
 
-  useEffect(() => {
-    if (!isOpen) {
-      return
-    }
-
-    const fetchSpotifyOEmbed = async () => {
-      try {
-        const response = await fetch(`https://open.spotify.com/oembed?url=${encodeURIComponent(spotifyUrl)}`)
-        if (!response.ok) {
-          return
-        }
-        const data = await response.json()
-        setSpotifyData({
-          title: data.title,
-          author_name: data.author_name,
-          thumbnail_url: data.thumbnail_url,
-        })
-      } catch {
-        setSpotifyData(null)
-      }
-    }
-
-    fetchSpotifyOEmbed()
-  }, [isOpen, spotifyUrl])
-
   if (!isOpen) {
     return null
   }
@@ -76,6 +48,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       {/* PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK */}
       <div
         className="outer-shell fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
+        onClick={(event) => event.stopPropagation()}
         style={{
           backgroundImage: `url(${BackgroundImage.src})`,
           backgroundSize: 'cover',
@@ -134,50 +107,19 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </div>
 
         <div className="music-section mt-4">
-          <img src={FolderIcon.src} alt="folder" className="section-icon music-icon" />
+          <img src={MusicIcon.src} alt="music" className="section-icon music-icon" />
           <div className="music-section-header">
             <p className="section-title">LAGU FAVORIT</p>
           </div>
-          <p className="song-title">{spotifyData?.title ?? 'Anugerah Terindah Yang Pernah Kumiliki'}</p>
-
-          <div className="retro-player">
-            <div className="retro-player-top">
-              <img src={MusicIcon.src} alt="music" className="player-icon" />
-              <span className="player-label">Now Playing</span>
-            </div>
-
-            <div className="retro-player-body">
-              <div className="player-album-art">
-                {spotifyData?.thumbnail_url ? (
-                  <img src={spotifyData.thumbnail_url} alt="Album art" className="player-album-image" />
-                ) : (
-                  <div className="player-album-placeholder">ART</div>
-                )}
-              </div>
-              <div className="player-details">
-                <div className="player-track">{spotifyData?.title ?? 'Anugerah Terindah Yang Pernah Kumiliki'}</div>
-                <div className="player-artist">{spotifyData?.author_name ?? 'Sheila On 7'}</div>
-                <div className="player-controls">
-                  <button type="button">◄◄</button>
-                  <button type="button">▶︎</button>
-                  <button type="button">■</button>
-                  <button type="button">►►</button>
-                </div>
-                <div className="player-progress-bar">
-                  <div className="player-progress-filled" />
-                </div>
-                <div className="player-time">
-                  <span>0:03</span>
-                  <span>1:18:43</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="player-status-bar">
-              <span className="player-status-text">{spotifyData?.title ?? 'Anugerah Terindah Yang Pernah Kumiliki'}</span>
-              <span className="player-status-duration">1:18:43</span>
-            </div>
-          </div>
+          <p className="section-body">Anugerah Terindah Yang Pernah Kumiliki</p>
+          <iframe
+            src="https://open.spotify.com/embed/track/41OCQS2Mul3MluLUUsfadr?si=35385d9dd5a24c5b"
+            width="100%"
+            height="152"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            className="mt-3 rounded-xl"
+          />
         </div>
       </div>
     </div>
@@ -321,13 +263,25 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         .music-icon {
           width: 2.5rem;
           height: 2.5rem;
+          margin-right: 0.25rem;
         }
 
         .music-section-header {
-          margin-left: 3.4rem;
-          padding-top: 0.3rem;
-          padding-bottom: 0.55rem;
-          border-bottom: 1px solid #999;
+          margin-left: 2.8rem;
+          padding-top: 0.1rem;
+          padding-bottom: 0.15rem;
+          border-bottom: none;
+        }
+
+        .music-section-header .section-title {
+          margin-left: 0;
+        }
+
+        .section-body {
+          margin: 0.55rem 0 0;
+          line-height: 1.7;
+          color: #111;
+          font-weight: 700;
         }
 
         .retro-player-top {
@@ -458,13 +412,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           color: #111;
         }
 
-        .song-title {
-          margin: 0.85rem 0 0;
-          font-size: 1rem;
-          font-weight: 900;
-          color: #121212;
-          letter-spacing: 0.01em;
-        }
 
         .retro-player {
           margin-top: 1rem;
