@@ -339,7 +339,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-5">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       <div className="pointer-events-none absolute inset-0 bg-black">
         <Image
           src={CardBackgroundManga}
@@ -378,7 +378,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
         <div
           ref={cardRef}
-          className="member-popup-font card-breathe card-tilt relative z-10 h-[100dvh] max-h-[100dvh] w-full overflow-y-auto overscroll-contain rounded-[12px] border-[5px] border-white bg-[#04122d]/92 p-4 text-white shadow-[10px_10px_0_#ffffff,22px_22px_0_rgba(0,0,0,0.18)] backdrop-blur-sm sm:p-6"
+          className="member-popup-font card-breathe card-tilt relative z-10 max-h-[90dvh] w-full overflow-y-auto overscroll-contain rounded-[12px] border-[5px] border-white bg-[#04122d]/92 p-4 text-white shadow-[10px_10px_0_#ffffff,22px_22px_0_rgba(0,0,0,0.18)] backdrop-blur-sm sm:p-6"
         >
           <div
             className="hover-gradient-icon-circle absolute top-4 right-4 z-20 inline-flex magnetic-btn"

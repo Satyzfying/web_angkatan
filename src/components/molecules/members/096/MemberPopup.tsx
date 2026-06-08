@@ -177,7 +177,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const showMainContent = !isSealed && !showWelcome
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       
       {/* BACKGROUND DI SEBELAH/LUAR POPUP */}
       <div className="absolute inset-0 bg-black/75 backdrop-blur-md">
@@ -195,7 +195,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         />
       </div>
 
-      <div className={`relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] rounded-none border-4 border-amber-600/60 bg-zinc-950 p-6 font-mono text-zinc-100 shadow-[0_0_50px_rgba(217,119,6,0.15)] sm:p-8 ${showMainContent ? 'overflow-y-auto' : 'overflow-hidden'}`}>
+      <div className={`relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] rounded-none border-4 border-amber-600/60 bg-zinc-950 p-6 font-mono text-zinc-100 shadow-[0_0_50px_rgba(217,119,6,0.15)] sm:p-8 ${showMainContent ? 'overflow-y-auto' : 'overflow-hidden'}`}>
         
         {/* 1. LAYER COVER & STIKER */}
         <div className={`absolute inset-0 z-30 bg-zinc-950 flex flex-col items-center justify-center cursor-default select-none transition-all duration-1000 ease-in-out ${isSealed ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>

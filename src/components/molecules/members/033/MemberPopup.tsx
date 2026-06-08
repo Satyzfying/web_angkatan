@@ -159,7 +159,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const currentQ = quizPool[Math.min(step, 2)]
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
 
       <style>{`
         @keyframes member-popup-show {
@@ -241,7 +241,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       />
 
       {/* Card utama */}
-      <div className="section-glow-blue relative z-10 flex h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_300ms_ease-out] flex-col overflow-hidden rounded-3xl text-white">
+      <div className="section-glow-blue relative z-10 flex max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_300ms_ease-out] flex-col overflow-hidden rounded-3xl text-white">
 
         {/* Background*/}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">

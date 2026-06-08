@@ -43,7 +43,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 font-sans">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh] font-sans">
       <button
         type="button"
         aria-label="Close member detail"
@@ -51,7 +51,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-slate-950/80 backdrop-blur-md"
       />
 
-      <div className="relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-sm border-2 border-yellow-500/80 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-950 p-6 text-white shadow-[0_0_30px_rgba(234,179,8,0.2)] sm:p-8">
+      <div className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-sm border-2 border-yellow-500/80 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-950 p-6 text-white shadow-[0_0_30px_rgba(234,179,8,0.2)] sm:p-8">
 
         {/* MLBB Style Close Button (Red/Gold aesthetic) */}
         <button

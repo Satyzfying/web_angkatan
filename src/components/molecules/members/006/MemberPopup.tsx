@@ -95,7 +95,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         
       `}</style>
       <div
-        className="crew-popup-bg fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4"
+        className="crew-popup-bg fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]"
       >
         <button
           type="button"
@@ -217,7 +217,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </div>
 
         <div
-          className="relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto p-6 text-white sm:p-8"
+          className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto p-6 text-white sm:p-8"
           style={{
             background: 'linear-gradient(160deg, rgba(10,22,54,0.97) 0%, rgba(8,20,50,0.97) 100%)',
             backdropFilter: 'blur(24px)',

@@ -71,7 +71,7 @@ const MemberPopup = ({ isOpen, isBackgroundMusicOn, onToggleBackgroundMusic, onC
           role="dialog"
           aria-modal="true"
           aria-labelledby="member-066-name"
-          className="relative max-h-[calc(100vh-1.5rem)] w-full max-w-[760px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto border-4 border-[#f6efe4] bg-[#d0a383] shadow-[12px_12px_0_#000]"
+          className="relative max-h-[90dvh] w-full max-w-[760px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto border-4 border-[#f6efe4] bg-[#d0a383] shadow-[12px_12px_0_#000]"
         >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(255,255,255,0.22)_0_2px,transparent_3px),linear-gradient(90deg,rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:22px_22px,44px_44px] opacity-45" />
           <div className="pointer-events-none absolute top-0 right-0 h-full w-[42%] bg-[#7ba89a]/70" />

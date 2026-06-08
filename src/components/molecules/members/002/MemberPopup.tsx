@@ -65,7 +65,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }
       `}</style>
 
-      <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+      <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
         <button
           type="button"
           aria-label="Close member detail"
@@ -74,7 +74,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         />
 
         <div
-          className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto rounded-[38px] border-[3px] border-white bg-gradient-to-br from-[#ffe7f3] via-[#f9efff] to-[#eef5ff] p-6 shadow-[0_0_60px_rgba(255,192,203,.25)] sm:p-8"
+          className="relative z-10 max-h-[90dvh] w-full max-w-[720px] overflow-y-auto rounded-[38px] border-[3px] border-white bg-gradient-to-br from-[#ffe7f3] via-[#f9efff] to-[#eef5ff] p-6 shadow-[0_0_60px_rgba(255,192,203,.25)] sm:p-8"
           style={{ animation: 'floating 5s ease-in-out infinite' }}
         >
           <button
@@ -156,9 +156,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 }
 
 const GlowCard = ({ children, className = '' }: React.PropsWithChildren<{ className?: string }>) => (
-  <div
-    className={`relative overflow-hidden rounded-[30px] border-[3px] border-white bg-[#d7e8ff] p-6 ${className}`}
-  >
+  <div className={`relative overflow-hidden rounded-[30px] border-[3px] border-white bg-[#d7e8ff] p-6 ${className}`}>
     <div
       className="absolute -inset-[120%]"
       style={{

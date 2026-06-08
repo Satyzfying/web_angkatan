@@ -93,7 +93,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] overflow-hidden px-4">
+    <div className="fixed inset-0 z-[100] overflow-hidden px-4 py-[5dvh]">
       <div className="flex h-full items-start justify-center">
         <div onClick={onClose} className="absolute inset-0">
           <video autoPlay loop muted playsInline className="w-full h-full object-cover">
@@ -102,7 +102,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="absolute inset-0" style={{ backgroundColor: 'rgba(33, 6, 3, 0.5)' }} />
         </div>
 
-        <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-2xl bg-red-950/50 p-6 text-white shadow-2xl shadow-black sm:p-8">
+        <div className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-2xl bg-red-950/50 p-6 text-white shadow-2xl shadow-black sm:p-8">
           <button type="button" aria-label="Close member detail" onClick={onClose}
             className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none">
             x

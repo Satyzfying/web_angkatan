@@ -103,7 +103,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   if (!isOpen) return null
 
   return createPortal((
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
 
       {/* Background YouTube via IFrame API */}
       <div className="fixed inset-0 z-0 overflow-hidden">
@@ -138,7 +138,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </div>
 
         {/* Inner scroll */}
-        <div className="relative z-10 h-[100dvh] max-h-[100dvh] overflow-y-auto p-6 sm:h-[100dvh] max-h-[100dvh] sm:p-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="relative z-10 max-h-[90dvh] overflow-y-auto p-6 sm:max-h-[90dvh] sm:p-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 
           {/* Baris atas: tombol mute (kiri) + tombol close (kanan) */}
           <div className="flex items-center justify-between mb-5">

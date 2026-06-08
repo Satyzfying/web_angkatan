@@ -61,7 +61,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]"
       onClick={(event) => event.stopPropagation()}
       onKeyDown={(event) => event.stopPropagation()}
     >
@@ -72,7 +72,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="fixed inset-0 bg-black/70 backdrop-blur-sm"
       />
 
-      <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-[32px] border-2 border-[#d8c9b4] bg-[#f8f2e9] p-6 text-[#5c4632] shadow-2xl sm:p-8">
+      <div className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-[32px] border-2 border-[#d8c9b4] bg-[#f8f2e9] p-6 text-[#5c4632] shadow-2xl sm:p-8">
 
         {/* MUSIC */}
        <audio ref={audioRef} loop>

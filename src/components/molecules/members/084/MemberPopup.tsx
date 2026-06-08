@@ -43,7 +43,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal((
     // BAGIAN BAWAH INI SUDAH DISESUAIKAN DENGAN TEMA "FOOTBALL GAME"
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
       {/* OVERLAY: Gelap dengan efek blur yang lebih kuat layaknya fokus ke kartu pemain */}
       <button
         type="button"
@@ -53,7 +53,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       />
 
       {/* POPUP CONTAINER: Background gradien hijau lapangan, border emas, dan efek glow */}
-      <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-4 border-yellow-500/80 bg-gradient-to-br from-emerald-800 via-green-700 to-emerald-900 p-6 text-white shadow-[0_0_40px_rgba(234,179,8,0.25)] sm:h-[100dvh] max-h-[100dvh] sm:p-8">
+      <div className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-4 border-yellow-500/80 bg-gradient-to-br from-emerald-800 via-green-700 to-emerald-900 p-6 text-white shadow-[0_0_40px_rgba(234,179,8,0.25)] sm:max-h-[90dvh] sm:p-8">
         
         {/* CLOSE BUTTON: Tombol silang dengan efek hover mencolok layaknya UI Game */}
         <button

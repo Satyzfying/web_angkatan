@@ -60,9 +60,14 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   useEffect(() => {
     if (!isOpen) {
-      setIsUnlocked(false)
-      setPlayedNotes([])
-      return
+      const resetTimer = window.setTimeout(() => {
+        setIsUnlocked(false)
+        setPlayedNotes([])
+      }, 0)
+
+      return () => {
+        window.clearTimeout(resetTimer)
+      }
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -96,7 +101,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   if (!isOpen) return null
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       {/* Backdrop luar */}
       <button
         type="button"
@@ -114,7 +119,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       <div className="absolute inset-0 bg-black/60" />
 
       {/* Card utama */}
-      <div className="relative z-10 h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-hidden rounded-2xl border border-white/10 bg-black/25 shadow-[0_0_40px_rgba(255,255,255,0.08)] backdrop-blur-xl sm:h-[calc(100vh-10rem)]">
+      <div className="relative z-10 h-[90dvh] max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-hidden rounded-2xl border border-white/10 bg-black/25 shadow-[0_0_40px_rgba(255,255,255,0.08)] backdrop-blur-xl">
         {/* Mini Game / Unlock Screen */}
         {!isUnlocked && (
           <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#080911]/95 p-6 text-center backdrop-blur-xl transition-opacity duration-500">
@@ -128,7 +133,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             </button>
             <h3 className="mb-2 font-serif text-3xl tracking-widest text-[#d5b98a] drop-shadow-sm">Crackling Box</h3>
             <p className="mb-8 text-sm font-light tracking-wide text-neutral-400">
-              "The German Songs That Familiar in Ears" <br /> Play the melody to open my profile
+              &quot;The German Songs That Familiar in Ears&quot; <br /> Play the melody to open my profile
             </p>
 
             <div className="w-full max-w-2xl border-y border-white/10 py-5">

@@ -12,7 +12,6 @@ import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 import ProfileImage from './image.png'
 import EvaBackground from './eva-background.jpg'
 import EvaBackground2 from './background2.jpg'
-import EvaCover from './eva-cover.png'
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -29,11 +28,6 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   useEffect(() => {
     if (!isOpen) {
-      setAccessCode('')
-      setError('')
-      setTerminalText('')
-      setIsAuthorizing(false)
-      setAccessGranted(false)
       document.body.style.overflow = ''
       return
     }
@@ -48,6 +42,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     window.addEventListener('keydown', handleKeyDown)
 
     return () => {
+      setAccessCode('')
+      setError('')
+      setTerminalText('')
+      setIsAuthorizing(false)
+      setAccessGranted(false)
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
     }
@@ -90,7 +89,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   if (!accessGranted) {
     return createPortal(
       <div
-        className="fixed inset-0 z-[9999] flex h-[100dvh] max-h-[100dvh] items-center justify-center overflow-hidden px-4"
+        className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto px-4 py-[5dvh]"
         onClick={(event) => event.stopPropagation()}
       >
         <style>{`
@@ -162,7 +161,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           AMBIENCE {isMuted ? 'OFF' : 'ON'}
         </button>
 
-        <div className="relative z-20 w-full max-w-xl rounded-2xl border-2 border-red-600 bg-black p-8 text-white shadow-2xl">
+        <div className="relative z-20 max-h-[90dvh] w-full max-w-xl overflow-y-auto rounded-2xl border-2 border-red-600 bg-black p-8 text-white shadow-2xl">
           <div className="mb-6">
             <p className="text-xs tracking-[0.5em] text-red-500 eva-font">NERV SECURITY SYSTEM</p>
             <h2 className="mt-3 text-3xl font-black text-red-500 eva-font">AUTHORIZATION REQUIRED</h2>
@@ -209,7 +208,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto p-4"
+      className="fixed inset-0 z-[9999] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]"
       onClick={(event) => event.stopPropagation()}
     >
       <style>{`
@@ -404,7 +403,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       />
 
       <div
-        className="relative z-[10002] max-h-screen w-full max-w-[720px] overflow-y-auto border-2 border-red-600 text-white shadow-xl"
+        className="relative z-[10002] max-h-[90dvh] w-full max-w-[720px] overflow-y-auto border-2 border-red-600 text-white shadow-xl"
         style={{
           backgroundColor: '#0a0a0a',
           boxShadow: 'inset 8px 0 0 #ff0000, inset -8px 0 0 #ff0000, 0 0 30px rgba(255,0,0,0.3)',

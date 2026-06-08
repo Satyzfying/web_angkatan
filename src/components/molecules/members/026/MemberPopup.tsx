@@ -44,7 +44,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-6">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       <button
         type="button"
         aria-label="Close member detail"
@@ -52,7 +52,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-gradient-to-br from-sky-900/80 via-cyan-700/70 to-amber-500/40 backdrop-blur-md"
       />
 
-      <div className="relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-[32px] border border-cyan-200/30 bg-gradient-to-b from-cyan-900/95 via-sky-800/95 to-blue-950/95 p-6 text-white shadow-[0_0_60px_rgba(34,211,238,0.25)] backdrop-blur-lg sm:p-8">
+      <div className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-[32px] border border-cyan-200/30 bg-gradient-to-b from-cyan-900/95 via-sky-800/95 to-blue-950/95 p-6 text-white shadow-[0_0_60px_rgba(34,211,238,0.25)] backdrop-blur-lg sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"

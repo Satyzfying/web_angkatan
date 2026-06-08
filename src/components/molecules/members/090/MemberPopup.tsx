@@ -97,7 +97,7 @@ const toggleBgm = () => {
       <audio ref={audioRef} loop onError={() => console.log('audio error')}>
   <source src="https://res.cloudinary.com/dyy28dpzr/video/upload/v1780829222/fools_w7bp4d.mp3" type="audio/mpeg" />
 </audio>
-      <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+      <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
         <button
           type="button"
           aria-label="Close member detail"
@@ -107,7 +107,7 @@ const toggleBgm = () => {
         />
 
         <div
-          className={`popup-animated relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto rounded-2xl p-6 text-white sm:h-[100dvh] max-h-[100dvh] sm:p-8 ${cinzel.className}`}
+          className={`popup-animated relative z-10 max-h-[90dvh] w-full max-w-[720px] overflow-y-auto rounded-2xl p-6 text-white sm:max-h-[90dvh] sm:p-8 ${cinzel.className}`}
           style={{ borderColor: '#D4AF37', borderWidth: '3px', borderStyle: 'solid', backgroundColor: 'rgba(10, 10, 10, 0.88)' }}
         >
           <button

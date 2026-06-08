@@ -307,7 +307,7 @@ function MemberPopupContent({ onClose }: { onClose: () => void }) {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh] bg-black/60 backdrop-blur-sm"
     >
       <style>{`
         @keyframes coqFall {
@@ -363,7 +363,7 @@ function MemberPopupContent({ onClose }: { onClose: () => void }) {
       />
 
       <div
-        className="relative z-10 my-8 w-full max-w-[720px] overflow-y-auto rounded-2xl p-6 shadow-xl sm:p-8"
+        className="relative z-10 w-full max-w-[720px] max-h-[90dvh] overflow-y-auto rounded-2xl p-6 pb-8 shadow-xl sm:p-8 sm:pb-10"
         style={{
           background: 'linear-gradient(160deg,#bde0fe 0%,#ffd6e7 60%,#ffb3cc 100%)',
           border: '2px solid #90c8f5',

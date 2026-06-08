@@ -89,7 +89,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   if (!isOpen) return null
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-10 pb-8">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       {/* Backdrop */}
       <button
         type="button"
@@ -209,7 +209,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         ) : (
           /* ─── PROFILE SCREEN ─── */
-          <div className="max-h-[calc(100dvh-5rem)] overflow-y-auto">
+          <div className="max-h-[90dvh] overflow-y-auto">
 
             {/* Foto profil */}
             <div className="relative overflow-hidden" style={{ borderBottom: '1px solid #1a2540' }}>

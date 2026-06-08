@@ -43,7 +43,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto  bg-[radial-gradient(circle_at_top,_rgba(243,216,255,0.14),_transparent_36%),linear-gradient(180deg,_rgba(10,6,18,0.55),_rgba(10,6,18,0.82))] px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto  bg-[radial-gradient(circle_at_top,_rgba(243,216,255,0.14),_transparent_36%),linear-gradient(180deg,_rgba(10,6,18,0.55),_rgba(10,6,18,0.82))] px-4 py-[5dvh]">
       <button
         type="button"
         aria-label="Close member detail"
@@ -51,7 +51,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-[#12081d]/70 backdrop-blur-md"
       />
 
-      <div className="border border-[#d9b8ff]/35 bg-bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.10),_transparent_34%),linear-gradient(145deg,_#3a215c_0%,_#27183f_48%,_#160f26_100%)] relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-[28px] border-2 p-6 text-[#f7ecff] shadow-[0_24px_80px_rgba(56,18,92,0.55)] ring-1 ring-white/10 sm:p-8">
+      <div className="border border-[#d9b8ff]/35 bg-bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.10),_transparent_34%),linear-gradient(145deg,_#3a215c_0%,_#27183f_48%,_#160f26_100%)] relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-[28px] border-2 p-6 text-[#f7ecff] shadow-[0_24px_80px_rgba(56,18,92,0.55)] ring-1 ring-white/10 sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"

@@ -48,7 +48,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal((
-      <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+      <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
         <img
           src={Evangelion.src}
           alt="Evangelion"
@@ -63,7 +63,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         />
 
         <div
-          className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border border-[#734f9a] bg-black/30 p-6 text-white shadow-[0_0_28px_rgba(115,79,154,0.55)] backdrop-blur-md sm:h-[100dvh] max-h-[100dvh] sm:p-8"
+          className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border border-[#734f9a] bg-black/30 p-6 text-white shadow-[0_0_28px_rgba(115,79,154,0.55)] backdrop-blur-md sm:max-h-[90dvh] sm:p-8"
           style={{ fontFamily: '"Matisse EB", serif' }}
         >
           <button

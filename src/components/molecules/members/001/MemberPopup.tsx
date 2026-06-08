@@ -140,7 +140,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-5">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       <video
         className="pointer-events-none absolute inset-0 h-full w-full object-cover"
         autoPlay
@@ -167,7 +167,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       <div
         ref={popupRef}
-        className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[860px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-[12px] border-[5px] border-white bg-[#04122d]/92 text-white shadow-[10px_10px_0_#ffffff,22px_22px_0_rgba(0,0,0,0.18)] backdrop-blur-sm"
+        className="relative z-10 max-h-[90dvh] w-full max-w-[860px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-[12px] border-[5px] border-white bg-[#04122d]/92 text-white shadow-[10px_10px_0_#ffffff,22px_22px_0_rgba(0,0,0,0.18)] backdrop-blur-sm"
       >
         <audio
           ref={audioRef}
@@ -179,9 +179,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         />
 
         <div className="relative -m-4 min-h-[calc(100%+2rem)] p-4 sm:-m-6 sm:min-h-[calc(100%+3rem)] sm:p-6">
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(145deg,rgba(6,17,44,0.66)_0%,rgba(6,17,44,0.48)_28%,rgba(165,0,68,0.18)_55%,rgba(6,17,44,0.38)_100%)]" />
-        <div className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(90deg,rgba(165,0,68,0.22)_0,rgba(165,0,68,0.22)_72px,rgba(0,77,152,0.24)_72px,rgba(0,77,152,0.24)_144px)] mix-blend-screen" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_20%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.08),transparent_22%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(145deg,rgba(6,17,44,0.66)_0%,rgba(6,17,44,0.48)_28%,rgba(165,0,68,0.18)_55%,rgba(6,17,44,0.38)_100%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(90deg,rgba(165,0,68,0.22)_0,rgba(165,0,68,0.22)_72px,rgba(0,77,152,0.24)_72px,rgba(0,77,152,0.24)_144px)] mix-blend-screen" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_20%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.08),transparent_22%)]" />
 
         <button
           type="button"

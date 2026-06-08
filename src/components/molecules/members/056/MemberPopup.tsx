@@ -142,14 +142,16 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           display: flex;
           align-items: flex-start;
           justify-content: center;
+          padding: 5dvh 0;
+          box-sizing: border-box;
           pointer-events: none;
         }
         .popup-card-wrap {
           pointer-events: auto;
           width: 100%;
           max-width: 720px;
-          margin-top: 16px;
-          margin-bottom: 32px;
+          margin-top: 0;
+          margin-bottom: 0;
           padding: 0 1rem;
         }
       `}</style>

@@ -308,7 +308,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   if (!isOpen) return null
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
       {/* Backdrop */}
       <button
         type="button"
@@ -318,7 +318,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       />
 
       {/* Card */}
-      <div className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[740px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 border-white/10 bg-[linear-gradient(135deg,#020617_0%,#0f172a_45%,#1e1b4b_100%)] p-6 text-white shadow-[0_0_60px_rgba(59,130,246,0.3)] sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div className="relative z-10 max-max-h-[90dvh] w-full max-w-[740px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 border-white/10 bg-[linear-gradient(135deg,#020617_0%,#0f172a_45%,#1e1b4b_100%)] p-6 text-white shadow-[0_0_60px_rgba(59,130,246,0.3)] sm:max-h-[90dvh] sm:p-8">
         {/* Starfield canvas */}
         <canvas
           ref={canvasRef}

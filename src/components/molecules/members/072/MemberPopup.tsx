@@ -160,7 +160,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <div
-      className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]"
       onClick={(event) => event.stopPropagation()}
       onKeyDown={(event) => event.stopPropagation()}
     >
@@ -203,7 +203,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       <div
         ref={popupRef}
-        className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_400ms_cubic-bezier(0.175,0.885,0.32,1.275)] overflow-y-auto overscroll-contain rounded-2xl border border-neutral-cs-10/50 bg-black/60 p-6 text-white shadow-[0_0_50px_rgba(0,0,0,0.8)] backdrop-blur-md sm:p-8"
+        className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_400ms_cubic-bezier(0.175,0.885,0.32,1.275)] overflow-y-auto overscroll-contain rounded-2xl border border-neutral-cs-10/50 bg-black/60 p-6 text-white shadow-[0_0_50px_rgba(0,0,0,0.8)] backdrop-blur-md sm:p-8"
       >
         <button
           type="button"

@@ -1202,7 +1202,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const buttonTexts    = ['please load this profile again', 'p̷l̴e̷a̶s̸e̵ ̶l̸o̸a̸d̷ ̴t̷h̶i̵s̵ ̵p̷r̷o̴f̸i̶l̶e̸ ̶a̸g̷a̷i̷n̸', 'PLEASE LOAD THIS PROFILE AGAIN', 'please_load_this_profile_again()', 'RELOAD // PLEASE LOAD THIS PROFILE', 'p̸̺̓l̷̙͝ȇ̶͙a̵̞͑ş̵̈e̸̹͋ ̶͖̋l̸͓̎o̶͕̿à̷͔d̴̡̊ ̵͚̽ṫ̸̻h̶̠͌i̴̮͘ş̵̄ ̷̯̐p̷̙̉ȓ̴̩o̶̻͝f̵̰͊i̶̼͑l̵̲̎ê̵͓']
 
   return createPortal(
-    <div className={`fixed inset-0 z-[9999] flex items-start justify-center overflow-y-auto px-4 font-mono lantern-cursor-${activeLantern}`}>
+    <div className={`fixed inset-0 z-[9999] flex items-start justify-center overflow-y-auto px-4 py-[5dvh] font-mono lantern-cursor-${activeLantern}`}>
       <OuterBg spotX={-999} spotY={-999} mode="horror" />
 
       <button
@@ -1308,7 +1308,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </button>
 
         <div
-          className="relative z-10 max-h-[100dvh] overflow-y-auto overflow-x-hidden p-6 sm:p-8 scrollbar-thin scrollbar-thumb-red-900 scrollbar-track-black"
+          className="relative z-10 max-h-[90dvh] overflow-y-auto overflow-x-hidden p-6 sm:p-8 scrollbar-thin scrollbar-thumb-red-900 scrollbar-track-black"
         >
 
           <div style={{ position: 'relative', zIndex: 2 }}>

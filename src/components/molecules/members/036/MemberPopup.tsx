@@ -187,7 +187,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       )}
 
       {phase === 'detail' && (
-        <div className={`${montserrat.className} fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4`}>
+        <div className={`${montserrat.className} fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]`}>
           <Image src={AhaBackground} alt="" fill sizes="100vw" priority className="pointer-events-none object-cover" />
 
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
@@ -195,7 +195,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <button type="button" aria-label="Close member detail" onClick={onClose} className="absolute inset-0" />
 
           <div
-            className={`${styles.memberCardEnter} relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain rounded-2xl border-2 border-orange-300/50 bg-gradient-to-br from-[#5a1b00] via-[#9a3200] to-[#2b0c00] p-6 text-white shadow-xl sm:p-8`}
+            className={`${styles.memberCardEnter} relative z-10 max-h-[90dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain rounded-2xl border-2 border-orange-300/50 bg-gradient-to-br from-[#5a1b00] via-[#9a3200] to-[#2b0c00] p-6 text-white shadow-xl sm:p-8`}
           >
             <button
               type="button"

@@ -86,7 +86,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <div
-      className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]"
       onClick={(event) => event.stopPropagation()}
       onKeyDown={(event) => event.stopPropagation()}
     >
@@ -103,7 +103,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       />
 
       <div
-        className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[760px] overflow-y-auto overflow-x-hidden overscroll-contain rounded-[32px] border-4 border-black/80 bg-[#071226]/70 p-5 text-white shadow-[0_0_20px_rgba(255,255,255,0.4),0_0_40px_rgba(255,255,255,0.15),inset_0_0_15px_rgba(255,255,255,0.05),0_0_60px_rgba(124,58,237,0.18)] backdrop-blur-xl sm:p-8"
+        className="relative z-10 max-h-[90dvh] w-full max-w-[760px] overflow-y-auto overflow-x-hidden overscroll-contain rounded-[32px] border-4 border-black/80 bg-[#071226]/70 p-5 text-white shadow-[0_0_20px_rgba(255,255,255,0.4),0_0_40px_rgba(255,255,255,0.15),inset_0_0_15px_rgba(255,255,255,0.05),0_0_60px_rgba(124,58,237,0.18)] backdrop-blur-xl sm:p-8"
         style={{
           backgroundImage: `linear-gradient(rgba(0,8,20,0.65), rgba(0,8,20,0.65)), url(${VoidBackground.src})`,
           backgroundSize: 'cover',

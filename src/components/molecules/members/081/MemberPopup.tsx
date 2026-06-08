@@ -584,7 +584,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           tapi disembunyikan sampai intro selesai */}
       <div style={{ display: showIntro ? 'none' : undefined }}>
         {/* PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK */}
-        <div className="fixed inset-0 isolate z-[100] flex items-start justify-center overflow-x-hidden overflow-y-auto px-4 pt-16 pb-8 sm:pt-20">
+        <div className="fixed inset-0 isolate z-[100] flex items-start justify-center overflow-x-hidden overflow-y-auto px-4 py-[5dvh]">
       <video
         className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover opacity-90 brightness-125 contrast-110 saturate-150"
         src="https://cdn-l-cyberpunk.cdprojektred.com/video/Edgerunners_KV_Animation.webm"
@@ -604,7 +604,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 z-[4] bg-[rgba(0,0,0,0.16)] backdrop-blur-[0.5px]"
       />
 
-      <div className="member-scrollbar-hide bg-[#111111]/62 relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[760px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overflow-x-hidden overscroll-contain rounded-none border-none p-4 text-[#fff9bf] shadow-[0_0_0_1px_rgba(248,233,0,0.24),_0_30px_90px_rgba(0,0,0,0.28)] backdrop-blur-sm sm:max-h-[calc(100vh-10rem)] sm:p-6 [clip-path:polygon(0_0,calc(100%-32px)_0,100%_32px,100%_100%,32px_100%,0_calc(100%-32px))]">
+      <div className="member-scrollbar-hide bg-[#111111]/62 relative z-10 max-max-h-[90dvh] w-full max-w-[760px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overflow-x-hidden overscroll-contain rounded-none border-none p-4 text-[#fff9bf] shadow-[0_0_0_1px_rgba(248,233,0,0.24),_0_30px_90px_rgba(0,0,0,0.28)] backdrop-blur-sm sm:max-h-[90dvh] sm:p-6 [clip-path:polygon(0_0,calc(100%-32px)_0,100%_32px,100%_100%,32px_100%,0_calc(100%-32px))]">
         <div className="pointer-events-none absolute inset-0 bg-transparent border-none shadow-[inset_0_0_0_1px_rgba(248,233,0,0.2)]" />
         <button
           type="button"

@@ -99,7 +99,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   // KODE POPUP ASLI - TIDAK ADA PERUBAHAN
   // ==============================================
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
       <div className="absolute inset-0 overflow-hidden">
         <iframe
           className="absolute top-0 left-0 h-full w-full object-cover"
@@ -116,7 +116,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         onClick={closePopup}
       />
 
-      <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-3xl bg-white p-6 text-slate-800 shadow-2xl border-t-[12px] border-[#285b75] sm:p-8">
+      <div className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-3xl bg-white p-6 text-slate-800 shadow-2xl border-t-[12px] border-[#285b75] sm:p-8">
         <div className="absolute top-2 left-1/2 h-2 w-16 -translate-x-1/2 rounded-full bg-gray-200"></div>
 
         <button

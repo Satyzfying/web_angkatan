@@ -188,7 +188,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal(
     /* REVISI: Mengganti backdrop blur luar menggunakan background.jpg yang digelapkan 50% (bg-black/50) */
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 select-none">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-[5dvh] select-none">
       
       {/* Background Image Container */}
       <div className="absolute inset-0 -z-20">
@@ -290,7 +290,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       {/* SCREEN 3: POPUP UTAMA DETIL MEMBER */}
       {currentStep === 'popup' && (
-        <div className="border-neutral-cs-10 relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-hidden rounded-2xl border-2 text-white shadow-xl bg-zinc-950 my-4">
+        <div className="border-neutral-cs-10 relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 bg-zinc-950 text-white shadow-xl">
          
           <Image
             src={ZetaGif}
@@ -302,7 +302,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
           <div className="absolute inset-0 -z-10 bg-black/50 backdrop-blur-[1px]" />
 
-          <div className="absolute inset-0 overflow-y-auto p-6 sm:p-8">
+          <div className="relative z-10 p-6 sm:p-8">
 
             {/* REVISI: Tombol close 'x' di dalam popup sekarang berubah warna merah cerah saat dihover/active */}
             <button

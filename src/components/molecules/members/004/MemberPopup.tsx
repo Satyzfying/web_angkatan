@@ -219,12 +219,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   if (!battleWon) {
     return createPortal(
-      <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 py-[5dvh]">
         {/* backdrop */}
         <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
 
         {/* battle box */}
-        <div className="relative z-10 max-h-[100dvh] w-full max-w-[600px] overflow-y-auto border-4 border-white bg-black p-5 text-white sm:p-8">
+        <div className="relative z-10 max-h-[90dvh] w-full max-w-[600px] overflow-y-auto border-4 border-white bg-black p-5 text-white sm:p-8">
           <h1 className="mb-6 text-center text-3xl font-bold">⚠ ENCOUNTER ⚠</h1>
 
           <p className="mb-2 text-center text-xl">LEWATI TAHAP INI SEBELUM MELIHAT IDENTITAS RAJA IBLIS</p>
@@ -264,7 +264,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4 py-[5dvh]">
       <button
         type="button"
         aria-label="Close member detail"
@@ -272,14 +272,14 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="absolute inset-0 bg-black/70 backdrop-blur-sm"
       />
 
-      <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-hidden rounded-2xl border border-white/20 shadow-[0_0_30px_rgba(255,255,255,0.35)]">
+      <div className="relative z-10 h-[90dvh] max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-hidden rounded-2xl border border-white/20 shadow-[0_0_30px_rgba(255,255,255,0.35)]">
         <video autoPlay loop muted playsInline className="absolute inset-0 h-full w-full object-cover">
           <source src="/assets/videos/0605(2).mp4" type="video/mp4" />
         </video>
 
         <div className="absolute inset-0 bg-black/50" />
 
-        <div className="relative z-10 h-full overflow-y-auto p-6 text-white sm:p-8">
+        <div className="relative z-10 flex h-full min-h-0 flex-col overflow-hidden p-6 text-white sm:p-8">
           <button
             type="button"
             aria-label="Close member detail"
@@ -289,6 +289,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             ×
           </button>
 
+          <div className="min-h-0 flex-1 overflow-y-auto pr-1">
           {/* FOTO */}
             <div className="group mb-6 cursor-pointer [perspective:1000px]">
               <div
@@ -391,6 +392,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             <p className="my-2 font-semibold">お気に召すまま</p>
 
             <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/4ly9rdCe3PvcYZdAN72T3b?si=d97704d1f4934bba"/>
+          </div>
           </div>
         </div>
       </div>

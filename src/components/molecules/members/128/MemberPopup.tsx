@@ -48,7 +48,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   return createPortal((
     <div
-      className={`fixed inset-0 z-[100] flex ${isUnlocked ? 'items-start' : 'items-center'} justify-center overflow-hidden px-4`}
+      className={`fixed inset-0 z-[100] flex ${isUnlocked ? 'items-start' : 'items-center'} justify-center overflow-hidden px-4 py-[5dvh]`}
       onClick={(event) => event.stopPropagation()}
     >
       <button
@@ -86,7 +86,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       ) : (
         // TAMPILAN 2: BIODATA PASTEL
         <div 
-          className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_400ms_ease-out] overflow-y-auto rounded-3xl border-4 border-amber-300 p-6 shadow-2xl shadow-pink-200/50 sm:h-[100dvh] max-h-[100dvh] sm:p-8"
+          className="relative z-10 max-h-[90dvh] w-full max-w-[720px] animate-[member-popup-show_400ms_ease-out] overflow-y-auto rounded-3xl border-4 border-amber-300 p-6 shadow-2xl shadow-pink-200/50 sm:max-h-[90dvh] sm:p-8"
           style={{
             backgroundColor: '#fce7f3',
             backgroundImage: 'radial-gradient(#ffffff 20%, transparent 20%)',

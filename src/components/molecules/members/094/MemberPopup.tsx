@@ -170,7 +170,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-black/85 px-4 py-4 backdrop-blur-md group/modal select-none">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-black/85 px-4 py-[5dvh] py-4 backdrop-blur-md group/modal select-none">
       
       <audio 
         ref={audioRef} 
@@ -334,7 +334,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
       {/* Main Responsive Frame Canvas */}
       <div 
-        className="custom-scrollbar relative z-20 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain rounded-2xl bg-black shadow-[0_0_50px_rgba(255,69,0,0.25)] transition-all duration-300 ease-out"
+        className="custom-scrollbar relative z-20 max-h-[90dvh] w-full max-w-[720px] overflow-y-auto overscroll-contain rounded-2xl bg-black shadow-[0_0_50px_rgba(255,69,0,0.25)] transition-all duration-300 ease-out"
       >
 
         {/* ========================================================= */}
