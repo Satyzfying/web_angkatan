@@ -196,7 +196,7 @@ const CORNER_LANTERNS: { tl: LanternConfig; tr: LanternConfig; bl: LanternConfig
   br: { id: 'green',  r: 80,  g: 160, b: 80  },   
 }
 
-const useCornerLantern = (active: boolean, cardRef: React.RefObject<HTMLDivElement>, spotX: number, spotY: number) => {
+const useCornerLantern = (active: boolean, cardRef: React.RefObject<HTMLDivElement | null>, spotX: number, spotY: number) => {
   const [activeLantern, setActiveLantern] = useState<LanternId>('red')
   const [blendedRgb, setBlendedRgb] = useState({ r: 200, g: 30, b: 30 }) 
   const [glitchPhase, setGlitchPhase] = useState(0)
@@ -244,7 +244,7 @@ const useCornerLantern = (active: boolean, cardRef: React.RefObject<HTMLDivEleme
   return { activeLantern, blendedRgb, glitchPhase }
 }
 
-const useCardParallax = (ref: React.RefObject<HTMLDivElement>, active: boolean) => {
+const useCardParallax = (ref: React.RefObject<HTMLDivElement | null>, active: boolean) => {
   const [tilt, setTilt] = useState({ x: 0, y: 0, scale: 1 })
 
   useEffect(() => {
@@ -712,7 +712,7 @@ type DialogBoxProps = {
   scene: SceneNode
   inputValue: string
   setInputValue: (v: string) => void
-  inputRef: React.RefObject<HTMLInputElement>
+  inputRef: React.RefObject<HTMLInputElement | null>
   onAdvance: (nextId?: string) => void
   onInputSubmit: () => void
   userName: string
@@ -1280,14 +1280,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               <div style={{
                 position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 17,
                 opacity: errorLantern === activeLantern ? flickerOpacity : 1,
-                transition: 'opacity 0.05s',
+                transition: 'opacity 0.05s, box-shadow 0.08s ease',
                 boxShadow: [
                   glowLeft   > 0.01 ? `inset ${Math.round(glowLeft*70)}px 0 ${Math.round(glowLeft*45)}px rgba(${r},${g},${b},${(glowLeft*0.20).toFixed(2)})` : '',
                   glowRight  > 0.01 ? `inset -${Math.round(glowRight*70)}px 0 ${Math.round(glowRight*45)}px rgba(${r},${g},${b},${(glowRight*0.20).toFixed(2)})` : '',
                   glowTop    > 0.01 ? `inset 0 ${Math.round(glowTop*50)}px ${Math.round(glowTop*35)}px rgba(${r},${g},${b},${(glowTop*0.16).toFixed(2)})` : '',
                   glowBottom > 0.01 ? `inset 0 -${Math.round(glowBottom*50)}px ${Math.round(glowBottom*35)}px rgba(${r},${g},${b},${(glowBottom*0.16).toFixed(2)})` : '',
                 ].filter(Boolean).join(', ') || 'none',
-                transition: 'box-shadow 0.08s ease',
               }} />
             </>
           )

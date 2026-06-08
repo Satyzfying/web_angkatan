@@ -1,7 +1,7 @@
 'use client'
 
-/* eslint-disable react-hooks/set-state-in-effect */
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+
 import Image from 'next/image'
 import { createPortal } from 'react-dom'
 
@@ -22,23 +22,46 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const [answer, setAnswer] = useState('')
   const [isWrong, setIsWrong] = useState(false)
   const [step, setStep] = useState<'quiz' | 'quote' | 'card'>('quiz')
+  const [isMusicMode, setIsMusicMode] = useState(false)
 
   const magicalFloaters = [
-    { e: '⭐', sz: 28 }, { e: '✨', sz: 24 }, { e: '🌟', sz: 32 },
-    { e: '🌸', sz: 26 }, { e: '🌷', sz: 24 }, { e: '💫', sz: 30 },
-    { e: '✦', sz: 22 }, { e: '💗', sz: 26 }, { e: '🎀', sz: 28 },
-    { e: '🫧', sz: 22 }, { e: '👑', sz: 32 }, { e: '💌', sz: 24 },
-    { e: '🌺', sz: 26 }, { e: '💕', sz: 22 }, { e: '✨', sz: 28 },
+    { e: '⭐', sz: 28 },
+    { e: '✨', sz: 24 },
+    { e: '🌟', sz: 32 },
+    { e: '🌸', sz: 26 },
+    { e: '🌷', sz: 24 },
+    { e: '💫', sz: 30 },
+    { e: '✦', sz: 22 },
+    { e: '💗', sz: 26 },
+    { e: '🎀', sz: 28 },
+    { e: '🫧', sz: 22 },
+    { e: '👑', sz: 32 },
+    { e: '💌', sz: 24 },
+    { e: '🌺', sz: 26 },
+    { e: '💕', sz: 22 },
+    { e: '✨', sz: 28 }
   ]
 
   const stars = useMemo(() => Array.from({ length: 85 }), [])
   const sakura = useMemo(() => Array.from({ length: 28 }), [])
 
+  const resetPopupState = useCallback(() => {
+    setAnswer('')
+    setIsWrong(false)
+    setStep('quiz')
+    setIsMusicMode(false)
+  }, [])
+
+  const handleClose = useCallback(() => {
+    resetPopupState()
+    onClose()
+  }, [onClose, resetPopupState])
+
   useEffect(() => {
     if (!isOpen) return
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
+      if (event.key === 'Escape') handleClose()
     }
 
     document.body.style.overflow = 'hidden'
@@ -48,22 +71,14 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen, onClose])
-
-  useEffect(() => {
-    if (!isOpen) {
-      setAnswer('')
-      setIsWrong(false)
-      setStep('quiz')
-    }
-  }, [isOpen])
+  }, [isOpen, handleClose])
 
   if (!isOpen) return null
 
   const checkAnswer = () => {
     const normalizedAnswer = answer.trim().toLowerCase().replace(/\s+/g, ' ')
 
-    if (normalizedAnswer === 'princess nadya') {
+    if (normalizedAnswer === 'nadya') {
       setStep('quote')
       setIsWrong(false)
       return
@@ -78,11 +93,15 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal(
-    <div
-      className="member-popup-shell"
-      onClick={(event) => event.stopPropagation()}
-      onKeyDown={(event) => event.stopPropagation()}
-    >
+    <div className="fixed inset-0 z-[100] overflow-y-auto px-4 py-[5dvh]">
+      <button
+        type="button"
+        aria-label="Close member detail"
+        onClick={handleClose}
+        className="absolute inset-0 bg-black/25 backdrop-blur-sm"
+      />
+
+      <div className={`member-popup-shell ${isMusicMode ? 'music-mode' : ''}`}>
       <div className="bg-kingdom">
         <div className="castle-wrap">
           <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" fill="rgba(180,80,255,.7)">
@@ -118,14 +137,16 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             <div
               key={i}
               className="star-dot"
-              style={{
-                width: `${1.5 + (i % 4)}px`,
-                height: `${1.5 + (i % 4)}px`,
-                top: `${(i * 13.7) % 96}%`,
-                left: `${(i * 19.3) % 99}%`,
-                '--d': `${1.2 + (i % 4) * 0.6}s`,
-                '--dl': `${(i * 0.15) % 4}s`,
-              } as StyleVars}
+              style={
+                {
+                  width: `${1.5 + (i % 4)}px`,
+                  height: `${1.5 + (i % 4)}px`,
+                  top: `${(i * 13.7) % 96}%`,
+                  left: `${(i * 19.3) % 99}%`,
+                  '--d': `${1.2 + (i % 4) * 0.6}s`,
+                  '--dl': `${(i * 0.15) % 4}s`
+                } as StyleVars
+              }
             />
           ))}
         </div>
@@ -135,17 +156,19 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             <div
               key={i}
               className="floater"
-              style={{
-                top: `${2 + (i * 14.5) % 92}%`,
-                left: `${1 + (i * 21.4) % 97}%`,
-                '--sz': `${item.sz}px`,
-                '--ty': `${-(12 + (i % 6) * 4)}px`,
-                '--r0': `${(i % 4) * 8 - 16}deg`,
-                '--r1': `${(i % 5) * 8 - 12}deg`,
-                '--op': 0.65 + (i % 4) * 0.08,
-                '--d': `${2.5 + (i % 3) * 0.8}s`,
-                '--dl': `${i * 0.14}s`,
-              } as StyleVars}
+              style={
+                {
+                  top: `${2 + ((i * 14.5) % 92)}%`,
+                  left: `${1 + ((i * 21.4) % 97)}%`,
+                  '--sz': `${item.sz}px`,
+                  '--ty': `${-(12 + (i % 6) * 4)}px`,
+                  '--r0': `${(i % 4) * 8 - 16}deg`,
+                  '--r1': `${(i % 5) * 8 - 12}deg`,
+                  '--op': 0.65 + (i % 4) * 0.08,
+                  '--d': `${2.5 + (i % 3) * 0.8}s`,
+                  '--dl': `${i * 0.14}s`
+                } as StyleVars
+              }
             >
               {item.e}
             </div>
@@ -157,27 +180,37 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             <span
               key={i}
               className="sakura"
-              style={{
-                left: `${1 + i * 3.5}%`,
-                '--sz': `${14 + (i % 6) * 3}px`,
-                '--d': `${5 + (i % 4) * 1.5}s`,
-                '--dl': `${i * 0.25}s`,
-              } as StyleVars}
+              style={
+                {
+                  left: `${1 + i * 3.5}%`,
+                  '--sz': `${14 + (i % 6) * 3}px`,
+                  '--d': `${5 + (i % 4) * 1.5}s`,
+                  '--dl': `${i * 0.25}s`
+                } as StyleVars
+              }
             >
               {i % 4 === 0 ? '🌸' : i % 4 === 1 ? '🌺' : i % 4 === 2 ? '🌷' : '💗'}
             </span>
           ))}
         </div>
 
-        <div className="cloud-base cloud-1"><span>☁️</span></div>
-        <div className="cloud-base cloud-2"><span>☁️</span></div>
-        <div className="cloud-base cloud-3"><span>☁️</span></div>
-        <div className="cloud-base cloud-4"><span>☁️</span></div>
+        <div className="cloud-base cloud-1">
+          <span>☁️</span>
+        </div>
+        <div className="cloud-base cloud-2">
+          <span>☁️</span>
+        </div>
+        <div className="cloud-base cloud-3">
+          <span>☁️</span>
+        </div>
+        <div className="cloud-base cloud-4">
+          <span>☁️</span>
+        </div>
       </div>
 
       <div className="page">
         <div className="card">
-          <button type="button" className="close-btn" onClick={onClose} title="Tutup" aria-label="Tutup">
+          <button className="close-btn" onClick={handleClose} title="Tutup">
             ×
           </button>
 
@@ -198,26 +231,26 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 <span className="quiz-bow">🎀</span>
               </div>
 
-              <div className="quiz-title">Aku lagi ngumpet nih 🫣</div>
-              <div className="quiz-body">
-                Kalau mau ketemu,<br />coba panggil aku dulu 💌
-              </div>
+              <div className="quiz-title">The castle gate is locked 👑</div>
+              <div className="quiz-body">Only the princess&apos;s name can open it</div>
 
               <div className="clue-box">
-                <p>💌 Clue:<br />coba panggil dulu<br />princess nadya 👑</p>
+                <p>👑 Hint: It&apos;s her first name</p>
               </div>
 
               <div className="input-row">
                 <input
                   className="q-input"
                   value={answer}
-                  placeholder="ketik jawaban..."
+                  placeholder="type her name..."
                   onChange={(e) => setAnswer(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') checkAnswer()
                   }}
                 />
-                <button className="btn-kirim" onClick={checkAnswer}>Kirim</button>
+                <button className="btn-kirim" onClick={checkAnswer}>
+                  Kirim
+                </button>
               </div>
 
               <div className={`wrong-overlay ${isWrong ? 'show' : ''}`}>
@@ -234,9 +267,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                   </div>
                 </div>
                 <div className="wrong-msg-only">
-                  Belum bener, coba panggil<br />&quot;Princess Nadya&quot; dulu yaa 💗
+                  🌙 The magic didn&apos;t work...
+                  <br />
+                  Perhaps that&apos;s not the princess we&apos;re looking for.
                 </div>
-                <button className="btn-wrong-close" onClick={closeWrong}>✕</button>
+                <button className="btn-wrong-close" onClick={closeWrong}>
+                  ✕
+                </button>
               </div>
             </div>
           )}
@@ -249,10 +286,14 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 <div className="q-paper">
                   <div className="paper-crown-icon">👑</div>
                   <div className="paper-quote">
-                    &quot;You can always<br />
-                    <em>begin again!</em><br />
-                    Romanticize your life<br />
-                    cause you&apos;re the<br />
+                    &quot;You can always
+                    <br />
+                    <em>begin again!</em>
+                    <br />
+                    Romanticize your life
+                    <br />
+                    cause you&apos;re the
+                    <br />
                     main character.&quot;
                   </div>
                 </div>
@@ -313,7 +354,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 </div>
               </div>
 
-              <div className="spotify-box">
+              <div className="music-hint">🌙 Tap the song card to unlock the starry night</div>
+
+              <div className="spotify-box" onClick={() => setIsMusicMode(true)}>
                 <div className="sp-label-title">Lagu Favorit</div>
                 <div className="sp-song-name">Begin Again 🎶</div>
                 <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/05GsNucq8Bngd9fnd4fRa0?si=87e953ecc5f4492c" />
@@ -333,10 +376,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }
 
         .member-popup-shell {
-          position: fixed;
-          inset: 0;
-          z-index: 100;
-          overflow-y: auto;
+          position: relative;
+          z-index: 10;
+          width: 100%;
+          min-height: 90dvh;
+          overflow: hidden;
           font-family: 'Nunito', sans-serif;
           user-select: none;
         }
@@ -364,10 +408,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           position: absolute;
           inset: 0;
           background:
-            radial-gradient(ellipse 80% 45% at 50% 0%, rgba(255,200,240,.5) 0%, transparent 65%),
-            radial-gradient(ellipse 45% 55% at 8% 28%, rgba(140,60,210,.4) 0%, transparent 55%),
-            radial-gradient(ellipse 55% 65% at 92% 22%, rgba(190,80,230,.35) 0%, transparent 58%),
-            radial-gradient(ellipse 90% 35% at 50% 100%, rgba(255,210,235,.7) 0%, transparent 65%);
+            radial-gradient(ellipse 80% 45% at 50% 0%, rgba(255, 200, 240, 0.5) 0%, transparent 65%),
+            radial-gradient(ellipse 45% 55% at 8% 28%, rgba(140, 60, 210, 0.4) 0%, transparent 55%),
+            radial-gradient(ellipse 55% 65% at 92% 22%, rgba(190, 80, 230, 0.35) 0%, transparent 58%),
+            radial-gradient(ellipse 90% 35% at 50% 100%, rgba(255, 210, 235, 0.7) 0%, transparent 65%);
         }
 
         .castle-wrap {
@@ -378,8 +422,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           width: 100%;
           max-width: 900px;
           pointer-events: none;
-          opacity: .35;
-          filter: drop-shadow(0 0 50px rgba(200,120,255,.7)) drop-shadow(0 0 25px rgba(255,180,240,.5));
+          opacity: 0.35;
+          filter: drop-shadow(0 0 50px rgba(200, 120, 255, 0.7)) drop-shadow(0 0 25px rgba(255, 180, 240, 0.5));
         }
 
         .castle-wrap svg {
@@ -392,14 +436,19 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           left: 3%;
           top: 4%;
           font-size: clamp(60px, 8vw, 100px);
-          filter: drop-shadow(0 0 24px rgba(255,240,120,.95)) drop-shadow(0 0 60px rgba(255,200,80,.4));
+          filter: drop-shadow(0 0 24px rgba(255, 240, 120, 0.95)) drop-shadow(0 0 60px rgba(255, 200, 80, 0.4));
           animation: moonFloat 7s ease-in-out infinite;
           z-index: 1;
         }
 
         @keyframes moonFloat {
-          0%, 100% { transform: translateY(0) rotate(-5deg); }
-          50% { transform: translateY(-16px) rotate(5deg); }
+          0%,
+          100% {
+            transform: translateY(0) rotate(-5deg);
+          }
+          50% {
+            transform: translateY(-16px) rotate(5deg);
+          }
         }
 
         .star-field {
@@ -417,8 +466,15 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }
 
         @keyframes starBlink {
-          0%, 100% { opacity: .15; transform: scale(.6); }
-          50% { opacity: 1; transform: scale(1.5); }
+          0%,
+          100% {
+            opacity: 0.15;
+            transform: scale(0.6);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.5);
+          }
         }
 
         .floaters {
@@ -432,13 +488,14 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           position: absolute;
           font-size: var(--sz, 26px);
           animation: floaterAnim var(--d, 4s) ease-in-out infinite var(--dl, 0s);
-          filter: drop-shadow(0 0 8px rgba(255,255,255,.7));
+          filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7));
         }
 
         @keyframes floaterAnim {
-          0%, 100% {
+          0%,
+          100% {
             transform: translateY(0) rotate(var(--r0, 0deg)) scale(1);
-            opacity: var(--op, .85);
+            opacity: var(--op, 0.85);
           }
           50% {
             transform: translateY(var(--ty, -14px)) rotate(var(--r1, 5deg)) scale(1.1);
@@ -462,10 +519,20 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }
 
         @keyframes sakuraFall {
-          0% { transform: translateY(-50px) translateX(0) rotate(0deg); opacity: 0; }
-          8% { opacity: .9; }
-          90% { opacity: .7; }
-          100% { transform: translateY(105vh) translateX(50px) rotate(420deg); opacity: 0; }
+          0% {
+            transform: translateY(-50px) translateX(0) rotate(0deg);
+            opacity: 0;
+          }
+          8% {
+            opacity: 0.9;
+          }
+          90% {
+            opacity: 0.7;
+          }
+          100% {
+            transform: translateY(105vh) translateX(50px) rotate(420deg);
+            opacity: 0;
+          }
         }
 
         .cloud-base {
@@ -478,7 +545,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           display: block;
           font-size: var(--sz, 180px);
           animation: cloudSway var(--d, 6s) ease-in-out infinite var(--dl, 0s);
-          opacity: .93;
+          opacity: 0.93;
         }
 
         .cloud-1 {
@@ -495,7 +562,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           bottom: -10px;
           --sz: 220px;
           --d: 6s;
-          --dl: .6s;
+          --dl: 0.6s;
           --sh: -28px;
         }
 
@@ -504,7 +571,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           bottom: -5px;
           --sz: 155px;
           --d: 4.5s;
-          --dl: .3s;
+          --dl: 0.3s;
           --sh: 20px;
         }
 
@@ -518,14 +585,19 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }
 
         @keyframes cloudSway {
-          0%, 100% { transform: translateX(0); }
-          50% { transform: translateX(var(--sh, 20px)); }
+          0%,
+          100% {
+            transform: translateX(0);
+          }
+          50% {
+            transform: translateX(var(--sh, 20px));
+          }
         }
 
         .page {
           position: relative;
           z-index: 10;
-          min-height: 100dvh;
+          min-height: 90dvh;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -535,29 +607,37 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         .card {
           width: 100%;
           max-width: 430px;
+          max-height: 90dvh;
           background: linear-gradient(
             160deg,
-            rgba(255,255,255,.93) 0%,
-            rgba(255,243,252,.9) 45%,
-            rgba(255,218,240,.88) 100%
+            rgba(255, 255, 255, 0.93) 0%,
+            rgba(255, 243, 252, 0.9) 45%,
+            rgba(255, 218, 240, 0.88) 100%
           );
-          border: 3.5px solid rgba(255,170,210,.75);
+          border: 3.5px solid rgba(255, 170, 210, 0.75);
           border-radius: 36px;
           padding: 32px 28px 28px;
           position: relative;
           overflow: hidden;
           box-shadow:
-            0 0 0 7px rgba(255,255,255,.22),
-            0 28px 70px rgba(200,0,110,.38),
-            0 6px 20px rgba(255,100,180,.25),
-            inset 0 1px 0 rgba(255,255,255,.95);
+            0 0 0 7px rgba(255, 255, 255, 0.22),
+            0 28px 70px rgba(200, 0, 110, 0.38),
+            0 6px 20px rgba(255, 100, 180, 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 0.95);
           backdrop-filter: blur(12px);
-          animation: cardPop .75s cubic-bezier(.34,1.56,.64,1) both;
+          overflow-y: auto;
+          animation: cardPop 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) both;
         }
 
         @keyframes cardPop {
-          from { opacity: 0; transform: scale(.8) translateY(36px); }
-          to { opacity: 1; transform: scale(1) translateY(0); }
+          from {
+            opacity: 0;
+            transform: scale(0.8) translateY(36px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
         }
 
         .card::before {
@@ -567,8 +647,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           border-radius: 32px;
           pointer-events: none;
           background:
-            radial-gradient(circle at 18% 14%, rgba(255,255,255,.88) 0%, transparent 28%),
-            radial-gradient(circle at 82% 78%, rgba(255,175,215,.35) 0%, transparent 32%);
+            radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.88) 0%, transparent 28%),
+            radial-gradient(circle at 82% 78%, rgba(255, 175, 215, 0.35) 0%, transparent 32%);
         }
 
         .cd {
@@ -577,19 +657,69 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           z-index: 0;
         }
 
-        .cd.moon-tl { top: 14px; left: 14px; font-size: 28px; animation: floaterAnim 5s ease-in-out infinite; }
-        .cd.star-tr { top: 14px; right: 50px; font-size: 22px; animation: twinkleAnim 2.2s ease-in-out infinite .4s; }
-        .cd.star2 { top: 14px; right: 22px; font-size: 18px; animation: twinkleAnim 1.8s ease-in-out infinite .9s; }
-        .cd.flower-tr { top: 60px; right: 18px; font-size: 26px; animation: floaterAnim 4.5s ease-in-out infinite .5s; }
-        .cd.tulip-r { top: 120px; right: 14px; font-size: 22px; animation: floaterAnim 4s ease-in-out infinite 1s; }
-        .cd.flower-bl { bottom: 80px; left: -6px; font-size: 46px; animation: floaterAnim 5s ease-in-out infinite .3s; }
-        .cd.flower-br { bottom: 70px; right: -6px; font-size: 46px; animation: floaterAnim 5s ease-in-out infinite .6s; }
-        .cd.heart-bl { bottom: 130px; left: 18px; font-size: 22px; animation: heartPop 1.8s ease-in-out infinite; }
-        .cd.heart-br { bottom: 115px; right: 16px; font-size: 18px; animation: heartPop 2s ease-in-out infinite .4s; }
+        .cd.moon-tl {
+          top: 14px;
+          left: 14px;
+          font-size: 28px;
+          animation: floaterAnim 5s ease-in-out infinite;
+        }
+        .cd.star-tr {
+          top: 14px;
+          right: 50px;
+          font-size: 22px;
+          animation: twinkleAnim 2.2s ease-in-out infinite 0.4s;
+        }
+        .cd.star2 {
+          top: 14px;
+          right: 22px;
+          font-size: 18px;
+          animation: twinkleAnim 1.8s ease-in-out infinite 0.9s;
+        }
+        .cd.flower-tr {
+          top: 60px;
+          right: 18px;
+          font-size: 26px;
+          animation: floaterAnim 4.5s ease-in-out infinite 0.5s;
+        }
+        .cd.tulip-r {
+          top: 120px;
+          right: 14px;
+          font-size: 22px;
+          animation: floaterAnim 4s ease-in-out infinite 1s;
+        }
+        .cd.flower-bl {
+          bottom: 80px;
+          left: -6px;
+          font-size: 46px;
+          animation: floaterAnim 5s ease-in-out infinite 0.3s;
+        }
+        .cd.flower-br {
+          bottom: 70px;
+          right: -6px;
+          font-size: 46px;
+          animation: floaterAnim 5s ease-in-out infinite 0.6s;
+        }
+        .cd.heart-bl {
+          bottom: 130px;
+          left: 18px;
+          font-size: 22px;
+          animation: heartPop 1.8s ease-in-out infinite;
+        }
+        .cd.heart-br {
+          bottom: 115px;
+          right: 16px;
+          font-size: 18px;
+          animation: heartPop 2s ease-in-out infinite 0.4s;
+        }
 
         @keyframes heartPop {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.25); }
+          0%,
+          100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.25);
+          }
         }
 
         .close-btn {
@@ -609,14 +739,16 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 5px 16px rgba(233,30,140,.28);
-          transition: transform .15s, box-shadow .15s;
+          box-shadow: 0 5px 16px rgba(233, 30, 140, 0.28);
+          transition:
+            transform 0.15s,
+            box-shadow 0.15s;
           line-height: 1;
         }
 
         .close-btn:hover {
           transform: scale(1.12);
-          box-shadow: 0 8px 22px rgba(233,30,140,.4);
+          box-shadow: 0 8px 22px rgba(233, 30, 140, 0.4);
         }
 
         .slide {
@@ -637,7 +769,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
         .quiz-bow {
           font-size: 42px;
-          animation: floaterAnim 3.5s ease-in-out infinite .4s;
+          animation: floaterAnim 3.5s ease-in-out infinite 0.4s;
           display: inline-block;
           margin-left: 6px;
         }
@@ -649,7 +781,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           color: #c0185a;
           text-align: center;
           margin: 8px 0 4px;
-          text-shadow: 0 1px 8px rgba(200,0,100,.15);
+          text-shadow: 0 1px 8px rgba(200, 0, 100, 0.15);
         }
 
         .quiz-body {
@@ -663,13 +795,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }
 
         .clue-box {
-          background: rgba(255,255,255,.82);
+          background: rgba(255, 255, 255, 0.82);
           border: 2.5px dashed #ffb3d1;
           border-radius: 22px;
           padding: 14px 18px;
           text-align: center;
           margin-bottom: 18px;
-          box-shadow: inset 0 2px 8px rgba(255,100,160,.08);
+          box-shadow: inset 0 2px 8px rgba(255, 100, 160, 0.08);
         }
 
         .clue-box p {
@@ -693,14 +825,16 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           font-size: 14px;
           font-weight: 700;
           color: #c0185a;
-          background: rgba(255,255,255,.92);
+          background: rgba(255, 255, 255, 0.92);
           outline: none;
-          transition: border-color .2s, box-shadow .2s;
+          transition:
+            border-color 0.2s,
+            box-shadow 0.2s;
         }
 
         .q-input:focus {
           border-color: #ff3d8b;
-          box-shadow: 0 0 0 3px rgba(255,60,140,.18);
+          box-shadow: 0 0 0 3px rgba(255, 60, 140, 0.18);
         }
 
         .q-input::placeholder {
@@ -717,8 +851,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           font-size: 14px;
           font-weight: 900;
           cursor: pointer;
-          box-shadow: 0 5px 16px rgba(233,30,140,.4);
-          transition: transform .15s, box-shadow .15s;
+          box-shadow: 0 5px 16px rgba(233, 30, 140, 0.4);
+          transition:
+            transform 0.15s,
+            box-shadow 0.15s;
           white-space: nowrap;
         }
 
@@ -727,7 +863,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }
 
         .btn-kirim:active {
-          transform: scale(.96);
+          transform: scale(0.96);
         }
 
         .wrong-overlay {
@@ -736,13 +872,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           inset: 0;
           border-radius: 32px;
           z-index: 40;
-          background: linear-gradient(160deg, rgba(255,240,250,.97), rgba(255,210,235,.96));
+          background: linear-gradient(160deg, rgba(255, 240, 250, 0.97), rgba(255, 210, 235, 0.96));
           align-items: center;
           justify-content: center;
           flex-direction: column;
           text-align: center;
           padding: 32px;
-          animation: cardPop .35s ease-out both;
+          animation: cardPop 0.35s ease-out both;
         }
 
         .wrong-overlay.show {
@@ -769,8 +905,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           height: 70px;
           background: linear-gradient(160deg, #fde0ee, #f9b8d8);
           border-radius: 40px;
-          border: 3px solid rgba(255,150,190,.4);
-          box-shadow: 0 6px 20px rgba(255,100,160,.25), inset 0 2px 0 rgba(255,255,255,.7);
+          border: 3px solid rgba(255, 150, 190, 0.4);
+          box-shadow:
+            0 6px 20px rgba(255, 100, 160, 0.25),
+            inset 0 2px 0 rgba(255, 255, 255, 0.7);
           bottom: 10px;
           left: 0;
         }
@@ -782,7 +920,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           height: 56px;
           border-radius: 50%;
           background: linear-gradient(135deg, #fde8f3, #f9c0dc);
-          border: 3px solid rgba(255,150,190,.35);
+          border: 3px solid rgba(255, 150, 190, 0.35);
           top: -26px;
           left: 18px;
         }
@@ -794,7 +932,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           height: 44px;
           border-radius: 50%;
           background: linear-gradient(135deg, #fdeaf5, #f9c8e0);
-          border: 3px solid rgba(255,150,190,.3);
+          border: 3px solid rgba(255, 150, 190, 0.3);
           top: -16px;
           left: 52px;
         }
@@ -810,8 +948,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           top: 22px;
         }
 
-        .cloud-eye-l { left: 36px; }
-        .cloud-eye-r { left: 66px; }
+        .cloud-eye-l {
+          left: 36px;
+        }
+        .cloud-eye-r {
+          left: 66px;
+        }
 
         .tear-l,
         .tear-r {
@@ -824,13 +966,30 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           animation: tearDrop 1.4s ease-in infinite var(--dl, 0s);
         }
 
-        .tear-l { top: 38px; left: 38px; --dl: 0s; }
-        .tear-r { top: 38px; left: 68px; --dl: .3s; }
+        .tear-l {
+          top: 38px;
+          left: 38px;
+          --dl: 0s;
+        }
+        .tear-r {
+          top: 38px;
+          left: 68px;
+          --dl: 0.3s;
+        }
 
         @keyframes tearDrop {
-          0% { opacity: 1; transform: translateY(0) scaleY(1); }
-          80% { opacity: .4; transform: translateY(22px) scaleY(.4); }
-          100% { opacity: 0; transform: translateY(28px); }
+          0% {
+            opacity: 1;
+            transform: translateY(0) scaleY(1);
+          }
+          80% {
+            opacity: 0.4;
+            transform: translateY(22px) scaleY(0.4);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(28px);
+          }
         }
 
         .cloud-star-l,
@@ -841,12 +1000,26 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           animation: twinkleAnim 1.5s ease-in-out infinite;
         }
 
-        .cloud-star-l { top: -4px; left: -4px; }
-        .cloud-star-r { top: 0; right: -8px; animation-delay: .4s; }
+        .cloud-star-l {
+          top: -4px;
+          left: -4px;
+        }
+        .cloud-star-r {
+          top: 0;
+          right: -8px;
+          animation-delay: 0.4s;
+        }
 
         @keyframes twinkleAnim {
-          0%, 100% { opacity: .2; transform: scale(.6) rotate(0deg); }
-          50% { opacity: 1; transform: scale(1.4) rotate(20deg); }
+          0%,
+          100% {
+            opacity: 0.2;
+            transform: scale(0.6) rotate(0deg);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.4) rotate(20deg);
+          }
         }
 
         .wrong-msg-only {
@@ -864,7 +1037,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           height: 48px;
           border-radius: 50%;
           background: linear-gradient(135deg, #ff5b5b, #e53535);
-          border: 3px solid rgba(255,255,255,.5);
+          border: 3px solid rgba(255, 255, 255, 0.5);
           color: #fff;
           font-size: 22px;
           font-weight: 900;
@@ -872,8 +1045,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 6px 18px rgba(229,53,53,.45);
-          transition: transform .15s;
+          box-shadow: 0 6px 18px rgba(229, 53, 53, 0.45);
+          transition: transform 0.15s;
         }
 
         .btn-wrong-close:hover {
@@ -887,7 +1060,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           color: #c0185a;
           text-align: center;
           margin-bottom: 10px;
-          text-shadow: 0 1px 8px rgba(200,0,100,.15);
+          text-shadow: 0 1px 8px rgba(200, 0, 100, 0.15);
         }
 
         .env-scene {
@@ -910,16 +1083,27 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           padding: 26px 20px 18px;
           text-align: center;
           z-index: 10;
-          box-shadow: 0 -8px 35px rgba(255,100,180,.28), 0 0 0 1px rgba(255,255,255,.85);
+          box-shadow:
+            0 -8px 35px rgba(255, 100, 180, 0.28),
+            0 0 0 1px rgba(255, 255, 255, 0.85);
           transform: translateX(-50%) translateY(200px);
           opacity: 0;
-          animation: paperOut 1.1s cubic-bezier(.34,1.28,.64,1) .25s both;
+          animation: paperOut 1.1s cubic-bezier(0.34, 1.28, 0.64, 1) 0.25s both;
         }
 
         @keyframes paperOut {
-          0% { transform: translateX(-50%) translateY(200px) scale(.9); opacity: 0; }
-          55% { transform: translateX(-50%) translateY(-8px) scale(1.04) rotate(-1.5deg); opacity: 1; }
-          100% { transform: translateX(-50%) translateY(4px) scale(1) rotate(-1.5deg); opacity: 1; }
+          0% {
+            transform: translateX(-50%) translateY(200px) scale(0.9);
+            opacity: 0;
+          }
+          55% {
+            transform: translateX(-50%) translateY(-8px) scale(1.04) rotate(-1.5deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(-50%) translateY(4px) scale(1) rotate(-1.5deg);
+            opacity: 1;
+          }
         }
 
         .paper-crown-icon {
@@ -960,8 +1144,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           height: 100%;
           background: linear-gradient(145deg, #ff9ed4, #e91e8c, #ff5ba7);
           border-radius: 18px 18px 26px 26px;
-          border: 3px solid rgba(255,255,255,.45);
-          box-shadow: 0 18px 55px rgba(233,30,140,.55), inset 0 2px 0 rgba(255,255,255,.4);
+          border: 3px solid rgba(255, 255, 255, 0.45);
+          box-shadow:
+            0 18px 55px rgba(233, 30, 140, 0.55),
+            inset 0 2px 0 rgba(255, 255, 255, 0.4);
           position: relative;
           overflow: hidden;
         }
@@ -972,7 +1158,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           left: 0;
           width: 50%;
           height: 100%;
-          background: linear-gradient(to bottom right, rgba(255,190,220,.8), rgba(220,30,130,.7));
+          background: linear-gradient(to bottom right, rgba(255, 190, 220, 0.8), rgba(220, 30, 130, 0.7));
           clip-path: polygon(0 100%, 100% 100%, 0 0);
         }
 
@@ -982,7 +1168,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           right: 0;
           width: 50%;
           height: 100%;
-          background: linear-gradient(to bottom left, rgba(255,190,220,.8), rgba(220,30,130,.7));
+          background: linear-gradient(to bottom left, rgba(255, 190, 220, 0.8), rgba(220, 30, 130, 0.7));
           clip-path: polygon(0 100%, 100% 100%, 100% 0);
         }
 
@@ -992,7 +1178,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           bottom: 0;
           height: 100%;
           width: 3px;
-          background: linear-gradient(to top, rgba(255,210,80,.9), transparent);
+          background: linear-gradient(to top, rgba(255, 210, 80, 0.9), transparent);
           z-index: 3;
         }
 
@@ -1018,12 +1204,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           height: 58px;
           border-radius: 50%;
           background: linear-gradient(135deg, #ff4d8c, #bf1862);
-          border: 4px solid rgba(255,255,255,.55);
+          border: 4px solid rgba(255, 255, 255, 0.55);
           display: flex;
           align-items: center;
           justify-content: center;
           font-size: 26px;
-          box-shadow: 0 5px 18px rgba(192,24,98,.55);
+          box-shadow: 0 5px 18px rgba(192, 24, 98, 0.55);
           animation: heartPop 1.6s ease-in-out infinite;
         }
 
@@ -1032,7 +1218,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           bottom: 36px;
           font-size: 54px;
           z-index: 1;
-          filter: drop-shadow(0 4px 8px rgba(255,120,180,.35));
+          filter: drop-shadow(0 4px 8px rgba(255, 120, 180, 0.35));
         }
 
         .env-wing.l {
@@ -1048,13 +1234,23 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }
 
         @keyframes wingL {
-          0%, 100% { transform: rotate(-18deg) scaleX(-1) translateY(0); }
-          50% { transform: rotate(-25deg) scaleX(-1) translateY(-9px); }
+          0%,
+          100% {
+            transform: rotate(-18deg) scaleX(-1) translateY(0);
+          }
+          50% {
+            transform: rotate(-25deg) scaleX(-1) translateY(-9px);
+          }
         }
 
         @keyframes wingR {
-          0%, 100% { transform: rotate(18deg) translateY(0); }
-          50% { transform: rotate(25deg) translateY(-9px); }
+          0%,
+          100% {
+            transform: rotate(18deg) translateY(0);
+          }
+          50% {
+            transform: rotate(25deg) translateY(-9px);
+          }
         }
 
         .env-cloud-l,
@@ -1066,8 +1262,14 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           animation: cloudSway 5s ease-in-out infinite;
         }
 
-        .env-cloud-l { left: -12px; }
-        .env-cloud-r { right: -12px; animation-duration: 6s; animation-delay: .5s; }
+        .env-cloud-l {
+          left: -12px;
+        }
+        .env-cloud-r {
+          right: -12px;
+          animation-duration: 6s;
+          animation-delay: 0.5s;
+        }
 
         .env-flower-l,
         .env-flower-r {
@@ -1078,8 +1280,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           animation: floaterAnim 3.5s ease-in-out infinite;
         }
 
-        .env-flower-l { left: 4px; }
-        .env-flower-r { right: 2px; animation-delay: .6s; }
+        .env-flower-l {
+          left: 4px;
+        }
+        .env-flower-r {
+          right: 2px;
+          animation-delay: 0.6s;
+        }
 
         .btn-found {
           display: block;
@@ -1093,20 +1300,27 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           font-size: 21px;
           font-weight: 900;
           cursor: pointer;
-          box-shadow: 0 8px 26px rgba(233,30,140,.5);
-          transition: transform .15s, box-shadow .15s;
+          box-shadow: 0 8px 26px rgba(233, 30, 140, 0.5);
+          transition:
+            transform 0.15s,
+            box-shadow 0.15s;
           animation: btnPulse 2s ease-in-out infinite;
-          letter-spacing: .3px;
+          letter-spacing: 0.3px;
         }
 
         .btn-found:hover {
           transform: scale(1.05);
-          box-shadow: 0 12px 32px rgba(233,30,140,.62);
+          box-shadow: 0 12px 32px rgba(233, 30, 140, 0.62);
         }
 
         @keyframes btnPulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.04); }
+          0%,
+          100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.04);
+          }
         }
 
         .prof-crown {
@@ -1122,7 +1336,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           border-radius: 24px;
           overflow: hidden;
           border: 4px solid #ff6eb0;
-          box-shadow: 0 0 0 6px rgba(255,110,176,.22), 0 15px 40px rgba(233,30,140,.4);
+          box-shadow:
+            0 0 0 6px rgba(255, 110, 176, 0.22),
+            0 15px 40px rgba(233, 30, 140, 0.4);
           height: 260px;
           background: linear-gradient(135deg, #ffd6f0, #ffaad4);
         }
@@ -1141,10 +1357,29 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           pointer-events: none;
         }
 
-        .spark-1 { top: 8px; left: 10px; font-size: 16px; }
-        .spark-2 { top: 8px; right: 12px; font-size: 14px; animation-duration: 2.5s; }
-        .spark-3 { bottom: 10px; left: 14px; font-size: 18px; animation-duration: 2.2s; }
-        .spark-4 { bottom: 10px; right: 10px; font-size: 14px; animation-duration: 1.8s; }
+        .spark-1 {
+          top: 8px;
+          left: 10px;
+          font-size: 16px;
+        }
+        .spark-2 {
+          top: 8px;
+          right: 12px;
+          font-size: 14px;
+          animation-duration: 2.5s;
+        }
+        .spark-3 {
+          bottom: 10px;
+          left: 14px;
+          font-size: 18px;
+          animation-duration: 2.2s;
+        }
+        .spark-4 {
+          bottom: 10px;
+          right: 10px;
+          font-size: 14px;
+          animation-duration: 1.8s;
+        }
 
         .prof-name {
           font-family: 'Dancing Script', cursive;
@@ -1160,7 +1395,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           font-weight: 800;
           color: #e86fa0;
           text-align: center;
-          letter-spacing: .3px;
+          letter-spacing: 0.3px;
           margin-bottom: 12px;
         }
 
@@ -1179,13 +1414,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }
 
         .info-card {
-          background: rgba(255,255,255,.78);
+          background: rgba(255, 255, 255, 0.78);
           border: 2px solid #ffd4e8;
           border-radius: 16px;
           padding: 11px 12px;
           text-align: center;
-          box-shadow: 0 3px 10px rgba(255,100,160,.12);
-          transition: transform .2s;
+          box-shadow: 0 3px 10px rgba(255, 100, 160, 0.12);
+          transition: transform 0.2s;
         }
 
         .info-card:hover {
@@ -1196,7 +1431,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           font-size: 10px;
           font-weight: 900;
           color: #e91e8c;
-          letter-spacing: .6px;
+          letter-spacing: 0.6px;
           text-transform: uppercase;
           margin-bottom: 5px;
         }
@@ -1211,18 +1446,18 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }
 
         .spotify-box {
-          background: rgba(255,255,255,.78);
+          background: rgba(255, 255, 255, 0.78);
           border: 2px solid #ffd4e8;
           border-radius: 16px;
           padding: 12px 14px;
-          box-shadow: 0 3px 10px rgba(255,100,160,.12);
+          box-shadow: 0 3px 10px rgba(255, 100, 160, 0.12);
         }
 
         .sp-label-title {
           font-size: 10px;
           font-weight: 900;
           color: #e91e8c;
-          letter-spacing: .6px;
+          letter-spacing: 0.6px;
           text-transform: uppercase;
           margin-bottom: 3px;
           text-align: center;
@@ -1237,7 +1472,190 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           text-align: center;
           margin-bottom: 8px;
         }
+
+        /* =========================
+   MUSIC MODE - NIGHT SKY
+========================= */
+
+        .member-popup-shell.music-mode .bg-kingdom {
+          background:
+            radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.15), transparent 20%),
+            radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.12), transparent 25%),
+            radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.08), transparent 30%),
+            linear-gradient(180deg, #050816 0%, #0b1330 20%, #1b2558 45%, #35296d 65%, #5d3e91 85%, #7f5ab5 100%);
+          animation: nightSkyGlow 8s ease-in-out infinite;
+        }
+
+        @keyframes nightSkyGlow {
+          0%,
+          100% {
+            filter: brightness(1);
+          }
+          50% {
+            filter: brightness(1.15);
+          }
+        }
+
+        /* SHOOTING STAR */
+
+        .member-popup-shell.music-mode .bg-kingdom::after {
+          content: '';
+          position: absolute;
+          width: 220px;
+          height: 2px;
+          top: 20%;
+          left: -250px;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+          transform: rotate(-25deg);
+          animation: shootingStar 4s linear infinite;
+        }
+
+        @keyframes shootingStar {
+          0% {
+            transform: translateX(0) translateY(0) rotate(-25deg);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(1800px) translateY(350px) rotate(-25deg);
+            opacity: 0;
+          }
+        }
+
+        /* SUPER TWINKLE STARS */
+
+        .member-popup-shell.music-mode .star-dot {
+          background: #fff;
+          animation: magicalTwinkle 0.8s ease-in-out infinite !important;
+          box-shadow:
+            0 0 8px #fff,
+            0 0 15px #fff,
+            0 0 25px #8ec5ff,
+            0 0 40px #caa8ff;
+        }
+
+        @keyframes magicalTwinkle {
+          0%,
+          100% {
+            opacity: 0.2;
+            transform: scale(0.6);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(2);
+          }
+        }
+
+        /* EXTRA FLOWERS */
+
+        .member-popup-shell.music-mode .sakura {
+          animation-duration: 2.8s !important;
+          filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+        }
+
+        .member-popup-shell.music-mode .sakura-layer::before,
+        .member-popup-shell.music-mode .sakura-layer::after {
+          content: '🌸 🌷 💗 🌺 🌸 💗 🌷 🌸';
+          position: absolute;
+          width: 100%;
+          left: 0;
+          font-size: 26px;
+          letter-spacing: 26px;
+          animation: extraFlowerFall 4s linear infinite;
+          opacity: 0.95;
+        }
+
+        .member-popup-shell.music-mode .sakura-layer::after {
+          left: 40px;
+          animation-delay: 2s;
+          font-size: 22px;
+        }
+
+        @keyframes extraFlowerFall {
+          0% {
+            transform: translateY(-80px) translateX(0) rotate(0deg);
+            opacity: 0;
+          }
+
+          10% {
+            opacity: 1;
+          }
+
+          100% {
+            transform: translateY(110vh) translateX(80px) rotate(360deg);
+            opacity: 0;
+          }
+        }
+
+        /* FLOATERS MORE ACTIVE */
+
+        .member-popup-shell.music-mode .floater {
+          animation-duration: 1.8s !important;
+          filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 25px rgba(255, 180, 255, 0.6));
+        }
+
+        /* CARD AURORA GLOW */
+
+        .member-popup-shell.music-mode .card {
+          animation:
+            cardPop 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+            auroraGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes auroraGlow {
+          0%,
+          100% {
+            box-shadow:
+              0 0 20px rgba(130, 180, 255, 0.3),
+              0 0 40px rgba(175, 120, 255, 0.25),
+              0 20px 60px rgba(120, 80, 255, 0.25);
+          }
+
+          50% {
+            box-shadow:
+              0 0 50px rgba(130, 180, 255, 0.7),
+              0 0 90px rgba(175, 120, 255, 0.55),
+              0 30px 90px rgba(120, 80, 255, 0.4);
+          }
+        }
+
+        /* SPOTIFY GLOW */
+
+        .member-popup-shell.music-mode .spotify-box {
+          transform: scale(1.03);
+          box-shadow:
+            0 0 20px rgba(130, 180, 255, 0.4),
+            0 0 45px rgba(175, 120, 255, 0.35);
+        }
+
+        .music-hint {
+          text-align: center;
+          font-size: 13px;
+          font-weight: 800;
+          color: #8a1457;
+          margin-bottom: 10px;
+          animation: hintGlow 2.5s ease-in-out infinite;
+          letter-spacing: 0.3px;
+        }
+
+        @keyframes hintGlow {
+          0%,
+          100% {
+            opacity: 0.7;
+            transform: translateY(0);
+          }
+          50% {
+            opacity: 1;
+            transform: translateY(-3px);
+            text-shadow:
+              0 0 8px rgba(255, 105, 180, 0.5),
+              0 0 15px rgba(190, 120, 255, 0.4);
+          }
+        }
       `}</style>
+      </div>
     </div>,
     document.body
   )
