@@ -257,7 +257,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       />
 
       {introPhase !== 'done' ? (
-        <div className="relative z-20 flex h-full w-full items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-20 flex h-full w-full items-center justify-center overflow-hidden">
           <div
             className="absolute inset-0 opacity-95"
             style={{

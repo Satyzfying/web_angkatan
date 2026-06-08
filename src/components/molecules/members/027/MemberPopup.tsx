@@ -57,7 +57,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           background: 'linear-gradient(160deg, #1a0000 0%, #0f0f0f 40%, #1a0000 100%)',
           border: '1px solid #cc0000',
           borderRadius: '4px',
-          boxShadow: '0 0 40px rgba(204,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)',
+          boxShadow: '0 0 40px rgba(204,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)'
         }}
       >
         <button
@@ -78,12 +78,15 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           className="flex items-center justify-between px-6 py-3"
           style={{
             background: 'linear-gradient(90deg, #cc0000 0%, #8a0000 60%, transparent 100%)',
-            borderBottom: '1px solid rgba(204,0,0,0.4)',
+            borderBottom: '1px solid rgba(204,0,0,0.4)'
           }}
         >
           <div className="flex items-center gap-3">
             {/* F1 Chequered flag icon */}
-            <div className="flex h-6 w-6 overflow-hidden rounded-sm" style={{ border: '1px solid rgba(255,255,255,0.3)' }}>
+            <div
+              className="flex h-6 w-6 overflow-hidden rounded-sm"
+              style={{ border: '1px solid rgba(255,255,255,0.3)' }}
+            >
               {[...Array(16)].map((_, i) => (
                 <div
                   key={i}
@@ -91,21 +94,19 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                     width: '25%',
                     height: '25%',
                     background: (Math.floor(i / 4) + (i % 4)) % 2 === 0 ? '#fff' : '#000',
-                    flexShrink: 0,
+                    flexShrink: 0
                   }}
                 />
               ))}
             </div>
             <span
-              className="text-xs font-black uppercase tracking-[0.3em] text-white/90"
+              className="text-xs font-black tracking-[0.3em] text-white/90 uppercase"
               style={{ fontFamily: 'Georgia, serif', letterSpacing: '0.35em' }}
             >
               Driver Profile
             </span>
           </div>
-          <span className="text-xs font-bold uppercase tracking-widest text-white/50">
-            2025 Season
-          </span>
+          <span className="text-xs font-bold tracking-widest text-white/50 uppercase">2025 Season</span>
         </div>
 
         <div className="p-6 sm:p-8">
@@ -118,7 +119,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             style={{
               border: '1px solid rgba(204,0,0,0.5)',
               background: 'rgba(0,0,0,0.5)',
-              borderRadius: '2px',
+              borderRadius: '2px'
             }}
           >
             ✕
@@ -131,35 +132,35 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               borderRadius: '4px',
               border: '2px solid #cc0000',
               position: 'relative',
-              boxShadow: '4px 4px 0 #8a0000, 0 0 20px rgba(204,0,0,0.2)',
+              boxShadow: '4px 4px 0 #8a0000, 0 0 20px rgba(204,0,0,0.2)'
             }}
           >
             {/* Speed lines overlay */}
             <div
-              className="absolute inset-0 z-10 pointer-events-none"
+              className="pointer-events-none absolute inset-0 z-10"
               style={{
                 background:
-                  'linear-gradient(90deg, rgba(204,0,0,0.15) 0%, transparent 30%, transparent 70%, rgba(204,0,0,0.1) 100%)',
+                  'linear-gradient(90deg, rgba(204,0,0,0.15) 0%, transparent 30%, transparent 70%, rgba(204,0,0,0.1) 100%)'
               }}
             />
             {/* Top-left corner accent */}
             <div
-              className="absolute top-0 left-0 z-10 pointer-events-none"
+              className="pointer-events-none absolute top-0 left-0 z-10"
               style={{
                 width: '40px',
                 height: '40px',
                 borderTop: '3px solid #cc0000',
-                borderLeft: '3px solid #cc0000',
+                borderLeft: '3px solid #cc0000'
               }}
             />
             {/* Bottom-right corner accent */}
             <div
-              className="absolute bottom-0 right-0 z-10 pointer-events-none"
+              className="pointer-events-none absolute right-0 bottom-0 z-10"
               style={{
                 width: '40px',
                 height: '40px',
                 borderBottom: '3px solid #cc0000',
-                borderRight: '3px solid #cc0000',
+                borderRight: '3px solid #cc0000'
               }}
             />
             <Image
@@ -175,7 +176,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 background: '#cc0000',
                 padding: '4px 12px',
                 borderRadius: '2px',
-                clipPath: 'polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)',
+                clipPath: 'polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)'
               }}
             >
               <span className="text-2xl font-black text-white" style={{ fontFamily: 'Georgia, serif' }}>
@@ -185,30 +186,34 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
 
           {/* DRIVER NAME BLOCK */}
-          <div className="pr-10 mb-1">
+          <div className="mb-1 pr-10">
             <div className="flex items-start gap-3">
               {/* Vertical red accent bar */}
-              <div className="mt-1 h-full w-1 self-stretch" style={{ background: '#cc0000', minHeight: '40px', borderRadius: '1px' }} />
+              <div
+                className="mt-1 h-full w-1 self-stretch"
+                style={{ background: '#cc0000', minHeight: '40px', borderRadius: '1px' }}
+              />
               <div>
-                <p
-                  className="text-xs font-bold uppercase tracking-[0.4em] mb-1"
-                  style={{ color: '#cc0000' }}
-                >
+                <p className="mb-1 text-xs font-bold tracking-[0.4em] uppercase" style={{ color: '#cc0000' }}>
                   Evastra Racing
                 </p>
                 <h2
-                  className="text-3xl font-black uppercase leading-tight text-white"
-                  style={{ fontFamily: 'Georgia, serif', letterSpacing: '0.02em', textShadow: '2px 2px 0 rgba(204,0,0,0.3)' }}
+                  className="text-3xl leading-tight font-black text-white uppercase"
+                  style={{
+                    fontFamily: 'Georgia, serif',
+                    letterSpacing: '0.02em',
+                    textShadow: '2px 2px 0 rgba(204,0,0,0.3)'
+                  }}
                 >
                   Iqbal Rizki
                   <br />
                   <span style={{ color: '#ff4444' }}>Muhammad Fadhli</span>
                 </h2>
                 <p
-                  className="mt-2 text-xs font-bold uppercase tracking-widest"
+                  className="mt-2 text-xs font-bold tracking-widest uppercase"
                   style={{ color: 'rgba(255,255,255,0.4)' }}
                 >
-                  5027251027 · Kota Reog
+                  5027251027 · Ponorogo
                 </p>
               </div>
             </div>
@@ -231,24 +236,32 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               style={{
                 background: 'rgba(204,0,0,0.08)',
                 border: '1px solid rgba(204,0,0,0.35)',
-                borderRadius: '3px',
+                borderRadius: '3px'
               }}
             >
               {/* Diagonal speed stripe */}
               <div
-                className="absolute top-0 right-0 h-full w-12 pointer-events-none"
+                className="pointer-events-none absolute top-0 right-0 h-full w-12"
                 style={{
-                  background: 'linear-gradient(135deg, transparent 50%, rgba(204,0,0,0.08) 50%)',
+                  background: 'linear-gradient(135deg, transparent 50%, rgba(204,0,0,0.08) 50%)'
                 }}
               />
               <p
-                className="text-xs font-black uppercase tracking-[0.3em] mb-2 flex items-center gap-2"
+                className="mb-2 flex items-center gap-2 text-xs font-black tracking-[0.3em] uppercase"
                 style={{ color: '#cc0000' }}
               >
-                <span style={{ display: 'inline-block', width: '8px', height: '8px', background: '#cc0000', borderRadius: '50%' }} />
+                <span
+                  style={{
+                    display: 'inline-block',
+                    width: '8px',
+                    height: '8px',
+                    background: '#cc0000',
+                    borderRadius: '50%'
+                  }}
+                />
                 Hobi
               </p>
-              <p className="text-white font-bold text-sm">Senyum</p>
+              <p className="text-sm font-bold text-white">Senyum</p>
             </div>
 
             {/* Fun Fact */}
@@ -257,40 +270,56 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               style={{
                 background: 'rgba(204,0,0,0.08)',
                 border: '1px solid rgba(204,0,0,0.35)',
-                borderRadius: '3px',
+                borderRadius: '3px'
               }}
             >
               <div
-                className="absolute top-0 right-0 h-full w-12 pointer-events-none"
+                className="pointer-events-none absolute top-0 right-0 h-full w-12"
                 style={{
-                  background: 'linear-gradient(135deg, transparent 50%, rgba(204,0,0,0.08) 50%)',
+                  background: 'linear-gradient(135deg, transparent 50%, rgba(204,0,0,0.08) 50%)'
                 }}
               />
               <p
-                className="text-xs font-black uppercase tracking-[0.3em] mb-2 flex items-center gap-2"
+                className="mb-2 flex items-center gap-2 text-xs font-black tracking-[0.3em] uppercase"
                 style={{ color: '#cc0000' }}
               >
-                <span style={{ display: 'inline-block', width: '8px', height: '8px', background: '#cc0000', borderRadius: '50%' }} />
+                <span
+                  style={{
+                    display: 'inline-block',
+                    width: '8px',
+                    height: '8px',
+                    background: '#cc0000',
+                    borderRadius: '50%'
+                  }}
+                />
                 Fun Fact
               </p>
-              <p className="text-white font-bold text-sm">Tidak bisa tidur siang di malam hari</p>
+              <p className="text-sm font-bold text-white">Tidak bisa tidur siang di malam hari</p>
             </div>
           </div>
 
           {/* LAGU FAVORIT */}
           <div
-            className="mt-3 p-4 relative overflow-hidden"
+            className="relative mt-3 overflow-hidden p-4"
             style={{
               background: 'rgba(204,0,0,0.08)',
               border: '1px solid rgba(204,0,0,0.35)',
-              borderRadius: '3px',
+              borderRadius: '3px'
             }}
           >
             <p
-              className="text-xs font-black uppercase tracking-[0.3em] mb-3 flex items-center gap-2"
+              className="mb-3 flex items-center gap-2 text-xs font-black tracking-[0.3em] uppercase"
               style={{ color: '#cc0000' }}
             >
-              <span style={{ display: 'inline-block', width: '8px', height: '8px', background: '#cc0000', borderRadius: '50%' }} />
+              <span
+                style={{
+                  display: 'inline-block',
+                  width: '8px',
+                  height: '8px',
+                  background: '#cc0000',
+                  borderRadius: '50%'
+                }}
+              />
               Lagu Favorit
             </p>
             <p className="mb-3 text-sm font-bold text-white">Message In A Bottle</p>
@@ -301,8 +330,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div
             className="mt-6 h-2 w-full"
             style={{
-              background: 'repeating-linear-gradient(90deg, #cc0000 0px, #cc0000 20px, #8a0000 20px, #8a0000 22px, #cc0000 22px)',
-              borderRadius: '1px',
+              background:
+                'repeating-linear-gradient(90deg, #cc0000 0px, #cc0000 20px, #8a0000 20px, #8a0000 22px, #cc0000 22px)',
+              borderRadius: '1px'
             }}
           />
         </div>

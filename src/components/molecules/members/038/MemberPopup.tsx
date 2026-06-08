@@ -79,7 +79,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       `}</style>
 
       {showIntro ? (
-        <div className="relative z-10 flex flex-col items-center justify-center p-10 select-none w-full h-full overflow-hidden">
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-10 select-none w-full h-full overflow-hidden">
           {minionState === 'missile-strike' && (
             <div className="absolute inset-0 z-50 animate-yellow-explosion flex flex-col items-center justify-center text-black font-sans">
               <div className="text-5xl sm:text-7xl font-black tracking-normal uppercase border-8 border-black p-6 bg-white rotate-[-4deg] minion-shadow">KA-BOOM!</div>
