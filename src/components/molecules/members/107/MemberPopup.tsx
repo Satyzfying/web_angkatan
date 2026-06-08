@@ -826,6 +826,7 @@ const DialogBox = ({ sceneId, scene, inputValue, setInputValue, inputRef, onAdva
           position: 'relative', overflow: 'hidden',
         }}
       >
+        
         <div style={{ position: 'absolute', top: 0, left: '20px', right: '20px', height: '1px', background: accent.line }} />
 
         <div style={{ position: 'absolute', top: '6px', left: '8px', color: accent.dim, fontSize: '18px', lineHeight: 1 }}>❧</div>
@@ -1310,12 +1311,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           className="relative z-10 max-h-[100dvh] overflow-y-auto overflow-x-hidden p-6 sm:p-8 scrollbar-thin scrollbar-thumb-red-900 scrollbar-track-black"
         >
 
-        <div className="pr-10">
-          {/* UBAH NAMA ANDA */}
-          <h2 className="text-2xl font-black">Yovi Prayudya Rizky Rmaadhani</h2>
-          {/* UBAH NRP DAN ASAL */}
-          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251107 - Probolinggo</p>
-        </div>
+          <div style={{ position: 'relative', zIndex: 2 }}>
 
             {isLocked && (
               <div className={`flex flex-col gap-4 ${glitchFlicker ? 'corruption-container' : ''}`}>
