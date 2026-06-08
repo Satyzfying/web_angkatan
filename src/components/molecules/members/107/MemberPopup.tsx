@@ -815,12 +815,14 @@ const DialogBox = ({ sceneId, scene, inputValue, setInputValue, inputRef, onAdva
 
       <div
         key={`dialog-${sceneId}`} 
-        className="vn-box mx-3 sm:mx-8" 
+        className={`vn-box mx-3 sm:mx-8 ${isFinalGlitch ? 'corruption-container' : ''}`}
         style={{
           background: isFinalGlitch ? 'rgba(20, 0, 0, 0.97)' : accent.boxSolidBg,
-          border: `1px solid ${accent.boxBorder}`,
-          borderTop: `2px solid ${accent.boxBorder}`,
-          boxShadow: accent.boxShadow,
+          border: `1px solid ${isFinalGlitch ? 'rgba(255,0,0,0.7)' : accent.boxBorder}`,
+          borderTop: `2px solid ${isFinalGlitch ? '#ff0000' : accent.boxBorder}`,
+          boxShadow: isFinalGlitch
+            ? '0 0 20px rgba(255,0,0,0.5), inset 0 0 15px rgba(200,0,0,0.2)'
+            : accent.boxShadow,
           position: 'relative', overflow: 'hidden',
         }}
       >
@@ -1308,7 +1310,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           className="relative z-10 max-h-[100dvh] overflow-y-auto overflow-x-hidden p-6 sm:p-8 scrollbar-thin scrollbar-thumb-red-900 scrollbar-track-black"
         >
 
-          <div style={{ position: 'relative', zIndex: 2 }}>
+        <div className="pr-10">
+          {/* UBAH NAMA ANDA */}
+          <h2 className="text-2xl font-black">Yovi Prayudya Rizky Rmaadhani</h2>
+          {/* UBAH NRP DAN ASAL */}
+          <p className="text-neutral-cs-10/70 mt-1 text-sm font-semibold">5027251107 - Probolinggo</p>
+        </div>
 
             {isLocked && (
               <div className={`flex flex-col gap-4 ${glitchFlicker ? 'corruption-container' : ''}`}>
@@ -1425,13 +1432,13 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                   <div className={`rounded-sm border-[2px] p-4 transition-all duration-75 overflow-hidden backdrop-blur-sm ${activeGlitch === 'hobi' ? 'border-red-500 bg-red-950/40 text-red-400 scale-[1.02] shadow-[0_0_10px_rgba(255,0,0,0.3)]' : 'border-red-900/30 bg-black/20'}`}>
                     <p className="text-red-700/80 text-xs tracking-wide uppercase">Hobi</p>
                     <p className={`mt-2 transition-all ${activeGlitch === 'hobi' ? 'font-black text-lg tracking-tight' : 'text-gray-200'}`}>
-                      <GlitchText active={activeGlitch === 'hobi'} normalText="nulis cerita, main game, gambar, suka hal random apapun itu" glitchText="b̴̗͑ú̴̫r̸̖͆n̵̬͐ ̸̡͆t̶̤̃h̸̤̚ě̸̜m̸̧̃ ̸͖̓ä̶̧́l̷̳͗l̷̄ͅ" />
+                      <GlitchText active={activeGlitch === 'hobi'} normalText="nulis cerita, main game, gambar, suka hal random" glitchText="b̴̗͑ú̴̫r̸̖͆n̵̬͐ ̸̡͆t̶̤̃h̸̤̚ě̸̜m̸̧̃ ̸͖̓ä̶̧́l̷̳͗l̷̄ͅ" />
                     </p>
                   </div>
                   <div className={`rounded-sm border-[2px] p-4 transition-all duration-75 backdrop-blur-sm ${activeGlitch === 'funfact' ? 'border-red-500 bg-red-950/40 text-red-400 font-bold -skew-y-2' : 'border-red-900/30 bg-black/20'}`}>
                     <p className="text-red-700/80 text-xs tracking-wide uppercase">Fun Fact</p>
                     <p className={`mt-2 transition-all ${activeGlitch === 'funfact' ? 'font-black' : 'text-gray-200'}`}>
-                      <GlitchText active={activeGlitch === 'funfact'} normalText="A story writer of Yui novel, vtuber" glitchText="T̴̫̭̈h̵͇̏e̴̬̔̆ ̵̖̿̚o̷̙͝n̴͙̿e̴̢͋ ̶̱̹͘͝y̶̺͝ó̶̬̔u̷̘͌̈́ ̶̳̀h̸̡̏͐û̸̫r̴̀͜t̵̳̬͋͋ ̷̯͑m̴̢͙̓e̸̱̓̈́" />
+                      <GlitchText active={activeGlitch === 'funfact'} normalText="A story writer of Yui novel" glitchText="T̴̫̭̈h̵͇̏e̴̬̔̆ ̵̖̿̚o̷̙͝n̴͙̿e̴̢͋ ̶̱̹͘͝y̶̺͝ó̶̬̔u̷̘͌̈́ ̶̳̀h̸̡̏͐û̸̫r̴̀͜t̵̳̬͋͋ ̷̯͑m̴̢͙̓e̸̱̓̈́" />
                     </p>
                   </div>
                 </div>
