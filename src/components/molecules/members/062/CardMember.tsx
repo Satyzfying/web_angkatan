@@ -40,9 +40,9 @@ const CardMember = () => {
           <div className="flex flex-col gap-3">
             <div className="flex gap-2 px-1" onClick={(event) => event.stopPropagation()}>
               {/* UBAH USERNAME INSTAGRAM KAMU */}
-              <Instagram username="jkt48.erine" />
+              <Instagram username="zee33e" />
               {/* UBAH USERNAME LINKEDIN KAMU */}
-              <LinkedInButtonLink username="jkt48.erine" />
+              <LinkedInButtonLink username="izzat-ilham-wahyudi-163644379" />
             </div>
             <div className="w-full rounded-2xl">
               <Image
