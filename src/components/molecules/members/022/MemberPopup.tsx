@@ -3,6 +3,7 @@
 /* eslint-disable react-hooks/purity, react-hooks/set-state-in-effect */
 
 import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
@@ -165,7 +166,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   const currentColor = COUNTDOWN_COLORS[countdownNum] ?? '#2ed4e0'
 
-  return (
+  return createPortal((
     <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 sm:p-0">
       {/* ── Google Fonts: Orbitron + Space Mono + Syne ── */}
       <style jsx global>{`
@@ -691,7 +692,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           ref={cardRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className="relative z-10 my-8 max-h-[calc(100vh-4rem)] w-full max-w-[720px] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8"
+          className="relative z-10 my-8 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] overflow-y-auto rounded-2xl border-2 p-6 text-white shadow-xl sm:p-8"
           style={{
             background:
               'linear-gradient(135deg, rgba(230,90,40,0.11) 0%, rgba(130,45,170,0.11) 45%, rgba(59,133,0,0.11) 100%)',
@@ -1027,7 +1028,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </div>
       )}
     </div>
-  )
+  ), document.body)
 }
 
 export default MemberPopup

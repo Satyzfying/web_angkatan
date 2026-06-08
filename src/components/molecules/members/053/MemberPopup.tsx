@@ -4,6 +4,8 @@ import React, { useEffect } from 'react'
 
 import Image from 'next/image'
 
+import { createPortal } from 'react-dom'
+
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
@@ -41,7 +43,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-  return (
+  return createPortal(
     // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
     <>
       <style>{`
@@ -84,104 +86,93 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }
 
         .jp-card {
-          animation: jp-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-          font-family: 'M PLUS 1p', sans-serif;
+          position: relative;
+
+          width: 100%;
+          height: 100dvh;
+
+          overflow: hidden;
+
+          border-radius: 0;
+          border: 1px solid rgba(180,120,80,.35);
+
           background: rgba(8, 6, 18, 0.82);
-          border: 1px solid rgba(180, 120, 80, 0.4);
-          border-radius: 4px;
-          position: relative;
-          overflow: hidden;
-          overflow-y: auto;
-          color: #e8dcc8;
-          animation: jp-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards, border-glow 5s ease-in-out 800ms infinite;
+
+          animation:
+            jp-rise 700ms cubic-bezier(.22,1,.36,1),
+            border-glow 5s ease-in-out infinite;
         }
 
-        .jp-video-bg {
-          position: absolute;
-          inset: 0;
-          z-index: 0;
-          overflow: hidden;
-        }
-
-        .jp-video-bg img,
-        .jp-video-bg video {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center;
-        }
-
-        .jp-video-bg::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background:
-            linear-gradient(to bottom,
-              rgba(8, 6, 18, 0.55) 0%,
-              rgba(8, 6, 18, 0.45) 40%,
-              rgba(8, 6, 18, 0.72) 100%
-            );
-          backdrop-filter: blur(3px);
-          -webkit-backdrop-filter: blur(3px);
-          z-index: 1;
-        }
-
-        .jp-card > * { position: relative; z-index: 2; }
-
-        .jp-card-wrapper {
-          position: relative;
-          border: 1px solid rgba(180, 120, 80, 0.4);
-          border-radius: 4px;
-          overflow: hidden;
-          max-height: calc(100vh - 9rem);
-          animation: jp-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
-                     border-glow 5s ease-in-out 800ms infinite;
-        }
-
-        @media (min-width: 640px) {
-          .jp-card-wrapper { max-height: calc(100vh - 10rem); }
-        }
-
-        .jp-video-bg {
-          position: absolute !important;
-          inset: 0 !important;
-          z-index: 0 !important;
-          pointer-events: none !important;
-          overflow: hidden !important;
-        }
-
-        .jp-video-bg img,
-        .jp-video-bg video {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center;
-        }
-
-        .jp-video-bg::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background:
-            linear-gradient(to bottom,
-              rgba(8, 6, 18, 0.25) 0%,
-              rgba(8, 6, 18, 0.18) 40%,
-              rgba(8, 6, 18, 0.35) 100%
-            );
-          backdrop-filter: blur(1.5px);
-          -webkit-backdrop-filter: blur(1.5px);
-          z-index: 1;
-        }
-
-        .jp-card-scroll {
+        .jp-scroll {
           position: relative;
           z-index: 2;
+
+          height: 100%;
           overflow-y: auto;
-          max-height: calc(100vh - 9rem);
+
+          padding: 1.5rem;
+
+          /* HIDE SCROLLBAR */
+          scrollbar-width: none;       /* Firefox */
+          -ms-overflow-style: none;    /* IE */
+        }
+
+        .jp-scroll::-webkit-scrollbar {
+          display: none;               /* Chrome/Safari */
+        }
+
+        .jp-scroll {
+          position: relative;
+          z-index: 2;
+        }
+
+        .jp-close-btn,
+        .jp-corner,
+        .jp-moon,
+        .jp-vertical-text,
+        .sakura-petal {
+          z-index: 2;
         }
 
         @media (min-width: 640px) {
-          .jp-card-scroll { max-height: calc(100vh - 10rem); }
+          .jp-scroll {
+            padding: 2rem;
+          }
+        }
+
+        .jp-video-bg {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          z-index: 0;
+          pointer-events: none;
+        }
+
+        .jp-video-bg img,
+        .jp-video-bg video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+
+          position: relative;
+          z-index: 0;
+        }
+
+        .jp-video-bg::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+
+          background:
+            linear-gradient(
+              to bottom,
+              rgba(0,0,0,.68) 0%,
+              rgba(0,0,0,.55) 40%,
+              rgba(0,0,0,.82) 100%
+            );
+
+          z-index: 1;
         }
 
         .jp-card::before {
@@ -472,21 +463,25 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         }
       `}</style>
 
-      <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
         <button
           type="button"
           aria-label="Close member detail"
           onClick={onClose}
-          className="jp-overlay absolute inset-0"
+          className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         />
 
-        <div className="relative z-10 w-full max-w-[720px]">
-          <div className="jp-card-wrapper w-full">
+        <div className="relative z-10 h-screen w-full max-w-[720px]">
 
+          {/* OUTER CARD */}
+          <div className="jp-card">
+
+            {/* BG */}
             <div className="jp-video-bg">
               <img src={MoonlightBg.src} alt="" aria-hidden="true" />
             </div>
 
+            {/* DECORATIONS */}
             <span className="jp-corner tl" />
             <span className="jp-corner tr" />
             <span className="jp-corner bl" />
@@ -501,8 +496,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
             <div className="jp-moon" />
 
-            <span className="jp-vertical-text">星街すいせい　月光</span>
+            <span className="jp-vertical-text">
+              星街すいせい　月光
+            </span>
 
+            {/* CLOSE */}
             <button
               type="button"
               aria-label="Close member detail"
@@ -512,61 +510,84 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               ✕
             </button>
 
-          <div className="jp-card jp-card-scroll w-full p-6 sm:p-8">
+            {/* SCROLL AREA */}
+            <div className="jp-scroll">
 
-            <div className="jp-image-panel mb-5">
-              <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
-            </div>
-
-            {/* ── NAME & NRP ── */}
-            <div className="pr-10">
-              {/* UBAH NAMA ANDA */}
-              <h2 className="jp-name text-3xl sm:text-4xl">Akbar Reyhan Fabian Susanto</h2>
-              {/* UBAH NRP DAN ASAL */}
-              <span className="jp-nrp">5027251053 — Kediri</span>
-            </div>
-
-            {/* ── DIVIDER ── */}
-            <div className="jp-divider">
-              <span className="jp-divider-icon">✦ 月 ✦</span>
-            </div>
-
-            {/* ── SOCIAL ── */}
-            <div className="jp-social flex">
-              {/* UBAH USERNAME INSTAGRAM */}
-              <Instagram username="arey.fs" />
-              {/* UBAH USERNAME LINKEDIN */}
-              <LinkedInButtonLink username="akbar-reyhan-0536b6379" />
-            </div>
-
-            {/* ── INFO CARDS ── */}
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <div className="jp-info-card">
-                {/* UBAH HOBI KAMU */}
-                <span className="jp-label">趣味 / Hobi</span>
-                <p className="jp-info-text">Anime, Art</p>
+              <div data-popup-item className="jp-image-panel mb-5">
+                <Image
+                  src={ProfileImage}
+                  alt="Profile Image"
+                  className="h-120 w-full object-cover object-center"
+                />
               </div>
-              <div className="jp-info-card">
-                {/* UBAH FUNFACT KAMU */}
-                <span className="jp-label">豆知識 / Fun Fact</span>
-                <p className="jp-info-text">Makanan favorit udang tapi alergi udang</p>
+
+              <div data-popup-item className="pr-10">
+                <h2 className="jp-name text-3xl sm:text-4xl">
+                  Akbar Reyhan Fabian Susanto
+                </h2>
+
+                <span className="jp-nrp">
+                  5027251053 — Kediri
+                </span>
               </div>
-            </div>
 
-            {/* ── SONG ── */}
-            <div className="jp-song-card mt-3">
-              {/* UBAH LAGU FAVORIT KAMU */}
-              <span className="jp-label">好きな曲 / Lagu Favorit</span>
-              <p className="jp-song-title">Moonlight — Hoshimachi Suisei</p>
-              {/* UBAH URL SPOTIFY KAMU DENGAN LAGU FAVORIT MU */}
-              <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/7fcEOJGsOOVyz8XeDwvLRZ?si=c332a2611a0542d6" />
-            </div>
+              <div data-popup-item className="jp-divider">
+                <span className="jp-divider-icon">
+                  ✦ 月 ✦
+                </span>
+              </div>
 
-          </div>
+              <div data-popup-item className="jp-social flex gap-2">
+                <Instagram username="arey.fs" />
+                <LinkedInButtonLink username="akbar-reyhan-0536b6379" />
+              </div>
+
+              <div
+                data-popup-item
+                className="mt-4 grid gap-3 sm:grid-cols-2"
+              >
+                <div className="jp-info-card">
+                  <span className="jp-label">
+                    趣味 / Hobi
+                  </span>
+
+                  <p className="jp-info-text">
+                    Anime, Art
+                  </p>
+                </div>
+
+                <div className="jp-info-card">
+                  <span className="jp-label">
+                    豆知識 / Fun Fact
+                  </span>
+
+                  <p className="jp-info-text">
+                    Makanan favorit udang tapi alergi udang
+                  </p>
+                </div>
+              </div>
+
+              <div
+                data-popup-item
+                className="jp-song-card mt-3"
+              >
+                <span className="jp-label">
+                  好きな曲 / Lagu Favorit
+                </span>
+
+                <p className="jp-song-title">
+                  Moonlight — Hoshimachi Suisei
+                </p>
+
+                <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/7fcEOJGsOOVyz8XeDwvLRZ?si=c332a2611a0542d6" />
+              </div>
+
+            </div>
           </div>
         </div>
       </div>
-    </>
+    </>,
+    document.body
   )
 }
 

@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react-hooks/set-state-in-effect */
+
 import React, { useEffect, useState, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
@@ -19,7 +21,7 @@ type MemberPopupProps = {
 }
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
-  const [isHovered, setIsHovered] = useState(false)
+  const [, setIsHovered] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [isMusicPlaying, setIsMusicPlaying] = useState(true)
   const [showWarning, setShowWarning] = useState(true)
@@ -91,8 +93,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] overflow-y-auto">
-      <div className="flex min-h-full items-start justify-center px-10 pt-28 pb-8 sm:pt-32">
+    <div className="fixed inset-0 z-[100] overflow-hidden px-4">
+      <div className="flex h-full items-start justify-center">
         <div onClick={onClose} className="absolute inset-0">
           <video autoPlay loop muted playsInline className="w-full h-full object-cover">
             <source src="/assets/videos/bgVid.mp4" type="video/mp4" />
@@ -100,7 +102,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="absolute inset-0" style={{ backgroundColor: 'rgba(33, 6, 3, 0.5)' }} />
         </div>
 
-        <div className="bg-red-950/50 relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl p-6 text-white shadow-2xl shadow-black sm:max-h-[calc(100vh-10rem)] sm:p-8">
+        <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-2xl bg-red-950/50 p-6 text-white shadow-2xl shadow-black sm:p-8">
           <button type="button" aria-label="Close member detail" onClick={onClose}
             className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none">
             x

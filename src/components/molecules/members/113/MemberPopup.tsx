@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -101,8 +102,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
   if (!isOpen) return null
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+  return createPortal((
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
 
       {/* Background YouTube via IFrame API */}
       <div className="fixed inset-0 z-0 overflow-hidden">
@@ -137,7 +138,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </div>
 
         {/* Inner scroll */}
-        <div className="relative z-10 max-h-[calc(100vh-9rem)] overflow-y-auto p-6 sm:max-h-[calc(100vh-10rem)] sm:p-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="relative z-10 h-[100dvh] max-h-[100dvh] overflow-y-auto p-6 sm:h-[100dvh] max-h-[100dvh] sm:p-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 
           {/* Baris atas: tombol mute (kiri) + tombol close (kanan) */}
           <div className="flex items-center justify-between mb-5">
@@ -218,7 +219,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </div>
       </div>
     </div>
-  )
+  ), document.body)
 }
 
 export default MemberPopup
