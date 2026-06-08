@@ -3,6 +3,7 @@
 /* eslint-disable react/no-unescaped-entities */
 
 import React, { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -46,8 +47,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-  return (
-      <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+  return createPortal((
+      <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4">
         <img
           src={Evangelion.src}
           alt="Evangelion"
@@ -62,7 +63,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         />
 
         <div
-          className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border border-[#734f9a] bg-black/30 p-6 text-white shadow-[0_0_28px_rgba(115,79,154,0.55)] backdrop-blur-md sm:max-h-[calc(100vh-10rem)] sm:p-8"
+          className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border border-[#734f9a] bg-black/30 p-6 text-white shadow-[0_0_28px_rgba(115,79,154,0.55)] backdrop-blur-md sm:h-[100dvh] max-h-[100dvh] sm:p-8"
           style={{ fontFamily: '"Matisse EB", serif' }}
         >
           <button
@@ -164,7 +165,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         </div>
       </div>
-  )
+  ), document.body)
 }
 
 export default MemberPopup

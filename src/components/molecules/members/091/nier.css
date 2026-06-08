@@ -1,0 +1,67 @@
+
+
+/* font (variable weight) */
+@font-face {
+  font-family: 'Jost';
+  src: url('./Jost.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+.nier-panel {
+  position: relative;
+  isolation: isolate;
+  font-family: 'Jost', var(--font-montserrat), sans-serif;
+}
+
+/* Film grain — fractal-noise SVG tiled as an overlay */
+.nier-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* Scanlines — faint horizontal olive lines */
+.nier-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 31;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    #454138 0px,
+    #454138 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* Subtle CRT-style flicker on the whole panel */
+@keyframes nier-flicker {
+  0%,
+  91%,
+  100% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 0.86;
+  }
+  94% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 0.92;
+  }
+  97% {
+    opacity: 1;
+  }
+}

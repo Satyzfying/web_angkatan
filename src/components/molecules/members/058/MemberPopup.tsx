@@ -1,6 +1,9 @@
 'use client'
 
+/* eslint-disable react-hooks/set-state-in-effect */
+
 import React, { useEffect, useState, useRef } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -18,7 +21,7 @@ type MemberPopupProps = {
 }
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
-  const [isHovered, setIsHovered] = useState(false)
+  const [, setIsHovered] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [isMusicPlaying, setIsMusicPlaying] = useState(true)
   const [showWarning, setShowWarning] = useState(true)
@@ -46,7 +49,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       audioRef.current.pause()
       audioRef.current.currentTime = 0
     }
-    const audio = new Audio('/assets/audio/audio.mp3')
+    const audio = new Audio('/assets/audio/Audio.mp3')
     audio.loop = true
     audio.play()
     audioRef.current = audio
@@ -67,7 +70,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   if (!isOpen) return null
 
   if (showWarning) {
-    return (
+    return createPortal(
       <div className="fixed inset-0 z-[100] flex items-center justify-center"
         style={{ backgroundColor: '#210705' }}>
         <div className="text-center">
@@ -84,21 +87,22 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             </button>
           </div>
         </div>
-      </div>
+      </div>,
+      document.body
     )
   }
 
-  return (
-    <div className="fixed inset-0 z-[100] overflow-y-auto">
-      <div className="flex min-h-full items-start justify-center px-10 pt-28 pb-8 sm:pt-32">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] overflow-hidden px-4">
+      <div className="flex h-full items-start justify-center">
         <div onClick={onClose} className="absolute inset-0">
           <video autoPlay loop muted playsInline className="w-full h-full object-cover">
             <source src="/assets/videos/bgVid.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0" style={{ backgroundColor: 'rgba(33, 6, 3, 0.6)' }} />
+          <div className="absolute inset-0" style={{ backgroundColor: 'rgba(33, 6, 3, 0.5)' }} />
         </div>
 
-        <div className="bg-red-950/50 relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl p-6 text-white shadow-2xl shadow-black sm:max-h-[calc(100vh-10rem)] sm:p-8">
+        <div className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto overscroll-contain rounded-2xl bg-red-950/50 p-6 text-white shadow-2xl shadow-black sm:p-8">
           <button type="button" aria-label="Close member detail" onClick={onClose}
             className="border-neutral-cs-10 hover:bg-neutral-cs-10/10 absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border text-xl leading-none">
             x
@@ -144,10 +148,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
 
           <div className="mt-5 flex gap-2">
-            <div className="hover:-translate-y-1 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all duration-300">
+            <div className="hover:-translate-y-1 transition-all duration-300 [&_svg]:hover:text-red-800 [&_*]:hover:!text-red-800 [&_*]:hover:!border-red-800 [&_*]:hover:!stroke-red-800">
               <Instagram username="hank.ways" />
             </div>
-            <div className="hover:-translate-y-1 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all duration-300">
+            <div className="hover:-translate-y-1 transition-all duration-300 [&_svg]:hover:text-red-800 [&_*]:hover:!text-red-800 [&_*]:hover:!border-red-800 [&_*]:hover:!stroke-red-800">
               <LinkedInButtonLink username="zahwaasmoro" />
             </div>
           </div>
@@ -156,11 +160,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             <div className="border-neutral-cs-10/40 rounded-xl border p-4">
               <p className="text-neutral-cs-10/60 text-xs tracking-widest uppercase" style={{ fontFamily: 'var(--font-blackgoth)' }}>Hobi</p>
               <ul className="mt-2 list-disc list-inside space-y-1">
-                <li>Loving ma <a href="https://www.instagram.com/_doolsetnet" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-400">Husband</a> ♡</li>
+                <li>Loving ma <a href="https://www.instagram.com/_doolsetnet" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-800 hover:drop-shadow-[0_0_8px_rgba(255,100,100,0.8)] hover:-translate-y-1 transition-all duration-300 inline-block">Husband</a> ♡</li>
                 <li>CATS</li>
                 <li>Reading n Painting</li>
                 <li>Blasting songs 24/7</li>
-                <li>Learn new languages</li>
+                <li>Watching anime n donghua</li>
                 <li>Scrapbooking</li>
               </ul>
             </div>
@@ -178,7 +182,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 

@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
@@ -80,13 +81,16 @@ type MemberPopupProps = {
 
 const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const audioRef = useRef<HTMLAudioElement>(null)
+  const popupRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!isOpen) return
 
-    if (audioRef.current) {
-      audioRef.current.volume = 0.1
-      audioRef.current.play().catch(e => console.log("Menunggu interaksi user:", e))
+    const audio = audioRef.current
+
+    if (audio) {
+      audio.volume = 0.1
+      audio.play().catch((error) => console.log('Menunggu interaksi user:', error))
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -99,9 +103,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return () => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
-      if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current.currentTime = 0
+      if (audio) {
+        audio.pause()
+        audio.currentTime = 0
       }
     }
   }, [isOpen, onClose])
@@ -125,10 +129,41 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return () => window.removeEventListener('message', handleSpotifyMessage)
   }, [])
 
+  useEffect(() => {
+    if (!isOpen || !popupRef.current) {
+      return
+    }
+
+    const itemAnimations = Array.from(popupRef.current.querySelectorAll<HTMLElement>('[data-popup-item]')).map(
+      (item, index) =>
+        item.animate(
+          [
+            { opacity: 0, transform: 'translateY(-32px)' },
+            { opacity: 1, transform: 'translateY(0)' },
+          ],
+          {
+            duration: 450,
+            delay: 100 + index * 90,
+            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            fill: 'both',
+          }
+        )
+    )
+
+    return () => {
+      itemAnimations.forEach((animation) => animation.cancel())
+    }
+  }, [isOpen])
+
   if (!isOpen) return null
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+  return createPortal(
+    // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
+    <div
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-hidden px-4"
+      onClick={(event) => event.stopPropagation()}
+      onKeyDown={(event) => event.stopPropagation()}
+    >
       
       {/* ANIMASI KEYFRAMES */}
       <style jsx global>{`
@@ -166,7 +201,10 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         className="fixed inset-0 z-0"
       />
 
-      <div className="border-neutral-cs-10/50 bg-black/60 relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_400ms_cubic-bezier(0.175,0.885,0.32,1.275)] overflow-y-auto rounded-2xl border backdrop-blur-md p-6 text-white shadow-[0_0_50px_rgba(0,0,0,0.8)] sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div
+        ref={popupRef}
+        className="relative z-10 h-[100dvh] max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_400ms_cubic-bezier(0.175,0.885,0.32,1.275)] overflow-y-auto overscroll-contain rounded-2xl border border-neutral-cs-10/50 bg-black/60 p-6 text-white shadow-[0_0_50px_rgba(0,0,0,0.8)] backdrop-blur-md sm:p-8"
+      >
         <button
           type="button"
           aria-label="Close member detail"
@@ -177,7 +215,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         </button>
 
         {/* LOGO DENGAN ANIMASI FLOATING */}
-        <div className="mb-4 flex justify-center relative float-logo">
+        <div data-popup-item className="mb-4 flex justify-center relative float-logo">
             <a 
                 href="https://www.roblox.com/games/4111023553/Deepwoken#!/" 
                 target="_blank" 
@@ -189,12 +227,12 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
             </a>
         </div>
 
-        <div className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border relative transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+        <div data-popup-item className="border-neutral-cs-10/40 mb-5 overflow-hidden rounded-2xl border relative transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]">
           <Image src={ProfileImage} alt="Profile Image" className="h-120 w-full object-cover object-center" />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
         </div>
 
-        <div className="pr-10 relative">
+        <div data-popup-item className="pr-10 relative">
           <h2 className="text-2xl font-black relative drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
             <FloatingText text="I Made Gyanendra Anand Wisnawa" />
           </h2>
@@ -204,7 +242,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="absolute top-0 right-0 w-24 h-24 bg-blue-cs-50 rounded-full blur-3xl opacity-20 pointer-events-none" />
         </div>
 
-        <div className="mt-5 flex gap-2">
+        <div data-popup-item className="mt-5 flex gap-2">
           <div className="transition-all duration-300 ease-out hover:scale-110 hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
             <Instagram username="anananand.25" />
           </div>
@@ -213,7 +251,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         </div>
 
-        <div className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2 relative">
+        <div data-popup-item className="mt-6 grid gap-4 text-sm font-semibold sm:grid-cols-2 relative">
           <div className="border-neutral-cs-10/30 rounded-xl border bg-black/40 p-4 backdrop-blur-sm transition-all duration-300 ease-out hover:scale-[1.05] hover:border-white/40 hover:bg-black/60 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]">
             <p className="text-neutral-cs-10/80 text-xs tracking-wide uppercase"><FloatingText text="Hobi" /></p>
             <p className="mt-2 text-white">
@@ -236,7 +274,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-blue-cs-50 rounded-full blur-3xl opacity-15 pointer-events-none" />
         </div>
 
-        <div className="border-neutral-cs-10/30 mt-4 rounded-xl border bg-black/40 p-4 backdrop-blur-sm relative">
+        <div data-popup-item className="border-neutral-cs-10/30 mt-4 rounded-xl border bg-black/40 p-4 backdrop-blur-sm relative">
           <p className="text-neutral-cs-10/80 text-xs font-bold tracking-wide uppercase"><FloatingText text="Lagu Favorit" /></p>
           <div className="mt-2 space-y-4">
             <div className="transition-all duration-300 ease-out hover:scale-[1.02] hover:bg-white/5 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] p-2 rounded-lg">
@@ -263,7 +301,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <div className="absolute bottom-0 right-0 w-32 h-32 bg-blue-cs-50 rounded-full blur-3xl opacity-20 pointer-events-none" />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
