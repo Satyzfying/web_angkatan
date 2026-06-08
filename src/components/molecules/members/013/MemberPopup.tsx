@@ -724,8 +724,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
         .close-btn {
           position: absolute;
-          top: -12px;
-          right: -12px;
+          top: 14px;
+          right: 14px;
           z-index: 30;
           width: 40px;
           height: 40px;

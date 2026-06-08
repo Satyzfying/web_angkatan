@@ -160,7 +160,7 @@ const Hero = ({ filters }: HeroProps) => {
           </h1>
         </div>
         <p className="w-full text-center text-lg leading-8 font-semibold md:text-xl lg:w-3/4 lg:text-2xl">
-          129 individuals, countless dreams, one constellation. EVASTRA is a space where every member grows through
+          127 individuals, countless dreams, one constellation. EVASTRA is a space where every member grows through
           learning, exploration, and shared experiences.
         </p>
 
