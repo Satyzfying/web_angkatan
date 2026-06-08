@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
 
@@ -40,15 +41,16 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     return null
   }
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+  return createPortal(
+    // PADA BAGIAN INI KAMU BOLEH MENGUBAH STYLE SESUKA HATI KAMU, TAPI JANGAN UBAH STRUKTUR DAN FUNGSI DARI KODE INI AGAR FUNGSI POPUP TETAP BERJALAN DENGAN BAIK
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4">
       <button
         type="button"
         aria-label="Close member detail"
         onClick={onClose}
         className="absolute inset-0 bg-[#0c0818]/85 backdrop-blur-sm"
       />
-      <div className="relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 border-violet-400/50 bg-gradient-to-b from-[#0c0818] via-[#120a22] to-[#0e061a] p-6 text-white shadow-[0_0_120px_rgba(139,92,246,0.55),0_30px_60px_rgba(0,0,0,0.8)] sm:max-h-[calc(100vh-10rem)] sm:p-8">
+      <div className="relative z-10 max-h-[100dvh] w-full max-w-[720px] animate-[member-popup-show_200ms_ease-out] overflow-y-auto rounded-2xl border-2 border-violet-400/50 bg-gradient-to-b from-[#0c0818] via-[#120a22] to-[#0e061a] p-6 text-white shadow-[0_0_120px_rgba(139,92,246,0.55),0_30px_60px_rgba(0,0,0,0.8)] sm:p-8">
         <button
           type="button"
           aria-label="Close member detail"
@@ -93,7 +95,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/6VtcgrVYo2xfygcWAfRpd1?si=10058d41ccab4eca" />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 export default MemberPopup
