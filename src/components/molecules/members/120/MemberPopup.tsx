@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { createPortal } from 'react-dom'
 
@@ -28,8 +28,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
   const [code, setCode] = useState('')
   const [loginError, setLoginError] = useState('')
   const [isFlipped, setIsFlipped] = useState(false)
- 
-  const [activeTrack, setActiveTrack] = useState<'none' | 'you-re-mine' | 'break-it-down'>('none')
+
+  const [activeTrack, setActiveTrack] = useState<SpotifyTrack>('none')
   const [activeSpotify, setActiveSpotify] = useState<SpotifyTrack>('none')
 
   const trackRef1 = useRef<HTMLAudioElement | null>(null)
@@ -54,20 +54,124 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
     }
   }, [])
 
+  const pauseAllInternalAudio = useCallback(() => {
+    const tracks = [trackRef1.current, trackRef2.current]
+
+    for (const track of tracks) {
+      if (!track) {
+        continue
+      }
+
+      track.pause()
+      track.currentTime = 0
+    }
+  }, [])
+
+  const stopAllInternalAudio = useCallback(() => {
+    pauseAllInternalAudio()
+    setActiveTrack('none')
+  }, [pauseAllInternalAudio])
+
+  const resetPopupState = useCallback(() => {
+    setCurrentStep('login')
+    setIsFlipped(false)
+    setCode('')
+    setLoginError('')
+    setActiveSpotify('none')
+  }, [])
+
+  const handlePasswordChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    setCode(event.target.value.replace(/\D/g, ''))
+    setLoginError('')
+  }, [])
+
+  const handleLoginSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    if (code !== '06042007') {
+      setLoginError('Kode salah. Coba lihat petunjuk tanggalnya lagi.')
+      return
+    }
+
+    setLoginError('')
+    setCurrentStep('welcome')
+
+    if (sfxWelcomeRef.current) {
+      sfxWelcomeRef.current.currentTime = 0
+      void sfxWelcomeRef.current.play().catch(() => {})
+    }
+  }, [code])
+
+  const handleWelcomeNext = useCallback(() => {
+    setCurrentStep('popup')
+  }, [])
+
+  const handleTrackChange = useCallback((track: SpotifyTrack) => {
+    if (track === 'none') {
+      stopAllInternalAudio()
+      return
+    }
+
+    if (activeTrack === track) {
+      stopAllInternalAudio()
+      return
+    }
+
+    stopAllInternalAudio()
+    setActiveSpotify('none')
+
+    const selectedTrack = track === 'you-re-mine' ? trackRef1.current : trackRef2.current
+    if (!selectedTrack) {
+      return
+    }
+
+    selectedTrack.currentTime = 0
+    void selectedTrack.play().then(() => {
+      setActiveTrack(track)
+    }).catch(() => {
+      setActiveTrack('none')
+    })
+  }, [activeTrack, stopAllInternalAudio])
+
+  const handleSpotifyPlay = useCallback((track: SpotifyTrack) => {
+    if (activeSpotify === track) {
+      return
+    }
+
+    stopAllInternalAudio()
+    setActiveSpotify(track)
+  }, [activeSpotify, stopAllInternalAudio])
+
+  const triggerClose = useCallback(() => {
+    stopAllInternalAudio()
+    resetPopupState()
+
+    if (sfxCloseRef.current) {
+      sfxCloseRef.current.currentTime = 0
+      void sfxCloseRef.current.play().catch(() => {})
+    }
+
+    window.setTimeout(() => {
+      onClose()
+    }, 120)
+  }, [onClose, resetPopupState, stopAllInternalAudio])
+
   useEffect(() => {
     if (!isOpen) {
-      setCurrentStep('login')
-      setIsFlipped(false)
-      setCode('')
-      setLoginError('')
-      stopAllInternalAudio()
-      setActiveSpotify('none')
-      return
+      pauseAllInternalAudio()
+      const resetTimer = window.setTimeout(() => {
+        setActiveTrack('none')
+        resetPopupState()
+      }, 0)
+
+      return () => {
+        window.clearTimeout(resetTimer)
+      }
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        onClose()
+        triggerClose()
       }
     }
 
@@ -78,9 +182,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen, onClose])
-
-  if (!isOpen) return null
+  }, [isOpen, pauseAllInternalAudio, resetPopupState, triggerClose])
 
   if (!isOpen) return null
 
@@ -104,7 +206,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
       <button
         type="button"
         aria-label="Close member detail"
-        onClick={onClose}
+        onClick={triggerClose}
         className="absolute inset-0"
       />
 
@@ -321,11 +423,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               <p className="text-neutral-cs-10/60 font-mono text-xs font-bold tracking-wide uppercase">
                 Site ζ-1: 俺が好きな曲 (Lagu kesukaanku):
               </p>
-              <p className="my-2 font-sans text-sm font-semibold">"You're Mine" — Vestia Zeta</p>
+              <p className="my-2 font-sans text-sm font-semibold">&quot;You&apos;re Mine&quot; — Vestia Zeta</p>
               <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/3kK8euC9eUBRwZKpMsQsDZ?si=2337bb62b0bd4ada" />
             </div>
-          </div>
-
             <div
               onClickCapture={() => handleSpotifyPlay('break-it-down')}
               className="border-neutral-cs-10/40 relative z-10 mt-4 rounded-xl border bg-black/40 p-4 backdrop-blur-md"
@@ -333,10 +433,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
               <p className="text-neutral-cs-10/60 font-mono text-xs font-bold tracking-wide uppercase">
                 Site ζ-2: 俺が好きな曲 (Lagu kesukaanku):
               </p>
-              <p className="my-2 font-sans text-sm font-semibold">"Break It Down" — Vestia Zeta</p>
+              <p className="my-2 font-sans text-sm font-semibold">&quot;Break It Down&quot; — Vestia Zeta</p>
               <SpotifyEmbed spotifyUrl="https://open.spotify.com/track/7cQy74WB3BNs8dDSF5luMK?si=e01d3c2752804077" />
             </div>
-
           </div>
         </div>
       )}
