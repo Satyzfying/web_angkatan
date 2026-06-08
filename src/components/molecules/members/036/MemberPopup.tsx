@@ -1,21 +1,20 @@
 'use client'
 
 /* eslint-disable react-hooks/set-state-in-effect */
-
 import React, { useEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
 
 import Image from 'next/image'
+
+import { createPortal } from 'react-dom'
 
 import Instagram from '@/components/atoms/button/InstagramButtonLink'
 import LinkedInButtonLink from '@/components/atoms/button/LinkedInButtonLink'
 import SpotifyEmbed from '@/components/molecules/SpotifyEmbed'
 
-import ProfileImage from './image.png'
+import styles from './MemberPopup.module.css'
 import LogoJonut from './aha-instant/logo-jonut.png'
 import OverlayLights from './aha-instant/overlay.png'
-
-import styles from './MemberPopup.module.css'
+import ProfileImage from './image.png'
 
 type MemberPopupProps = {
   isOpen: boolean
@@ -179,7 +178,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
         )}
 
         {phase === 'detail' && (
-          <div className="absolute inset-0 z-10 flex items-start justify-center overflow-y-auto px-4 pt-28 pb-8 sm:pt-32">
+          <div className="absolute inset-0 z-10 flex items-start justify-center overflow-y-auto px-4 py-[5dvh]">
             <div className="absolute inset-0 bg-black/45 backdrop-blur-[1px]" />
 
             <Image
@@ -191,7 +190,9 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
             <button type="button" aria-label="Close member detail" onClick={handleClose} className="absolute inset-0" />
 
-            <div className={`${styles.memberCardEnter} relative z-10 max-h-[calc(100vh-9rem)] w-full max-w-[720px] overflow-hidden rounded-2xl border-2 border-orange-300/50 bg-gradient-to-br from-[#5a1b00]/95 via-[#9a3200]/95 to-[#2b0c00]/95 text-white shadow-xl sm:max-h-[calc(100vh-10rem)]`}>
+            <div
+              className={`${styles.memberCardEnter} relative z-10 max-h-[90dvh] w-full max-w-[720px] overflow-hidden rounded-2xl border-2 border-orange-300/50 bg-gradient-to-br from-[#5a1b00]/95 via-[#9a3200]/95 to-[#2b0c00]/95 text-white shadow-xl`}
+            >
               <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden">
                 <Image
                   src={LogoJonut}
@@ -201,7 +202,7 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
                 />
               </div>
 
-              <div className="relative z-10 max-h-[calc(100vh-9rem)] overflow-y-auto p-6 sm:max-h-[calc(100vh-10rem)] sm:p-8">
+              <div className="relative z-10 max-h-[90dvh] overflow-y-auto p-6 sm:p-8">
                 <button
                   type="button"
                   aria-label="Close member detail"
@@ -213,7 +214,11 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
 
                 <div className="mb-5 flex justify-center">
                   <div className="aspect-square w-full max-w-[360px] overflow-hidden rounded-2xl border border-orange-200/40">
-                    <Image src={ProfileImage} alt="Profile Image" className="h-full w-full object-cover object-center" />
+                    <Image
+                      src={ProfileImage}
+                      alt="Profile Image"
+                      className="h-full w-full object-cover object-center"
+                    />
                   </div>
                 </div>
 
@@ -258,7 +263,8 @@ const MemberPopup = ({ isOpen, onClose }: MemberPopupProps) => {
           </div>
         )}
       </div>
-    </>, document.body
+    </>,
+    document.body
   )
 }
 
